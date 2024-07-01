@@ -1,71 +1,67 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.Text;
 
 namespace MooGame
 {
-	class MainClass
+	internal static class Program
 	{
-
-		public static void Main(string[] args)
+		public static void Main()
 		{
-
-			bool playOn = true;
 			Console.WriteLine("Enter your user name:\n");
-			string name = Console.ReadLine();
-
+			string userName = Console.ReadLine()!;
+			bool playOn = true;
 			while (playOn)
 			{
-				string goal = makeGoal();
-
-				
+				string goal = MakeGoal();
 				Console.WriteLine("New game:\n");
 				//comment out or remove next line to play real games!
-				Console.WriteLine("For practice, number is: " + goal + "\n");
-				string guess = Console.ReadLine();
-				
-				int nGuess = 1;
-				string bbcc = checkBC(goal, guess);
-				Console.WriteLine(bbcc + "\n");
+				Console.WriteLine($"For practice, number is: {goal}\n");
+				string guess = Console.ReadLine()!;
+
+				int numberOfGuesses = 1;
+				string bbcc = CheckBC(goal, guess);
+				Console.WriteLine($"{bbcc}\n");
 				while (bbcc != "BBBB,")
 				{
-					nGuess++;
-					guess = Console.ReadLine();
-					Console.WriteLine(guess + "\n");
-					bbcc = checkBC(goal, guess);
-					Console.WriteLine(bbcc + "\n");
+					numberOfGuesses++;
+					guess = Console.ReadLine()!;
+					Console.WriteLine($"{guess}\n");
+					bbcc = CheckBC(goal, guess);
+					Console.WriteLine($"{bbcc}\n");
 				}
-				StreamWriter output = new StreamWriter("result.txt", append: true);
-				output.WriteLine(name + "#&#" + nGuess);
+				StreamWriter output = new("result.txt", append: true);
+				output.WriteLine($"{userName}#&#{numberOfGuesses}");
 				output.Close();
-				showTopList();
-				Console.WriteLine("Correct, it took " + nGuess + " guesses\nContinue?");
-				string answer = Console.ReadLine();
-				if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
+				ShowTopList();
+				Console.WriteLine($"Correct, it took {numberOfGuesses} guesses\nContinue?");
+				string answer = Console.ReadLine()!;
+				if (!string.IsNullOrEmpty(answer) && answer[..1] == "n")
 				{
 					playOn = false;
 				}
 			}
 		}
-		static string makeGoal()
+
+		private static string MakeGoal()
 		{
-			Random randomGenerator = new Random();
-			string goal = "";
+			Random randomGenerator = new();
+			StringBuilder goal = new();
+
 			for (int i = 0; i < 4; i++)
 			{
 				int random = randomGenerator.Next(10);
 				string randomDigit = "" + random;
-				while (goal.Contains(randomDigit))
+
+				while (goal.ToString().Contains(randomDigit))
 				{
 					random = randomGenerator.Next(10);
 					randomDigit = "" + random;
 				}
-				goal = goal + randomDigit;
+				goal.Append(randomDigit);
 			}
-			return goal;
+			return goal.ToString();
 		}
 
-		static string checkBC(string goal, string guess)
+		private static string CheckBC(string goal, string guess)
 		{
 			int cows = 0, bulls = 0;
 			guess += "    ";     // if player entered less than 4 chars
@@ -86,21 +82,20 @@ namespace MooGame
 					}
 				}
 			}
-			return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+			return $"{"BBBB".AsSpan(0, bulls)},{"CCCC".AsSpan(0, cows)}";
 		}
 
-
-		static void showTopList()
+		private static void ShowTopList()
 		{
-			StreamReader input = new StreamReader("result.txt");
-			List<PlayerData> results = new List<PlayerData>();
+			StreamReader input = new("result.txt");
+			List<PlayerData> results = [];
 			string line;
-			while ((line = input.ReadLine()) != null)
+			while ((line = input.ReadLine()!) != null)
 			{
 				string[] nameAndScore = line.Split(new string[] { "#&#" }, StringSplitOptions.None);
 				string name = nameAndScore[0];
 				int guesses = Convert.ToInt32(nameAndScore[1]);
-				PlayerData pd = new PlayerData(name, guesses);
+				PlayerData pd = new(name, guesses);
 				int pos = results.IndexOf(pd);
 				if (pos < 0)
 				{
@@ -110,8 +105,6 @@ namespace MooGame
 				{
 					results[pos].Update(guesses);
 				}
-				
-				
 			}
 			results.Sort((p1, p2) => p1.Average().CompareTo(p2.Average()));
 			Console.WriteLine("Player   games average");
@@ -123,19 +116,11 @@ namespace MooGame
 		}
 	}
 
-	class PlayerData
+	internal class PlayerData(string name, int guesses)
 	{
-		public string Name { get; private set; }
-        public int NGames { get; private set; }
-		int totalGuess;
-		
-
-		public PlayerData(string name, int guesses)
-		{
-			this.Name = name;
-			NGames = 1;
-			totalGuess = guesses;
-		}
+		public string Name { get; } = name;
+		public int NGames { get; private set; } = 1;
+		private int totalGuess = guesses;
 
 		public void Update(int guesses)
 		{
@@ -148,15 +133,13 @@ namespace MooGame
 			return (double)totalGuess / NGames;
 		}
 
-		
-	    public override bool Equals(Object p)
+		public override bool Equals(Object p)
 		{
 			return Name.Equals(((PlayerData)p).Name);
 		}
 
-		
-	    public override int GetHashCode()
-        {
+		public override int GetHashCode()
+		{
 			return Name.GetHashCode();
 		}
 	}
