@@ -4,10 +4,27 @@ namespace MooGame
 {
 	internal static class Program
 	{
+		private static string GetUserName()
+		{
+			string userName;
+			do
+			{
+				Console.WriteLine("Enter your user name:\n");
+				userName = Console.ReadLine()!;
+
+				if (string.IsNullOrEmpty(userName))
+				{
+					Console.WriteLine("Empty values are not allowed. Please enter a valid username.");
+				}
+			}
+			while (string.IsNullOrEmpty(userName));
+
+			return userName;
+		}
+
 		public static void Main()
 		{
-			Console.WriteLine("Enter your user name:\n");
-			string userName = Console.ReadLine()!;
+			string userName = GetUserName();
 			bool playOn = true;
 			while (playOn)
 			{
@@ -20,7 +37,7 @@ namespace MooGame
 				int numberOfGuesses = 1;
 				string bbcc = CheckBC(goal, guess);
 				Console.WriteLine($"{bbcc}\n");
-				while (bbcc != "BBBB,")
+				while (!string.Equals(bbcc, "BBBB,", StringComparison.OrdinalIgnoreCase))
 				{
 					numberOfGuesses++;
 					guess = Console.ReadLine()!;
@@ -34,7 +51,7 @@ namespace MooGame
 				ShowTopList();
 				Console.WriteLine($"Correct, it took {numberOfGuesses} guesses\nContinue?");
 				string answer = Console.ReadLine()!;
-				if (!string.IsNullOrEmpty(answer) && answer[..1] == "n")
+				if (!string.IsNullOrEmpty(answer) && string.Equals(answer, "n", StringComparison.OrdinalIgnoreCase))
 				{
 					playOn = false;
 				}
@@ -49,12 +66,12 @@ namespace MooGame
 			for (int i = 0; i < 4; i++)
 			{
 				int random = randomGenerator.Next(10);
-				string randomDigit = "" + random;
+				string randomDigit = $"{random}";
 
 				while (goal.ToString().Contains(randomDigit))
 				{
 					random = randomGenerator.Next(10);
-					randomDigit = "" + random;
+					randomDigit = $"{random}";
 				}
 				goal.Append(randomDigit);
 			}
@@ -85,6 +102,8 @@ namespace MooGame
 			return $"{"BBBB".AsSpan(0, bulls)},{"CCCC".AsSpan(0, cows)}";
 		}
 
+		internal static readonly string[] separator = ["#&#"];
+
 		private static void ShowTopList()
 		{
 			StreamReader input = new("result.txt");
@@ -92,7 +111,7 @@ namespace MooGame
 			string line;
 			while ((line = input.ReadLine()!) != null)
 			{
-				string[] nameAndScore = line.Split(new string[] { "#&#" }, StringSplitOptions.None);
+				string[] nameAndScore = line.Split(separator, StringSplitOptions.None);
 				string name = nameAndScore[0];
 				int guesses = Convert.ToInt32(nameAndScore[1]);
 				PlayerData pd = new(name, guesses);
@@ -110,37 +129,9 @@ namespace MooGame
 			Console.WriteLine("Player   games average");
 			foreach (PlayerData p in results)
 			{
-				Console.WriteLine(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.Name, p.NGames, p.Average()));
+				Console.WriteLine($"{p.Name,-9}{p.NGames,5:D}{p.Average,9:F2}");
 			}
 			input.Close();
-		}
-	}
-
-	internal class PlayerData(string name, int guesses)
-	{
-		public string Name { get; } = name;
-		public int NGames { get; private set; } = 1;
-		private int totalGuess = guesses;
-
-		public void Update(int guesses)
-		{
-			totalGuess += guesses;
-			NGames++;
-		}
-
-		public double Average()
-		{
-			return (double)totalGuess / NGames;
-		}
-
-		public override bool Equals(Object p)
-		{
-			return Name.Equals(((PlayerData)p).Name);
-		}
-
-		public override int GetHashCode()
-		{
-			return Name.GetHashCode();
 		}
 	}
 }
