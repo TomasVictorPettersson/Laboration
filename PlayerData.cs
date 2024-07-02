@@ -1,30 +1,30 @@
 namespace MooGame
 {
-	internal class PlayerData(string name, int guesses)
+	internal class PlayerData(string userName, int guesses)
 	{
-		public string Name { get; } = name;
-		public int NGames { get; private set; } = 1;
-		private int totalGuess = guesses;
+		public string UserName { get; } = userName;
+		public int TotalGamesPlayed { get; private set; } = 1;
+		private int TotalGuesses = guesses;
 
-		public void Update(int guesses)
+		public void AddGuess(int guesses)
 		{
-			totalGuess += guesses;
-			NGames++;
+			TotalGuesses += guesses;
+			TotalGamesPlayed++;
 		}
 
-		public double Average()
+		public double CalculateAverageGuesses()
 		{
-			return (double)totalGuess / NGames;
+			return (double)TotalGuesses / TotalGamesPlayed;
 		}
 
 		public override bool Equals(object? obj)
 		{
-			return obj is PlayerData data && Name.Equals(data.Name);
+			return obj is PlayerData data && UserName.Equals(data.UserName);
 		}
 
 		public override int GetHashCode()
 		{
-			return Name.GetHashCode();
+			return UserName.GetHashCode();
 		}
 	}
 }

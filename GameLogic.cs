@@ -115,14 +115,15 @@ namespace MooGame
 				}
 				else
 				{
-					results[pos].Update(guesses);
+					results[pos].AddGuess(guesses);
 				}
 			}
-			results.Sort((p1, p2) => p1.Average().CompareTo(p2.Average()));
+			results.Sort((p1, p2) => p1.CalculateAverageGuesses().
+			CompareTo(p2.CalculateAverageGuesses()));
 			Console.WriteLine("Player   games average");
 			foreach (PlayerData p in results)
 			{
-				Console.WriteLine($"{p.Name,-9}{p.NGames,5:D}{p.Average(),9:F2}");
+				Console.WriteLine($"{p.UserName,-9}{p.TotalGamesPlayed,5:D}{p.CalculateAverageGuesses(),9:F2}");
 			}
 		}
 
