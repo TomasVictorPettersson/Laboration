@@ -45,9 +45,10 @@ namespace MooGame
 					bbcc = CheckBC(goal, guess);
 					Console.WriteLine($"{bbcc}\n");
 				}
-				StreamWriter output = new("result.txt", append: true);
-				output.WriteLine($"{userName}#&#{numberOfGuesses}");
-				output.Close();
+				using (StreamWriter output = new("result.txt", append: true))
+				{
+					output.WriteLine($"{userName}#&#{numberOfGuesses}");
+				}
 				ShowTopList();
 				Console.WriteLine($"Correct, it took {numberOfGuesses} guesses\nContinue?");
 				string answer = Console.ReadLine()!;
@@ -102,11 +103,11 @@ namespace MooGame
 			return $"{"BBBB".AsSpan(0, bulls)},{"CCCC".AsSpan(0, cows)}";
 		}
 
-		internal static readonly string[] separator = ["#&#"];
+		private static readonly string[] separator = ["#&#"];
 
 		private static void ShowTopList()
 		{
-			StreamReader input = new("result.txt");
+			using StreamReader input = new("result.txt");
 			List<PlayerData> results = [];
 			string line;
 			while ((line = input.ReadLine()!) != null)
@@ -129,9 +130,8 @@ namespace MooGame
 			Console.WriteLine("Player   games average");
 			foreach (PlayerData p in results)
 			{
-				Console.WriteLine($"{p.Name,-9}{p.NGames,5:D}{p.Average,9:F2}");
+				Console.WriteLine($"{p.Name,-9}{p.NGames,5:D}{p.Average(),9:F2}");
 			}
-			input.Close();
 		}
 	}
 }
