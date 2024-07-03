@@ -43,7 +43,7 @@ namespace MooGame
 				Console.WriteLine($"{guessFeedback}\n");
 			}
 			SaveResult(userName, numberOfGuesses);
-			ShowTopList();
+			ShowTopList(userName);
 			Console.WriteLine($"\nCorrect, it took {numberOfGuesses} guesses");
 		}
 
@@ -99,14 +99,10 @@ namespace MooGame
 
 		private static readonly string[] separator = ["#&#"];
 
-		private static void ShowTopList()
+		private static List<PlayerData> ReadResultsFromFile()
 		{
-			Console.Clear();
-			Console.WriteLine("=== High Score List ===");
-			Console.WriteLine("Player       Games   Average Guesses");
-			Console.WriteLine("------------------------------------");
-			using StreamReader input = new("result.txt");
 			List<PlayerData> results = [];
+			using StreamReader input = new("result.txt");
 			string line;
 			while ((line = input.ReadLine()!) != null)
 			{
@@ -124,12 +120,58 @@ namespace MooGame
 					results[pos].AddGuess(guesses);
 				}
 			}
-			results.Sort((p1, p2) => p1.CalculateAverageGuesses().CompareTo(p2.CalculateAverageGuesses()));
+			return results;
+		}
 
+		private static void SortAndDisplayResults(List<PlayerData> results, string currentUserName)
+		{
+			results.Sort((p1, p2) => p1.CalculateAverageGuesses().CompareTo(p2.CalculateAverageGuesses()));
+			DisplayHeader();
+			DisplayResults(results, currentUserName);
+		}
+
+		private static void DisplayHeader()
+		{
+			Console.Clear();
+			Console.WriteLine("=== High Score List ===");
+			Console.WriteLine("Rank     Player     Games     Average Guesses");
+			Console.WriteLine("---------------------------------------------");
+		}
+
+		private static void DisplayResults(List<PlayerData> results, string currentUserName)
+		{
+			int rank = 1;
 			foreach (PlayerData p in results)
 			{
-				Console.WriteLine($"{p.UserName,-12}{p.TotalGamesPlayed,7}{p.CalculateAverageGuesses(),14:F2}");
+				bool isCurrentUser = p.UserName == currentUserName;
+				DisplayRank(rank, isCurrentUser);
+				DisplayPlayerData(p, isCurrentUser);
+				rank++;
 			}
+		}
+
+		private static void DisplayRank(int rank, bool isCurrentUser)
+		{
+			if (isCurrentUser)
+			{
+				Console.ForegroundColor = ConsoleColor.Green;
+			}
+			Console.Write($"{rank,-4}");
+			Console.ResetColor();
+		}
+
+		private static void DisplayPlayerData(PlayerData player, bool isCurrentUser)
+		{
+			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
+			Console.WriteLine($"{player.UserName,10}{player.TotalGamesPlayed,10}" +
+				$"{player.CalculateAverageGuesses(),14:F2}");
+			Console.ResetColor();
+		}
+
+		private static void ShowTopList(string currentUserName)
+		{
+			List<PlayerData> results = ReadResultsFromFile();
+			SortAndDisplayResults(results, currentUserName);
 		}
 
 		public static bool AskToContinue()
