@@ -1,10 +1,11 @@
-﻿using System.Text;
+﻿using Laboration.Interfaces;
+using System.Text;
 
-namespace MooGame
+namespace Laboration.Classes
 {
-	public static class GameLogic
+	public class GameLogic : IGameLogic
 	{
-		public static void PlayGame(string userName)
+		public void PlayGame(string userName)
 		{
 			Console.Clear();
 			string secretNumber = MakeSecretNumber();
@@ -26,8 +27,10 @@ namespace MooGame
 				Console.WriteLine($"{guessFeedback}\n");
 			}
 			SaveResult(userName, numberOfGuesses);
-			HighScoreManager.ShowHighScoreList(userName);
-			UserInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
+			HighScoreManager highScoreManager = new();
+			UserInterface userInterface = new();
+			highScoreManager.ShowHighScoreList(userName);
+			userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
 		}
 
 		private static void SaveResult(string userName, int numberOfGuesses)
@@ -78,6 +81,21 @@ namespace MooGame
 				}
 			}
 			return $"{"BBBB".AsSpan(0, bulls)},{"CCCC".AsSpan(0, cows)}";
+		}
+
+		string IGameLogic.MakeSecretNumber()
+		{
+			throw new NotImplementedException();
+		}
+
+		string IGameLogic.GenerateBullsAndCowsFeedback(string secretNumber, string guess)
+		{
+			throw new NotImplementedException();
+		}
+
+		void IGameLogic.SaveResult(string userName, int numberOfGuesses)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

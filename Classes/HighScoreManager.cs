@@ -1,10 +1,10 @@
-﻿namespace MooGame
+﻿namespace Laboration.Classes
 {
-	public static class HighScoreManager
+	public class HighScoreManager
 	{
-		private static readonly string[] separator = ["#&#"];
+		private readonly string[] separator = ["#&#"];
 
-		private static List<PlayerData> ReadHighScoreResultsFromFile()
+		private List<PlayerData> ReadHighScoreResultsFromFile()
 		{
 			List<PlayerData> results = [];
 			using StreamReader input = new("result.txt");
@@ -73,7 +73,7 @@
 			Console.ResetColor();
 		}
 
-		public static void ShowHighScoreList(string currentUserName)
+		public void ShowHighScoreList(string currentUserName)
 		{
 			List<PlayerData> results = ReadHighScoreResultsFromFile();
 			SortAndDisplayHighScoreList(results, currentUserName);

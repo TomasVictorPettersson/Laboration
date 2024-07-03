@@ -1,8 +1,10 @@
-﻿namespace MooGame
+﻿using Laboration.Interfaces;
+
+namespace Laboration.Classes
 {
-	public static class UserInterface
+	public class UserInterface : IUserInterface
 	{
-		public static string GetUserName()
+		public string GetUserName()
 		{
 			string userName;
 			do
@@ -19,12 +21,12 @@
 			return userName;
 		}
 
-		public static void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
+		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
 			Console.WriteLine($"\nCorrect! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses");
 		}
 
-		public static bool AskToContinue()
+		public bool AskToContinue()
 		{
 			while (true)
 			{

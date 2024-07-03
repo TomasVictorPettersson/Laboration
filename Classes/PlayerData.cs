@@ -1,6 +1,8 @@
-namespace MooGame
+using Laboration.Interfaces;
+
+namespace Laboration.Classes
 {
-	internal class PlayerData(string userName, int guesses)
+	public class PlayerData(string userName, int guesses) : IPlayerData
 	{
 		public string UserName { get; } = userName;
 		public int TotalGamesPlayed { get; private set; } = 1;
