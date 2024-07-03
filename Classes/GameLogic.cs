@@ -33,13 +33,13 @@ namespace Laboration.Classes
 			userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
 		}
 
-		private static void SaveResult(string userName, int numberOfGuesses)
+		public void SaveResult(string userName, int numberOfGuesses)
 		{
 			using StreamWriter output = new("result.txt", append: true);
 			output.WriteLine($"{userName}#&#{numberOfGuesses}");
 		}
 
-		private static string MakeSecretNumber()
+		public string MakeSecretNumber()
 		{
 			Random randomGenerator = new();
 			StringBuilder secretNumber = new();
@@ -59,7 +59,7 @@ namespace Laboration.Classes
 			return secretNumber.ToString();
 		}
 
-		private static string GenerateBullsAndCowsFeedback(string secretNumber, string guess)
+		public string GenerateBullsAndCowsFeedback(string secretNumber, string guess)
 		{
 			int cows = 0, bulls = 0;
 			guess += "    ";
@@ -81,21 +81,6 @@ namespace Laboration.Classes
 				}
 			}
 			return $"{"BBBB".AsSpan(0, bulls)},{"CCCC".AsSpan(0, cows)}";
-		}
-
-		string IGameLogic.MakeSecretNumber()
-		{
-			throw new NotImplementedException();
-		}
-
-		string IGameLogic.GenerateBullsAndCowsFeedback(string secretNumber, string guess)
-		{
-			throw new NotImplementedException();
-		}
-
-		void IGameLogic.SaveResult(string userName, int numberOfGuesses)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }
