@@ -4,12 +4,12 @@
 	{
 		public static void Main()
 		{
-			string userName = GameLogic.GetUserName();
+			string userName = UserInterface.GetUserName();
 			bool playOn = true;
 			while (playOn)
 			{
 				GameLogic.PlayGame(userName);
-				playOn = GameLogic.AskToContinue();
+				playOn = UserInterface.AskToContinue();
 			}
 		}
 	}

@@ -4,23 +4,6 @@ namespace MooGame
 {
 	public static class GameLogic
 	{
-		public static string GetUserName()
-		{
-			string userName;
-			do
-			{
-				Console.Write("Enter your user name: ");
-				userName = Console.ReadLine()!;
-				if (string.IsNullOrEmpty(userName))
-				{
-					Console.WriteLine("Empty values are not allowed. Please enter a valid username.");
-				}
-			}
-			while (string.IsNullOrEmpty(userName));
-
-			return userName;
-		}
-
 		public static void PlayGame(string userName)
 		{
 			Console.Clear();
@@ -43,8 +26,8 @@ namespace MooGame
 				Console.WriteLine($"{guessFeedback}\n");
 			}
 			SaveResult(userName, numberOfGuesses);
-			ShowHighScoreList(userName);
-			Console.WriteLine($"\nCorrect, it took {numberOfGuesses} guesses");
+			HighScoreManager.ShowHighScoreList(userName);
+			UserInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
 		}
 
 		private static void SaveResult(string userName, int numberOfGuesses)
@@ -95,110 +78,6 @@ namespace MooGame
 				}
 			}
 			return $"{"BBBB".AsSpan(0, bulls)},{"CCCC".AsSpan(0, cows)}";
-		}
-
-		private static readonly string[] separator = ["#&#"];
-
-		private static List<PlayerData> ReadHighScoreResultsFromFile()
-		{
-			List<PlayerData> results = [];
-			using StreamReader input = new("result.txt");
-			string line;
-			while ((line = input.ReadLine()!) != null)
-			{
-				string[] userNameAndUserScore = line.Split(separator, StringSplitOptions.None);
-				string userName = userNameAndUserScore[0];
-				int guesses = Convert.ToInt32(userNameAndUserScore[1]);
-				PlayerData pd = new(userName, guesses);
-				int pos = results.FindIndex(p => p.Equals(pd));
-				if (pos < 0)
-				{
-					results.Add(pd);
-				}
-				else
-				{
-					results[pos].AddGuess(guesses);
-				}
-			}
-			return results;
-		}
-
-		private static void SortAndDisplayHighScoreList(List<PlayerData> results, string currentUserName)
-		{
-			results.Sort((p1, p2) => p1.CalculateAverageGuesses().CompareTo(p2.CalculateAverageGuesses()));
-			DisplayHighScoreListHeader();
-			DisplayHighScoreListResults(results, currentUserName);
-		}
-
-		private static void DisplayHighScoreListHeader()
-		{
-			Console.Clear();
-			Console.WriteLine("=== High Score List ===");
-			Console.WriteLine("Rank     Player     Games     Average Guesses");
-			Console.WriteLine("---------------------------------------------");
-		}
-
-		private static void DisplayHighScoreListResults(List<PlayerData> results, string currentUserName)
-		{
-			int rank = 1;
-			foreach (PlayerData p in results)
-			{
-				bool isCurrentUser = p.UserName == currentUserName;
-				DisplayRank(rank, isCurrentUser);
-				DisplayPlayerData(p, isCurrentUser);
-				rank++;
-			}
-		}
-
-		private static void DisplayRank(int rank, bool isCurrentUser)
-		{
-			if (isCurrentUser)
-			{
-				Console.ForegroundColor = ConsoleColor.Green;
-			}
-			Console.Write($"{rank,-4}");
-			Console.ResetColor();
-		}
-
-		private static void DisplayPlayerData(PlayerData player, bool isCurrentUser)
-		{
-			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
-			Console.WriteLine($"{player.UserName,10}{player.TotalGamesPlayed,10}" +
-				$"{player.CalculateAverageGuesses(),14:F2}");
-			Console.ResetColor();
-		}
-
-		private static void ShowHighScoreList(string currentUserName)
-		{
-			List<PlayerData> results = ReadHighScoreResultsFromFile();
-			SortAndDisplayHighScoreList(results, currentUserName);
-		}
-
-		public static bool AskToContinue()
-		{
-			while (true)
-			{
-				Console.Write("\nContinue? (y/n): ");
-				string answer = Console.ReadLine()!;
-
-				if (string.IsNullOrEmpty(answer))
-				{
-					Console.WriteLine("Empty values are not allowed. Please enter y for yes or n for no.");
-				}
-				else if (string.Equals(answer, "y", StringComparison.OrdinalIgnoreCase))
-				{
-					Console.Clear();
-					return true;
-				}
-				else if (string.Equals(answer, "n", StringComparison.OrdinalIgnoreCase))
-				{
-					return false;
-				}
-				else
-				{
-					Console.WriteLine("Invalid input. Please enter y for yes or n for no.");
-				}
-			}
 		}
 	}
 }
