@@ -43,7 +43,7 @@ namespace MooGame
 				Console.WriteLine($"{guessFeedback}\n");
 			}
 			SaveResult(userName, numberOfGuesses);
-			ShowTopList(userName);
+			ShowHighScoreList(userName);
 			Console.WriteLine($"\nCorrect, it took {numberOfGuesses} guesses");
 		}
 
@@ -76,7 +76,7 @@ namespace MooGame
 		private static string GenerateBullsAndCowsFeedback(string secretNumber, string guess)
 		{
 			int cows = 0, bulls = 0;
-			guess += "    ";     // if player entered less than 4 chars
+			guess += "    ";
 			for (int i = 0; i < 4; i++)
 			{
 				for (int j = 0; j < 4; j++)
@@ -99,7 +99,7 @@ namespace MooGame
 
 		private static readonly string[] separator = ["#&#"];
 
-		private static List<PlayerData> ReadResultsFromFile()
+		private static List<PlayerData> ReadHighScoreResultsFromFile()
 		{
 			List<PlayerData> results = [];
 			using StreamReader input = new("result.txt");
@@ -123,14 +123,14 @@ namespace MooGame
 			return results;
 		}
 
-		private static void SortAndDisplayResults(List<PlayerData> results, string currentUserName)
+		private static void SortAndDisplayHighScoreList(List<PlayerData> results, string currentUserName)
 		{
 			results.Sort((p1, p2) => p1.CalculateAverageGuesses().CompareTo(p2.CalculateAverageGuesses()));
-			DisplayHeader();
-			DisplayResults(results, currentUserName);
+			DisplayHighScoreListHeader();
+			DisplayHighScoreListResults(results, currentUserName);
 		}
 
-		private static void DisplayHeader()
+		private static void DisplayHighScoreListHeader()
 		{
 			Console.Clear();
 			Console.WriteLine("=== High Score List ===");
@@ -138,7 +138,7 @@ namespace MooGame
 			Console.WriteLine("---------------------------------------------");
 		}
 
-		private static void DisplayResults(List<PlayerData> results, string currentUserName)
+		private static void DisplayHighScoreListResults(List<PlayerData> results, string currentUserName)
 		{
 			int rank = 1;
 			foreach (PlayerData p in results)
@@ -168,10 +168,10 @@ namespace MooGame
 			Console.ResetColor();
 		}
 
-		private static void ShowTopList(string currentUserName)
+		private static void ShowHighScoreList(string currentUserName)
 		{
-			List<PlayerData> results = ReadResultsFromFile();
-			SortAndDisplayResults(results, currentUserName);
+			List<PlayerData> results = ReadHighScoreResultsFromFile();
+			SortAndDisplayHighScoreList(results, currentUserName);
 		}
 
 		public static bool AskToContinue()
