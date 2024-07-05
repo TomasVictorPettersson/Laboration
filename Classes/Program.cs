@@ -1,14 +1,19 @@
-﻿using Laboration.Interfaces;
+﻿using Laboration.Common.Classes;
+using Laboration.Common.Interfaces;
+using Laboration.Interfaces;
+using Laboration.UI.Classes;
+using Laboration.UI.Interfaces;
 
 namespace Laboration.Classes
 {
-	internal static class Program
+	public static class Program
 	{
 		public static void Main()
 		{
 			IUserInterface userInterface = new UserInterface();
+			IHighScoreManager highScoreManager = new HighScoreManager();
+			IGameLogic gameLogic = new GameLogic(highScoreManager, userInterface);
 			string userName = userInterface.GetUserName();
-			IGameLogic gameLogic = new GameLogic();
 			bool playOn = true;
 			while (playOn)
 			{
