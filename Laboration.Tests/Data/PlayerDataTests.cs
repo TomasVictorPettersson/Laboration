@@ -1,6 +1,6 @@
 ﻿using Laboration.Data.Classes;
 
-namespace Laboration.Data.Tests
+namespace Laboration.Tests.Data
 {
 	[TestClass]
 	public class PlayerDataTests

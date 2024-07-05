@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Laboration.Business\Laboration.Business.csproj" />
     <ProjectReference Include="..\Laboration.Common\Laboration.Common.csproj" />
     <ProjectReference Include="..\Laboration.UI\Laboration.UI.csproj" />
+    <ProjectReference Include="..\Laboration\Laboration.ApplicationFlow.csproj" />
   </ItemGroup>
 
   <ItemGroup>

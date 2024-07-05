@@ -1,4 +1,4 @@
-﻿namespace Laboration.Interfaces
+﻿namespace Laboration.Business.Interfaces
 {
 	public interface IGameLogic
 	{

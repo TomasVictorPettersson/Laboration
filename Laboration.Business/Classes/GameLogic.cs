@@ -1,9 +1,9 @@
-﻿using Laboration.Common.Interfaces;
-using Laboration.Interfaces;
+﻿using Laboration.Business.Interfaces;
+using Laboration.Common.Interfaces;
 using Laboration.UI.Interfaces;
 using System.Text;
 
-namespace Laboration.Classes
+namespace Laboration.Business.Classes
 {
 	public class GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface) : IGameLogic
 	{

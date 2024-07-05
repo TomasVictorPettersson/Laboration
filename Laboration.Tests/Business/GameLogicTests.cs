@@ -1,9 +1,9 @@
-﻿using Laboration.Classes;
+﻿using Laboration.Business.Classes;
 using Laboration.Common.Interfaces;
 using Laboration.UI.Interfaces;
 using Moq;
 
-namespace Laboration.Business.Tests
+namespace Laboration.Tests.Business
 {
 	[TestClass]
 	public class GameLogicTests

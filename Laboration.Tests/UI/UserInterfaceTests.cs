@@ -1,7 +1,7 @@
 ﻿using Laboration.UI.Interfaces;
 using Moq;
 
-namespace Laboration.UI.Tests
+namespace Laboration.Tests.UI
 {
 	[TestClass]
 	public class UserInterfaceTests
