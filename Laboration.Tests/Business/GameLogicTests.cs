@@ -37,8 +37,8 @@ namespace Laboration.Tests.Business
 		public void GenerateBullsAndCowsFeedback_CorrectGuess_ReturnsBBBB()
 		{
 			// Arrange
-			string secretNumber = "1234";
-			string guess = "1234";
+			const string secretNumber = "1234";
+			const string guess = "1234";
 
 			// Act
 			string feedback = _gameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
@@ -51,8 +51,8 @@ namespace Laboration.Tests.Business
 		public void GenerateBullsAndCowsFeedback_IncorrectGuess_ReturnsCorrectBullsAndCows()
 		{
 			// Arrange
-			string secretNumber = "1234";
-			string guess = "1568";
+			const string secretNumber = "1234";
+			const string guess = "1568";
 			// Act
 			string feedback = _gameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 

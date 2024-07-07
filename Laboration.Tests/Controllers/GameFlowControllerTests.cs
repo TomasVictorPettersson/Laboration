@@ -1,12 +1,12 @@
-﻿using Laboration.ApplicationFlow.Classes;
-using Laboration.Business.Interfaces;
+﻿using Laboration.Business.Interfaces;
+using Laboration.Controllers.Classes;
 using Laboration.UI.Interfaces;
 using Moq;
 
-namespace Laboration.Tests.ApplicationFlow
+namespace Laboration.Tests.Controllers
 {
 	[TestClass]
-	public class GameRunnerTests
+	public class GameFlowControllerTests
 	{
 		private Mock<IUserInterface> _mockUserInterface;
 		private Mock<IGameLogic> _mockGameLogic;
@@ -19,15 +19,14 @@ namespace Laboration.Tests.ApplicationFlow
 		}
 
 		[TestMethod]
-		public void Main_ShouldPlayGameAndAskToContinue()
+		public void ExecuteGameLoop_ShouldPlayGameAndAskToContinue()
 		{
 			_mockUserInterface.Setup(ui => ui.GetUserName()).Returns("TestUser");
 			_mockUserInterface.SetupSequence(ui => ui.AskToContinue())
 				.Returns(true)
 				.Returns(false);
 
-			// Call the static Main method directly with mocks
-			GameRunner.Main();
+			GameFlowController.ExecuteGameLoop(_mockUserInterface.Object, _mockGameLogic.Object);
 
 			_mockUserInterface.Verify(ui => ui.GetUserName(), Times.Once);
 			_mockUserInterface.Verify(ui => ui.AskToContinue(), Times.Exactly(2));
@@ -35,13 +34,12 @@ namespace Laboration.Tests.ApplicationFlow
 		}
 
 		[TestMethod]
-		public void Main_ShouldStopPlayingWhenUserDoesNotContinue()
+		public void ExecuteGameLoop_ShouldStopPlayingWhenUserDoesNotContinue()
 		{
 			_mockUserInterface.Setup(ui => ui.GetUserName()).Returns("TestUser");
 			_mockUserInterface.Setup(ui => ui.AskToContinue()).Returns(false);
 
-			// Call the static Main method directly with mocks
-			GameRunner.Main();
+			GameFlowController.ExecuteGameLoop(_mockUserInterface.Object, _mockGameLogic.Object);
 
 			_mockUserInterface.Verify(ui => ui.GetUserName(), Times.Once);
 			_mockUserInterface.Verify(ui => ui.AskToContinue(), Times.Once);

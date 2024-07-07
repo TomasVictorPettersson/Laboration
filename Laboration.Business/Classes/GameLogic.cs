@@ -13,7 +13,7 @@ namespace Laboration.Business.Classes
 		public void PlayGame(string userName)
 		{
 			Console.Clear();
-			Console.WriteLine("Welcome to Bulls and Cows!");
+			Console.WriteLine($"Welcome {userName} to Bulls and Cows!");
 			Console.WriteLine("The objective of the game is to guess a 4-digit number.");
 			Console.WriteLine("For each guess, you will receive feedback in the form of 'BBBB,CCCC',");
 			Console.WriteLine("where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
@@ -50,45 +50,39 @@ namespace Laboration.Business.Classes
 		public string MakeSecretNumber()
 		{
 			Random randomGenerator = new();
-			StringBuilder secretNumber = new();
+			HashSet<int> digits = [];
 
-			for (int i = 0; i < 4; i++)
+			while (digits.Count < 4)
 			{
-				int random = randomGenerator.Next(10);
-				string randomDigit = $"{random}";
-
-				while (secretNumber.ToString().Contains(randomDigit))
-				{
-					random = randomGenerator.Next(10);
-					randomDigit = $"{random}";
-				}
-				secretNumber.Append(randomDigit);
+				int randomDigit = randomGenerator.Next(10);
+				digits.Add(randomDigit);
 			}
+
+			StringBuilder secretNumber = new();
+			foreach (int digit in digits)
+			{
+				secretNumber.Append(digit);
+			}
+
 			return secretNumber.ToString();
 		}
 
 		public string GenerateBullsAndCowsFeedback(string secretNumber, string guess)
 		{
 			int cows = 0, bulls = 0;
-			guess += "    ";
+
 			for (int i = 0; i < 4; i++)
 			{
-				for (int j = 0; j < 4; j++)
+				if (secretNumber[i] == guess[i])
 				{
-					if (secretNumber[i] == guess[j])
-					{
-						if (i == j)
-						{
-							bulls++;
-						}
-						else
-						{
-							cows++;
-						}
-					}
+					bulls++;
+				}
+				else if (secretNumber.Contains(guess[i]))
+				{
+					cows++;
 				}
 			}
-			return $"{"BBBB".AsSpan(0, bulls)},{"CCCC".AsSpan(0, cows)}";
+			return $"{new string('B', bulls)},{new string('C', cows)}";
 		}
 	}
 }
