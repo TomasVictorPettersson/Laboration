@@ -8,9 +8,9 @@ namespace Laboration.Tests.Business
 	[TestClass]
 	public class GameLogicTests
 	{
-		private Mock<IHighScoreManager> _highScoreManagerMock;
-		private Mock<IUserInterface> _userInterfaceMock;
-		private GameLogic _gameLogic;
+		private Mock<IHighScoreManager>? _highScoreManagerMock;
+		private Mock<IUserInterface>? _userInterfaceMock;
+		private GameLogic? _gameLogic;
 
 		[TestInitialize]
 		public void Initialize()

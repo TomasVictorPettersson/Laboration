@@ -13,33 +13,38 @@ namespace Laboration.Business.Classes
 		public void PlayGame(string userName)
 		{
 			Console.Clear();
+			Console.WriteLine("Welcome to Bulls and Cows!");
+			Console.WriteLine("The objective of the game is to guess a 4-digit number.");
+			Console.WriteLine("For each guess, you will receive feedback in the form of 'BBBB,CCCC',");
+			Console.WriteLine("where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
+			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n");
 			string secretNumber = MakeSecretNumber();
 			Console.WriteLine("New game:\n");
 
-			////comment out or remove next line to play real games!
+			// Comment out or remove the next line to play real games!
 			Console.WriteLine($"For practice, number is: {secretNumber}\n");
-			string guess = Console.ReadLine()!;
-
-			int numberOfGuesses = 1;
-			string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
-			Console.WriteLine($"{guessFeedback}\n");
-			while (!string.Equals(guessFeedback, "BBBB,", StringComparison.OrdinalIgnoreCase))
+			int numberOfGuesses = 0;
+			string guess = string.Empty;
+			while (!string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase))
 			{
-				numberOfGuesses++;
+				Console.Write("Enter your guess: ");
 				guess = Console.ReadLine()!;
-				Console.WriteLine($"{guess}\n");
-				guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
+
+				// Validate user input
+				if (guess.Length != 4 || !int.TryParse(guess, out _))
+				{
+					Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
+					continue;
+				}
+
+				numberOfGuesses++;
+				string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
 				Console.WriteLine($"{guessFeedback}\n");
 			}
-			SaveResult(userName, numberOfGuesses);
+
+			_highScoreManager.SaveResult(userName, numberOfGuesses);
 			_highScoreManager.ShowHighScoreList(userName);
 			_userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
-		}
-
-		public void SaveResult(string userName, int numberOfGuesses)
-		{
-			using StreamWriter output = new("result.txt", append: true);
-			output.WriteLine($"{userName}#&#{numberOfGuesses}");
 		}
 
 		public string MakeSecretNumber()

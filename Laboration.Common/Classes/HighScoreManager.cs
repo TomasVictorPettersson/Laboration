@@ -8,6 +8,12 @@ namespace Laboration.Common.Classes
 	{
 		private readonly string[] separator = ["#&#"];
 
+		public void SaveResult(string userName, int numberOfGuesses)
+		{
+			using StreamWriter output = new("result.txt", append: true);
+			output.WriteLine($"{userName}#&#{numberOfGuesses}");
+		}
+
 		public List<IPlayerData> ReadHighScoreResultsFromFile()
 		{
 			List<IPlayerData> results = [];

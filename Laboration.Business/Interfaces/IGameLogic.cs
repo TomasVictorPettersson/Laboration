@@ -7,7 +7,5 @@
 		string MakeSecretNumber();
 
 		string GenerateBullsAndCowsFeedback(string secretNumber, string guess);
-
-		void SaveResult(string userName, int numberOfGuesses);
 	}
 }

@@ -4,6 +4,8 @@ namespace Laboration.Common.Interfaces
 {
 	public interface IHighScoreManager
 	{
+		void SaveResult(string userName, int numberOfGuesses);
+
 		List<IPlayerData> ReadHighScoreResultsFromFile();
 
 		void SortAndDisplayHighScoreList(List<IPlayerData> results, string currentUserName);
