@@ -5,41 +5,42 @@ using System.Text;
 
 namespace Laboration.Business.Classes
 {
-	public class GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface) : IGameLogic
+	public class GameLogic : IGameLogic
 	{
-		private readonly IHighScoreManager _highScoreManager = highScoreManager;
-		private readonly IUserInterface _userInterface = userInterface;
+		private readonly IHighScoreManager _highScoreManager;
+		private readonly IUserInterface _userInterface;
 
-		public void PlayGame(string userName)
+		public GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface)
 		{
-			Console.Clear();
+			_highScoreManager = highScoreManager;
+			_userInterface = userInterface;
+		}
+
+		public static void DisplayWelcomeMessage(string userName)
+		{
 			Console.WriteLine($"Welcome {userName} to Bulls and Cows!");
 			Console.WriteLine("The objective of the game is to guess a 4-digit number.");
 			Console.WriteLine("For each guess, you will receive feedback in the form of 'BBBB,CCCC',");
 			Console.WriteLine("where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
 			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n");
+		}
+
+		public void PlayGame(string userName)
+		{
+			Console.Clear();
+			DisplayWelcomeMessage(userName);
 			string secretNumber = MakeSecretNumber();
 			Console.WriteLine("New game:\n");
 
 			// Comment out or remove the next line to play real games!
 			Console.WriteLine($"For practice, number is: {secretNumber}\n");
+
 			int numberOfGuesses = 0;
 			string guess = string.Empty;
+
 			while (!string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase))
 			{
-				Console.Write("Enter your guess: ");
-				guess = Console.ReadLine()!;
-
-				// Validate user input
-				if (guess.Length != 4 || !int.TryParse(guess, out _))
-				{
-					Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
-					continue;
-				}
-
-				numberOfGuesses++;
-				string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
-				Console.WriteLine($"{guessFeedback}\n");
+				guess = ProcessGuess(secretNumber, ref numberOfGuesses);
 			}
 
 			_highScoreManager.SaveResult(userName, numberOfGuesses);
@@ -47,10 +48,27 @@ namespace Laboration.Business.Classes
 			_userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
 		}
 
+		public string ProcessGuess(string secretNumber, ref int numberOfGuesses)
+		{
+			Console.Write("Enter your guess: ");
+			string guess = Console.ReadLine()!;
+			if (guess.Length != 4 || !int.TryParse(guess, out _))
+			{
+				Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
+				return string.Empty;
+			}
+
+			numberOfGuesses++;
+			string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
+			Console.WriteLine($"{guessFeedback}\n");
+
+			return guess;
+		}
+
 		public string MakeSecretNumber()
 		{
 			Random randomGenerator = new();
-			HashSet<int> digits = [];
+			HashSet<int> digits = new();
 
 			while (digits.Count < 4)
 			{

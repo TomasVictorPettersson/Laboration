@@ -26,6 +26,8 @@ namespace Laboration.Controllers.Classes
 			{
 				gameLogic.PlayGame(userName);
 			} while (userInterface.AskToContinue());
+
+			Console.WriteLine("Thank you for playing Bulls and Cows!");
 		}
 	}
 }
