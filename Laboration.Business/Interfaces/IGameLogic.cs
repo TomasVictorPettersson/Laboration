@@ -2,7 +2,11 @@
 {
 	public interface IGameLogic
 	{
+		void DisplayWelcomeMessage(string userName);
+
 		void PlayGame(string userName);
+
+		string ProcessGuess(string secretNumber, ref int numberOfGuesses);
 
 		string MakeSecretNumber();
 

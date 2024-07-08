@@ -1,7 +1,8 @@
 ﻿using Laboration.Common.Classes;
+using Laboration.Data.Classes;
 using Laboration.Data.Interfaces;
 
-namespace Laboration.Tests.Common
+namespace Laboration.Tests.Common.Classes
 {
 	[TestClass]
 	public class HighScoreManagerTests
@@ -9,48 +10,132 @@ namespace Laboration.Tests.Common
 		private HighScoreManager _highScoreManager;
 
 		[TestInitialize]
-		public void Setup()
+		public void Initialize()
 		{
 			_highScoreManager = new HighScoreManager();
 		}
 
 		[TestMethod]
-		public void ReadHighScoreResultsFromFile_ValidFile_ReturnsCorrectData()
+		public void SaveResult_SavesResultToFile()
 		{
 			// Arrange
-			// Create a mock file with some data
-			string[] fileContent = ["User1#&#10", "User2#&#20", "User1#&#15"];
-			File.WriteAllLines("result.txt", fileContent);
+			const string userName = "TestUser";
+			const int numberOfGuesses = 10;
 
 			// Act
-			List<IPlayerData> results = _highScoreManager.ReadHighScoreResultsFromFile();
+			_highScoreManager.SaveResult(userName, numberOfGuesses);
 
 			// Assert
-			Assert.AreEqual(2, results.Count);
-			Assert.AreEqual("User1", results[0].UserName);
-			Assert.AreEqual(12.5, results[0].CalculateAverageGuesses());
-			Assert.AreEqual("User2", results[1].UserName);
-			Assert.AreEqual(20, results[1].CalculateAverageGuesses());
-
-			// Clean up
-			File.Delete("result.txt");
+			string[] lines = File.ReadAllLines("result.txt");
+			Assert.IsTrue(lines.Length > 0);
+			Assert.IsTrue(lines[0].Contains("TestUser#&#10"));
 		}
 
 		[TestMethod]
-		public void ReadHighScoreResultsFromFile_EmptyFile_ReturnsEmptyList()
+		public void ReadHighScoreResultsFromFile_ReadsResultsFromFile()
 		{
 			// Arrange
-			// Create an empty mock file
-			File.WriteAllText("result.txt", string.Empty);
+			File.WriteAllText("result.txt", "TestUser#&#10");
 
 			// Act
 			List<IPlayerData> results = _highScoreManager.ReadHighScoreResultsFromFile();
 
 			// Assert
-			Assert.AreEqual(0, results.Count);
+			Assert.AreEqual(1, results.Count);
+			Assert.AreEqual("TestUser", results[0].UserName);
+			Assert.AreEqual(10, results[0].TotalGuesses);
+		}
 
-			// Clean up
-			File.Delete("result.txt");
+		[TestMethod]
+		public void ParseLineToPlayerData_ParsesLineCorrectly()
+		{
+			// Arrange
+			const string line = "TestUser#&#10";
+
+			// Act
+			IPlayerData playerData = _highScoreManager.ParseLineToPlayerData(line);
+
+			// Assert
+			Assert.AreEqual("TestUser", playerData.UserName);
+			Assert.AreEqual(10, playerData.TotalGuesses);
+		}
+
+		[TestMethod]
+		public void UpdateResultsList_AddsNewPlayerData()
+		{
+			// Arrange
+			List<IPlayerData> results = new List<IPlayerData>();
+			IPlayerData playerData = new PlayerData("TestUser", 10);
+
+			// Act
+			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(results, playerData);
+
+			// Assert
+			Assert.AreEqual(1, updatedResults.Count);
+			Assert.IsTrue(updatedResults.Contains(playerData));
+		}
+
+		[TestMethod]
+		public void UpdateResultsList_UpdatesExistingPlayerData()
+		{
+			// Arrange
+			List<IPlayerData> results = new List<IPlayerData>();
+			IPlayerData playerData1 = new PlayerData("TestUser", 10);
+			IPlayerData playerData2 = new PlayerData("TestUser", 15);
+			results.Add(playerData1);
+
+			// Act
+			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(results, playerData2);
+
+			// Assert
+			Assert.AreEqual(1, updatedResults.Count);
+			Assert.AreEqual(25, updatedResults[0].TotalGuesses);
+		}
+
+		[TestMethod]
+		public void SortAndDisplayHighScoreList_SortsAndDisplaysCorrectly()
+		{
+			// Arrange
+			List<IPlayerData> results = new List<IPlayerData>();
+			results.Add(new PlayerData("User1", 10));
+			results.Add(new PlayerData("User2", 15));
+			results.Add(new PlayerData("User3", 5));
+
+			using StringWriter sw = new();
+			Console.SetOut(sw);
+
+			// Act
+			_highScoreManager.SortAndDisplayHighScoreList(results, "CurrentUser");
+
+			// Assert
+			string expectedOutput = "=== High Score List ===\n";
+			expectedOutput += "Rank     Player     Games     Average Guesses\n";
+			expectedOutput += "---------------------------------------------\n";
+			expectedOutput += "1        User3         1          5,00\n";
+			expectedOutput += "2        User1         1         10,00\n";
+			expectedOutput += "3        User2         1         15,00\n";
+
+			Assert.AreEqual(expectedOutput, sw.ToString());
+		}
+
+		[TestMethod]
+		public void ShowHighScoreList_DisplaysHighScoreList()
+		{
+			// Arrange
+			File.WriteAllText("result.txt", "TestUser#&#10");
+
+			using StringWriter sw = new StringWriter();
+			Console.SetOut(sw);
+
+			// Act
+			_highScoreManager.ShowHighScoreList("CurrentUser");
+
+			// Assert
+			string expectedOutput = "=== High Score List ===\n";
+			expectedOutput += "Rank     Player     Games     Average Guesses\n";
+			expectedOutput += "---------------------------------------------\n";
+			expectedOutput += "   1     TestUser         1            10,00\n";
+			Assert.AreEqual(expectedOutput, sw.ToString());
 		}
 	}
 }

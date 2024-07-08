@@ -5,18 +5,12 @@ using System.Text;
 
 namespace Laboration.Business.Classes
 {
-	public class GameLogic : IGameLogic
+	public class GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface) : IGameLogic
 	{
-		private readonly IHighScoreManager _highScoreManager;
-		private readonly IUserInterface _userInterface;
+		private readonly IHighScoreManager _highScoreManager = highScoreManager;
+		private readonly IUserInterface _userInterface = userInterface;
 
-		public GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface)
-		{
-			_highScoreManager = highScoreManager;
-			_userInterface = userInterface;
-		}
-
-		public static void DisplayWelcomeMessage(string userName)
+		public void DisplayWelcomeMessage(string userName)
 		{
 			Console.WriteLine($"Welcome {userName} to Bulls and Cows!");
 			Console.WriteLine("The objective of the game is to guess a 4-digit number.");
@@ -43,6 +37,7 @@ namespace Laboration.Business.Classes
 				guess = ProcessGuess(secretNumber, ref numberOfGuesses);
 			}
 
+			Console.Clear();
 			_highScoreManager.SaveResult(userName, numberOfGuesses);
 			_highScoreManager.ShowHighScoreList(userName);
 			_userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
@@ -68,7 +63,7 @@ namespace Laboration.Business.Classes
 		public string MakeSecretNumber()
 		{
 			Random randomGenerator = new();
-			HashSet<int> digits = new();
+			HashSet<int> digits = [];
 
 			while (digits.Count < 4)
 			{

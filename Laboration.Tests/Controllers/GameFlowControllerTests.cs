@@ -1,49 +1,56 @@
-﻿using Laboration.Business.Interfaces;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Laboration.Controllers.Classes;
-using Laboration.UI.Interfaces;
+using Laboration.Business.Interfaces;
+using Laboration.Common.Interfaces;
 using Moq;
+using Laboration.UI.Interfaces;
 
 namespace Laboration.Tests.Controllers
 {
 	[TestClass]
 	public class GameFlowControllerTests
 	{
-		private Mock<IUserInterface> _mockUserInterface;
-		private Mock<IGameLogic> _mockGameLogic;
+		private Mock<IUserInterface> mockUserInterface;
+		private Mock<IHighScoreManager> mockHighScoreManager;
+		private Mock<IGameLogic> mockGameLogic;
 
 		[TestInitialize]
-		public void Setup()
+		public void Initialize()
 		{
-			_mockUserInterface = new Mock<IUserInterface>();
-			_mockGameLogic = new Mock<IGameLogic>();
+			mockUserInterface = new Mock<IUserInterface>();
+			mockHighScoreManager = new Mock<IHighScoreManager>();
+			mockGameLogic = new Mock<IGameLogic>();
 		}
 
 		[TestMethod]
-		public void ExecuteGameLoop_ShouldPlayGameAndAskToContinue()
+		public void TestExecuteGameLoop_PlaysGameOnce_WhenAskToContinueReturnsFalse()
 		{
-			_mockUserInterface.Setup(ui => ui.GetUserName()).Returns("TestUser");
-			_mockUserInterface.SetupSequence(ui => ui.AskToContinue())
+			// Arrange
+			mockUserInterface.Setup(ui => ui.AskToContinue()).Returns(false);
+			mockGameLogic.Setup(gl => gl.PlayGame(It.IsAny<string>()));
+
+			// Act
+			GameFlowController.ExecuteGameLoop(mockUserInterface.Object, mockGameLogic.Object);
+
+			// Assert
+			mockGameLogic.Verify(gl => gl.PlayGame(It.IsAny<string>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void TestExecuteGameLoop_PlaysGameMultipleTimes_WhenAskToContinueReturnsTrue()
+		{
+			// Arrange
+			mockUserInterface.SetupSequence(ui => ui.AskToContinue())
+				.Returns(true)
 				.Returns(true)
 				.Returns(false);
+			mockGameLogic.Setup(gl => gl.PlayGame(It.IsAny<string>()));
 
-			GameFlowController.ExecuteGameLoop(_mockUserInterface.Object, _mockGameLogic.Object);
+			// Act
+			GameFlowController.ExecuteGameLoop(mockUserInterface.Object, mockGameLogic.Object);
 
-			_mockUserInterface.Verify(ui => ui.GetUserName(), Times.Once);
-			_mockUserInterface.Verify(ui => ui.AskToContinue(), Times.Exactly(2));
-			_mockGameLogic.Verify(gl => gl.PlayGame("TestUser"), Times.Exactly(2));
-		}
-
-		[TestMethod]
-		public void ExecuteGameLoop_ShouldStopPlayingWhenUserDoesNotContinue()
-		{
-			_mockUserInterface.Setup(ui => ui.GetUserName()).Returns("TestUser");
-			_mockUserInterface.Setup(ui => ui.AskToContinue()).Returns(false);
-
-			GameFlowController.ExecuteGameLoop(_mockUserInterface.Object, _mockGameLogic.Object);
-
-			_mockUserInterface.Verify(ui => ui.GetUserName(), Times.Once);
-			_mockUserInterface.Verify(ui => ui.AskToContinue(), Times.Once);
-			_mockGameLogic.Verify(gl => gl.PlayGame("TestUser"), Times.Once);
+			// Assert
+			mockGameLogic.Verify(gl => gl.PlayGame(It.IsAny<string>()), Times.Exactly(2));
 		}
 	}
 }

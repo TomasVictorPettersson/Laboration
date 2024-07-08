@@ -8,6 +8,10 @@ namespace Laboration.Common.Interfaces
 
 		List<IPlayerData> ReadHighScoreResultsFromFile();
 
+		IPlayerData ParseLineToPlayerData(string line);
+
+		List<IPlayerData> UpdateResultsList(List<IPlayerData> results, IPlayerData playerData);
+
 		void SortAndDisplayHighScoreList(List<IPlayerData> results, string currentUserName);
 
 		void DisplayHighScoreListHeader();

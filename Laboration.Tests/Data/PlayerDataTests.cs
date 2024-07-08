@@ -1,4 +1,5 @@
 ﻿using Laboration.Data.Classes;
+using Laboration.Data.Interfaces;
 
 namespace Laboration.Tests.Data
 {
@@ -6,58 +7,72 @@ namespace Laboration.Tests.Data
 	public class PlayerDataTests
 	{
 		[TestMethod]
-		public void CalculateAverageGuesses_MultipleGuesses_ReturnsCorrectAverage()
+		public void AddGuess_IncreasesTotalGuessesAndTotalGamesPlayed()
 		{
 			// Arrange
-			PlayerData player = new("User1", 10);
-			player.AddGuess(15);
-			player.AddGuess(20);
+			IPlayerData playerData = new PlayerData("JohnDoe", 10);
 
 			// Act
-			double averageGuesses = player.CalculateAverageGuesses();
+			playerData.AddGuess(5);
 
 			// Assert
-			Assert.AreEqual(15, averageGuesses);
+			Assert.AreEqual(15, playerData.TotalGuesses);
+			Assert.AreEqual(2, playerData.TotalGamesPlayed);
 		}
 
 		[TestMethod]
-		public void Equals_SameUserName_ReturnsTrue()
+		public void CalculateAverageGuesses_ReturnsCorrectAverage()
 		{
 			// Arrange
-			PlayerData player1 = new("User1", 10);
-			PlayerData player2 = new("User1", 20);
+			IPlayerData playerData = new PlayerData("JohnDoe", 10);
+			playerData.AddGuess(8);
+			playerData.AddGuess(12);
 
 			// Act
-			bool areEqual = player1.Equals(player2);
+			double averageGuesses = playerData.CalculateAverageGuesses();
+
+			// Assert
+			Assert.AreEqual(10, averageGuesses);
+		}
+
+		[TestMethod]
+		public void Equals_ReturnsTrueForSameUserName()
+		{
+			// Arrange
+			IPlayerData playerData1 = new PlayerData("JohnDoe", 10);
+			IPlayerData playerData2 = new PlayerData("JohnDoe", 5);
+
+			// Act
+			bool areEqual = playerData1.Equals(playerData2);
 
 			// Assert
 			Assert.IsTrue(areEqual);
 		}
 
 		[TestMethod]
-		public void Equals_DifferentUserName_ReturnsFalse()
+		public void Equals_ReturnsFalseForDifferentUserName()
 		{
 			// Arrange
-			PlayerData player1 = new("User1", 10);
-			PlayerData player2 = new("User2", 20);
+			IPlayerData playerData1 = new PlayerData("JohnDoe", 10);
+			IPlayerData playerData2 = new PlayerData("JaneDoe", 5);
 
 			// Act
-			bool areEqual = player1.Equals(player2);
+			bool areEqual = playerData1.Equals(playerData2);
 
 			// Assert
 			Assert.IsFalse(areEqual);
 		}
 
 		[TestMethod]
-		public void GetHashCode_SameUserName_ReturnsSameHashCode()
+		public void GetHashCode_ReturnsSameHashCodeForSameUserName()
 		{
 			// Arrange
-			PlayerData player1 = new("User1", 10);
-			PlayerData player2 = new("User1", 20);
+			IPlayerData playerData1 = new PlayerData("JohnDoe", 10);
+			IPlayerData playerData2 = new PlayerData("JohnDoe", 5);
 
 			// Act
-			int hashCode1 = player1.GetHashCode();
-			int hashCode2 = player2.GetHashCode();
+			int hashCode1 = playerData1.GetHashCode();
+			int hashCode2 = playerData2.GetHashCode();
 
 			// Assert
 			Assert.AreEqual(hashCode1, hashCode2);

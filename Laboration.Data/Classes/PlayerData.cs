@@ -6,7 +6,7 @@ namespace Laboration.Data.Classes
 	{
 		public string UserName { get; } = userName;
 		public int TotalGamesPlayed { get; private set; } = 1;
-		private int TotalGuesses = guesses;
+		public int TotalGuesses { get; private set; } = guesses;
 
 		public void AddGuess(int guesses)
 		{

@@ -21,19 +21,30 @@ namespace Laboration.Common.Classes
 			string line;
 			while ((line = input.ReadLine()!) != null)
 			{
-				string[] userNameAndUserScore = line.Split(separator, StringSplitOptions.None);
-				string userName = userNameAndUserScore[0];
-				int guesses = Convert.ToInt32(userNameAndUserScore[1]);
-				IPlayerData pd = new PlayerData(userName, guesses);
-				int pos = results.FindIndex(p => p.Equals(pd));
-				if (pos < 0)
-				{
-					results.Add(pd);
-				}
-				else
-				{
-					results[pos].AddGuess(guesses);
-				}
+				IPlayerData playerData = ParseLineToPlayerData(line);
+				results = UpdateResultsList(results, playerData);
+			}
+			return results;
+		}
+
+		public IPlayerData ParseLineToPlayerData(string line)
+		{
+			string[] userNameAndUserScore = line.Split(separator, StringSplitOptions.None);
+			string userName = userNameAndUserScore[0];
+			int guesses = Convert.ToInt32(userNameAndUserScore[1]);
+			return new PlayerData(userName, guesses);
+		}
+
+		public List<IPlayerData> UpdateResultsList(List<IPlayerData> results, IPlayerData playerData)
+		{
+			int pos = results.FindIndex(p => p.Equals(playerData));
+			if (pos < 0)
+			{
+				results.Add(playerData);
+			}
+			else
+			{
+				results[pos].AddGuess(playerData.TotalGuesses);
 			}
 			return results;
 		}
@@ -47,7 +58,6 @@ namespace Laboration.Common.Classes
 
 		public void DisplayHighScoreListHeader()
 		{
-			Console.Clear();
 			Console.WriteLine("=== High Score List ===");
 			Console.WriteLine("Rank     Player     Games     Average Guesses");
 			Console.WriteLine("---------------------------------------------");
