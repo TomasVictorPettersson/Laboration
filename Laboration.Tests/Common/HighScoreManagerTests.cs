@@ -64,7 +64,7 @@ namespace Laboration.Tests.Common.Classes
 		public void UpdateResultsList_AddsNewPlayerData()
 		{
 			// Arrange
-			List<IPlayerData> results = new List<IPlayerData>();
+			List<IPlayerData> results = new();
 			IPlayerData playerData = new PlayerData("TestUser", 10);
 
 			// Act
@@ -79,7 +79,7 @@ namespace Laboration.Tests.Common.Classes
 		public void UpdateResultsList_UpdatesExistingPlayerData()
 		{
 			// Arrange
-			List<IPlayerData> results = new List<IPlayerData>();
+			List<IPlayerData> results = new();
 			IPlayerData playerData1 = new PlayerData("TestUser", 10);
 			IPlayerData playerData2 = new PlayerData("TestUser", 15);
 			results.Add(playerData1);
@@ -96,10 +96,12 @@ namespace Laboration.Tests.Common.Classes
 		public void SortAndDisplayHighScoreList_SortsAndDisplaysCorrectly()
 		{
 			// Arrange
-			List<IPlayerData> results = new List<IPlayerData>();
-			results.Add(new PlayerData("User1", 10));
-			results.Add(new PlayerData("User2", 15));
-			results.Add(new PlayerData("User3", 5));
+			List<IPlayerData> results = new()
+			{
+				new PlayerData("User1", 10),
+				new PlayerData("User2", 15),
+				new PlayerData("User3", 5)
+			};
 
 			using StringWriter sw = new();
 			Console.SetOut(sw);

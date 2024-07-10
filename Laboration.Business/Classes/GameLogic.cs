@@ -5,10 +5,16 @@ using System.Text;
 
 namespace Laboration.Business.Classes
 {
-	public class GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface) : IGameLogic
+	public class GameLogic : IGameLogic
 	{
-		private readonly IHighScoreManager _highScoreManager = highScoreManager;
-		private readonly IUserInterface _userInterface = userInterface;
+		private readonly IHighScoreManager _highScoreManager;
+		private readonly IUserInterface _userInterface;
+
+		public GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface)
+		{
+			_highScoreManager = highScoreManager;
+			_userInterface = userInterface;
+		}
 
 		public void DisplayWelcomeMessage(string userName)
 		{
@@ -19,25 +25,47 @@ namespace Laboration.Business.Classes
 			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n");
 		}
 
-		public void PlayGame(string userName)
+		public void InitializeGame(string userName)
 		{
 			Console.Clear();
 			DisplayWelcomeMessage(userName);
+		}
+
+		public void PlayGame(string userName)
+		{
+			InitializeGame(userName);
 			string secretNumber = MakeSecretNumber();
 			Console.WriteLine("New game:\n");
+			DisplaySecretNumberForPractice(secretNumber);
+			PlayGameLoop(secretNumber, userName);
+		}
 
+		public void DisplaySecretNumberForPractice(string secretNumber)
+		{
 			// Comment out or remove the next line to play real games!
 			Console.WriteLine($"For practice, number is: {secretNumber}\n");
+		}
 
+		public void PlayGameLoop(string secretNumber, string userName)
+		{
 			int numberOfGuesses = 0;
 			string guess = string.Empty;
 
-			while (!string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase))
+			while (!IsCorrectGuess(guess, secretNumber))
 			{
 				guess = ProcessGuess(secretNumber, ref numberOfGuesses);
 			}
 
-			Console.Clear();
+			EndGame(secretNumber, userName, numberOfGuesses);
+		}
+
+		public bool IsCorrectGuess(string guess, string secretNumber)
+		{
+			return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
+		}
+
+		public void EndGame(string secretNumber, string userName, int numberOfGuesses)
+		{
 			_highScoreManager.SaveResult(userName, numberOfGuesses);
 			_highScoreManager.ShowHighScoreList(userName);
 			_userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
@@ -45,11 +73,10 @@ namespace Laboration.Business.Classes
 
 		public string ProcessGuess(string secretNumber, ref int numberOfGuesses)
 		{
-			Console.Write("Enter your guess: ");
-			string guess = Console.ReadLine()!;
-			if (guess.Length != 4 || !int.TryParse(guess, out _))
+			string guess = GetValidGuessFromUser();
+
+			if (string.IsNullOrEmpty(guess))
 			{
-				Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
 				return string.Empty;
 			}
 
@@ -60,10 +87,32 @@ namespace Laboration.Business.Classes
 			return guess;
 		}
 
+		public string GetValidGuessFromUser()
+		{
+			string guess;
+
+			while (true)
+			{
+				Console.Write("Enter your guess: ");
+				guess = Console.ReadLine()?.Trim();
+
+				if (string.IsNullOrEmpty(guess) || guess.Length != 4 || !int.TryParse(guess, out _))
+				{
+					Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			return guess;
+		}
+
 		public string MakeSecretNumber()
 		{
 			Random randomGenerator = new();
-			HashSet<int> digits = [];
+			HashSet<int> digits = new();
 
 			while (digits.Count < 4)
 			{
