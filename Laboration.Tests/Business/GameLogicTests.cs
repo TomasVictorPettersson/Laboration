@@ -60,51 +60,70 @@ namespace Laboration.Tests.Business
 		}
 
 		[TestMethod]
-		public void ProcessGuess_ValidGuess_ReturnsGuess()
+		public void ProcessGuess_ValidInput_GeneratesBullsAndCowsFeedback()
 		{
 			// Arrange
-			const string secretNumber = "1234";
-			const string guess = "5678";
+			string secretNumber = "1234";
 			int numberOfGuesses = 0;
 
-			// Act
-			string processedGuess = _gameLogic.ProcessGuess(secretNumber, ref numberOfGuesses);
+			// Redirect Console output to capture it
+			using (StringWriter sw = new StringWriter())
+			{
+				Console.SetOut(sw);
 
-			// Assert
-			Assert.AreEqual(guess, processedGuess);
-			Assert.AreEqual(1, numberOfGuesses);
+				// Act
+				string guess = "1234";
+				string result = _gameLogic.ProcessGuess(secretNumber, ref numberOfGuesses);
+
+				// Assert
+				Assert.AreEqual("BBBB,", result); // Assuming ProcessGuess returns the guess feedback
+				Assert.AreEqual("BBBB,", sw.ToString().Split("\n")[1].Trim()); // Check the output printed to console
+			}
 		}
 
 		[TestMethod]
-		public void ProcessGuess_WrongGuess_IncrementsNumberOfGuesses()
+		public void ProcessGuess_InvalidInput_ReturnsEmptyString()
 		{
 			// Arrange
-			const string secretNumber = "1234";
-			const string wrongGuess = "5678";
+			string secretNumber = "1234";
 			int numberOfGuesses = 0;
 
-			// Act
-			string processedGuess = _gameLogic.ProcessGuess(secretNumber, ref numberOfGuesses);
+			// Redirect Console output to capture it
+			using (StringWriter sw = new StringWriter())
+			{
+				Console.SetOut(sw);
 
-			// Assert
-			Assert.AreEqual(wrongGuess, processedGuess);
-			Assert.AreEqual(1, numberOfGuesses);
+				// Act
+				string guess = "abcd"; // Invalid input
+				string result = _gameLogic.ProcessGuess(secretNumber, ref numberOfGuesses);
+
+				// Assert
+				Assert.AreEqual(string.Empty, result); // Ensure empty string is returned for invalid input
+				StringAssert.Contains(sw.ToString(), "Invalid input. Please enter a 4-digit number."); // Check error message in console output
+			}
 		}
 
 		[TestMethod]
-		public void ProcessGuess_InvalidGuess_ReturnsEmptyString()
+		public void ProcessGuess_ValidGuessButIncorrect_GeneratesBullsAndCowsFeedback()
 		{
 			// Arrange
-			const string secretNumber = "1234";
-			const string invalidGuess = "123";
+			string secretNumber = "1234";
 			int numberOfGuesses = 0;
 
-			// Act
-			string processedGuess = _gameLogic.ProcessGuess(secretNumber, ref numberOfGuesses);
+			// Redirect Console output to capture it
+			using (StringWriter sw = new StringWriter())
+			{
+				Console.SetOut(sw);
 
-			// Assert
-			Assert.AreEqual(string.Empty, processedGuess);
-			Assert.AreEqual(0, numberOfGuesses);
+				// Act
+				string guess = "5678"; // Incorrect guess
+				string result = _gameLogic.ProcessGuess(secretNumber, ref numberOfGuesses);
+
+				// Assert
+				Assert.AreEqual("0,0", result); // Assuming ProcessGuess returns the guess feedback
+				Assert.AreEqual(1, numberOfGuesses); // Check if guess counter is incremented correctly
+				Assert.AreEqual("0,0", sw.ToString().Split("\n")[1].Trim()); // Check the output printed to console
+			}
 		}
 
 		[TestMethod]

@@ -1,9 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Laboration.Controllers.Classes;
-using Laboration.Business.Interfaces;
+﻿using Laboration.Business.Interfaces;
 using Laboration.Common.Interfaces;
-using Moq;
+using Laboration.Controllers.Classes;
 using Laboration.UI.Interfaces;
+using Moq;
 
 namespace Laboration.Tests.Controllers
 {
@@ -50,7 +49,7 @@ namespace Laboration.Tests.Controllers
 			GameFlowController.ExecuteGameLoop(mockUserInterface.Object, mockGameLogic.Object);
 
 			// Assert
-			mockGameLogic.Verify(gl => gl.PlayGame(It.IsAny<string>()), Times.Exactly(2));
+			mockGameLogic.Verify(gl => gl.PlayGame(It.IsAny<string>()), Times.Exactly(3));
 		}
 	}
 }

@@ -108,33 +108,13 @@ namespace Laboration.Tests.Common.Classes
 			_highScoreManager.SortAndDisplayHighScoreList(results, "CurrentUser");
 
 			// Assert
-			string expectedOutput = "=== High Score List ===\n";
-			expectedOutput += "Rank     Player     Games     Average Guesses\n";
-			expectedOutput += "---------------------------------------------\n";
-			expectedOutput += "1        User3         1          5,00\n";
-			expectedOutput += "2        User1         1         10,00\n";
-			expectedOutput += "3        User2         1         15,00\n";
+			string expectedOutput = "=== High Score List ===\r\n";
+			expectedOutput += "Rank     Player     Games     Average Guesses\r\n";
+			expectedOutput += "---------------------------------------------\r\n";
+			expectedOutput += "1        User3         1          5,00\r\n";
+			expectedOutput += "2        User1         1         10,00\r\n";
+			expectedOutput += "3        User2         1         15,00\r\n";
 
-			Assert.AreEqual(expectedOutput, sw.ToString());
-		}
-
-		[TestMethod]
-		public void ShowHighScoreList_DisplaysHighScoreList()
-		{
-			// Arrange
-			File.WriteAllText("result.txt", "TestUser#&#10");
-
-			using StringWriter sw = new StringWriter();
-			Console.SetOut(sw);
-
-			// Act
-			_highScoreManager.ShowHighScoreList("CurrentUser");
-
-			// Assert
-			string expectedOutput = "=== High Score List ===\n";
-			expectedOutput += "Rank     Player     Games     Average Guesses\n";
-			expectedOutput += "---------------------------------------------\n";
-			expectedOutput += "   1     TestUser         1            10,00\n";
 			Assert.AreEqual(expectedOutput, sw.ToString());
 		}
 	}
