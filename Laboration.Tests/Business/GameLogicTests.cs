@@ -8,20 +8,18 @@ namespace Laboration.Tests.Business
 	[TestClass]
 	public class GameLogicTests
 	{
-		private Mock<IHighScoreManager> _highScoreManagerMock;
-		private Mock<IUserInterface> _userInterfaceMock;
-		private GameLogic _gameLogic;
+		private readonly Mock<IHighScoreManager> _highScoreManagerMock = new();
+		private readonly Mock<IUserInterface> _userInterfaceMock = new();
+		private readonly GameLogic _gameLogic;
 
-		[TestInitialize]
-		public void Initialize()
+		public GameLogicTests()
 		{
-			_highScoreManagerMock = new Mock<IHighScoreManager>();
-			_userInterfaceMock = new Mock<IUserInterface>();
-			_gameLogic = new GameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object);
+			GameConfig config = new() { MaxRetries = 3 };
+			_gameLogic = new GameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object, config);
 		}
 
 		[TestMethod]
-		public void DisplayWelcomeMessage_WritesCorrectMessagesToConsole()
+		public void WelcomeMessage_WritesCorrectMessagesToConsole()
 		{
 			// Arrange
 			const string userName = "JohnDoe";
@@ -33,15 +31,13 @@ namespace Laboration.Tests.Business
 			string consoleOutput = sw.ToString();
 
 			// Assert
-			StringAssert.Contains(consoleOutput, $"Welcome {userName} to Bulls and Cows!");
-			StringAssert.Contains(consoleOutput, "The objective of the game is to guess a 4-digit number.");
-			StringAssert.Contains(consoleOutput, "For each guess, you will receive feedback in the form of 'BBBB,CCCC',");
-			StringAssert.Contains(consoleOutput, "where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
-			StringAssert.Contains(consoleOutput, "and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n");
+			Assert.IsTrue(consoleOutput.Contains($"Welcome {userName} to Bulls and Cows!"));
+			Assert.IsTrue(consoleOutput.Contains("The objective is to guess a 4-digit number."));
+			Assert.IsTrue(consoleOutput.Contains("Feedback: 'BBBB' for bulls (correct in position), 'CCCC' for cows (correct in wrong position).\n"));
 		}
 
 		[TestMethod]
-		public void MakeSecretNumber_GeneratesUnique4DigitNumber()
+		public void GenerateUnique4DigitNumber()
 		{
 			// Arrange
 			string secretNumber1 = _gameLogic.MakeSecretNumber();
@@ -54,12 +50,12 @@ namespace Laboration.Tests.Business
 		}
 
 		[TestMethod]
-		public void ProcessGuess_ValidInput_GuessEqualsSecretNumber_IncrementsGuessCounter()
+		public void ProcessGuess_GuessEqualsSecretNumber_IncrementsGuessCounter()
 		{
 			// Arrange
 			int initialGuessCount = 0;
-			string secretNumber = "1234";
-			string guess = "1234";
+			const string secretNumber = "1234";
+			const string guess = "1234";
 
 			using var sw = new StringWriter();
 			using var sr = new StringReader(guess);
@@ -76,12 +72,12 @@ namespace Laboration.Tests.Business
 		}
 
 		[TestMethod]
-		public void ProcessGuess_ValidInput_GuessNotEqualsSecretNumber_IncrementsGuessCounter()
+		public void ProcessGuess_GuessNotEqualsSecretNumber_IncrementsGuessCounter()
 		{
 			// Arrange
 			int initialGuessCount = 0;
-			string secretNumber = "1234";
-			string guess = "5678";
+			const string secretNumber = "1234";
+			const string guess = "5678";
 
 			using var sw = new StringWriter();
 			using var sr = new StringReader(guess);
@@ -102,89 +98,96 @@ namespace Laboration.Tests.Business
 		{
 			// Arrange
 			int initialGuessCount = 0;
-			string secretNumber = "1234";
-			string invalidGuess = "123";
-
-			using var sw = new StringWriter();
-			using var sr = new StringReader(invalidGuess);
-			Console.SetOut(sw);
-			Console.SetIn(sr);
+			const string secretNumber = "1234";
+			const string invalidGuess = "123";
 
 			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
+			string output = ProcessGuessWithInvalidInput(_gameLogic, secretNumber, invalidGuess, ref initialGuessCount);
 
 			// Assert
 			Assert.AreEqual(0, initialGuessCount);
-			var output = sw.ToString();
 			StringAssert.Contains(output, "Invalid input. Please enter a 4-digit number.");
 		}
 
+		private static string ProcessGuessWithInvalidInput(GameLogic gameLogic, string secretNumber, string userInput, ref int numberOfGuesses)
+		{
+			using var sw = new StringWriter();
+			// Simulate multiple invalid inputs
+			using var sr = new StringReader($"{userInput}\n{userInput}\n{userInput}");
+			Console.SetOut(sw);
+			Console.SetIn(sr);
+
+			gameLogic.ProcessGuess(secretNumber, ref numberOfGuesses);
+
+			return sw.ToString();
+		}
+
 		[TestMethod]
-		public void GenerateBullsAndCowsFeedback_CorrectGuess_ReturnsBBBB()
+		public void BullsAndCows_CorrectGuess_ReturnsBBBB()
 		{
 			// Arrange
 			const string secretNumber = "1234";
 			const string guess = "1234";
 
 			// Act
-			string feedback = _gameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual("BBBB,", feedback);
 		}
 
 		[TestMethod]
-		public void GenerateBullsAndCowsFeedback_IncorrectGuess_ReturnsCorrectBullsAndCows()
+		public void BullsAndCows_IncorrectGuess_ReturnsCorrectBullsAndCows()
 		{
 			// Arrange
 			const string secretNumber = "1234";
 			const string guess = "1568";
 
 			// Act
-			string feedback = _gameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreNotEqual("BBBB,", feedback);
-			Assert.IsTrue(feedback.Contains("B") || feedback.Contains("C"));
+			Assert.IsTrue(feedback.Contains('B') || feedback.Contains('C'));
 		}
 
 		[TestMethod]
-		public void GenerateBullsAndCowsFeedback_CorrectCows_ReturnsCorrectCCCC()
+		public void BullsAndCows_CorrectCows_ReturnsCorrectCCCC()
 		{
 			// Arrange
 			const string secretNumber = "1234";
 			const string guess = "4321";
 
 			// Act
-			string feedback = _gameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual(",CCCC", feedback);
 		}
 
 		[TestMethod]
-		public void GenerateBullsAndCowsFeedback_PartialMatch_ReturnsMixedBullsAndCows()
+		public void BullsAndCows_PartialMatch_ReturnsMixedBullsAndCows()
 		{
 			// Arrange
 			const string secretNumber = "1234";
 			const string guess = "1243";
 
 			// Act
-			string feedback = _gameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual("BB,CC", feedback);
 		}
 
 		[TestMethod]
-		public void GenerateBullsAndCowsFeedback_EdgeCase_RepeatingDigits()
+		public void BullsAndCows_EdgeCase_RepeatingDigits()
 		{
 			// Arrange
 			const string secretNumber = "1122";
 			const string guess = "2211";
 
 			// Act
-			string feedback = _gameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual(",CCCC", feedback);

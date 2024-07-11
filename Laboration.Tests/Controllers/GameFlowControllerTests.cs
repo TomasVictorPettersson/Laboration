@@ -1,5 +1,4 @@
 ﻿using Laboration.Business.Interfaces;
-using Laboration.Common.Interfaces;
 using Laboration.Controllers.Classes;
 using Laboration.UI.Interfaces;
 using Moq;
@@ -9,20 +8,11 @@ namespace Laboration.Tests.Controllers
 	[TestClass]
 	public class GameFlowControllerTests
 	{
-		private Mock<IUserInterface> mockUserInterface;
-		private Mock<IHighScoreManager> mockHighScoreManager;
-		private Mock<IGameLogic> mockGameLogic;
-
-		[TestInitialize]
-		public void Initialize()
-		{
-			mockUserInterface = new Mock<IUserInterface>();
-			mockHighScoreManager = new Mock<IHighScoreManager>();
-			mockGameLogic = new Mock<IGameLogic>();
-		}
+		private readonly Mock<IUserInterface> mockUserInterface = new();
+		private readonly Mock<IGameLogic> mockGameLogic = new();
 
 		[TestMethod]
-		public void TestExecuteGameLoop_PlaysGameOnce_WhenAskToContinueReturnsFalse()
+		public void ExecuteGameLoop_PlaysOnce_WhenAskToContinueReturnsFalse()
 		{
 			// Arrange
 			mockUserInterface.Setup(ui => ui.AskToContinue()).Returns(false);
@@ -36,7 +26,7 @@ namespace Laboration.Tests.Controllers
 		}
 
 		[TestMethod]
-		public void TestExecuteGameLoop_PlaysGameMultipleTimes_WhenAskToContinueReturnsTrue()
+		public void ExecuteGameLoop_PlaysMultipleTimes_WhenAskToContinueReturnsTrue()
 		{
 			// Arrange
 			mockUserInterface.SetupSequence(ui => ui.AskToContinue())

@@ -7,16 +7,10 @@ namespace Laboration.Tests.Common.Classes
 	[TestClass]
 	public class HighScoreManagerTests
 	{
-		private HighScoreManager _highScoreManager;
-
-		[TestInitialize]
-		public void Initialize()
-		{
-			_highScoreManager = new HighScoreManager();
-		}
+		private readonly HighScoreManager _highScoreManager = new();
 
 		[TestMethod]
-		public void SaveResult_SavesResultToFile()
+		public void SaveResult_SavesToFile()
 		{
 			// Arrange
 			const string userName = "TestUser";
@@ -32,7 +26,7 @@ namespace Laboration.Tests.Common.Classes
 		}
 
 		[TestMethod]
-		public void ReadHighScoreResultsFromFile_ReadsResultsFromFile()
+		public void ReadResultsFromFile_ReadsFromFile()
 		{
 			// Arrange
 			File.WriteAllText("result.txt", "TestUser#&#10");
@@ -47,7 +41,7 @@ namespace Laboration.Tests.Common.Classes
 		}
 
 		[TestMethod]
-		public void ParseLineToPlayerData_ParsesLineCorrectly()
+		public void ParseLine_ParsesLine()
 		{
 			// Arrange
 			const string line = "TestUser#&#10";
@@ -61,10 +55,10 @@ namespace Laboration.Tests.Common.Classes
 		}
 
 		[TestMethod]
-		public void UpdateResultsList_AddsNewPlayerData()
+		public void UpdateList_AddsNewData()
 		{
 			// Arrange
-			List<IPlayerData> results = new();
+			List<IPlayerData> results = [];
 			IPlayerData playerData = new PlayerData("TestUser", 10);
 
 			// Act
@@ -76,10 +70,10 @@ namespace Laboration.Tests.Common.Classes
 		}
 
 		[TestMethod]
-		public void UpdateResultsList_UpdatesExistingPlayerData()
+		public void UpdateList_UpdatesExistingData()
 		{
 			// Arrange
-			List<IPlayerData> results = new();
+			List<IPlayerData> results = [];
 			IPlayerData playerData1 = new PlayerData("TestUser", 10);
 			IPlayerData playerData2 = new PlayerData("TestUser", 15);
 			results.Add(playerData1);
@@ -93,15 +87,15 @@ namespace Laboration.Tests.Common.Classes
 		}
 
 		[TestMethod]
-		public void SortAndDisplayHighScoreList_SortsAndDisplaysCorrectly()
+		public void SortAndDisplayList_SortsAndDisplays()
 		{
 			// Arrange
-			List<IPlayerData> results = new()
-			{
+			List<IPlayerData> results =
+			[
 				new PlayerData("User1", 10),
 				new PlayerData("User2", 15),
 				new PlayerData("User3", 5)
-			};
+			];
 
 			using StringWriter sw = new();
 			Console.SetOut(sw);

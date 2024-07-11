@@ -2,8 +2,11 @@
 
 namespace Laboration.UI.Classes
 {
+	// Implements IUserInterface to interact with the user through the console.
 	public class UserInterface : IUserInterface
 	{
+		// Prompts the user to enter their username, ensuring it is not empty.
+		// Returns: The entered username.
 		public string GetUserName()
 		{
 			string userName;
@@ -21,11 +24,17 @@ namespace Laboration.UI.Classes
 			return userName;
 		}
 
+		// Displays a message indicating the correct secret number and the number of guesses taken.
+		// Parameters:
+		//   secretNumber: The correct secret number.
+		//   numberOfGuesses: The number of guesses taken to guess the secret number.
 		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
 			Console.WriteLine($"\nCorrect! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses");
 		}
 
+		// Prompts the user to continue playing or exit the game.
+		// Returns: True if the user wants to continue, false otherwise.
 		public bool AskToContinue()
 		{
 			while (true)

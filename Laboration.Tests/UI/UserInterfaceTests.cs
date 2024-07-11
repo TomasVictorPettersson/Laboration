@@ -6,13 +6,7 @@ namespace Laboration.Tests.UI
 	[TestClass]
 	public class UserInterfaceTests
 	{
-		private Mock<IUserInterface> _mockUserInterface;
-
-		[TestInitialize]
-		public void Setup()
-		{
-			_mockUserInterface = new Mock<IUserInterface>();
-		}
+		private readonly Mock<IUserInterface> _mockUserInterface = new();
 
 		[TestMethod]
 		public void GetUserName_ValidUserName_ReturnsUserName()
@@ -22,10 +16,10 @@ namespace Laboration.Tests.UI
 				.Returns("ValidUser");
 
 			// Act
-			string call = _mockUserInterface.Object.GetUserName();
+			string userName = _mockUserInterface.Object.GetUserName();
 
 			// Assert
-			Assert.AreEqual("ValidUser", call);
+			Assert.AreEqual("ValidUser", userName);
 		}
 
 		[TestMethod]
@@ -58,6 +52,7 @@ namespace Laboration.Tests.UI
 			// Arrange
 			_mockUserInterface.SetupSequence(ui => ui.AskToContinue())
 				.Returns(true);
+
 			// Act
 			bool continueGame = _mockUserInterface.Object.AskToContinue();
 
@@ -71,6 +66,7 @@ namespace Laboration.Tests.UI
 			// Arrange
 			_mockUserInterface.SetupSequence(ui => ui.AskToContinue())
 				.Returns(false);
+
 			// Act
 			bool continueGame = _mockUserInterface.Object.AskToContinue();
 

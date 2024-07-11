@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Laboration.Business.Interfaces
+﻿namespace Laboration.Business.Interfaces
 {
 	public interface IGameLogic
 	{
@@ -15,6 +13,8 @@ namespace Laboration.Business.Interfaces
 		void PlayGameLoop(string secretNumber, string userName);
 
 		void EndGame(string secretNumber, string userName, int numberOfGuesses);
+
+		string ProcessGuess(string secretNumber, ref int numberOfGuesses);
 
 		string MakeSecretNumber();
 	}
