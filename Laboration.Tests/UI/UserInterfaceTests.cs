@@ -6,7 +6,25 @@ namespace Laboration.Tests.UI
 	[TestClass]
 	public class UserInterfaceTests
 	{
-		private readonly Mock<IUserInterface> _mockUserInterface = new();
+		private readonly Mock<IUserInterface> _mockUserInterface = new Mock<IUserInterface>();
+
+		[TestMethod]
+		public void WelcomeMessage_WritesCorrectMessagesToConsole()
+		{
+			// Arrange
+			const string userName = "JohnDoe";
+			using StringWriter sw = new StringWriter();
+			Console.SetOut(sw);
+
+			// Act
+			_mockUserInterface.Object.DisplayWelcomeMessage(userName);
+			string consoleOutput = sw.ToString();
+
+			// Assert
+			StringAssert.Contains($"Welcome {userName} to Bulls and Cows!", consoleOutput);
+			StringAssert.Contains("The objective is to guess a 4-digit number.", consoleOutput);
+			StringAssert.Contains("Feedback: 'BBBB' for bulls (correct in position), 'CCCC' for cows (correct in wrong position).\n", consoleOutput);
+		}
 
 		[TestMethod]
 		public void GetUserName_ValidUserName_ReturnsUserName()

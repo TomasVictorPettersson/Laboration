@@ -1,11 +1,17 @@
-﻿namespace Laboration.UI.Interfaces
+﻿using System;
+
+namespace Laboration.UI.Interfaces
 {
-    public interface IUserInterface
-    {
-        string GetUserName();
+	public interface IUserInterface
+	{
+		string GetUserName();
 
-        void DisplayCorrectMessage(string secretNumber, int numberOfGuesses);
+		void DisplayWelcomeMessage(string userName);
 
-        bool AskToContinue();
-    }
+		string GetValidGuessFromUser(int maxRetries);
+
+		void DisplayCorrectMessage(string secretNumber, int numberOfGuesses);
+
+		bool AskToContinue();
+	}
 }

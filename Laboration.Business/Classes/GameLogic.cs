@@ -12,29 +12,6 @@ namespace Laboration.Business.Classes
 		private readonly IUserInterface _userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
 		private readonly GameConfig _config = config ?? throw new ArgumentNullException(nameof(config));
 
-		// Displays a welcome message to the player.
-		public void DisplayWelcomeMessage(string userName)
-		{
-			Console.WriteLine($"Welcome {userName} to Bulls and Cows!");
-			Console.WriteLine("The objective is to guess a 4-digit number.");
-			Console.WriteLine("Feedback: 'BBBB' for bulls (correct in position), 'CCCC' for cows (correct in wrong position).\n");
-		}
-
-		// Initializes the game by clearing console and displaying welcome message.
-		public void InitializeGame(string userName)
-		{
-			try
-			{
-				Console.Clear();
-				DisplayWelcomeMessage(userName);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error initializing game: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
-			}
-		}
-
 		// Starts the game by generating a secret number and initiating the game loop.
 		public void PlayGame(string userName)
 		{
@@ -49,6 +26,20 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error playing game: {ex.Message}");
+				throw; // Propagate exception for higher level handling.
+			}
+		}
+
+		// Initializes the game by displaying a welcome message.
+		public void InitializeGame(string userName)
+		{
+			try
+			{
+				_userInterface.DisplayWelcomeMessage(userName);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error initializing game: {ex.Message}");
 				throw; // Propagate exception for higher level handling.
 			}
 		}
@@ -89,20 +80,6 @@ namespace Laboration.Business.Classes
 			}
 		}
 
-		// Checks if the player's guess matches the secret number.
-		public static bool IsCorrectGuess(string guess, string secretNumber)
-		{
-			try
-			{
-				return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error checking guess correctness: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
-			}
-		}
-
 		// Ends the game, saves the result, shows high scores, and displays correct message.
 		public void EndGame(string secretNumber, string userName, int numberOfGuesses)
 		{
@@ -120,65 +97,29 @@ namespace Laboration.Business.Classes
 		}
 
 		// Processes the player's guess, validates it, and provides feedback.
+		// Processes the player's guess, validates it, and provides feedback.
 		public string ProcessGuess(string secretNumber, ref int numberOfGuesses)
 		{
 			try
 			{
-				string guess = GetValidGuessFromUser(_config.MaxRetries);
+				string guess = _userInterface.GetValidGuessFromUser(_config.MaxRetries);
 
 				if (string.IsNullOrEmpty(guess))
 				{
-					return string.Empty;
+					// Return specific feedback indicating invalid input
+					return "Invalid input. Please enter a 4-digit number.";
 				}
 
 				numberOfGuesses++;
 				string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
 				Console.WriteLine($"{guessFeedback}\n");
 
-				return guess;
+				return guessFeedback;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error processing guess: {ex.Message}");
 				throw; // Propagate exception for higher level handling.
-			}
-		}
-
-		// Prompts the user to enter a 4-digit number guess, validates it, and returns the guess.
-		public static string GetValidGuessFromUser(int maxRetries)
-		{
-			try
-			{
-				string guess = string.Empty;
-				int retries = 0;
-
-				while (retries < maxRetries)
-				{
-					Console.Write("Enter your guess: ");
-					guess = Console.ReadLine()!.Trim();
-
-					if (string.IsNullOrEmpty(guess) || guess.Length != 4 || !int.TryParse(guess, out _))
-					{
-						Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
-						retries++;
-					}
-					else
-					{
-						break;
-					}
-				}
-
-				if (retries >= maxRetries)
-				{
-					return string.Empty;
-				}
-
-				return guess;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error getting valid guess from user: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
 			}
 		}
 
@@ -188,12 +129,15 @@ namespace Laboration.Business.Classes
 			try
 			{
 				Random randomGenerator = new();
-				HashSet<int> digits = [];
+				List<int> digits = [];
 
 				while (digits.Count < 4)
 				{
 					int randomDigit = randomGenerator.Next(10);
-					digits.Add(randomDigit);
+					if (!digits.Contains(randomDigit))
+					{
+						digits.Add(randomDigit);
+					}
 				}
 
 				StringBuilder secretNumber = new();
@@ -207,6 +151,20 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error making secret number: {ex.Message}");
+				throw; // Propagate exception for higher level handling.
+			}
+		}
+
+		// Checks if the player's guess matches the secret number.
+		public static bool IsCorrectGuess(string guess, string secretNumber)
+		{
+			try
+			{
+				return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error checking guess correctness: {ex.Message}");
 				throw; // Propagate exception for higher level handling.
 			}
 		}

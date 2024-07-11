@@ -2,8 +2,6 @@
 {
 	public interface IGameLogic
 	{
-		void DisplayWelcomeMessage(string userName);
-
 		void InitializeGame(string userName);
 
 		void PlayGame(string userName);

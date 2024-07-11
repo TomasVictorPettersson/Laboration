@@ -19,24 +19,6 @@ namespace Laboration.Tests.Business
 		}
 
 		[TestMethod]
-		public void WelcomeMessage_WritesCorrectMessagesToConsole()
-		{
-			// Arrange
-			const string userName = "JohnDoe";
-			StringWriter sw = new();
-			Console.SetOut(sw);
-
-			// Act
-			_gameLogic.DisplayWelcomeMessage(userName);
-			string consoleOutput = sw.ToString();
-
-			// Assert
-			Assert.IsTrue(consoleOutput.Contains($"Welcome {userName} to Bulls and Cows!"));
-			Assert.IsTrue(consoleOutput.Contains("The objective is to guess a 4-digit number."));
-			Assert.IsTrue(consoleOutput.Contains("Feedback: 'BBBB' for bulls (correct in position), 'CCCC' for cows (correct in wrong position).\n"));
-		}
-
-		[TestMethod]
 		public void GenerateUnique4DigitNumber()
 		{
 			// Arrange
@@ -57,10 +39,11 @@ namespace Laboration.Tests.Business
 			const string secretNumber = "1234";
 			const string guess = "1234";
 
+			// Set up the mock to return the guess
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
+
 			using var sw = new StringWriter();
-			using var sr = new StringReader(guess);
 			Console.SetOut(sw);
-			Console.SetIn(sr);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -68,7 +51,7 @@ namespace Laboration.Tests.Business
 			// Assert
 			Assert.AreEqual(1, initialGuessCount);
 			var output = sw.ToString();
-			StringAssert.Contains(output, "BBBB,");
+			StringAssert.Contains(output, "BBBB");
 		}
 
 		[TestMethod]
@@ -79,10 +62,11 @@ namespace Laboration.Tests.Business
 			const string secretNumber = "1234";
 			const string guess = "5678";
 
+			// Set up the mock to return the guess
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
 			using var sw = new StringWriter();
-			using var sr = new StringReader(guess);
+
 			Console.SetOut(sw);
-			Console.SetIn(sr);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -99,27 +83,20 @@ namespace Laboration.Tests.Business
 			// Arrange
 			int initialGuessCount = 0;
 			const string secretNumber = "1234";
-			const string invalidGuess = "123";
+			const string invalidGuess = ""; // Simulate invalid input by returning an empty string
+
+			// Set up the mock to return the invalid guess
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+
+			using var sw = new StringWriter();
+			Console.SetOut(sw);
 
 			// Act
-			string output = ProcessGuessWithInvalidInput(_gameLogic, secretNumber, invalidGuess, ref initialGuessCount);
+			string feedback = _gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
 
 			// Assert
 			Assert.AreEqual(0, initialGuessCount);
-			StringAssert.Contains(output, "Invalid input. Please enter a 4-digit number.");
-		}
-
-		private static string ProcessGuessWithInvalidInput(GameLogic gameLogic, string secretNumber, string userInput, ref int numberOfGuesses)
-		{
-			using var sw = new StringWriter();
-			// Simulate multiple invalid inputs
-			using var sr = new StringReader($"{userInput}\n{userInput}\n{userInput}");
-			Console.SetOut(sw);
-			Console.SetIn(sr);
-
-			gameLogic.ProcessGuess(secretNumber, ref numberOfGuesses);
-
-			return sw.ToString();
+			StringAssert.Contains(feedback, "Invalid input. Please enter a 4-digit number.");
 		}
 
 		[TestMethod]
