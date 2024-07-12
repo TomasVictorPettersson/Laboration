@@ -104,7 +104,7 @@ namespace Laboration.Tests.Common.Classes
 			_highScoreManager.SortAndDisplayHighScoreList(results, "CurrentUser");
 
 			// Assert
-			string expectedOutput = "=== High Score List ===\r\n";
+			string expectedOutput = "\n=== High Score List ===\r\n";
 			expectedOutput += "Rank     Player     Games     Average Guesses\r\n";
 			expectedOutput += "---------------------------------------------\r\n";
 			expectedOutput += "1        User3         1          5,00\r\n";

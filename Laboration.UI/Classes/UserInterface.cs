@@ -6,7 +6,6 @@ namespace Laboration.UI.Classes
 	public class UserInterface : IUserInterface
 	{
 		// Prompts the user to enter their username, ensuring it is not empty.
-		// Returns: The entered username.
 		public string GetUserName()
 		{
 			string userName;
@@ -29,46 +28,53 @@ namespace Laboration.UI.Classes
 		{
 			Console.Clear();
 			Console.WriteLine($"Welcome {userName} to Bulls and Cows!");
-			Console.WriteLine("The objective is to guess a 4-digit number.");
-			Console.WriteLine("Feedback: 'BBBB' for bulls (correct in position), 'CCCC' for cows (correct in wrong position).\n");
+			Console.WriteLine("The objective of the game is to guess a 4-digit number.");
+			Console.WriteLine("For each guess, you will receive feedback in the form of 'BBBB,CCCC',");
+			Console.WriteLine("where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
+			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n");
 		}
 
-		// Prompts the user to enter a 4-digit number guess, validates it, and returns the guess.
+		// Prompts the user for input until a non-empty string is entered.
+		public string GetInputFromUser(string prompt)
+		{
+			string input = string.Empty;
+
+			// Continuously prompt the user until a non-empty input is received
+			while (string.IsNullOrEmpty(input))
+			{
+				Console.Write(prompt);
+				input = Console.ReadLine()!.Trim();
+			}
+
+			return input;
+		}
+
+		// Validates if the input is a non-empty string, exactly 4 characters long, and numeric.
+		public bool IsInputValid(string input)
+		{
+			return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _);
+		}
+
+		// Prompts the user to enter a valid 4-digit number, allowing a specified number of retries.
 		public string GetValidGuessFromUser(int maxRetries)
 		{
-			try
+			// Loop until a valid guess is received or the maximum number of retries is reached
+			for (int retries = 0; retries < maxRetries; retries++)
 			{
-				string guess = string.Empty;
-				int retries = 0;
+				string guess = GetInputFromUser("Enter your guess: ");
 
-				while (retries < maxRetries)
+				// Check if the guess is valid
+				if (IsInputValid(guess))
 				{
-					Console.Write("Enter your guess: ");
-					guess = Console.ReadLine()!.Trim();
-
-					if (string.IsNullOrEmpty(guess) || guess.Length != 4 || !int.TryParse(guess, out _))
-					{
-						Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
-						retries++;
-					}
-					else
-					{
-						break;
-					}
+					return guess;
 				}
 
-				if (retries >= maxRetries)
-				{
-					return string.Empty;
-				}
+				// Inform the user about invalid input and increment the retry counter
+				Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
+			}
 
-				return guess;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error getting valid guess from user: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
-			}
+			// Return an empty string if the maximum number of retries is reached
+			return string.Empty;
 		}
 
 		// Displays a message indicating the correct secret number and the number of guesses taken.

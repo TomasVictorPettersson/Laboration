@@ -6,14 +6,14 @@ namespace Laboration.Tests.UI
 	[TestClass]
 	public class UserInterfaceTests
 	{
-		private readonly Mock<IUserInterface> _mockUserInterface = new Mock<IUserInterface>();
+		private readonly Mock<IUserInterface> _mockUserInterface = new();
 
 		[TestMethod]
 		public void WelcomeMessage_WritesCorrectMessagesToConsole()
 		{
 			// Arrange
 			const string userName = "JohnDoe";
-			using StringWriter sw = new StringWriter();
+			using StringWriter sw = new();
 			Console.SetOut(sw);
 
 			// Act
@@ -22,8 +22,10 @@ namespace Laboration.Tests.UI
 
 			// Assert
 			StringAssert.Contains($"Welcome {userName} to Bulls and Cows!", consoleOutput);
-			StringAssert.Contains("The objective is to guess a 4-digit number.", consoleOutput);
-			StringAssert.Contains("Feedback: 'BBBB' for bulls (correct in position), 'CCCC' for cows (correct in wrong position).\n", consoleOutput);
+			StringAssert.Contains("The objective of the game is to guess a 4-digit number.", consoleOutput);
+			StringAssert.Contains("For each guess, you will receive feedback in the form of 'BBBB,CCCC',", consoleOutput);
+			StringAssert.Contains("where 'BBBB' represents the number of bulls (correct digits in the correct positions),", consoleOutput);
+			StringAssert.Contains("and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n", consoleOutput);
 		}
 
 		[TestMethod]

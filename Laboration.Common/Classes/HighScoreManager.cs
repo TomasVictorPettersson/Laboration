@@ -106,7 +106,7 @@ namespace Laboration.Common.Classes
 
 		public void DisplayHighScoreListHeader()
 		{
-			Console.WriteLine("=== High Score List ===");
+			Console.WriteLine("\n=== High Score List ===");
 			Console.WriteLine("Rank     Player     Games     Average Guesses");
 			Console.WriteLine("---------------------------------------------");
 		}

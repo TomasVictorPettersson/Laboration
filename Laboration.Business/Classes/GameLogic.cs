@@ -66,9 +66,16 @@ namespace Laboration.Business.Classes
 				int numberOfGuesses = 0;
 				string guess = string.Empty;
 
+				// Loop until the correct guess is made
 				while (!IsCorrectGuess(guess, secretNumber))
 				{
 					guess = ProcessGuess(secretNumber, ref numberOfGuesses);
+
+					// Check if the guess is correct to exit the loop
+					if (IsCorrectGuess(guess, secretNumber))
+					{
+						break;
+					}
 				}
 
 				EndGame(secretNumber, userName, numberOfGuesses);
@@ -97,22 +104,28 @@ namespace Laboration.Business.Classes
 		}
 
 		// Processes the player's guess, validates it, and provides feedback.
-		// Processes the player's guess, validates it, and provides feedback.
 		public string ProcessGuess(string secretNumber, ref int numberOfGuesses)
 		{
 			try
 			{
 				string guess = _userInterface.GetValidGuessFromUser(_config.MaxRetries);
 
+				// Check if guess is empty (handled in GetValidGuessFromUser)
 				if (string.IsNullOrEmpty(guess))
 				{
-					// Return specific feedback indicating invalid input
-					return "Invalid input. Please enter a 4-digit number.";
+					return string.Empty;
 				}
 
-				numberOfGuesses++;
+				// Generate and display feedback
 				string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
 				Console.WriteLine($"{guessFeedback}\n");
+				numberOfGuesses++;
+
+				// If guess is correct, return the guess itself
+				if (IsCorrectGuess(guess, secretNumber))
+				{
+					return guess;
+				}
 
 				return guessFeedback;
 			}
@@ -174,24 +187,64 @@ namespace Laboration.Business.Classes
 		{
 			try
 			{
-				int cows = 0, bulls = 0;
+				// Count bulls and cows using separate methods
+				int bulls = CountBulls(secretNumber, guess);
+				int cows = CountCows(secretNumber, guess);
 
+				// Format the feedback string based on bulls and cows counts
+				return $"{new string('B', bulls)},{new string('C', cows)}";
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error generating feedback: {ex.Message}");
+				throw; // Propagate exception for higher level handling.
+			}
+		}
+
+		// Counts the number of bulls (correct digits in correct positions) between secretNumber and guess.
+		public static int CountBulls(string secretNumber, string guess)
+		{
+			try
+			{
+				int bulls = 0;
+
+				// Count bulls by comparing characters at each position
 				for (int i = 0; i < 4; i++)
 				{
 					if (secretNumber[i] == guess[i])
 					{
 						bulls++;
 					}
-					else if (secretNumber.Contains(guess[i]))
+				}
+				return bulls;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error counting bulls: {ex.Message}");
+				throw; // Propagate exception for higher level handling.
+			}
+		}
+
+		// Counts the number of cows (correct digits in wrong positions) between secretNumber and guess.
+		public static int CountCows(string secretNumber, string guess)
+		{
+			try
+			{
+				int cows = 0;
+
+				// Count cows by checking if guess characters exist in secretNumber but are not in the same position
+				for (int i = 0; i < 4; i++)
+				{
+					if (secretNumber[i] != guess[i] && secretNumber.Contains(guess[i]))
 					{
 						cows++;
 					}
 				}
-				return $"{new string('B', bulls)},{new string('C', cows)}";
+				return cows;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error generating feedback: {ex.Message}");
+				Console.WriteLine($"Error counting cows: {ex.Message}");
 				throw; // Propagate exception for higher level handling.
 			}
 		}
