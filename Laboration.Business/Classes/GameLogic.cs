@@ -231,13 +231,30 @@ namespace Laboration.Business.Classes
 			try
 			{
 				int cows = 0;
+				bool[] visited = new bool[4];
 
-				// Count cows by checking if guess characters exist in secretNumber but are not in the same position
+				// First pass: mark bulls
 				for (int i = 0; i < 4; i++)
 				{
-					if (secretNumber[i] != guess[i] && secretNumber.Contains(guess[i]))
+					if (secretNumber[i] == guess[i])
 					{
-						cows++;
+						visited[i] = true;
+					}
+				}
+				// Second pass: count cows
+				for (int i = 0; i < 4; i++)
+				{
+					if (secretNumber[i] != guess[i])
+					{
+						for (int j = 0; j < 4; j++)
+						{
+							if (!visited[j] && secretNumber[j] == guess[i] && secretNumber[j] != guess[j])
+							{
+								cows++;
+								visited[j] = true;
+								break;
+							}
+						}
 					}
 				}
 				return cows;
@@ -245,7 +262,7 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error counting cows: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw; // Propagate exception for higher-level handling.
 			}
 		}
 	}
