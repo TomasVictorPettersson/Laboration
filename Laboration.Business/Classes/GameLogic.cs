@@ -221,7 +221,7 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error counting bulls: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw; // Propagate exception for higher-level handling.
 			}
 		}
 
@@ -231,30 +231,29 @@ namespace Laboration.Business.Classes
 			try
 			{
 				int cows = 0;
-				bool[] visited = new bool[4];
+				Dictionary<char, int> digitFrequency = [];
 
-				// First pass: mark bulls
-				for (int i = 0; i < 4; i++)
+				// First pass: count the frequency of each digit in secretNumber
+				foreach (char digit in secretNumber)
 				{
-					if (secretNumber[i] == guess[i])
+					if (digitFrequency.TryGetValue(digit, out int value))
 					{
-						visited[i] = true;
+						digitFrequency[digit] = ++value;
+					}
+					else
+					{
+						digitFrequency[digit] = 1;
 					}
 				}
+
 				// Second pass: count cows
 				for (int i = 0; i < 4; i++)
 				{
-					if (secretNumber[i] != guess[i])
+					if (secretNumber[i] != guess[i] && digitFrequency.TryGetValue(guess[i],
+						out int value) && value > 0)
 					{
-						for (int j = 0; j < 4; j++)
-						{
-							if (!visited[j] && secretNumber[j] == guess[i] && secretNumber[j] != guess[j])
-							{
-								cows++;
-								visited[j] = true;
-								break;
-							}
-						}
+						cows++;
+						digitFrequency[guess[i]] = --value;
 					}
 				}
 				return cows;

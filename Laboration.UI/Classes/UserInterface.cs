@@ -29,9 +29,11 @@ namespace Laboration.UI.Classes
 			Console.Clear();
 			Console.WriteLine($"Welcome {userName} to Bulls and Cows!");
 			Console.WriteLine("The objective of the game is to guess a 4-digit number.");
+			Console.WriteLine("Each digit in the 4-digit number will only appear once.");
 			Console.WriteLine("For each guess, you will receive feedback in the form of 'BBBB,CCCC',");
 			Console.WriteLine("where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
-			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n");
+			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).");
+			Console.WriteLine("If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n");
 		}
 
 		// Prompts the user for input until a non-empty string is entered.

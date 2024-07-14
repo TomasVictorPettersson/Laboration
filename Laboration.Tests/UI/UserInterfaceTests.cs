@@ -23,9 +23,11 @@ namespace Laboration.Tests.UI
 			// Assert
 			StringAssert.Contains($"Welcome {userName} to Bulls and Cows!", consoleOutput);
 			StringAssert.Contains("The objective of the game is to guess a 4-digit number.", consoleOutput);
+			StringAssert.Contains("Each digit in the 4-digit number will only appear once.", consoleOutput);
 			StringAssert.Contains("For each guess, you will receive feedback in the form of 'BBBB,CCCC',", consoleOutput);
 			StringAssert.Contains("where 'BBBB' represents the number of bulls (correct digits in the correct positions),", consoleOutput);
-			StringAssert.Contains("and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n", consoleOutput);
+			StringAssert.Contains("and 'CCCC' represents the number of cows (correct digits in the wrong positions)", consoleOutput);
+			StringAssert.Contains("If you receive a response of only ',' it means none of the digits in your guess are present in the secret number.\n", consoleOutput);
 		}
 
 		[TestMethod]
