@@ -8,6 +8,12 @@ namespace Laboration.Tests.Common.Classes
 	public class HighScoreManagerTests
 	{
 		private readonly HighScoreManager _highScoreManager = new();
+		private List<IPlayerData> _results;
+
+		public HighScoreManagerTests()
+		{
+			_results = [];
+		}
 
 		[TestMethod]
 		public void SaveResult_SavesToFile()
@@ -58,11 +64,10 @@ namespace Laboration.Tests.Common.Classes
 		public void UpdateList_AddsNewData()
 		{
 			// Arrange
-			List<IPlayerData> results = [];
 			IPlayerData playerData = new PlayerData("TestUser", 10);
 
 			// Act
-			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(results, playerData);
+			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(_results, playerData);
 
 			// Assert
 			Assert.AreEqual(1, updatedResults.Count);
@@ -73,13 +78,12 @@ namespace Laboration.Tests.Common.Classes
 		public void UpdateList_UpdatesExistingData()
 		{
 			// Arrange
-			List<IPlayerData> results = [];
 			IPlayerData playerData1 = new PlayerData("TestUser", 10);
 			IPlayerData playerData2 = new PlayerData("TestUser", 15);
-			results.Add(playerData1);
+			_results.Add(playerData1);
 
 			// Act
-			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(results, playerData2);
+			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(_results, playerData2);
 
 			// Assert
 			Assert.AreEqual(1, updatedResults.Count);
@@ -90,7 +94,7 @@ namespace Laboration.Tests.Common.Classes
 		public void SortAndDisplayList_SortsAndDisplays()
 		{
 			// Arrange
-			List<IPlayerData> results =
+			_results =
 			[
 				new PlayerData("User1", 10),
 				new PlayerData("User2", 15),
@@ -101,7 +105,7 @@ namespace Laboration.Tests.Common.Classes
 			Console.SetOut(sw);
 
 			// Act
-			_highScoreManager.SortAndDisplayHighScoreList(results, "CurrentUser");
+			_highScoreManager.SortAndDisplayHighScoreList(_results, "CurrentUser");
 
 			// Assert
 			string expectedOutput = "\n=== High Score List ===\r\n";
@@ -112,6 +116,23 @@ namespace Laboration.Tests.Common.Classes
 			expectedOutput += "3        User2         1         15,00\r\n";
 
 			Assert.AreEqual(expectedOutput, sw.ToString());
+		}
+
+		[TestCleanup]
+		public void TestCleanup()
+		{
+			// Clean up any resources here
+			try
+			{
+				if (File.Exists("result.txt"))
+				{
+					File.Delete("result.txt");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error cleaning up test resources: {ex.Message}");
+			}
 		}
 	}
 }

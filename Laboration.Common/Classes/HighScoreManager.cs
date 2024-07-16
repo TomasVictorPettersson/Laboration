@@ -9,7 +9,6 @@ namespace Laboration.Common.Classes
 	{
 		private readonly string[] separator = ["#&#"];
 
-		// Saves the result of a game session to a file.
 		public void SaveResult(string userName, int numberOfGuesses)
 		{
 			try
@@ -20,11 +19,10 @@ namespace Laboration.Common.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error saving result to file: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
+				throw;
 			}
 		}
 
-		// Reads high score results from a file and returns them as a list of player data.
 		public List<IPlayerData> ReadHighScoreResultsFromFile()
 		{
 			List<IPlayerData> results = [];
@@ -41,12 +39,11 @@ namespace Laboration.Common.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error reading high score results from file: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
+				throw;
 			}
 			return results;
 		}
 
-		// Parses a line of text into an "IPlayerData" object.
 		public IPlayerData ParseLineToPlayerData(string line)
 		{
 			try
@@ -59,11 +56,10 @@ namespace Laboration.Common.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error parsing line to player data: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
+				throw;
 			}
 		}
 
-		// Updates the list of high score results with the latest player data.
 		public List<IPlayerData> UpdateResultsList(List<IPlayerData> results, IPlayerData playerData)
 		{
 			try
@@ -82,11 +78,10 @@ namespace Laboration.Common.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error updating results list: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
+				throw;
 			}
 		}
 
-		// Sorts the high score results by average guesses and displays them.
 		public void SortAndDisplayHighScoreList(List<IPlayerData> results, string currentUserName)
 		{
 			try
@@ -98,11 +93,9 @@ namespace Laboration.Common.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error sorting and displaying high score list: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
+				throw;
 			}
 		}
-
-		// Displays the header of the high score list.
 
 		public void DisplayHighScoreListHeader()
 		{
@@ -111,7 +104,6 @@ namespace Laboration.Common.Classes
 			Console.WriteLine("---------------------------------------------");
 		}
 
-		// Displays the results of the high score list.
 		public void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName)
 		{
 			try
@@ -128,11 +120,10 @@ namespace Laboration.Common.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error displaying high score list results: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
+				throw;
 			}
 		}
 
-		// Displays the rank in the high score list.
 		public void DisplayRank(int rank, bool isCurrentUser)
 		{
 			if (isCurrentUser)
@@ -143,7 +134,6 @@ namespace Laboration.Common.Classes
 			Console.ResetColor();
 		}
 
-		// Displays the player data in the high score list.
 		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser)
 		{
 			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
@@ -152,7 +142,6 @@ namespace Laboration.Common.Classes
 			Console.ResetColor();
 		}
 
-		// Reads high score results from file, sorts them, and displays the high score list.
 		public void ShowHighScoreList(string currentUserName)
 		{
 			try
@@ -163,7 +152,7 @@ namespace Laboration.Common.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error showing high score list: {ex.Message}");
-				throw; // Rethrow the exception to propagate it upwards
+				throw;
 			}
 		}
 	}

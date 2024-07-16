@@ -11,11 +11,18 @@ namespace Laboration.Tests.Business
 		private readonly Mock<IHighScoreManager> _highScoreManagerMock = new();
 		private readonly Mock<IUserInterface> _userInterfaceMock = new();
 		private readonly GameLogic _gameLogic;
+		private readonly StringWriter _stringWriter = new();
 
 		public GameLogicTests()
 		{
 			GameConfig config = new() { MaxRetries = 3 };
 			_gameLogic = new GameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object, config);
+		}
+
+		[TestInitialize]
+		public void TestInitialize()
+		{
+			Console.SetOut(_stringWriter);
 		}
 
 		[TestMethod]
@@ -42,20 +49,12 @@ namespace Laboration.Tests.Business
 			// Set up the mock to return the guess
 			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
 
-			using var sw = new StringWriter();
-			Console.SetOut(sw);
-
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
 
 			// Assert
 			Assert.AreEqual(1, initialGuessCount);
-
-			// Retrieve console output
-			var output = sw.ToString().Trim();
-
-			// Assert that the output contains "BBBB"
-			StringAssert.Contains(output, "BBBB");
+			StringAssert.Contains(_stringWriter.ToString().Trim(), "BBBB");
 		}
 
 		[TestMethod]
@@ -68,17 +67,13 @@ namespace Laboration.Tests.Business
 
 			// Set up the mock to return the guess
 			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
-			using var sw = new StringWriter();
-
-			Console.SetOut(sw);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
 
 			// Assert
 			Assert.AreEqual(1, initialGuessCount);
-			var output = sw.ToString();
-			StringAssert.Contains(output, ",");
+			StringAssert.Contains(_stringWriter.ToString().Trim(), ",");
 		}
 
 		[TestMethod]
@@ -171,10 +166,10 @@ namespace Laboration.Tests.Business
 		}
 
 		[TestCleanup]
-		public void Cleanup()
+		public void TestCleanup()
 		{
 			Console.SetOut(Console.Out);
-			Console.SetIn(new StreamReader(Console.OpenStandardInput()));
+			_stringWriter.Dispose();
 		}
 	}
 }

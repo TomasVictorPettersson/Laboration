@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Laboration.Business.Classes
 {
-	// Handles the game logic for Bulls and Cows game, including initialization, gameplay, and feedback generation.
+	// Manages the Bulls and Cows game logic, including setup, gameplay, and result handling
 	public class GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface, GameConfig config) : IGameLogic
 	{
 		private readonly IHighScoreManager _highScoreManager = highScoreManager ?? throw new ArgumentNullException(nameof(highScoreManager));
 		private readonly IUserInterface _userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
 		private readonly GameConfig _config = config ?? throw new ArgumentNullException(nameof(config));
 
-		// Starts the game by generating a secret number and initiating the game loop.
+		// Starts the game by generating a secret number and initiating the game loop
 		public void PlayGame(string userName)
 		{
 			try
@@ -26,11 +26,11 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error playing game: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Initializes the game by displaying a welcome message.
+		// Displays a welcome message to the user
 		public void InitializeGame(string userName)
 		{
 			try
@@ -40,11 +40,11 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error initializing game: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Displays the secret number (for practice mode only).
+		// Displays the secret number for practice mode
 		public void DisplaySecretNumberForPractice(string secretNumber)
 		{
 			try
@@ -54,11 +54,11 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error displaying secret number: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Executes the game loop until the player guesses the secret number correctly.
+		// Main game loop
 		public void PlayGameLoop(string secretNumber, string userName)
 		{
 			try
@@ -66,12 +66,9 @@ namespace Laboration.Business.Classes
 				int numberOfGuesses = 0;
 				string guess = string.Empty;
 
-				// Loop until the correct guess is made
 				while (!IsCorrectGuess(guess, secretNumber))
 				{
 					guess = ProcessGuess(secretNumber, ref numberOfGuesses);
-
-					// Check if the guess is correct to exit the loop
 					if (IsCorrectGuess(guess, secretNumber))
 					{
 						break;
@@ -83,11 +80,11 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error in game loop: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Ends the game, saves the result, shows high scores, and displays correct message.
+		// Ends the game, saves the result, and displays high scores
 		public void EndGame(string secretNumber, string userName, int numberOfGuesses)
 		{
 			try
@@ -99,76 +96,60 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error ending game: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Processes the player's guess, validates it, and provides feedback.
+		// Processes the player's guess, validates it, and provides feedback
 		public string ProcessGuess(string secretNumber, ref int numberOfGuesses)
 		{
 			try
 			{
 				string guess = _userInterface.GetValidGuessFromUser(_config.MaxRetries);
 
-				// Check if guess is empty (handled in GetValidGuessFromUser)
 				if (string.IsNullOrEmpty(guess))
 				{
 					return string.Empty;
 				}
 
-				// Generate and display feedback
 				string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
 				Console.WriteLine($"{guessFeedback}\n");
 				numberOfGuesses++;
 
-				// If guess is correct, return the guess itself
-				if (IsCorrectGuess(guess, secretNumber))
-				{
-					return guess;
-				}
-
-				return guessFeedback;
+				return IsCorrectGuess(guess, secretNumber) ? guess : guessFeedback;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error processing guess: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Generates a random 4-digit secret number.
+		// Generates a random 4-digit secret number
 		public string MakeSecretNumber()
 		{
 			try
 			{
 				Random randomGenerator = new();
-				List<int> digits = [];
-
-				while (digits.Count < 4)
+				StringBuilder secretNumber = new();
+				while (secretNumber.Length < 4)
 				{
 					int randomDigit = randomGenerator.Next(10);
-					if (!digits.Contains(randomDigit))
+					if (!secretNumber.ToString().Contains(randomDigit.ToString()))
 					{
-						digits.Add(randomDigit);
+						secretNumber.Append(randomDigit);
 					}
 				}
-
-				StringBuilder secretNumber = new();
-				foreach (int digit in digits)
-				{
-					secretNumber.Append(digit);
-				}
-
 				return secretNumber.ToString();
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error making secret number: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Checks if the player's guess matches the secret number.
+		// Checks if the player's guess matches the secret number
 		public static bool IsCorrectGuess(string guess, string secretNumber)
 		{
 			try
@@ -178,37 +159,34 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error checking guess correctness: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Generates bulls and cows feedback based on the player's guess and the secret number.
+		// Generates feedback for the player's guess in terms of bulls and cows
 		public static string GenerateBullsAndCowsFeedback(string secretNumber, string guess)
 		{
 			try
 			{
-				// Count bulls and cows using separate methods
 				int bulls = CountBulls(secretNumber, guess);
 				int cows = CountCows(secretNumber, guess);
 
-				// Format the feedback string based on bulls and cows counts
 				return $"{new string('B', bulls)},{new string('C', cows)}";
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error generating feedback: {ex.Message}");
-				throw; // Propagate exception for higher level handling.
+				throw;
 			}
 		}
 
-		// Counts the number of bulls (correct digits in correct positions) between secretNumber and guess.
+		// Counts the number of bulls (correct digits in correct positions)
 		public static int CountBulls(string secretNumber, string guess)
 		{
 			try
 			{
 				int bulls = 0;
 
-				// Count bulls by comparing characters at each position
 				for (int i = 0; i < 4; i++)
 				{
 					if (secretNumber[i] == guess[i])
@@ -221,11 +199,11 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error counting bulls: {ex.Message}");
-				throw; // Propagate exception for higher-level handling.
+				throw;
 			}
 		}
 
-		// Counts the number of cows (correct digits in wrong positions) between secretNumber and guess.
+		// Counts the number of cows (correct digits in wrong positions)
 		public static int CountCows(string secretNumber, string guess)
 		{
 			try
@@ -233,7 +211,6 @@ namespace Laboration.Business.Classes
 				int cows = 0;
 				Dictionary<char, int> digitFrequency = [];
 
-				// First pass: count the frequency of each digit in secretNumber
 				foreach (char digit in secretNumber)
 				{
 					if (digitFrequency.TryGetValue(digit, out int value))
@@ -246,11 +223,9 @@ namespace Laboration.Business.Classes
 					}
 				}
 
-				// Second pass: count cows
 				for (int i = 0; i < 4; i++)
 				{
-					if (secretNumber[i] != guess[i] && digitFrequency.TryGetValue(guess[i],
-						out int value) && value > 0)
+					if (secretNumber[i] != guess[i] && digitFrequency.TryGetValue(guess[i], out int value) && value > 0)
 					{
 						cows++;
 						digitFrequency[guess[i]] = --value;
@@ -261,7 +236,7 @@ namespace Laboration.Business.Classes
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error counting cows: {ex.Message}");
-				throw; // Propagate exception for higher-level handling.
+				throw;
 			}
 		}
 	}

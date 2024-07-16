@@ -19,7 +19,6 @@ namespace Laboration.UI.Classes
 				}
 			}
 			while (string.IsNullOrEmpty(userName));
-
 			return userName;
 		}
 
@@ -28,9 +27,9 @@ namespace Laboration.UI.Classes
 		{
 			Console.Clear();
 			Console.WriteLine($"Welcome {userName} to Bulls and Cows!");
-			Console.WriteLine("The objective of the game is to guess a 4-digit number.");
+			Console.WriteLine("\nThe objective of the game is to guess a 4-digit number.");
 			Console.WriteLine("Each digit in the 4-digit number will only appear once.");
-			Console.WriteLine("For each guess, you will receive feedback in the form of 'BBBB,CCCC',");
+			Console.WriteLine("\nFor each guess, you will receive feedback in the form of 'BBBB,CCCC',");
 			Console.WriteLine("where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
 			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).");
 			Console.WriteLine("If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n");
@@ -40,14 +39,11 @@ namespace Laboration.UI.Classes
 		public string GetInputFromUser(string prompt)
 		{
 			string input = string.Empty;
-
-			// Continuously prompt the user until a non-empty input is received
 			while (string.IsNullOrEmpty(input))
 			{
 				Console.Write(prompt);
 				input = Console.ReadLine()!.Trim();
 			}
-
 			return input;
 		}
 
@@ -60,22 +56,15 @@ namespace Laboration.UI.Classes
 		// Prompts the user to enter a valid 4-digit number, allowing a specified number of retries.
 		public string GetValidGuessFromUser(int maxRetries)
 		{
-			// Loop until a valid guess is received or the maximum number of retries is reached
 			for (int retries = 0; retries < maxRetries; retries++)
 			{
 				string guess = GetInputFromUser("Enter your guess: ");
-
-				// Check if the guess is valid
 				if (IsInputValid(guess))
 				{
 					return guess;
 				}
-
-				// Inform the user about invalid input and increment the retry counter
 				Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
 			}
-
-			// Return an empty string if the maximum number of retries is reached
 			return string.Empty;
 		}
 
@@ -86,14 +75,12 @@ namespace Laboration.UI.Classes
 		}
 
 		// Prompts the user to continue playing or exit the game.
-		// Returns: True if the user wants to continue, false otherwise.
 		public bool AskToContinue()
 		{
 			while (true)
 			{
 				Console.Write("\nContinue? (y/n): ");
 				string answer = Console.ReadLine()!.ToLower();
-
 				switch (answer)
 				{
 					case "y":

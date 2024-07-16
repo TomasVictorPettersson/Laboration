@@ -1,5 +1,4 @@
 ﻿using Laboration.Data.Classes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Laboration.Tests.Data
 {

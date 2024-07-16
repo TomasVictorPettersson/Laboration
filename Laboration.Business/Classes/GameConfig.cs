@@ -1,8 +1,9 @@
 ﻿namespace Laboration.Business.Classes
 {
-	// Represents configuration settings for the game, including maximum number of retries allowed.
+	// Represents configuration settings for the game.
 	public class GameConfig
 	{
-		public int MaxRetries { get; set; } = int.MaxValue; // No limit for gameplay by default
+		// Maximum number of retries allowed; default is no limit.
+		public int MaxRetries { get; set; } = int.MaxValue;
 	}
 }
