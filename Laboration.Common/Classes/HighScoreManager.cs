@@ -87,8 +87,10 @@ namespace Laboration.Common.Classes
 			try
 			{
 				results.Sort((p1, p2) => p1.CalculateAverageGuesses().CompareTo(p2.CalculateAverageGuesses()));
-				DisplayHighScoreListHeader();
-				DisplayHighScoreListResults(results, currentUserName);
+				int maxUserNameLength = results.Max(p => p.UserName.Length);
+				int totalWidth = 6 + maxUserNameLength + 8 + 15 + 3;
+				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
+				DisplayHighScoreListResults(results, currentUserName, maxUserNameLength, totalWidth);
 			}
 			catch (Exception ex)
 			{
@@ -97,14 +99,17 @@ namespace Laboration.Common.Classes
 			}
 		}
 
-		public void DisplayHighScoreListHeader()
+		public void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth)
 		{
-			Console.WriteLine("\n=== High Score List ===");
-			Console.WriteLine("Rank     Player     Games     Average Guesses");
-			Console.WriteLine("---------------------------------------------");
+			const string header = "=== High Score List ===";
+			int leftPadding = (totalWidth - header.Length) / 2;
+			Console.WriteLine($"\n{new string(' ', leftPadding)}{header}");
+			Console.WriteLine($"{"Rank",-6} {"Player".PadRight(maxUserNameLength)} {"Games",-8} {"Average Guesses",-15}");
+			Console.WriteLine(new string('-', totalWidth));
 		}
 
-		public void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName)
+		public void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName,
+			int maxUserNameLength, int totalWidth)
 		{
 			try
 			{
@@ -113,7 +118,7 @@ namespace Laboration.Common.Classes
 				{
 					bool isCurrentUser = p.UserName.Equals(currentUserName);
 					DisplayRank(rank, isCurrentUser);
-					DisplayPlayerData(p, isCurrentUser);
+					DisplayPlayerData(p, isCurrentUser, maxUserNameLength);
 					rank++;
 				}
 			}
@@ -130,15 +135,14 @@ namespace Laboration.Common.Classes
 			{
 				Console.ForegroundColor = ConsoleColor.Green;
 			}
-			Console.Write($"{rank,-4}");
+			Console.Write($"{rank,-6}");
 			Console.ResetColor();
 		}
 
-		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser)
+		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength)
 		{
 			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
-			Console.WriteLine($"{player.UserName,10}{player.TotalGamesPlayed,10}" +
-				$"{player.CalculateAverageGuesses(),14:F2}");
+			Console.WriteLine($"{player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,8} {player.CalculateAverageGuesses(),15:F2}");
 			Console.ResetColor();
 		}
 

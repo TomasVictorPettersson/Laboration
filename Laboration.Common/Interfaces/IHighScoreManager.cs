@@ -14,13 +14,14 @@ namespace Laboration.Common.Interfaces
 
 		void SortAndDisplayHighScoreList(List<IPlayerData> results, string currentUserName);
 
-		void DisplayHighScoreListHeader();
+		void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth);
 
-		void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName);
+		void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName,
+			int maxUserNameLength, int totalWidth);
 
 		void DisplayRank(int rank, bool isCurrentUser);
 
-		void DisplayPlayerData(IPlayerData player, bool isCurrentUser);
+		void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength);
 
 		void ShowHighScoreList(string currentUserName);
 	}

@@ -5,7 +5,7 @@ namespace Laboration.UI.Classes
 	// Implements IUserInterface to interact with the user through the console.
 	public class UserInterface : IUserInterface
 	{
-		// Prompts the user to enter their username, ensuring it is not empty.
+		// Prompts the user to enter their username, ensuring it is not empty and within the specified length.
 		public string GetUserName()
 		{
 			string userName;
@@ -17,8 +17,12 @@ namespace Laboration.UI.Classes
 				{
 					Console.WriteLine("Empty values are not allowed. Please enter a valid username.");
 				}
+				else if (userName.Length < 2 || userName.Length > 20)
+				{
+					Console.WriteLine("Username must be between 2 and 20 characters long.");
+				}
 			}
-			while (string.IsNullOrEmpty(userName));
+			while (string.IsNullOrEmpty(userName) || userName.Length < 2 || userName.Length > 20);
 			return userName;
 		}
 

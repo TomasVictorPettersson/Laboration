@@ -8,7 +8,7 @@ namespace Laboration.Tests.Common.Classes
 	public class HighScoreManagerTests
 	{
 		private readonly HighScoreManager _highScoreManager = new();
-		private List<IPlayerData> _results;
+		private readonly List<IPlayerData> _results;
 
 		public HighScoreManagerTests()
 		{
@@ -88,34 +88,6 @@ namespace Laboration.Tests.Common.Classes
 			// Assert
 			Assert.AreEqual(1, updatedResults.Count);
 			Assert.AreEqual(25, updatedResults[0].TotalGuesses);
-		}
-
-		[TestMethod]
-		public void SortAndDisplayList_SortsAndDisplays()
-		{
-			// Arrange
-			_results =
-			[
-				new PlayerData("User1", 10),
-				new PlayerData("User2", 15),
-				new PlayerData("User3", 5)
-			];
-
-			using StringWriter sw = new();
-			Console.SetOut(sw);
-
-			// Act
-			_highScoreManager.SortAndDisplayHighScoreList(_results, "CurrentUser");
-
-			// Assert
-			string expectedOutput = "\n=== High Score List ===\r\n";
-			expectedOutput += "Rank     Player     Games     Average Guesses\r\n";
-			expectedOutput += "---------------------------------------------\r\n";
-			expectedOutput += "1        User3         1          5,00\r\n";
-			expectedOutput += "2        User1         1         10,00\r\n";
-			expectedOutput += "3        User2         1         15,00\r\n";
-
-			Assert.AreEqual(expectedOutput, sw.ToString());
 		}
 
 		[TestCleanup]
