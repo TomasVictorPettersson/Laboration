@@ -4,10 +4,14 @@ using Laboration.Data.Interfaces;
 
 namespace Laboration.Common.Classes
 {
-	// Manages high score data, including saving, reading, parsing, updating, sorting, and displaying.
+	// Manages high score data, including saving results, reading results from a file,
+	// parsing player data, updating the results list, sorting, and displaying the high score list.
+
 	public class HighScoreManager : IHighScoreManager
 	{
 		private readonly string[] separator = ["#&#"];
+
+		// Saves a user's result to a file.
 
 		public void SaveResult(string userName, int numberOfGuesses)
 		{
@@ -22,6 +26,8 @@ namespace Laboration.Common.Classes
 				throw;
 			}
 		}
+
+		// Reads high score results from a file and returns a list of player data.
 
 		public List<IPlayerData> ReadHighScoreResultsFromFile()
 		{
@@ -44,6 +50,8 @@ namespace Laboration.Common.Classes
 			return results;
 		}
 
+		// Parses a line of text to create a player data object.
+
 		public IPlayerData ParseLineToPlayerData(string line)
 		{
 			try
@@ -59,6 +67,8 @@ namespace Laboration.Common.Classes
 				throw;
 			}
 		}
+
+		// Updates the results list with a new player's data or updates existing data.
 
 		public List<IPlayerData> UpdateResultsList(List<IPlayerData> results, IPlayerData playerData)
 		{
@@ -82,22 +92,50 @@ namespace Laboration.Common.Classes
 			}
 		}
 
-		public void SortAndDisplayHighScoreList(List<IPlayerData> results, string currentUserName)
+		// Sorts the high score list based on the average number of guesses.
+
+		public void SortHighScoreList(List<IPlayerData> results)
 		{
 			try
 			{
 				results.Sort((p1, p2) => p1.CalculateAverageGuesses().CompareTo(p2.CalculateAverageGuesses()));
-				int maxUserNameLength = results.Max(p => p.UserName.Length);
-				int totalWidth = 6 + maxUserNameLength + 8 + 15 + 3;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error sorting high score list: {ex.Message}");
+				throw;
+			}
+		}
+
+		// Displays the high score list with headers and formatted player data.
+
+		public void DisplayHighScoreList(List<IPlayerData> results, string currentUserName)
+		{
+			try
+			{
+				(int maxUserNameLength, int totalWidth) = CalculateDisplayDimensions(results);
+
 				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
+
 				DisplayHighScoreListResults(results, currentUserName, maxUserNameLength, totalWidth);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error sorting and displaying high score list: {ex.Message}");
+				Console.WriteLine($"Error displaying high score list: {ex.Message}");
 				throw;
 			}
 		}
+
+		// Calculates the maximum username length and total display width for formatting.
+
+		private static (int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results)
+		{
+			int maxUserNameLength = results.Max(p => p.UserName.Length);
+			int totalWidth = 6 + maxUserNameLength + 8 + 15 + 3;
+			return (maxUserNameLength, totalWidth);
+		}
+
+		// Displays the header for the high score list.
 
 		public void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth)
 		{
@@ -107,6 +145,8 @@ namespace Laboration.Common.Classes
 			Console.WriteLine($"{"Rank",-6} {"Player".PadRight(maxUserNameLength)} {"Games",-8} {"Average Guesses",-15}");
 			Console.WriteLine(new string('-', totalWidth));
 		}
+
+		// Displays the list of player data in a formatted manner.
 
 		public void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName,
 			int maxUserNameLength, int totalWidth)
@@ -129,6 +169,7 @@ namespace Laboration.Common.Classes
 			}
 		}
 
+		// Displays the rank of the player, highlighting the current user if necessary.
 		public void DisplayRank(int rank, bool isCurrentUser)
 		{
 			if (isCurrentUser)
@@ -139,6 +180,8 @@ namespace Laboration.Common.Classes
 			Console.ResetColor();
 		}
 
+		// Displays the player data, highlighting the current user if necessary.
+
 		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength)
 		{
 			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
@@ -146,12 +189,15 @@ namespace Laboration.Common.Classes
 			Console.ResetColor();
 		}
 
+		// Reads the high score results from the file, sorts them, and displays the high score list.
+
 		public void ShowHighScoreList(string currentUserName)
 		{
 			try
 			{
 				List<IPlayerData> results = ReadHighScoreResultsFromFile();
-				SortAndDisplayHighScoreList(results, currentUserName);
+				SortHighScoreList(results);
+				DisplayHighScoreList(results, currentUserName);
 			}
 			catch (Exception ex)
 			{
