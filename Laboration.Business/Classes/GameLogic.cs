@@ -128,29 +128,24 @@ namespace Laboration.Business.Classes
 		// Generates a random 4-digit secret number
 		public string MakeSecretNumber()
 		{
-			try
+			Random randomGenerator = new();
+			StringBuilder secretNumber = new();
+			HashSet<int> usedDigits = [];
+
+			while (secretNumber.Length < 4)
 			{
-				Random randomGenerator = new();
-				StringBuilder secretNumber = new();
-				while (secretNumber.Length < 4)
+				int randomDigit = randomGenerator.Next(10);
+				if (usedDigits.Add(randomDigit))
 				{
-					int randomDigit = randomGenerator.Next(10);
-					if (!secretNumber.ToString().Contains(randomDigit.ToString()))
-					{
-						secretNumber.Append(randomDigit);
-					}
+					secretNumber.Append(randomDigit);
 				}
-				return secretNumber.ToString();
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error making secret number: {ex.Message}");
-				throw;
-			}
+
+			return secretNumber.ToString();
 		}
 
 		// Checks if the player's guess matches the secret number
-		public static bool IsCorrectGuess(string guess, string secretNumber)
+		public bool IsCorrectGuess(string guess, string secretNumber)
 		{
 			try
 			{

@@ -4,6 +4,10 @@
 	{
 		string GetUserName();
 
+		void ValidateUserName(string userName);
+
+		bool IsValidUserName(string userName);
+
 		void DisplayWelcomeMessage(string userName);
 
 		string GetInputFromUser(string prompt);

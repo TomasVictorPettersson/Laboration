@@ -16,6 +16,8 @@ namespace Laboration.Common.Interfaces
 
 		void DisplayHighScoreList(List<IPlayerData> results, string currentUserName);
 
+		(int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results);
+
 		void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth);
 
 		void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName,

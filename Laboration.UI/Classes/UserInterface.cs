@@ -13,17 +13,29 @@ namespace Laboration.UI.Classes
 			{
 				Console.Write("Enter your user name: ");
 				userName = Console.ReadLine()!;
-				if (string.IsNullOrEmpty(userName))
-				{
-					Console.WriteLine("Empty values are not allowed. Please enter a valid username.");
-				}
-				else if (userName.Length < 2 || userName.Length > 20)
-				{
-					Console.WriteLine("Username must be between 2 and 20 characters long.");
-				}
+				ValidateUserName(userName);
 			}
-			while (string.IsNullOrEmpty(userName) || userName.Length < 2 || userName.Length > 20);
+			while (!IsValidUserName(userName));
 			return userName;
+		}
+
+		// Displays validation messages for the username.
+		public void ValidateUserName(string userName)
+		{
+			if (string.IsNullOrEmpty(userName))
+			{
+				Console.WriteLine("Empty values are not allowed. Please enter a valid username.");
+			}
+			else if (userName.Length < 2 || userName.Length > 20)
+			{
+				Console.WriteLine("Username must be between 2 and 20 characters long.");
+			}
+		}
+
+		// Checks if the username is not empty and is within the specified length.
+		public bool IsValidUserName(string userName)
+		{
+			return !string.IsNullOrEmpty(userName) && userName.Length >= 2 && userName.Length <= 20;
 		}
 
 		// Displays a welcome message to the player.
@@ -51,13 +63,13 @@ namespace Laboration.UI.Classes
 			return input;
 		}
 
-		// Validates if the input is a non-empty string, exactly 4 characters long, and numeric.
+		// Validates if the input is a non-empty string, exactly 4 characters long, numeric, and has unique digits.
 		public bool IsInputValid(string input)
 		{
-			return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _);
+			return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _) && input.Distinct().Count() == 4;
 		}
 
-		// Prompts the user to enter a valid 4-digit number, allowing a specified number of retries.
+		// Prompts the user to enter a valid 4-digit number with unique digits, allowing a specified number of retries.
 		public string GetValidGuessFromUser(int maxRetries)
 		{
 			for (int retries = 0; retries < maxRetries; retries++)
@@ -67,7 +79,7 @@ namespace Laboration.UI.Classes
 				{
 					return guess;
 				}
-				Console.WriteLine("Invalid input. Please enter a 4-digit number.\n");
+				Console.WriteLine("Invalid input. Please enter a 4-digit number with unique digits.\n");
 			}
 			return string.Empty;
 		}

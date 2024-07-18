@@ -77,7 +77,7 @@ namespace Laboration.Tests.Business
 		}
 
 		[TestMethod]
-		public void ProcessGuess_InvalidInput_DoesNotIncrementGuessCounter()
+		public void ProcessGuess_InvalidInput_EmptyGuess_DoesNotIncrementGuessCounter()
 		{
 			// Arrange
 			int initialGuessCount = 0;
@@ -86,6 +86,42 @@ namespace Laboration.Tests.Business
 
 			// Set up the mock to return the invalid guess
 			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+
+			// Act
+			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
+
+			// Assert
+			Assert.AreEqual(0, initialGuessCount);
+		}
+
+		[TestMethod]
+		public void ProcessGuess_InvalidInput_Letters_DoesNotIncrementGuessCounter()
+		{
+			// Arrange
+			int initialGuessCount = 0;
+			const string secretNumber = "1234";
+			const string guess = "test";
+
+			// Set up the mock to return the invalid guess
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
+
+			// Act
+			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
+
+			// Assert
+			Assert.AreEqual(0, initialGuessCount);
+		}
+
+		[TestMethod]
+		public void ProcessGuess_InvalidInput_RepeatingDigits_DoesNotIncrementGuessCounter()
+		{
+			// Arrange
+			int initialGuessCount = 0;
+			const string secretNumber = "1234";
+			const string guess = "1122";
+
+			// Set up the mock to return the invalid guess
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -152,17 +188,31 @@ namespace Laboration.Tests.Business
 		}
 
 		[TestMethod]
-		public void BullsAndCows_EdgeCase_RepeatingDigits()
+		public void BullsAndCows_OnlyBulls_ReturnsBB()
 		{
 			// Arrange
-			const string secretNumber = "1122";
-			const string guess = "2211";
+			const string secretNumber = "9151";
+			const string guess = "9142";
 
 			// Act
 			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
-			Assert.AreEqual(",CCCC", feedback);
+			Assert.AreEqual("BB,", feedback);
+		}
+
+		[TestMethod]
+		public void BullsAndCows_OnlyCows_ReturnsCC()
+		{
+			// Arrange
+			const string secretNumber = "9151";
+			const string guess = "1527";
+
+			// Act
+			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+
+			// Assert
+			Assert.AreEqual(",CC", feedback);
 		}
 
 		[TestCleanup]

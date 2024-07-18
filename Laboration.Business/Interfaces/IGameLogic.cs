@@ -15,5 +15,7 @@
 		string ProcessGuess(string secretNumber, ref int numberOfGuesses);
 
 		string MakeSecretNumber();
+
+		bool IsCorrectGuess(string guess, string secretNumber);
 	}
 }
