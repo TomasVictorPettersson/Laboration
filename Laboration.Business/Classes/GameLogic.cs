@@ -100,15 +100,16 @@ namespace Laboration.Business.Classes
 			}
 		}
 
-		// Processes the player's guess, validates it, and provides feedback
+		// Processes the player's guess, validates it, and provides feedback.
 		public string ProcessGuess(string secretNumber, ref int numberOfGuesses)
 		{
 			try
 			{
 				string guess = _userInterface.GetValidGuessFromUser(_config.MaxRetries);
 
-				if (string.IsNullOrEmpty(guess))
+				if (string.IsNullOrEmpty(guess) || !_userInterface.IsInputValid(guess))
 				{
+					Console.WriteLine("Guess is empty or invalid.");
 					return string.Empty;
 				}
 

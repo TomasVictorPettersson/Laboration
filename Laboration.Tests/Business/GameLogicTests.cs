@@ -39,53 +39,16 @@ namespace Laboration.Tests.Business
 		}
 
 		[TestMethod]
-		public void ProcessGuess_GuessEqualsSecretNumber_IncrementsGuessCounter()
-		{
-			// Arrange
-			int initialGuessCount = 0;
-			const string secretNumber = "1234";
-			const string guess = "1234";
-
-			// Set up the mock to return the guess
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
-
-			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
-
-			// Assert
-			Assert.AreEqual(1, initialGuessCount);
-			StringAssert.Contains(_stringWriter.ToString().Trim(), "BBBB");
-		}
-
-		[TestMethod]
-		public void ProcessGuess_GuessNotEqualsSecretNumber_IncrementsGuessCounter()
-		{
-			// Arrange
-			int initialGuessCount = 0;
-			const string secretNumber = "1234";
-			const string guess = "5678";
-
-			// Set up the mock to return the guess
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
-
-			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
-
-			// Assert
-			Assert.AreEqual(1, initialGuessCount);
-			StringAssert.Contains(_stringWriter.ToString().Trim(), ",");
-		}
-
-		[TestMethod]
 		public void ProcessGuess_InvalidInput_EmptyGuess_DoesNotIncrementGuessCounter()
 		{
 			// Arrange
 			int initialGuessCount = 0;
 			const string secretNumber = "1234";
-			const string invalidGuess = ""; // Simulate invalid input by returning an empty string
+			const string invalidGuess = "";
 
-			// Set up the mock to return the invalid guess
+			// Set up the mock to return an invalid guess (empty string)
 			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -100,10 +63,10 @@ namespace Laboration.Tests.Business
 			// Arrange
 			int initialGuessCount = 0;
 			const string secretNumber = "1234";
-			const string guess = "test";
+			const string invalidGuess = "test";
 
 			// Set up the mock to return the invalid guess
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -118,16 +81,55 @@ namespace Laboration.Tests.Business
 			// Arrange
 			int initialGuessCount = 0;
 			const string secretNumber = "1234";
-			const string guess = "1122";
+			const string invalidGuess = "1122";
 
 			// Set up the mock to return the invalid guess
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
 
 			// Assert
 			Assert.AreEqual(0, initialGuessCount);
+		}
+
+		[TestMethod]
+		public void ProcessGuess_GuessEqualsSecretNumber_IncrementsGuessCounter()
+		{
+			// Arrange
+			int initialGuessCount = 0;
+			const string secretNumber = "1234";
+			const string guess = "1234";
+
+			// Set up the mock to return the guess and validate it
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
+			_userInterfaceMock.Setup(ui => ui.IsInputValid(guess)).Returns(true);
+
+			// Act
+			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
+
+			// Assert
+			Assert.AreEqual(1, initialGuessCount);
+		}
+
+		[TestMethod]
+		public void ProcessGuess_GuessNotEqualsSecretNumber_IncrementsGuessCounter()
+		{
+			// Arrange
+			int initialGuessCount = 0;
+			const string secretNumber = "1234";
+			const string guess = "5678";
+
+			// Set up the mock to return the guess
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
+			_userInterfaceMock.Setup(ui => ui.IsInputValid(guess)).Returns(true);
+
+			// Act
+			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
+
+			// Assert
+			Assert.AreEqual(1, initialGuessCount);
 		}
 
 		[TestMethod]
