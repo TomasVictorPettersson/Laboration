@@ -44,6 +44,25 @@ namespace Laboration.Business.Classes
 			}
 		}
 
+		// Generates a random 4-digit secret number
+		public string MakeSecretNumber()
+		{
+			Random randomGenerator = new();
+			StringBuilder secretNumber = new();
+			HashSet<int> usedDigits = [];
+
+			while (secretNumber.Length < 4)
+			{
+				int randomDigit = randomGenerator.Next(10);
+				if (usedDigits.Add(randomDigit))
+				{
+					secretNumber.Append(randomDigit);
+				}
+			}
+
+			return secretNumber.ToString();
+		}
+
 		// Displays the secret number for practice mode
 		public void DisplaySecretNumberForPractice(string secretNumber)
 		{
@@ -84,18 +103,16 @@ namespace Laboration.Business.Classes
 			}
 		}
 
-		// Ends the game, saves the result, and displays high scores
-		public void EndGame(string secretNumber, string userName, int numberOfGuesses)
+		// Checks if the player's guess matches the secret number
+		public bool IsCorrectGuess(string guess, string secretNumber)
 		{
 			try
 			{
-				_highScoreManager.SaveResult(userName, numberOfGuesses);
-				_highScoreManager.ShowHighScoreList(userName);
-				_userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
+				return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error ending game: {ex.Message}");
+				Console.WriteLine($"Error checking guess correctness: {ex.Message}");
 				throw;
 			}
 		}
@@ -126,35 +143,18 @@ namespace Laboration.Business.Classes
 			}
 		}
 
-		// Generates a random 4-digit secret number
-		public string MakeSecretNumber()
-		{
-			Random randomGenerator = new();
-			StringBuilder secretNumber = new();
-			HashSet<int> usedDigits = [];
-
-			while (secretNumber.Length < 4)
-			{
-				int randomDigit = randomGenerator.Next(10);
-				if (usedDigits.Add(randomDigit))
-				{
-					secretNumber.Append(randomDigit);
-				}
-			}
-
-			return secretNumber.ToString();
-		}
-
-		// Checks if the player's guess matches the secret number
-		public bool IsCorrectGuess(string guess, string secretNumber)
+		// Ends the game, saves the result, and displays high scores
+		public void EndGame(string secretNumber, string userName, int numberOfGuesses)
 		{
 			try
 			{
-				return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
+				_highScoreManager.SaveResult(userName, numberOfGuesses);
+				_highScoreManager.ShowHighScoreList(userName);
+				_userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error checking guess correctness: {ex.Message}");
+				Console.WriteLine($"Error ending game: {ex.Message}");
 				throw;
 			}
 		}

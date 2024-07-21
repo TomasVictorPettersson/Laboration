@@ -12,21 +12,20 @@ namespace Laboration.Common.Interfaces
 
 		List<IPlayerData> UpdateResultsList(List<IPlayerData> results, IPlayerData playerData);
 
+		void ShowHighScoreList(string currentUserName);
+
 		void SortHighScoreList(List<IPlayerData> results);
 
-		void DisplayHighScoreList(List<IPlayerData> results, string currentUserName);
+		void RenderHighScoreList(List<IPlayerData> results, string currentUserName);
 
 		(int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results);
 
 		void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth);
 
-		void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName,
-			int maxUserNameLength, int totalWidth);
+		void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName, int maxUserNameLength);
 
 		void DisplayRank(int rank, bool isCurrentUser);
 
 		void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength);
-
-		void ShowHighScoreList(string currentUserName);
 	}
 }

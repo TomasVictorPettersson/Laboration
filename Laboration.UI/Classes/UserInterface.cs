@@ -51,6 +51,21 @@ namespace Laboration.UI.Classes
 			Console.WriteLine("If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n");
 		}
 
+		// Prompts the user to enter a valid 4-digit number with unique digits, allowing a specified number of retries.
+		public string GetValidGuessFromUser(int maxRetries)
+		{
+			for (int retries = 0; retries < maxRetries; retries++)
+			{
+				string guess = GetInputFromUser("Enter your guess: ");
+				if (IsInputValid(guess))
+				{
+					return guess;
+				}
+				Console.WriteLine("Invalid input. Please enter a 4-digit number with unique digits.\n");
+			}
+			return string.Empty;
+		}
+
 		// Prompts the user for input until a non-empty string is entered.
 		public string GetInputFromUser(string prompt)
 		{
@@ -67,21 +82,6 @@ namespace Laboration.UI.Classes
 		public bool IsInputValid(string input)
 		{
 			return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _) && input.Distinct().Count() == 4;
-		}
-
-		// Prompts the user to enter a valid 4-digit number with unique digits, allowing a specified number of retries.
-		public string GetValidGuessFromUser(int maxRetries)
-		{
-			for (int retries = 0; retries < maxRetries; retries++)
-			{
-				string guess = GetInputFromUser("Enter your guess: ");
-				if (IsInputValid(guess))
-				{
-					return guess;
-				}
-				Console.WriteLine("Invalid input. Please enter a 4-digit number with unique digits.\n");
-			}
-			return string.Empty;
 		}
 
 		// Displays a message indicating the correct secret number and the number of guesses taken.
@@ -111,6 +111,12 @@ namespace Laboration.UI.Classes
 						break;
 				}
 			}
+		}
+
+		// Displays a goodbye message to the user after the game loop ends.
+		public void DisplayGoodbyeMessage(string userName)
+		{
+			Console.WriteLine($"Thank you, {userName}, for playing Bulls and Cows!");
 		}
 	}
 }

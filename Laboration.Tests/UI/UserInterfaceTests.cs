@@ -7,27 +7,15 @@ namespace Laboration.Tests.UI
 	public class UserInterfaceTests
 	{
 		private readonly Mock<IUserInterface> _mockUserInterface = new();
+		private StringWriter _stringWriter;
+		private TextWriter _originalConsoleOut;
 
-		[TestMethod]
-		public void WelcomeMessage_WritesCorrectMessagesToConsole()
+		[TestInitialize]
+		public void Setup()
 		{
-			// Arrange
-			const string userName = "JohnDoe";
-			using StringWriter sw = new();
-			Console.SetOut(sw);
-
-			// Act
-			_mockUserInterface.Object.DisplayWelcomeMessage(userName);
-			string consoleOutput = sw.ToString();
-
-			// Assert
-			StringAssert.Contains($"Welcome {userName} to Bulls and Cows!", consoleOutput);
-			StringAssert.Contains("\nThe objective of the game is to guess a 4-digit number.", consoleOutput);
-			StringAssert.Contains("Each digit in the 4-digit number will only appear once.", consoleOutput);
-			StringAssert.Contains("\nFor each guess, you will receive feedback in the form of 'BBBB,CCCC',", consoleOutput);
-			StringAssert.Contains("where 'BBBB' represents the number of bulls (correct digits in the correct positions),", consoleOutput);
-			StringAssert.Contains("and 'CCCC' represents the number of cows (correct digits in the wrong positions)", consoleOutput);
-			StringAssert.Contains("If you receive a response of only ',' it means none of the digits in your guess are present in the secret number.\n", consoleOutput);
+			_originalConsoleOut = Console.Out;
+			_stringWriter = new StringWriter();
+			Console.SetOut(_stringWriter);
 		}
 
 		[TestMethod]
@@ -53,6 +41,26 @@ namespace Laboration.Tests.UI
 
 			// Act & Assert
 			Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.GetUserName());
+		}
+
+		[TestMethod]
+		public void WelcomeMessage_WritesCorrectMessagesToConsole()
+		{
+			// Arrange
+			const string userName = "JohnDoe";
+
+			// Act
+			_mockUserInterface.Object.DisplayWelcomeMessage(userName);
+			string consoleOutput = _stringWriter.ToString();
+
+			// Assert
+			StringAssert.Contains($"Welcome {userName} to Bulls and Cows!", consoleOutput);
+			StringAssert.Contains("\nThe objective of the game is to guess a 4-digit number.", consoleOutput);
+			StringAssert.Contains("Each digit in the 4-digit number will only appear once.", consoleOutput);
+			StringAssert.Contains("\nFor each guess, you will receive feedback in the form of 'BBBB,CCCC',", consoleOutput);
+			StringAssert.Contains("where 'BBBB' represents the number of bulls (correct digits in the correct positions),", consoleOutput);
+			StringAssert.Contains("and 'CCCC' represents the number of cows (correct digits in the wrong positions)", consoleOutput);
+			StringAssert.Contains("If you receive a response of only ',' it means none of the digits in your guess are present in the secret number.\n", consoleOutput);
 		}
 
 		[TestMethod]
@@ -105,6 +113,27 @@ namespace Laboration.Tests.UI
 
 			// Act & Assert
 			Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.AskToContinue());
+		}
+
+		[TestMethod]
+		public void GoodbyeMessage_WritesCorrectMessagesToConsole()
+		{
+			// Arrange
+			const string userName = "JohnDoe";
+
+			// Act
+			_mockUserInterface.Object.DisplayGoodbyeMessage(userName);
+			string consoleOutput = _stringWriter.ToString();
+
+			// Assert
+			StringAssert.Contains($"Thank you, {userName}, for playing Bulls and Cows!", consoleOutput);
+		}
+
+		[TestCleanup]
+		public void Cleanup()
+		{
+			Console.SetOut(_originalConsoleOut);
+			_stringWriter.Dispose();
 		}
 	}
 }

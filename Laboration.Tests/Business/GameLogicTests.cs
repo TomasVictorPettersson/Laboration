@@ -11,7 +11,6 @@ namespace Laboration.Tests.Business
 		private readonly Mock<IHighScoreManager> _highScoreManagerMock = new();
 		private readonly Mock<IUserInterface> _userInterfaceMock = new();
 		private readonly GameLogic _gameLogic;
-		private readonly StringWriter _stringWriter = new();
 
 		public GameLogicTests()
 		{
@@ -19,12 +18,7 @@ namespace Laboration.Tests.Business
 			_gameLogic = new GameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object, config);
 		}
 
-		[TestInitialize]
-		public void TestInitialize()
-		{
-			Console.SetOut(_stringWriter);
-		}
-
+		// Testing MakeSecretNumber
 		[TestMethod]
 		public void GenerateUnique4DigitNumber()
 		{
@@ -36,6 +30,25 @@ namespace Laboration.Tests.Business
 			Assert.AreNotEqual(secretNumber1, secretNumber2);
 			Assert.IsTrue(secretNumber1.Length == 4 && secretNumber2.Length == 4);
 			Assert.IsTrue(int.TryParse(secretNumber1, out _) && int.TryParse(secretNumber2, out _));
+		}
+
+		[TestMethod]
+		public void ProcessGuess_InvalidInput_NullGuess_DoesNotIncrementGuessCounter()
+		{
+			// Arrange
+			int initialGuessCount = 0;
+			const string secretNumber = "1234";
+			const string invalidGuess = null!;
+
+			// Set up the mock to return an invalid guess (null)
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
+
+			// Act
+			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
+
+			// Assert
+			Assert.AreEqual(0, initialGuessCount);
 		}
 
 		[TestMethod]
@@ -132,6 +145,7 @@ namespace Laboration.Tests.Business
 			Assert.AreEqual(1, initialGuessCount);
 		}
 
+		// Testing GenerateBullsAndCowsFeedback
 		[TestMethod]
 		public void BullsAndCows_CorrectGuess_ReturnsBBBB()
 		{
@@ -215,13 +229,6 @@ namespace Laboration.Tests.Business
 
 			// Assert
 			Assert.AreEqual(",CC", feedback);
-		}
-
-		[TestCleanup]
-		public void TestCleanup()
-		{
-			Console.SetOut(Console.Out);
-			_stringWriter.Dispose();
 		}
 	}
 }

@@ -2,20 +2,20 @@
 {
 	public interface IGameLogic
 	{
+		void PlayGame(string userName);
+
 		void InitializeGame(string userName);
 
-		void PlayGame(string userName);
+		string MakeSecretNumber();
 
 		void DisplaySecretNumberForPractice(string secretNumber);
 
 		void PlayGameLoop(string secretNumber, string userName);
 
-		void EndGame(string secretNumber, string userName, int numberOfGuesses);
+		bool IsCorrectGuess(string guess, string secretNumber);
 
 		string ProcessGuess(string secretNumber, ref int numberOfGuesses);
 
-		string MakeSecretNumber();
-
-		bool IsCorrectGuess(string guess, string secretNumber);
+		void EndGame(string secretNumber, string userName, int numberOfGuesses);
 	}
 }

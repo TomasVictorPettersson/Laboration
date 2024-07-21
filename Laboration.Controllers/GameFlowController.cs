@@ -10,13 +10,10 @@ namespace Laboration.Controllers.Classes
 	// Controls the flow of the game including initialization, execution, and error handling.
 	public static class GameFlowController
 	{
+		// The entry point of the application, initializing dependencies and starting the game loop.
 		public static void Main()
 		{
-			// Initialize necessary dependencies for the game.
-			IUserInterface userInterface = new UserInterface();
-			IHighScoreManager highScoreManager = new HighScoreManager();
-			GameConfig gameConfig = new();
-			IGameLogic gameLogic = new GameLogic(highScoreManager, userInterface, gameConfig);
+			var (userInterface, gameLogic) = InitializeDependencies();
 
 			try
 			{
@@ -26,6 +23,17 @@ namespace Laboration.Controllers.Classes
 			{
 				Console.WriteLine($"An error occurred: {ex.Message}");
 			}
+		}
+
+		// Initializes dependencies and returns them for use in the game loop.
+		public static (IUserInterface userInterface, IGameLogic gameLogic) InitializeDependencies()
+		{
+			IUserInterface userInterface = new UserInterface();
+			IHighScoreManager highScoreManager = new HighScoreManager();
+			GameConfig gameConfig = new();
+			IGameLogic gameLogic = new GameLogic(highScoreManager, userInterface, gameConfig);
+
+			return (userInterface, gameLogic);
 		}
 
 		// Executes the main game loop with the given user interface and game logic.
@@ -55,7 +63,7 @@ namespace Laboration.Controllers.Classes
 				}
 			} while (userInterface.AskToContinue());
 
-			Console.WriteLine("Thank you for playing Bulls and Cows!");
+			userInterface.DisplayGoodbyeMessage(userName);
 		}
 	}
 }

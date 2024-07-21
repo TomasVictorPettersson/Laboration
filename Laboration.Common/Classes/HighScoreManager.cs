@@ -92,6 +92,23 @@ namespace Laboration.Common.Classes
 			}
 		}
 
+		// Reads the high score results from the file, sorts them, and displays the high score list.
+
+		public void ShowHighScoreList(string currentUserName)
+		{
+			try
+			{
+				List<IPlayerData> results = ReadHighScoreResultsFromFile();
+				SortHighScoreList(results);
+				RenderHighScoreList(results, currentUserName);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error showing high score list: {ex.Message}");
+				throw;
+			}
+		}
+
 		// Sorts the high score list based on the average number of guesses.
 
 		public void SortHighScoreList(List<IPlayerData> results)
@@ -109,7 +126,7 @@ namespace Laboration.Common.Classes
 
 		// Displays the high score list with headers and formatted player data.
 
-		public void DisplayHighScoreList(List<IPlayerData> results, string currentUserName)
+		public void RenderHighScoreList(List<IPlayerData> results, string currentUserName)
 		{
 			try
 			{
@@ -117,7 +134,7 @@ namespace Laboration.Common.Classes
 
 				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
 
-				DisplayHighScoreListResults(results, currentUserName, maxUserNameLength, totalWidth);
+				DisplayHighScoreListResults(results, currentUserName, maxUserNameLength);
 			}
 			catch (Exception ex)
 			{
@@ -149,7 +166,7 @@ namespace Laboration.Common.Classes
 		// Displays the list of player data in a formatted manner.
 
 		public void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName,
-			int maxUserNameLength, int totalWidth)
+			int maxUserNameLength)
 		{
 			try
 			{
@@ -187,23 +204,6 @@ namespace Laboration.Common.Classes
 			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
 			Console.WriteLine($"{player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,8} {player.CalculateAverageGuesses(),15:F2}");
 			Console.ResetColor();
-		}
-
-		// Reads the high score results from the file, sorts them, and displays the high score list.
-
-		public void ShowHighScoreList(string currentUserName)
-		{
-			try
-			{
-				List<IPlayerData> results = ReadHighScoreResultsFromFile();
-				SortHighScoreList(results);
-				DisplayHighScoreList(results, currentUserName);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error showing high score list: {ex.Message}");
-				throw;
-			}
 		}
 	}
 }

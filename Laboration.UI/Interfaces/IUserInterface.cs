@@ -19,5 +19,7 @@
 		void DisplayCorrectMessage(string secretNumber, int numberOfGuesses);
 
 		bool AskToContinue();
+
+		void DisplayGoodbyeMessage(string userName);
 	}
 }
