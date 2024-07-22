@@ -18,7 +18,7 @@ namespace Laboration.Common.Classes
 			try
 			{
 				using StreamWriter output = new("result.txt", append: true);
-				output.WriteLine($"{userName}#&#{numberOfGuesses}");
+				output.WriteLine($"{userName}{separator[0]}{numberOfGuesses}");
 			}
 			catch (Exception ex)
 			{
@@ -94,7 +94,7 @@ namespace Laboration.Common.Classes
 
 		// Reads the high score results from the file, sorts them, and displays the high score list.
 
-		public void ShowHighScoreList(string currentUserName)
+		public void DisplayHighScoreList(string currentUserName)
 		{
 			try
 			{
@@ -134,7 +134,7 @@ namespace Laboration.Common.Classes
 
 				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
 
-				DisplayHighScoreListResults(results, currentUserName, maxUserNameLength);
+				PrintHighScoreResults(results, currentUserName, maxUserNameLength);
 			}
 			catch (Exception ex)
 			{
@@ -165,7 +165,7 @@ namespace Laboration.Common.Classes
 
 		// Displays the list of player data in a formatted manner.
 
-		public void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName,
+		public void PrintHighScoreResults(List<IPlayerData> results, string currentUserName,
 			int maxUserNameLength)
 		{
 			try

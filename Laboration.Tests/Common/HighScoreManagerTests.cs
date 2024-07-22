@@ -2,7 +2,7 @@
 using Laboration.Data.Classes;
 using Laboration.Data.Interfaces;
 
-namespace Laboration.Tests.Common.Classes
+namespace Laboration.Tests.Common
 {
 	[TestClass]
 	public class HighScoreManagerTests

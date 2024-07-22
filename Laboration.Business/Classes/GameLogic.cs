@@ -149,7 +149,7 @@ namespace Laboration.Business.Classes
 			try
 			{
 				_highScoreManager.SaveResult(userName, numberOfGuesses);
-				_highScoreManager.ShowHighScoreList(userName);
+				_highScoreManager.DisplayHighScoreList(userName);
 				_userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
 			}
 			catch (Exception ex)

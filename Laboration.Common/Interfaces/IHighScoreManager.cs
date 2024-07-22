@@ -12,7 +12,7 @@ namespace Laboration.Common.Interfaces
 
 		List<IPlayerData> UpdateResultsList(List<IPlayerData> results, IPlayerData playerData);
 
-		void ShowHighScoreList(string currentUserName);
+		void DisplayHighScoreList(string currentUserName);
 
 		void SortHighScoreList(List<IPlayerData> results);
 
@@ -22,7 +22,7 @@ namespace Laboration.Common.Interfaces
 
 		void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth);
 
-		void DisplayHighScoreListResults(List<IPlayerData> results, string currentUserName, int maxUserNameLength);
+		void PrintHighScoreResults(List<IPlayerData> results, string currentUserName, int maxUserNameLength);
 
 		void DisplayRank(int rank, bool isCurrentUser);
 
