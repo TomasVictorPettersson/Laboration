@@ -2,6 +2,7 @@
 using Laboration.Business.Interfaces;
 using Laboration.Common.Classes;
 using Laboration.Common.Interfaces;
+using Laboration.Configurations.Classes;
 using Laboration.UI.Classes;
 using Laboration.UI.Interfaces;
 

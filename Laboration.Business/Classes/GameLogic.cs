@@ -1,5 +1,6 @@
 ﻿using Laboration.Business.Interfaces;
 using Laboration.Common.Interfaces;
+using Laboration.Configurations.Classes;
 using Laboration.UI.Interfaces;
 using System.Text;
 

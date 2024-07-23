@@ -1,4 +1,4 @@
-﻿namespace Laboration.Business.Classes
+﻿namespace Laboration.Configurations.Classes
 {
 	// Represents configuration settings for the game.
 	public class GameConfig
