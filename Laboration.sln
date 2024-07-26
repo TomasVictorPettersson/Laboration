@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laboration.Data", "Laborati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laboration.UI", "Laboration.UI\Laboration.UI.csproj", "{7B6419BF-1A79-4CCF-82E3-78B9FC28F3F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laboration.Common", "Laboration.Common\Laboration.Common.csproj", "{8BCE030A-BC01-4518-BEA2-A4B050DD799B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laboration.DataManagement", "Laboration.DataManagement\Laboration.DataManagement.csproj", "{8BCE030A-BC01-4518-BEA2-A4B050DD799B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laboration.Tests", "Laboration.Tests\Laboration.Tests.csproj", "{4F8506F0-6F6C-4080-B0DF-DB7A5F80EDC3}"
 EndProject

@@ -1,8 +1,8 @@
-﻿using Laboration.Common.Interfaces;
-using Laboration.Data.Classes;
+﻿using Laboration.Data.Classes;
 using Laboration.Data.Interfaces;
+using Laboration.DataManagement.Interfaces;
 
-namespace Laboration.Common.Classes
+namespace Laboration.DataManagement.Classes
 {
 	// Manages high score data, including saving results, reading results from a file,
 	// parsing player data, updating the results list, sorting, and displaying the high score list.

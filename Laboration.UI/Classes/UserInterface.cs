@@ -51,7 +51,8 @@ namespace Laboration.UI.Classes
 			Console.WriteLine("If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n");
 		}
 
-		// Prompts the user to enter a valid 4-digit number with unique digits, allowing a specified number of retries.
+		// Prompts the user to enter a valid 4-digit number with unique digits,
+		// allowing a specified number of retries.
 		public string GetValidGuessFromUser(int maxRetries)
 		{
 			for (int retries = 0; retries < maxRetries; retries++)

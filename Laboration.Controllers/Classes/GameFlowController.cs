@@ -1,8 +1,8 @@
 ﻿using Laboration.Business.Classes;
 using Laboration.Business.Interfaces;
-using Laboration.Common.Classes;
-using Laboration.Common.Interfaces;
 using Laboration.Configurations.Classes;
+using Laboration.DataManagement.Classes;
+using Laboration.DataManagement.Interfaces;
 using Laboration.UI.Classes;
 using Laboration.UI.Interfaces;
 

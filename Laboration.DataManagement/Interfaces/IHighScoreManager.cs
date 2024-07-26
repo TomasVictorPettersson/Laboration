@@ -1,6 +1,6 @@
 ﻿using Laboration.Data.Interfaces;
 
-namespace Laboration.Common.Interfaces
+namespace Laboration.DataManagement.Interfaces
 {
 	public interface IHighScoreManager
 	{

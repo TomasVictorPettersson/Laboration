@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Laboration.Business\Laboration.Business.csproj" />
-    <ProjectReference Include="..\Laboration.Common\Laboration.Common.csproj" />
+    <ProjectReference Include="..\Laboration.DataManagement\Laboration.DataManagement.csproj" />
     <ProjectReference Include="..\Laboration.UI\Laboration.UI.csproj" />
   </ItemGroup>
 

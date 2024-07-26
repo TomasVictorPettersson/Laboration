@@ -1,5 +1,6 @@
 ﻿using Laboration.Business.Classes;
-using Laboration.Common.Interfaces;
+using Laboration.Configurations.Classes;
+using Laboration.DataManagement.Interfaces;
 using Laboration.UI.Interfaces;
 using Moq;
 

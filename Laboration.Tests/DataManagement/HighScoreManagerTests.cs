@@ -1,8 +1,8 @@
-﻿using Laboration.Common.Classes;
-using Laboration.Data.Classes;
+﻿using Laboration.Data.Classes;
 using Laboration.Data.Interfaces;
+using Laboration.DataManagement.Classes;
 
-namespace Laboration.Tests.Common
+namespace Laboration.Tests.DataManagement
 {
 	[TestClass]
 	public class HighScoreManagerTests
