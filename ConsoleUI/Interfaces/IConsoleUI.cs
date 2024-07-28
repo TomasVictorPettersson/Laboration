@@ -14,7 +14,7 @@
 
 		bool IsInputValid(string input);
 
-		string GetValidGuessFromUser(int maxRetries);
+		string GetValidGuessFromUser();
 
 		void DisplayCorrectMessage(string secretNumber, int numberOfGuesses);
 

@@ -2,40 +2,24 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
-
-
-
 MinimumVisualStudioVersion = 10.0.40219.1
-
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayerData", "PlayerData\PlayerData.csproj", "{431D337C-047A-4195-962D-32458FB7FC77}"
 EndProject
-
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{7B6419BF-1A79-4CCF-82E3-78B9FC28F3F1}"
 EndProject
-
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HighScoreManagement", "HighScoreManagement\HighScoreManagement.csproj", "{8BCE030A-BC01-4518-BEA2-A4B050DD799B}"
 EndProject
-
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{4F8506F0-6F6C-4080-B0DF-DB7A5F80EDC3}"
 EndProject
-
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameApplication", "GameApplication\GameApplication.csproj", "{813FC11E-636E-4E2F-898D-F564DAD96AE1}"
 EndProject
-
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurations", "Configurations\Configurations.csproj", "{FDF8AD89-9444-4C9C-AE2C-518FE3C1BB24}"
-EndProject
-
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameFlow", "GameFlow\GameFlow.csproj", "{9F6DCB96-AD6E-4322-808B-0B8757219CAD}"
 EndProject
-
-Project("{736907D1-651C-4078-9B78-8DA1F7E3C6B9}") = "GameLogic", "GameLogic\GameLogic.csproj", "{736907D1-651C-4078-9B78-8DA1F7E3C6B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLogic", "GameLogic\GameLogic.csproj", "{736907D1-651C-4078-9B78-8DA1F7E3C6B9}"
 EndProject
-
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection", "DependencyInjection\DependencyInjection.csproj", "{294ED6F5-0FD4-4338-A230-09E4C46E7E8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyInjection", "DependencyInjection\DependencyInjection.csproj", "{294ED6F5-0FD4-4338-A230-09E4C46E7E8F}"
 EndProject
-
 Global
-
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -61,10 +45,6 @@ Global
 		{813FC11E-636E-4E2F-898D-F564DAD96AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{813FC11E-636E-4E2F-898D-F564DAD96AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{813FC11E-636E-4E2F-898D-F564DAD96AE1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDF8AD89-9444-4C9C-AE2C-518FE3C1BB24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDF8AD89-9444-4C9C-AE2C-518FE3C1BB24}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDF8AD89-9444-4C9C-AE2C-518FE3C1BB24}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDF8AD89-9444-4C9C-AE2C-518FE3C1BB24}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F6DCB96-AD6E-4322-808B-0B8757219CAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F6DCB96-AD6E-4322-808B-0B8757219CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F6DCB96-AD6E-4322-808B-0B8757219CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU

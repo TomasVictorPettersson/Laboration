@@ -2,7 +2,7 @@
 using Laboration.HighScoreManagement.Implementations;
 using Laboration.PlayerData.Implementations;
 
-namespace Laboration.Tests.DataManagement
+namespace Laboration.Tests.HighScoreManagement
 {
 	[TestClass]
 	public class BullsAndCowsHighScoreManagerTests
@@ -28,38 +28,36 @@ namespace Laboration.Tests.DataManagement
 			// Assert
 			const string filePath = "result.txt";
 			string[] lines = File.ReadAllLines(filePath);
-			Assert.IsTrue(lines.Length > 0);
-			Assert.IsTrue(lines[0].Contains("TestUser#10"), "File content does not match expected format.");
+			Assert.IsTrue(lines.Length > 0, "The file should contain at least one line.");
+			Assert.IsTrue(lines[0].Contains("TestUser#&#10"), "The first line should contain 'TestUser#&#10'.");
 		}
 
 		[TestMethod]
 		public void ReadResultsFromFile_ReadsFromFile()
 		{
 			// Arrange
-			const string filePath = "result.txt";
-			File.WriteAllText(filePath, "TestUser#10");
-
+			File.WriteAllText("result.txt", "TestUser#&#10");
 			// Act
 			List<IPlayerData> results = _highScoreManager.ReadHighScoreResultsFromFile();
 
 			// Assert
-			Assert.AreEqual(1, results.Count);
-			Assert.AreEqual("TestUser", results[0].UserName);
-			Assert.AreEqual(10, results[0].TotalGuesses);
+			Assert.AreEqual(1, results.Count, "The result list should contain exactly one player data.");
+			Assert.AreEqual("TestUser", results[0].UserName, "The user name should be 'TestUser'.");
+			Assert.AreEqual(10, results[0].TotalGuesses, "The total guesses should be 10.");
 		}
 
 		[TestMethod]
 		public void ParseLine_ParsesLine()
 		{
 			// Arrange
-			const string line = "TestUser#10";
+			const string line = "TestUser#&#10";
 
 			// Act
 			IPlayerData playerData = _highScoreManager.ParseLineToPlayerData(line);
 
 			// Assert
-			Assert.AreEqual("TestUser", playerData.UserName);
-			Assert.AreEqual(10, playerData.TotalGuesses);
+			Assert.AreEqual("TestUser", playerData.UserName, "The user name should be 'TestUser'.");
+			Assert.AreEqual(10, playerData.TotalGuesses, "The total guesses should be 10.");
 		}
 
 		[TestMethod]
@@ -72,8 +70,8 @@ namespace Laboration.Tests.DataManagement
 			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(_results, playerData);
 
 			// Assert
-			Assert.AreEqual(1, updatedResults.Count);
-			Assert.IsTrue(updatedResults.Contains(playerData));
+			Assert.AreEqual(1, updatedResults.Count, "The updated results list should contain exactly one player data.");
+			Assert.IsTrue(updatedResults.Contains(playerData), "The updated results list should contain the new player data.");
 		}
 
 		[TestMethod]
@@ -88,8 +86,8 @@ namespace Laboration.Tests.DataManagement
 			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(_results, playerData2);
 
 			// Assert
-			Assert.AreEqual(1, updatedResults.Count);
-			Assert.AreEqual(25, updatedResults[0].TotalGuesses);
+			Assert.AreEqual(1, updatedResults.Count, "The updated results list should contain exactly one player data.");
+			Assert.AreEqual(25, updatedResults[0].TotalGuesses, "The total guesses should be updated to 25.");
 		}
 
 		[TestCleanup]

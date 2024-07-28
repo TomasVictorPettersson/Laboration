@@ -1,10 +1,9 @@
-﻿using Laboration.Configurations;
-using Laboration.ConsoleUI.Interfaces;
+﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameLogic.Implementations;
 using Laboration.HighScoreManagement.Interfaces;
 using Moq;
 
-namespace Laboration.Tests.Business
+namespace Laboration.Tests.GameLogic
 {
 	[TestClass]
 	public class BullsAndCowsGameLogicTests
@@ -15,8 +14,7 @@ namespace Laboration.Tests.Business
 
 		public BullsAndCowsGameLogicTests()
 		{
-			GameSettings gameSettings = new() { MaxRetries = 3 };
-			_gameLogic = new BullsAndCowsGameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object, gameSettings);
+			_gameLogic = new BullsAndCowsGameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object);
 		}
 
 		[TestMethod]
@@ -40,7 +38,7 @@ namespace Laboration.Tests.Business
 			const string secretNumber = "1234";
 			const string invalidGuess = null!;
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
 			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
@@ -58,7 +56,7 @@ namespace Laboration.Tests.Business
 			const string secretNumber = "1234";
 			const string invalidGuess = "";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
 			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
@@ -76,7 +74,7 @@ namespace Laboration.Tests.Business
 			const string secretNumber = "1234";
 			const string invalidGuess = "test";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
 			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
@@ -94,7 +92,7 @@ namespace Laboration.Tests.Business
 			const string secretNumber = "1234";
 			const string invalidGuess = "1122";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(invalidGuess);
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
 			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
@@ -112,7 +110,7 @@ namespace Laboration.Tests.Business
 			const string secretNumber = "1234";
 			const string guess = "1234";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(guess);
 			_userInterfaceMock.Setup(ui => ui.IsInputValid(guess)).Returns(true);
 
 			// Act
@@ -130,7 +128,7 @@ namespace Laboration.Tests.Business
 			const string secretNumber = "1234";
 			const string guess = "5678";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser(It.IsAny<int>())).Returns(guess);
+			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(guess);
 			_userInterfaceMock.Setup(ui => ui.IsInputValid(guess)).Returns(true);
 
 			// Act

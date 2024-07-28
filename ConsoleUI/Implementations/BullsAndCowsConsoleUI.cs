@@ -2,12 +2,10 @@
 
 namespace Laboration.ConsoleUI.Implementations
 {
-	// Provides the user interface for the Bulls and Cows game in a console application.
-	// This class implements IConsoleUI to handle user interactions including
-	// username input, game instructions, guess validation, and feedback display.
+	// Handles user interactions for the Bulls and Cows game in a console application.
 	public class BullsAndCowsConsoleUI : IConsoleUI
 	{
-		// Prompts the user to enter their username, ensuring it is not empty and within the specified length.
+		// Prompts the user to enter a username, validating its length.
 		public string GetUserName()
 		{
 			string userName;
@@ -21,7 +19,7 @@ namespace Laboration.ConsoleUI.Implementations
 			return userName;
 		}
 
-		// Displays validation messages for the username.
+		// Validates username and prints error messages if invalid.
 		public void ValidateUserName(string userName)
 		{
 			if (string.IsNullOrEmpty(userName))
@@ -34,7 +32,7 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
-		// Checks if the username is not empty and is within the specified length.
+		// Checks if the username is valid.
 		public bool IsValidUserName(string userName)
 		{
 			return !string.IsNullOrEmpty(userName) && userName.Length >= 2 && userName.Length <= 20;
@@ -53,47 +51,46 @@ namespace Laboration.ConsoleUI.Implementations
 			Console.WriteLine("If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n");
 		}
 
-		// Prompts the user to enter a valid 4-digit number with unique digits,
-		// allowing a specified number of retries.
-		public string GetValidGuessFromUser(int maxRetries)
+		// Prompts the user to enter a valid 4-digit guess.
+		public string GetValidGuessFromUser()
 		{
-			for (int retries = 0; retries < maxRetries; retries++)
+			string guess;
+			do
 			{
-				string guess = GetInputFromUser("Enter your guess: ");
-				if (IsInputValid(guess))
+				guess = GetInputFromUser("Enter your guess: ");
+				if (!IsInputValid(guess))
 				{
-					return guess;
+					Console.WriteLine("Invalid input. Please enter a 4-digit number with unique digits.\n");
 				}
-				Console.WriteLine("Invalid input. Please enter a 4-digit number with unique digits.\n");
-			}
-			return string.Empty;
+			} while (!IsInputValid(guess));
+			return guess;
 		}
 
-		// Prompts the user for input until a non-empty string is entered.
+		// Gets input from the user with a prompt.
 		public string GetInputFromUser(string prompt)
 		{
-			string input = string.Empty;
-			while (string.IsNullOrEmpty(input))
+			string input;
+			do
 			{
 				Console.Write(prompt);
 				input = Console.ReadLine()!.Trim();
-			}
+			} while (string.IsNullOrEmpty(input));
 			return input;
 		}
 
-		// Validates if the input is a non-empty string, exactly 4 characters long, numeric, and has unique digits.
+		// Validates if the input is a valid 4-digit number with unique digits.
 		public bool IsInputValid(string input)
 		{
 			return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _) && input.Distinct().Count() == 4;
 		}
 
-		// Displays a message indicating the correct secret number and the number of guesses taken.
+		// Displays a message indicating the correct number and number of guesses taken.
 		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
-			Console.WriteLine($"\nCorrect! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses");
+			Console.WriteLine($"\nCorrect! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses.");
 		}
 
-		// Prompts the user to continue playing or exit the game.
+		// Prompts the user to continue playing or exit.
 		public bool AskToContinue()
 		{
 			while (true)
@@ -116,7 +113,7 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
-		// Displays a goodbye message to the user after the game loop ends.
+		// Displays a goodbye message to the user.
 		public void DisplayGoodbyeMessage(string userName)
 		{
 			Console.WriteLine($"Thank you, {userName}, for playing Bulls and Cows!");

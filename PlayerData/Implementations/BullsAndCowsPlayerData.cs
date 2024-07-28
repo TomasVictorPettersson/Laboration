@@ -9,7 +9,7 @@ namespace Laboration.PlayerData.Implementations
 		// Properties
 		public string UserName { get; }
 
-		public int TotalGamesPlayed { get; private set; } = 1;
+		public int TotalGamesPlayed { get; private set; } = 0;
 		public int TotalGuesses { get; private set; }
 
 		// Constructor
@@ -27,6 +27,7 @@ namespace Laboration.PlayerData.Implementations
 
 			UserName = userName;
 			TotalGuesses = guesses;
+			TotalGamesPlayed = 1; // Initialize to 1 if this is the player's first game
 		}
 
 		// Adds the specified number of guesses to the player's total and increments games played.
@@ -55,19 +56,13 @@ namespace Laboration.PlayerData.Implementations
 		// Overrides Equals method to compare BullsAndCowsPlayerData objects based on username.
 		public override bool Equals(object? obj)
 		{
-			if (obj == null || GetType() != obj.GetType())
-			{
-				return false;
-			}
-
-			BullsAndCowsPlayerData other = (BullsAndCowsPlayerData)obj;
-			return UserName.Equals(other.UserName);
+			return obj is BullsAndCowsPlayerData other && UserName.Equals(other.UserName, StringComparison.OrdinalIgnoreCase);
 		}
 
 		// Overrides GetHashCode method to generate hash code based on username.
 		public override int GetHashCode()
 		{
-			return UserName.GetHashCode();
+			return UserName.GetHashCode(StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }

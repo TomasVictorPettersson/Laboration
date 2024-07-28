@@ -18,7 +18,7 @@ namespace Laboration.Tests.ConsoleUI
 			string userName = _mockUserInterface.Object.GetUserName();
 
 			// Assert
-			Assert.AreEqual("ValidUser", userName);
+			Assert.AreEqual("ValidUser", userName, "The user name returned should be 'ValidUser'.");
 		}
 
 		[TestMethod]
@@ -29,7 +29,8 @@ namespace Laboration.Tests.ConsoleUI
 				.Throws(new InvalidOperationException("User name cannot be empty."));
 
 			// Act & Assert
-			Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.GetUserName());
+			var exception = Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.GetUserName());
+			Assert.AreEqual("User name cannot be empty.", exception.Message, "Exception message should be 'User name cannot be empty.'");
 		}
 
 		[TestMethod]
@@ -42,7 +43,8 @@ namespace Laboration.Tests.ConsoleUI
 			_mockUserInterface.Object.DisplayCorrectMessage("1234", 5);
 
 			// Assert
-			_mockUserInterface.Verify(ui => ui.DisplayCorrectMessage("1234", 5), Times.Once);
+			_mockUserInterface.Verify(ui => ui.DisplayCorrectMessage("1234", 5), Times.Once,
+				"DisplayCorrectMessage should be called once with parameters '1234' and 5.");
 		}
 
 		[TestMethod]
@@ -55,7 +57,7 @@ namespace Laboration.Tests.ConsoleUI
 			bool continueGame = _mockUserInterface.Object.AskToContinue();
 
 			// Assert
-			Assert.IsTrue(continueGame);
+			Assert.IsTrue(continueGame, "AskToContinue should return true for a valid 'yes' input.");
 		}
 
 		[TestMethod]
@@ -68,7 +70,7 @@ namespace Laboration.Tests.ConsoleUI
 			bool continueGame = _mockUserInterface.Object.AskToContinue();
 
 			// Assert
-			Assert.IsFalse(continueGame);
+			Assert.IsFalse(continueGame, "AskToContinue should return false for a valid 'no' input.");
 		}
 
 		[TestMethod]
@@ -79,7 +81,8 @@ namespace Laboration.Tests.ConsoleUI
 				.Throws(new InvalidOperationException("Invalid input."));
 
 			// Act & Assert
-			Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.AskToContinue());
+			var exception = Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.AskToContinue());
+			Assert.AreEqual("Invalid input.", exception.Message, "Exception message should be 'Invalid input.'");
 		}
 	}
 }

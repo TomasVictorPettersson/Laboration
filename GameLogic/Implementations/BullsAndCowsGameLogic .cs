@@ -1,21 +1,17 @@
-﻿using Laboration.Configurations;
-using Laboration.ConsoleUI.Interfaces;
+﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameLogic.Interfaces;
 using Laboration.HighScoreManagement.Interfaces;
 using System.Text;
 
 namespace Laboration.GameLogic.Implementations
 {
-	// Manages the Bulls and Cows game logic, including setup, gameplay, and result handling
-	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, GameSettings gameSettings) : IGameLogic
+	// Manages the Bulls and Cows game logic, including setup, gameplay, and result handling.
+	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI) : IGameLogic
 	{
 		private readonly IHighScoreManager _highScoreManager = highScoreManager ?? throw new ArgumentNullException(nameof(highScoreManager));
-
 		private readonly IConsoleUI _consoleUI = consoleUI ?? throw new ArgumentNullException(nameof(consoleUI));
 
-		private readonly GameSettings _gameSettings = gameSettings ?? throw new ArgumentNullException(nameof(gameSettings));
-
-		// Starts the game by generating a secret number and initiating the game loop
+		// Starts the game by generating a secret number and initiating the game loop.
 		public void PlayGame(string userName)
 		{
 			try
@@ -33,7 +29,7 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Displays a welcome message to the user
+		// Displays a welcome message to the user.
 		public void InitializeGame(string userName)
 		{
 			try
@@ -47,7 +43,7 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Generates a random 4-digit secret number
+		// Generates a random 4-digit secret number.
 		public string MakeSecretNumber()
 		{
 			Random randomGenerator = new();
@@ -66,7 +62,7 @@ namespace Laboration.GameLogic.Implementations
 			return secretNumber.ToString();
 		}
 
-		// Displays the secret number for practice mode
+		// Displays the secret number for practice mode.
 		public void DisplaySecretNumberForPractice(string secretNumber)
 		{
 			try
@@ -80,7 +76,7 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Main game loop
+		// Main game loop.
 		public void PlayGameLoop(string secretNumber, string userName)
 		{
 			try
@@ -106,7 +102,7 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Checks if the player's guess matches the secret number
+		// Checks if the player's guess matches the secret number.
 		public bool IsCorrectGuess(string guess, string secretNumber)
 		{
 			try
@@ -125,7 +121,7 @@ namespace Laboration.GameLogic.Implementations
 		{
 			try
 			{
-				string guess = _consoleUI.GetValidGuessFromUser(_gameSettings.MaxRetries);
+				string guess = _consoleUI.GetValidGuessFromUser();
 
 				if (string.IsNullOrEmpty(guess) || !_consoleUI.IsInputValid(guess))
 				{
@@ -146,7 +142,7 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Ends the game, saves the result, and displays high scores
+		// Ends the game, saves the result, and displays high scores.
 		public void EndGame(string secretNumber, string userName, int numberOfGuesses)
 		{
 			try
@@ -162,7 +158,7 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Generates feedback for the player's guess in terms of bulls and cows
+		// Generates feedback for the player's guess in terms of bulls and cows.
 		public static string GenerateBullsAndCowsFeedback(string secretNumber, string guess)
 		{
 			try
@@ -179,7 +175,7 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Counts the number of bulls (correct digits in correct positions)
+		// Counts the number of bulls (correct digits in correct positions).
 		public static int CountBulls(string secretNumber, string guess)
 		{
 			try
@@ -202,7 +198,7 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Counts the number of cows (correct digits in wrong positions)
+		// Counts the number of cows (correct digits in wrong positions).
 		public static int CountCows(string secretNumber, string guess)
 		{
 			try

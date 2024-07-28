@@ -6,13 +6,11 @@ namespace Laboration.HighScoreManagement.Implementations
 {
 	// Manages high score data for the Bulls and Cows game, including saving results,
 	// reading from a file, parsing player data, updating the results list, sorting, and displaying.
-
 	public class BullsAndCowsHighScoreManager : IHighScoreManager
 	{
 		private readonly string[] separator = ["#&#"];
 
 		// Saves a user's result to a file.
-
 		public void SaveResult(string userName, int numberOfGuesses)
 		{
 			try
@@ -28,10 +26,9 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Reads high score results from a file and returns a list of player data.
-
 		public List<IPlayerData> ReadHighScoreResultsFromFile()
 		{
-			List<IPlayerData> results = [];
+			var results = new List<IPlayerData>();
 			try
 			{
 				using StreamReader input = new("result.txt");
@@ -51,7 +48,6 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Parses a line of text to create a player data object.
-
 		public IPlayerData ParseLineToPlayerData(string line)
 		{
 			try
@@ -69,7 +65,6 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Updates the results list with a new player's data or updates existing data.
-
 		public List<IPlayerData> UpdateResultsList(List<IPlayerData> results, IPlayerData playerData)
 		{
 			try
@@ -93,12 +88,11 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Reads the high score results from the file, sorts them, and displays the high score list.
-
 		public void DisplayHighScoreList(string currentUserName)
 		{
 			try
 			{
-				List<IPlayerData> results = ReadHighScoreResultsFromFile();
+				var results = ReadHighScoreResultsFromFile();
 				SortHighScoreList(results);
 				RenderHighScoreList(results, currentUserName);
 			}
@@ -110,7 +104,6 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Sorts the high score list based on the average number of guesses.
-
 		public void SortHighScoreList(List<IPlayerData> results)
 		{
 			try
@@ -125,15 +118,13 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Displays the high score list with headers and formatted player data.
-
 		public void RenderHighScoreList(List<IPlayerData> results, string currentUserName)
 		{
 			try
 			{
-				(int maxUserNameLength, int totalWidth) = CalculateDisplayDimensions(results);
+				var (maxUserNameLength, totalWidth) = CalculateDisplayDimensions(results);
 
 				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
-
 				PrintHighScoreResults(results, currentUserName, maxUserNameLength);
 			}
 			catch (Exception ex)
@@ -144,7 +135,6 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Calculates the maximum username length and total display width for formatting.
-
 		public (int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results)
 		{
 			int maxUserNameLength = results.Max(p => p.UserName.Length);
@@ -153,7 +143,6 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Displays the header for the high score list.
-
 		public void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth)
 		{
 			const string header = "=== High Score List ===";
@@ -164,9 +153,7 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Displays the list of player data in a formatted manner.
-
-		public void PrintHighScoreResults(List<IPlayerData> results, string currentUserName,
-			int maxUserNameLength)
+		public void PrintHighScoreResults(List<IPlayerData> results, string currentUserName, int maxUserNameLength)
 		{
 			try
 			{
@@ -198,7 +185,6 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Displays the player data, highlighting the current user if necessary.
-
 		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength)
 		{
 			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
