@@ -1,8 +1,11 @@
-﻿using Laboration.DataManagement.Classes;
-using Laboration.DataManagement.Interfaces;
+﻿using Laboration.Configurations;
+using Laboration.ConsoleUI.Implementations;
+using Laboration.ConsoleUI.Interfaces;
 using Laboration.DependencyInjection.Interfaces;
-using Laboration.GameLogic.Classes;
+using Laboration.GameLogic.Implementations;
 using Laboration.GameLogic.Interfaces;
+using Laboration.HighScoreManagement.Implementations;
+using Laboration.HighScoreManagement.Interfaces;
 
 namespace Laboration.DependencyInjection.Implementations
 {
@@ -10,14 +13,14 @@ namespace Laboration.DependencyInjection.Implementations
 	public class BullsAndCowsDependencyInitializer : IDependencyInitializer
 	{
 		// Initializes dependencies and returns them for use in the game loop.
-		public (IUserInterface userInterface, IGameLogic gameLogic) InitializeDependencies()
+		public (IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies()
 		{
-			IUserInterface userInterface = new UserInterface();
-			IHighScoreManager highScoreManager = new HighScoreManager();
-			GameConfig gameConfig = new();
-			IGameLogic gameLogic = new BullsAndCowsGameLogic(highScoreManager, userInterface, gameConfig);
+			IConsoleUI consoleUI = new BullsAndCowsConsoleUI();
+			IHighScoreManager highScoreManager = new BullsAndCowsHighScoreManager();
+			GameSettings gameSettings = new();
+			IGameLogic gameLogic = new BullsAndCowsGameLogic(highScoreManager, consoleUI, gameSettings);
 
-			return (userInterface, gameLogic);
+			return (consoleUI, gameLogic);
 		}
 	}
 }

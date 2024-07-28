@@ -1,17 +1,19 @@
 ﻿using Laboration.Configurations;
-using Laboration.DataManagement.Interfaces;
+using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameLogic.Interfaces;
-using Laboration.UI.Interfaces;
+using Laboration.HighScoreManagement.Interfaces;
 using System.Text;
 
 namespace Laboration.GameLogic.Implementations
 {
 	// Manages the Bulls and Cows game logic, including setup, gameplay, and result handling
-	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface, GameConfig config) : IGameLogic
+	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, GameSettings gameSettings) : IGameLogic
 	{
 		private readonly IHighScoreManager _highScoreManager = highScoreManager ?? throw new ArgumentNullException(nameof(highScoreManager));
-		private readonly IConsoleUI _userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
-		private readonly GameConfig _config = config ?? throw new ArgumentNullException(nameof(config));
+
+		private readonly IConsoleUI _consoleUI = consoleUI ?? throw new ArgumentNullException(nameof(consoleUI));
+
+		private readonly GameSettings _gameSettings = gameSettings ?? throw new ArgumentNullException(nameof(gameSettings));
 
 		// Starts the game by generating a secret number and initiating the game loop
 		public void PlayGame(string userName)
@@ -36,7 +38,7 @@ namespace Laboration.GameLogic.Implementations
 		{
 			try
 			{
-				_userInterface.DisplayWelcomeMessage(userName);
+				_consoleUI.DisplayWelcomeMessage(userName);
 			}
 			catch (Exception ex)
 			{
@@ -123,9 +125,9 @@ namespace Laboration.GameLogic.Implementations
 		{
 			try
 			{
-				string guess = _userInterface.GetValidGuessFromUser(_config.MaxRetries);
+				string guess = _consoleUI.GetValidGuessFromUser(_gameSettings.MaxRetries);
 
-				if (string.IsNullOrEmpty(guess) || !_userInterface.IsInputValid(guess))
+				if (string.IsNullOrEmpty(guess) || !_consoleUI.IsInputValid(guess))
 				{
 					Console.WriteLine("Guess is empty or invalid.");
 					return string.Empty;
@@ -151,7 +153,7 @@ namespace Laboration.GameLogic.Implementations
 			{
 				_highScoreManager.SaveResult(userName, numberOfGuesses);
 				_highScoreManager.DisplayHighScoreList(userName);
-				_userInterface.DisplayCorrectMessage(secretNumber, numberOfGuesses);
+				_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
 			}
 			catch (Exception ex)
 			{

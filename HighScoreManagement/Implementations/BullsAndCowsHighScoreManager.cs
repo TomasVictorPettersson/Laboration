@@ -1,8 +1,8 @@
 ﻿using Laboration.Data.Interfaces;
-using Laboration.DataManagement.Interfaces;
+using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Implementations;
 
-namespace Laboration.DataManagement.Implementations
+namespace Laboration.HighScoreManagement.Implementations
 {
 	// Manages high score data for the Bulls and Cows game, including saving results,
 	// reading from a file, parsing player data, updating the results list, sorting, and displaying.

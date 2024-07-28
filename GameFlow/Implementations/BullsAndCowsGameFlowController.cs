@@ -1,4 +1,5 @@
-﻿using Laboration.GameFlow.Interfaces;
+﻿using Laboration.ConsoleUI.Interfaces;
+using Laboration.GameFlow.Interfaces;
 using Laboration.GameLogic.Interfaces;
 
 namespace Laboration.GameFlow.Implementations
@@ -7,12 +8,12 @@ namespace Laboration.GameFlow.Implementations
 	public class BullsAndCowsGameFlowController : IGameFlowController
 	{
 		// Executes the main game loop with the given user interface and game logic.
-		public void ExecuteGameLoop(IUserInterface userInterface, IGameLogic gameLogic)
+		public void ExecuteGameLoop(IConsoleUI consoleUI, IGameLogic gameLogic)
 		{
 			string userName;
 			try
 			{
-				userName = userInterface.GetUserName();
+				userName = consoleUI.GetUserName();
 			}
 			catch (Exception ex)
 			{
@@ -31,9 +32,9 @@ namespace Laboration.GameFlow.Implementations
 					Console.WriteLine($"Error during game play: {ex.Message}");
 					return;
 				}
-			} while (userInterface.AskToContinue());
+			} while (consoleUI.AskToContinue());
 
-			userInterface.DisplayGoodbyeMessage(userName);
+			consoleUI.DisplayGoodbyeMessage(userName);
 		}
 	}
 }

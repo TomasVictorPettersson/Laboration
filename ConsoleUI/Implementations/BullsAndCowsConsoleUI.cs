@@ -1,6 +1,6 @@
-﻿using Laboration.UI.Interfaces;
+﻿using Laboration.ConsoleUI.Interfaces;
 
-namespace Laboration.UI.Implementations
+namespace Laboration.ConsoleUI.Implementations
 {
 	// Provides the user interface for the Bulls and Cows game in a console application.
 	// This class implements IConsoleUI to handle user interactions including

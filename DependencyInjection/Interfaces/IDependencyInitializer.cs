@@ -1,10 +1,10 @@
-﻿using Laboration.GameLogic.Interfaces;
-using Laboration.UI.Interfaces;
+﻿using Laboration.ConsoleUI.Interfaces;
+using Laboration.GameLogic.Interfaces;
 
 namespace Laboration.DependencyInjection.Interfaces
 {
 	public interface IDependencyInitializer
 	{
-		(IUserInterface userInterface, IGameLogic gameLogic) InitializeDependencies();
+		(IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies();
 	}
 }

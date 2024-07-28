@@ -1,4 +1,4 @@
-﻿using Laboration.UI.Interfaces;
+﻿using Laboration.ConsoleUI.Interfaces;
 using Moq;
 
 namespace Laboration.Tests.ConsoleUI
@@ -6,14 +6,13 @@ namespace Laboration.Tests.ConsoleUI
 	[TestClass]
 	public class BullsAndCowsConsoleUITests
 	{
-		private readonly Mock<IUserInterface> _mockUserInterface = new();
+		private readonly Mock<IConsoleUI> _mockUserInterface = new();
 
 		[TestMethod]
 		public void GetUserName_ValidUserName_ReturnsUserName()
 		{
 			// Arrange
-			_mockUserInterface.SetupSequence(ui => ui.GetUserName())
-				.Returns("ValidUser");
+			_mockUserInterface.Setup(ui => ui.GetUserName()).Returns("ValidUser");
 
 			// Act
 			string userName = _mockUserInterface.Object.GetUserName();
@@ -50,8 +49,7 @@ namespace Laboration.Tests.ConsoleUI
 		public void AskToContinue_ValidYesInput_ReturnsTrue()
 		{
 			// Arrange
-			_mockUserInterface.SetupSequence(ui => ui.AskToContinue())
-				.Returns(true);
+			_mockUserInterface.Setup(ui => ui.AskToContinue()).Returns(true);
 
 			// Act
 			bool continueGame = _mockUserInterface.Object.AskToContinue();
@@ -64,8 +62,7 @@ namespace Laboration.Tests.ConsoleUI
 		public void AskToContinue_ValidNoInput_ReturnsFalse()
 		{
 			// Arrange
-			_mockUserInterface.SetupSequence(ui => ui.AskToContinue())
-				.Returns(false);
+			_mockUserInterface.Setup(ui => ui.AskToContinue()).Returns(false);
 
 			// Act
 			bool continueGame = _mockUserInterface.Object.AskToContinue();
@@ -79,7 +76,7 @@ namespace Laboration.Tests.ConsoleUI
 		{
 			// Arrange
 			_mockUserInterface.Setup(ui => ui.AskToContinue())
-				.Throws<InvalidOperationException>();
+				.Throws(new InvalidOperationException("Invalid input."));
 
 			// Act & Assert
 			Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.AskToContinue());

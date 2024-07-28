@@ -1,16 +1,16 @@
-﻿using Laboration.Data.Classes;
-using Laboration.Data.Interfaces;
-using Laboration.DataManagement.Classes;
+﻿using Laboration.Data.Interfaces;
+using Laboration.HighScoreManagement.Implementations;
+using Laboration.PlayerData.Implementations;
 
 namespace Laboration.Tests.DataManagement
 {
 	[TestClass]
-	public class HighScoreManagerTests
+	public class BullsAndCowsHighScoreManagerTests
 	{
-		private readonly HighScoreManager _highScoreManager = new();
+		private readonly BullsAndCowsHighScoreManager _highScoreManager = new();
 		private readonly List<IPlayerData> _results;
 
-		public HighScoreManagerTests()
+		public BullsAndCowsHighScoreManagerTests()
 		{
 			_results = [];
 		}
@@ -26,16 +26,18 @@ namespace Laboration.Tests.DataManagement
 			_highScoreManager.SaveResult(userName, numberOfGuesses);
 
 			// Assert
-			string[] lines = File.ReadAllLines("result.txt");
+			const string filePath = "result.txt";
+			string[] lines = File.ReadAllLines(filePath);
 			Assert.IsTrue(lines.Length > 0);
-			Assert.IsTrue(lines[0].Contains("TestUser#&#10"));
+			Assert.IsTrue(lines[0].Contains("TestUser#10"), "File content does not match expected format.");
 		}
 
 		[TestMethod]
 		public void ReadResultsFromFile_ReadsFromFile()
 		{
 			// Arrange
-			File.WriteAllText("result.txt", "TestUser#&#10");
+			const string filePath = "result.txt";
+			File.WriteAllText(filePath, "TestUser#10");
 
 			// Act
 			List<IPlayerData> results = _highScoreManager.ReadHighScoreResultsFromFile();
@@ -50,7 +52,7 @@ namespace Laboration.Tests.DataManagement
 		public void ParseLine_ParsesLine()
 		{
 			// Arrange
-			const string line = "TestUser#&#10";
+			const string line = "TestUser#10";
 
 			// Act
 			IPlayerData playerData = _highScoreManager.ParseLineToPlayerData(line);
@@ -64,7 +66,7 @@ namespace Laboration.Tests.DataManagement
 		public void UpdateList_AddsNewData()
 		{
 			// Arrange
-			IPlayerData playerData = new PlayerData("TestUser", 10);
+			IPlayerData playerData = new BullsAndCowsPlayerData("TestUser", 10);
 
 			// Act
 			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(_results, playerData);
@@ -78,8 +80,8 @@ namespace Laboration.Tests.DataManagement
 		public void UpdateList_UpdatesExistingData()
 		{
 			// Arrange
-			IPlayerData playerData1 = new PlayerData("TestUser", 10);
-			IPlayerData playerData2 = new PlayerData("TestUser", 15);
+			IPlayerData playerData1 = new BullsAndCowsPlayerData("TestUser", 10);
+			IPlayerData playerData2 = new BullsAndCowsPlayerData("TestUser", 15);
 			_results.Add(playerData1);
 
 			// Act
@@ -94,16 +96,17 @@ namespace Laboration.Tests.DataManagement
 		public void TestCleanup()
 		{
 			// Clean up any resources here
+			const string filePath = "result.txt";
 			try
 			{
-				if (File.Exists("result.txt"))
+				if (File.Exists(filePath))
 				{
-					File.Delete("result.txt");
+					File.Delete(filePath);
 				}
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error cleaning up test resources: {ex.Message}");
+				Assert.Inconclusive($"Error cleaning up test resources: {ex.Message}");
 			}
 		}
 	}

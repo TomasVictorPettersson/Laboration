@@ -1,6 +1,5 @@
-﻿using Laboration.DependencyInjection.Classes;
-using Laboration.GameFlow.Classes;
-using Laboration.GameFlow.Interfaces;
+﻿using Laboration.DependencyInjection.Implementations;
+using Laboration.GameFlow.Implementations;
 
 namespace Laboration.Application
 {
@@ -13,11 +12,11 @@ namespace Laboration.Application
 		public static void Main()
 		{
 			// Initialize dependencies using DependencyInitializer
-			var dependencyInitializer = new DependencyInitializer();
-			var (userInterface, gameLogic) = dependencyInitializer.InitializeDependencies();
+			var bullsAndCowsDependencyInitializer = new BullsAndCowsDependencyInitializer();
+			var (userInterface, gameLogic) = bullsAndCowsDependencyInitializer.InitializeDependencies();
 
 			// Create an instance of GameFlowController
-			IGameFlowController gameFlowController = new GameFlowController();
+			var gameFlowController = new BullsAndCowsGameFlowController();
 
 			try
 			{

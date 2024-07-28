@@ -1,4 +1,4 @@
-﻿namespace Laboration.UI.Interfaces
+﻿namespace Laboration.ConsoleUI.Interfaces
 {
 	public interface IConsoleUI
 	{
