@@ -1,13 +1,13 @@
-﻿using Laboration.Business.Interfaces;
-using Laboration.Configurations.Classes;
+﻿using Laboration.Configurations.Classes;
 using Laboration.DataManagement.Interfaces;
+using Laboration.GameLogic.Interfaces;
 using Laboration.UI.Interfaces;
 using System.Text;
 
-namespace Laboration.Business.Classes
+namespace Laboration.GameLogic.Classes
 {
 	// Manages the Bulls and Cows game logic, including setup, gameplay, and result handling
-	public class GameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface, GameConfig config) : IGameLogic
+	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IUserInterface userInterface, GameConfig config) : IGameLogic
 	{
 		private readonly IHighScoreManager _highScoreManager = highScoreManager ?? throw new ArgumentNullException(nameof(highScoreManager));
 		private readonly IUserInterface _userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));

@@ -1,22 +1,22 @@
-﻿using Laboration.Business.Classes;
-using Laboration.Configurations.Classes;
+﻿using Laboration.Configurations.Classes;
 using Laboration.DataManagement.Interfaces;
+using Laboration.GameLogic.Classes;
 using Laboration.UI.Interfaces;
 using Moq;
 
 namespace Laboration.Tests.Business
 {
 	[TestClass]
-	public class GameLogicTests
+	public class BullsAndCowsGameLogicTests
 	{
 		private readonly Mock<IHighScoreManager> _highScoreManagerMock = new();
 		private readonly Mock<IUserInterface> _userInterfaceMock = new();
-		private readonly GameLogic _gameLogic;
+		private readonly BullsAndCowsGameLogic _gameLogic;
 
-		public GameLogicTests()
+		public BullsAndCowsGameLogicTests()
 		{
 			GameConfig config = new() { MaxRetries = 3 };
-			_gameLogic = new GameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object, config);
+			_gameLogic = new BullsAndCowsGameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object, config);
 		}
 
 		// Testing MakeSecretNumber
@@ -155,7 +155,7 @@ namespace Laboration.Tests.Business
 			const string guess = "1234";
 
 			// Act
-			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual("BBBB,", feedback);
@@ -169,7 +169,7 @@ namespace Laboration.Tests.Business
 			const string guess = "1568";
 
 			// Act
-			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreNotEqual("BBBB,", feedback);
@@ -184,7 +184,7 @@ namespace Laboration.Tests.Business
 			const string guess = "4321";
 
 			// Act
-			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual(",CCCC", feedback);
@@ -198,7 +198,7 @@ namespace Laboration.Tests.Business
 			const string guess = "1243";
 
 			// Act
-			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual("BB,CC", feedback);
@@ -212,7 +212,7 @@ namespace Laboration.Tests.Business
 			const string guess = "9142";
 
 			// Act
-			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual("BB,", feedback);
@@ -226,7 +226,7 @@ namespace Laboration.Tests.Business
 			const string guess = "1527";
 
 			// Act
-			string feedback = GameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
+			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(secretNumber, guess);
 
 			// Assert
 			Assert.AreEqual(",CC", feedback);

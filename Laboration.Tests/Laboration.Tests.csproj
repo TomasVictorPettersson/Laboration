@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -18,9 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Laboration.Business\Laboration.Business.csproj" />
     <ProjectReference Include="..\Laboration.DataManagement\Laboration.DataManagement.csproj" />
-    <ProjectReference Include="..\Laboration.Controllers\Laboration.Controllers.csproj" />
+    <ProjectReference Include="..\Laboration.GameLogic\Laboration.GameLogic.csproj" />
     <ProjectReference Include="..\Laboration.UI\Laboration.UI.csproj" />
   </ItemGroup>
 

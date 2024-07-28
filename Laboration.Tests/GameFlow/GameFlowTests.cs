@@ -1,12 +1,11 @@
-﻿using Laboration.Business.Interfaces;
-using Laboration.Controllers.Classes;
+﻿using Laboration.GameLogic.Interfaces;
 using Laboration.UI.Interfaces;
 using Moq;
 
-namespace Laboration.Tests.Controllers
+namespace Laboration.Tests.GameFlow
 {
 	[TestClass]
-	public class GameFlowControllerTests
+	public class GameFlowTests
 	{
 		private readonly Mock<IUserInterface> mockUserInterface = new();
 		private readonly Mock<IGameLogic> mockGameLogic = new();
