@@ -1,6 +1,6 @@
-﻿using Laboration.Data.Interfaces;
-using Laboration.HighScoreManagement.Interfaces;
+﻿using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Implementations;
+using Laboration.PlayerData.Interfaces;
 
 namespace Laboration.HighScoreManagement.Implementations
 {

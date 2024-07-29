@@ -1,8 +1,8 @@
-﻿using Laboration.Data.Interfaces;
-using Laboration.HighScoreManagement.Implementations;
+﻿using Laboration.HighScoreManagement.Implementations;
 using Laboration.PlayerData.Implementations;
+using Laboration.PlayerData.Interfaces;
 
-namespace Laboration.Tests.HighScoreManagement
+namespace Laboration.UnitTests.HighScoreManagement
 {
 	[TestClass]
 	public class BullsAndCowsHighScoreManagerTests

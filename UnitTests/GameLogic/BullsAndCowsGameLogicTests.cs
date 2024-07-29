@@ -3,7 +3,7 @@ using Laboration.GameLogic.Implementations;
 using Laboration.HighScoreManagement.Interfaces;
 using Moq;
 
-namespace Laboration.Tests.GameLogic
+namespace Laboration.UnitTests.GameLogic
 {
 	[TestClass]
 	public class BullsAndCowsGameLogicTests

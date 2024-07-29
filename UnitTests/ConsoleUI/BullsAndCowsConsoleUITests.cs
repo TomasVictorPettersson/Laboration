@@ -1,7 +1,7 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
 using Moq;
 
-namespace Laboration.Tests.ConsoleUI
+namespace Laboration.UnitTests.ConsoleUI
 {
 	[TestClass]
 	public class BullsAndCowsConsoleUITests

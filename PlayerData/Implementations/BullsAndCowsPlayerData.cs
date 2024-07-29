@@ -1,4 +1,4 @@
-using Laboration.Data.Interfaces;
+using Laboration.PlayerData.Interfaces;
 
 namespace Laboration.PlayerData.Implementations
 {

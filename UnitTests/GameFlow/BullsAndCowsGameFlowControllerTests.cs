@@ -3,7 +3,7 @@ using Laboration.GameFlow.Implementations;
 using Laboration.GameLogic.Interfaces;
 using Moq;
 
-namespace Laboration.Tests.GameFlow
+namespace Laboration.UnitTests.GameFlow
 {
 	[TestClass]
 	public class BullsAndCowsGameFlowControllerTests

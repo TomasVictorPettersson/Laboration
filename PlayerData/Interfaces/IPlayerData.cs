@@ -1,4 +1,4 @@
-﻿namespace Laboration.Data.Interfaces
+﻿namespace Laboration.PlayerData.Interfaces
 {
 	public interface IPlayerData
 	{

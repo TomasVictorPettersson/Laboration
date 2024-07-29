@@ -1,6 +1,6 @@
 ﻿using Laboration.PlayerData.Implementations;
 
-namespace Laboration.Tests.PlayerData
+namespace Laboration.UnitTests.PlayerData
 {
 	[TestClass]
 	public class BullsAndCowsPlayerDataTests
