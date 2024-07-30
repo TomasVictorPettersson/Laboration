@@ -20,7 +20,6 @@ namespace Laboration.GameLogic.Implementations
 			{
 				InitializeGame(userName);
 				string secretNumber = MakeSecretNumber();
-				Console.WriteLine("New game:\n");
 				_consoleUI.DisplaySecretNumberForPractice(secretNumber);
 				PlayGameLoop(secretNumber, userName);
 			}
@@ -72,10 +71,10 @@ namespace Laboration.GameLogic.Implementations
 				int numberOfGuesses = 0;
 				string guess = string.Empty;
 
-				while (!IsCorrectGuess(guess, secretNumber))
+				while (!_validation.IsCorrectGuess(guess, secretNumber))
 				{
 					guess = ProcessGuess(secretNumber, ref numberOfGuesses);
-					if (IsCorrectGuess(guess, secretNumber))
+					if (_validation.IsCorrectGuess(guess, secretNumber))
 					{
 						break;
 					}
@@ -86,20 +85,6 @@ namespace Laboration.GameLogic.Implementations
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error in game loop: {ex.Message}");
-				throw;
-			}
-		}
-
-		// Checks if the player's guess matches the secret number.
-		public bool IsCorrectGuess(string guess, string secretNumber)
-		{
-			try
-			{
-				return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error checking guess correctness: {ex.Message}");
 				throw;
 			}
 		}
@@ -121,7 +106,7 @@ namespace Laboration.GameLogic.Implementations
 				Console.WriteLine($"{guessFeedback}\n");
 				numberOfGuesses++;
 
-				return IsCorrectGuess(guess, secretNumber) ? guess : guessFeedback;
+				return _validation.IsCorrectGuess(guess, secretNumber) ? guess : guessFeedback;
 			}
 			catch (Exception ex)
 			{

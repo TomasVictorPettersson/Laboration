@@ -4,6 +4,7 @@ namespace Laboration.Validation.Implementations
 {
 	public class BullsAndCowsValidation : IValidation
 	{
+		// TODO: Incorporate this into BullsAndCowsConsoleUI.
 		// Validates username and prints error messages if invalid.
 		public string ValidateUserName(string userName)
 		{
@@ -28,6 +29,20 @@ namespace Laboration.Validation.Implementations
 		public bool IsInputValid(string input)
 		{
 			return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _) && input.Distinct().Count() == 4;
+		}
+
+		// Checks if the player's guess matches the secret number.
+		public bool IsCorrectGuess(string guess, string secretNumber)
+		{
+			try
+			{
+				return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error checking guess correctness: {ex.Message}");
+				throw;
+			}
 		}
 	}
 }

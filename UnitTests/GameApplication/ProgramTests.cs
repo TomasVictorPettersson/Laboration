@@ -13,7 +13,7 @@ namespace Laboration.UnitTests.GameApplication
 	{
 		private Mock<IDependencyInitializer>? _mockDependencyInitializer;
 		private Mock<IGameFlowController>? _mockGameFlowController;
-		private Mock<IConsoleUI>? _mockUserInterface;
+		private Mock<IConsoleUI>? _mockConsoleUI;
 		private Mock<IGameLogic>? _mockGameLogic;
 		private Mock<IGameFactory>? _mockGameFactory;
 
@@ -23,14 +23,14 @@ namespace Laboration.UnitTests.GameApplication
 			// Initialize mocks for dependencies and game flow controller.
 			_mockDependencyInitializer = new Mock<IDependencyInitializer>();
 			_mockGameFlowController = new Mock<IGameFlowController>();
-			_mockUserInterface = new Mock<IConsoleUI>();
+			_mockConsoleUI = new Mock<IConsoleUI>();
 			_mockGameLogic = new Mock<IGameLogic>();
 			_mockGameFactory = new Mock<IGameFactory>();
 
 			// Set up the dependency initializer mock to return mocked interfaces.
 			_mockDependencyInitializer
 				.Setup(di => di.InitializeDependencies())
-				.Returns((_mockUserInterface.Object, _mockGameLogic.Object));
+				.Returns((_mockConsoleUI.Object, _mockGameLogic.Object));
 
 			// Set up the game factory mock to return the dependency initializer and game flow controller mocks.
 			_mockGameFactory

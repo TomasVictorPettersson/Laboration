@@ -10,5 +10,8 @@
 
 		// Validates if the provided input is a valid 4-digit number with unique digits.
 		bool IsInputValid(string input);
+
+		// Checks if the provided guess matches the secret number.
+		bool IsCorrectGuess(string guess, string secretNumber);
 	}
 }

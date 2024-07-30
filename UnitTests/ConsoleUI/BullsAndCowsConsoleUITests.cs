@@ -6,16 +6,16 @@ namespace Laboration.UnitTests.ConsoleUI
 	[TestClass]
 	public class BullsAndCowsConsoleUITests
 	{
-		private readonly Mock<IConsoleUI> _mockUserInterface = new();
+		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 
 		[TestMethod]
 		public void GetUserName_ValidUserName_ReturnsUserName()
 		{
 			// Arrange
-			_mockUserInterface.Setup(ui => ui.GetUserName()).Returns("ValidUser");
+			_mockConsoleUI.Setup(ui => ui.GetUserName()).Returns("ValidUser");
 
 			// Act
-			string userName = _mockUserInterface.Object.GetUserName();
+			string userName = _mockConsoleUI.Object.GetUserName();
 
 			// Assert
 			Assert.AreEqual("ValidUser", userName, "The user name returned should be 'ValidUser'.");
@@ -25,11 +25,11 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void GetUserName_EmptyUserName_ThrowsException()
 		{
 			// Arrange
-			_mockUserInterface.Setup(ui => ui.GetUserName())
+			_mockConsoleUI.Setup(ui => ui.GetUserName())
 				.Throws(new InvalidOperationException("User name cannot be empty."));
 
 			// Act & Assert
-			var exception = Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.GetUserName());
+			var exception = Assert.ThrowsException<InvalidOperationException>(() => _mockConsoleUI.Object.GetUserName());
 			Assert.AreEqual("User name cannot be empty.", exception.Message, "Exception message should be 'User name cannot be empty.'");
 		}
 
@@ -37,13 +37,13 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplayCorrectMessage_ValidData_DisplaysMessage()
 		{
 			// Arrange
-			_mockUserInterface.Setup(ui => ui.DisplayCorrectMessage("1234", 5));
+			_mockConsoleUI.Setup(ui => ui.DisplayCorrectMessage("1234", 5));
 
 			// Act
-			_mockUserInterface.Object.DisplayCorrectMessage("1234", 5);
+			_mockConsoleUI.Object.DisplayCorrectMessage("1234", 5);
 
 			// Assert
-			_mockUserInterface.Verify(ui => ui.DisplayCorrectMessage("1234", 5), Times.Once,
+			_mockConsoleUI.Verify(ui => ui.DisplayCorrectMessage("1234", 5), Times.Once,
 				"DisplayCorrectMessage should be called once with parameters '1234' and 5.");
 		}
 
@@ -51,10 +51,10 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void AskToContinue_ValidYesInput_ReturnsTrue()
 		{
 			// Arrange
-			_mockUserInterface.Setup(ui => ui.AskToContinue()).Returns(true);
+			_mockConsoleUI.Setup(ui => ui.AskToContinue()).Returns(true);
 
 			// Act
-			bool continueGame = _mockUserInterface.Object.AskToContinue();
+			bool continueGame = _mockConsoleUI.Object.AskToContinue();
 
 			// Assert
 			Assert.IsTrue(continueGame, "AskToContinue should return true for a valid 'yes' input.");
@@ -64,10 +64,10 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void AskToContinue_ValidNoInput_ReturnsFalse()
 		{
 			// Arrange
-			_mockUserInterface.Setup(ui => ui.AskToContinue()).Returns(false);
+			_mockConsoleUI.Setup(ui => ui.AskToContinue()).Returns(false);
 
 			// Act
-			bool continueGame = _mockUserInterface.Object.AskToContinue();
+			bool continueGame = _mockConsoleUI.Object.AskToContinue();
 
 			// Assert
 			Assert.IsFalse(continueGame, "AskToContinue should return false for a valid 'no' input.");
@@ -77,11 +77,11 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void AskToContinue_InvalidInput_ThrowsException()
 		{
 			// Arrange
-			_mockUserInterface.Setup(ui => ui.AskToContinue())
+			_mockConsoleUI.Setup(ui => ui.AskToContinue())
 				.Throws(new InvalidOperationException("Invalid input."));
 
 			// Act & Assert
-			var exception = Assert.ThrowsException<InvalidOperationException>(() => _mockUserInterface.Object.AskToContinue());
+			var exception = Assert.ThrowsException<InvalidOperationException>(() => _mockConsoleUI.Object.AskToContinue());
 			Assert.AreEqual("Invalid input.", exception.Message, "Exception message should be 'Invalid input.'");
 		}
 	}

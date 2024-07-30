@@ -35,6 +35,7 @@ namespace Laboration.ConsoleUI.Implementations
 			Console.WriteLine("where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
 			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).");
 			Console.WriteLine("If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n");
+			Console.WriteLine("New game:\n");
 		}
 
 		// Displays the secret number for practice mode.

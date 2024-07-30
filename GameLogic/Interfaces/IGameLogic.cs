@@ -15,9 +15,6 @@
 		// Executes the main game loop, processing guesses and providing feedback.
 		void PlayGameLoop(string secretNumber, string userName);
 
-		// Checks if the player's guess matches the secret number.
-		bool IsCorrectGuess(string guess, string secretNumber);
-
 		// Processes the player's guess, validates it, and provides feedback.
 		string ProcessGuess(string secretNumber, ref int numberOfGuesses);
 
