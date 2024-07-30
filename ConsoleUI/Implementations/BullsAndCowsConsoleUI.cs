@@ -1,11 +1,17 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
+using Laboration.HighScoreManagement.Interfaces;
+using Laboration.PlayerData.Interfaces;
+using Laboration.Validation.Interfaces;
 
 namespace Laboration.ConsoleUI.Implementations
 {
 	// Handles user interactions for the Bulls and Cows game in a console application.
-	public class BullsAndCowsConsoleUI : IConsoleUI
+	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManagement) : IConsoleUI
 	{
-		// Prompts the user to enter a username, validating its length.
+		private readonly IValidation _validation = validation;
+		private readonly IHighScoreManager _highScoreManagement = highScoreManagement;
+
+		// Prompts the user to enter their username, validating its length.
 		public string GetUserName()
 		{
 			string userName;
@@ -13,29 +19,9 @@ namespace Laboration.ConsoleUI.Implementations
 			{
 				Console.Write("Enter your user name: ");
 				userName = Console.ReadLine()!;
-				ValidateUserName(userName);
 			}
-			while (!IsValidUserName(userName));
+			while (!_validation.IsValidUserName(userName));
 			return userName;
-		}
-
-		// Validates username and prints error messages if invalid.
-		public void ValidateUserName(string userName)
-		{
-			if (string.IsNullOrEmpty(userName))
-			{
-				Console.WriteLine("Empty values are not allowed. Please enter a valid username.");
-			}
-			else if (userName.Length < 2 || userName.Length > 20)
-			{
-				Console.WriteLine("Username must be between 2 and 20 characters long.");
-			}
-		}
-
-		// Checks if the username is valid.
-		public bool IsValidUserName(string userName)
-		{
-			return !string.IsNullOrEmpty(userName) && userName.Length >= 2 && userName.Length <= 20;
 		}
 
 		// Displays a welcome message to the player.
@@ -51,6 +37,20 @@ namespace Laboration.ConsoleUI.Implementations
 			Console.WriteLine("If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n");
 		}
 
+		// Displays the secret number for practice mode.
+		public void DisplaySecretNumberForPractice(string secretNumber)
+		{
+			try
+			{
+				Console.WriteLine($"For practice, number is: {secretNumber}\n");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error displaying secret number: {ex.Message}");
+				throw;
+			}
+		}
+
 		// Prompts the user to enter a valid 4-digit guess.
 		public string GetValidGuessFromUser()
 		{
@@ -58,15 +58,15 @@ namespace Laboration.ConsoleUI.Implementations
 			do
 			{
 				guess = GetInputFromUser("Enter your guess: ");
-				if (!IsInputValid(guess))
+				if (!_validation.IsInputValid(guess))
 				{
 					Console.WriteLine("Invalid input. Please enter a 4-digit number with unique digits.\n");
 				}
-			} while (!IsInputValid(guess));
+			} while (!_validation.IsInputValid(guess));
 			return guess;
 		}
 
-		// Gets input from the user with a prompt.
+		// Gets input from the user with a custom prompt.
 		public string GetInputFromUser(string prompt)
 		{
 			string input;
@@ -78,19 +78,95 @@ namespace Laboration.ConsoleUI.Implementations
 			return input;
 		}
 
-		// Validates if the input is a valid 4-digit number with unique digits.
-		public bool IsInputValid(string input)
-		{
-			return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _) && input.Distinct().Count() == 4;
-		}
-
 		// Displays a message indicating the correct number and number of guesses taken.
 		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
 			Console.WriteLine($"\nCorrect! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses.");
 		}
 
-		// Prompts the user to continue playing or exit.
+		// Displays the high score list with formatted player data and highlights the current user.
+		public void DisplayHighScoreList(string currentUserName)
+		{
+			try
+			{
+				var results = _highScoreManagement.ReadHighScoreResultsFromFile();
+				_highScoreManagement.SortHighScoreList(results);
+				RenderHighScoreList(results, currentUserName);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error showing high score list: {ex.Message}");
+				throw;
+			}
+		}
+
+		// Displays the high score list with headers and formatted player data.
+		public void RenderHighScoreList(List<IPlayerData> results, string currentUserName)
+		{
+			try
+			{
+				var (maxUserNameLength, totalWidth) = _highScoreManagement.CalculateDisplayDimensions(results);
+				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
+				PrintHighScoreResults(results, currentUserName, maxUserNameLength);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error rendering high score list: {ex.Message}");
+				throw;
+			}
+		}
+
+		// Displays the header for the high score list with proper formatting.
+		public void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth)
+		{
+			const string header = "=== High Score List ===";
+			int leftPadding = (totalWidth - header.Length) / 2;
+			Console.WriteLine($"\n{new string(' ', leftPadding)}{header}");
+			Console.WriteLine($"{"Rank",-6} {"Player".PadRight(maxUserNameLength)} {"Games",-8} {"Average Guesses",-15}");
+			Console.WriteLine(new string('-', totalWidth));
+		}
+
+		// Displays the list of player data in a formatted manner, highlighting the current user.
+		public void PrintHighScoreResults(List<IPlayerData> results, string currentUserName, int maxUserNameLength)
+		{
+			try
+			{
+				int rank = 1;
+				foreach (IPlayerData p in results)
+				{
+					bool isCurrentUser = p.UserName.Equals(currentUserName, StringComparison.OrdinalIgnoreCase);
+					DisplayRank(rank, isCurrentUser);
+					DisplayPlayerData(p, isCurrentUser, maxUserNameLength);
+					rank++;
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error displaying high score results: {ex.Message}");
+				throw;
+			}
+		}
+
+		// Displays the rank of the player, highlighting the current user if necessary.
+		public void DisplayRank(int rank, bool isCurrentUser)
+		{
+			if (isCurrentUser)
+			{
+				Console.ForegroundColor = ConsoleColor.Green;
+			}
+			Console.Write($"{rank,-6}");
+			Console.ResetColor();
+		}
+
+		// Displays detailed player data, with special formatting for the current user.
+		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength)
+		{
+			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
+			Console.WriteLine($"{player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,8} {player.CalculateAverageGuesses(),15:F2}");
+			Console.ResetColor();
+		}
+
+		// Asks the user if they want to continue playing or exit.
 		public bool AskToContinue()
 		{
 			while (true)
@@ -113,7 +189,7 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
-		// Displays a goodbye message to the user.
+		// Displays a farewell message to the user after the game ends.
 		public void DisplayGoodbyeMessage(string userName)
 		{
 			Console.WriteLine($"Thank you, {userName}, for playing Bulls and Cows!");

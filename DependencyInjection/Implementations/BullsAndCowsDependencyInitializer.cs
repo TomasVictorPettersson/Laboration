@@ -5,6 +5,8 @@ using Laboration.GameLogic.Implementations;
 using Laboration.GameLogic.Interfaces;
 using Laboration.HighScoreManagement.Implementations;
 using Laboration.HighScoreManagement.Interfaces;
+using Laboration.Validation.Implementations;
+using Laboration.Validation.Interfaces;
 
 namespace Laboration.DependencyInjection.Implementations
 {
@@ -14,11 +16,11 @@ namespace Laboration.DependencyInjection.Implementations
 		// Creates and returns instances of dependencies used in the game loop.
 		public (IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies()
 		{
-			IConsoleUI consoleUI = new BullsAndCowsConsoleUI();
-
+			// Initialize dependencies
+			IValidation validation = new BullsAndCowsValidation();
 			IHighScoreManager highScoreManager = new BullsAndCowsHighScoreManager();
-
-			IGameLogic gameLogic = new BullsAndCowsGameLogic(highScoreManager, consoleUI);
+			IConsoleUI consoleUI = new BullsAndCowsConsoleUI(validation, highScoreManager);
+			IGameLogic gameLogic = new BullsAndCowsGameLogic(highScoreManager, consoleUI, validation);
 
 			return (consoleUI, gameLogic);
 		}

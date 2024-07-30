@@ -1,6 +1,7 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameLogic.Implementations;
 using Laboration.HighScoreManagement.Interfaces;
+using Laboration.Validation.Interfaces;
 using Moq;
 
 namespace Laboration.UnitTests.GameLogic
@@ -8,13 +9,14 @@ namespace Laboration.UnitTests.GameLogic
 	[TestClass]
 	public class BullsAndCowsGameLogicTests
 	{
-		private readonly Mock<IHighScoreManager> _highScoreManagerMock = new();
-		private readonly Mock<IConsoleUI> _userInterfaceMock = new();
+		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
+		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
+		private readonly Mock<IValidation> _mockValidation = new();
 		private readonly BullsAndCowsGameLogic _gameLogic;
 
 		public BullsAndCowsGameLogicTests()
 		{
-			_gameLogic = new BullsAndCowsGameLogic(_highScoreManagerMock.Object, _userInterfaceMock.Object);
+			_gameLogic = new BullsAndCowsGameLogic(_mockHighScoreManager.Object, _mockConsoleUI.Object, _mockValidation.Object);
 		}
 
 		[TestMethod]
@@ -38,8 +40,8 @@ namespace Laboration.UnitTests.GameLogic
 			const string secretNumber = "1234";
 			const string invalidGuess = null!;
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
-			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
+			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
+			_mockValidation.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -56,8 +58,8 @@ namespace Laboration.UnitTests.GameLogic
 			const string secretNumber = "1234";
 			const string invalidGuess = "";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
-			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
+			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
+			_mockValidation.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -74,8 +76,8 @@ namespace Laboration.UnitTests.GameLogic
 			const string secretNumber = "1234";
 			const string invalidGuess = "test";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
-			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
+			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
+			_mockValidation.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -92,8 +94,8 @@ namespace Laboration.UnitTests.GameLogic
 			const string secretNumber = "1234";
 			const string invalidGuess = "1122";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
-			_userInterfaceMock.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
+			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
+			_mockValidation.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -110,8 +112,8 @@ namespace Laboration.UnitTests.GameLogic
 			const string secretNumber = "1234";
 			const string guess = "1234";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(guess);
-			_userInterfaceMock.Setup(ui => ui.IsInputValid(guess)).Returns(true);
+			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(guess);
+			_mockValidation.Setup(ui => ui.IsInputValid(guess)).Returns(true);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
@@ -128,8 +130,8 @@ namespace Laboration.UnitTests.GameLogic
 			const string secretNumber = "1234";
 			const string guess = "5678";
 
-			_userInterfaceMock.Setup(ui => ui.GetValidGuessFromUser()).Returns(guess);
-			_userInterfaceMock.Setup(ui => ui.IsInputValid(guess)).Returns(true);
+			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(guess);
+			_mockValidation.Setup(ui => ui.IsInputValid(guess)).Returns(true);
 
 			// Act
 			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
