@@ -19,6 +19,7 @@ namespace Laboration.ConsoleUI.Implementations
 			{
 				Console.Write("Enter your user name: ");
 				userName = Console.ReadLine()!;
+				Console.WriteLine(_validation.ValidateUserName(userName));
 			}
 			while (!_validation.IsValidUserName(userName));
 			return userName;
@@ -77,6 +78,12 @@ namespace Laboration.ConsoleUI.Implementations
 				input = Console.ReadLine()!.Trim();
 			} while (string.IsNullOrEmpty(input));
 			return input;
+		}
+
+		// Displays feedback for the player's guess.
+		public void DisplayGuessFeedback(string guessFeedback)
+		{
+			Console.WriteLine($"{guessFeedback}\n");
 		}
 
 		// Displays a message indicating the correct number and number of guesses taken.

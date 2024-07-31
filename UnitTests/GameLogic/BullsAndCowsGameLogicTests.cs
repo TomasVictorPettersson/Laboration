@@ -33,111 +33,51 @@ namespace Laboration.UnitTests.GameLogic
 		}
 
 		[TestMethod]
-		public void ProcessGuess_ShouldNotIncrementCounter_ForNullGuess()
-		{
-			// Arrange
-			int initialGuessCount = 0;
-			const string secretNumber = "1234";
-			const string invalidGuess = null!;
-
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
-			_mockValidation.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
-
-			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
-
-			// Assert
-			Assert.AreEqual(0, initialGuessCount, "Guess counter should not increment for null input.");
-		}
-
-		[TestMethod]
-		public void ProcessGuess_ShouldNotIncrementCounter_ForEmptyGuess()
-		{
-			// Arrange
-			int initialGuessCount = 0;
-			const string secretNumber = "1234";
-			const string invalidGuess = "";
-
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
-			_mockValidation.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
-
-			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
-
-			// Assert
-			Assert.AreEqual(0, initialGuessCount, "Guess counter should not increment for empty input.");
-		}
-
-		[TestMethod]
-		public void ProcessGuess_ShouldNotIncrementCounter_ForLetters()
-		{
-			// Arrange
-			int initialGuessCount = 0;
-			const string secretNumber = "1234";
-			const string invalidGuess = "test";
-
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
-			_mockValidation.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
-
-			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
-
-			// Assert
-			Assert.AreEqual(0, initialGuessCount, "Guess counter should not increment for letter input.");
-		}
-
-		[TestMethod]
-		public void ProcessGuess_ShouldNotIncrementCounter_ForRepeatingDigits()
-		{
-			// Arrange
-			int initialGuessCount = 0;
-			const string secretNumber = "1234";
-			const string invalidGuess = "1122";
-
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(invalidGuess);
-			_mockValidation.Setup(ui => ui.IsInputValid(invalidGuess)).Returns(false);
-
-			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
-
-			// Assert
-			Assert.AreEqual(0, initialGuessCount, "Guess counter should not increment for guesses with repeating digits.");
-		}
-
-		[TestMethod]
 		public void ProcessGuess_ShouldIncrementCounter_ForCorrectGuess()
 		{
 			// Arrange
-			int initialGuessCount = 0;
-			const string secretNumber = "1234";
-			const string guess = "1234";
+			const string secretNumber = "3412";
+			int numberOfGuesses = 0;
+			const string correctGuess = "3412";
+			const string feedback = "BBBB,";
 
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(guess);
-			_mockValidation.Setup(ui => ui.IsInputValid(guess)).Returns(true);
+			// Set up the mocks
+			_mockValidation.Setup(v => v.IsCorrectGuess(correctGuess, secretNumber)).Returns(true);
+			_mockConsoleUI.Setup(ui => ui.DisplayGuessFeedback(feedback));
 
 			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
+			bool result = _gameLogic.ProcessGuess(secretNumber, correctGuess, ref numberOfGuesses);
 
 			// Assert
-			Assert.AreEqual(1, initialGuessCount, "Guess counter should increment for correct guess.");
+			Assert.IsTrue(result, "ProcessGuess should return true for a correct guess.");
+			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should increment for a correct guess.");
+
+			// Verify that feedback is displayed
+			_mockConsoleUI.Verify(ui => ui.DisplayGuessFeedback(feedback), Times.Once);
 		}
 
 		[TestMethod]
 		public void ProcessGuess_ShouldIncrementCounter_ForIncorrectGuess()
 		{
 			// Arrange
-			int initialGuessCount = 0;
-			const string secretNumber = "1234";
-			const string guess = "5678";
+			const string secretNumber = "3412";
+			int numberOfGuesses = 0;
+			const string inCorrectGuess = "5678";
+			const string feedback = ",";
 
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser()).Returns(guess);
-			_mockValidation.Setup(ui => ui.IsInputValid(guess)).Returns(true);
+			// Set up the mocks
+			_mockValidation.Setup(v => v.IsCorrectGuess(inCorrectGuess, secretNumber)).Returns(false);
+			_mockConsoleUI.Setup(ui => ui.DisplayGuessFeedback(feedback));
 
 			// Act
-			_gameLogic.ProcessGuess(secretNumber, ref initialGuessCount);
+			bool result = _gameLogic.ProcessGuess(secretNumber, inCorrectGuess, ref numberOfGuesses);
 
 			// Assert
-			Assert.AreEqual(1, initialGuessCount, "Guess counter should increment for incorrect guess.");
+			Assert.IsFalse(result, "ProcessGuess should return false for an incorrect guess.");
+			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should increment for an incorrect guess.");
+
+			// Verify that feedback is displayed
+			_mockConsoleUI.Verify(ui => ui.DisplayGuessFeedback(feedback), Times.Once);
 		}
 
 		[TestMethod]

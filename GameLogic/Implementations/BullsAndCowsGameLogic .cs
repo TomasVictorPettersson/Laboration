@@ -63,21 +63,18 @@ namespace Laboration.GameLogic.Implementations
 			return secretNumber.ToString();
 		}
 
-		// Main game loop.
+		// Main game loop that continues until the user guesses the secret number.
+
 		public void PlayGameLoop(string secretNumber, string userName)
 		{
 			try
 			{
 				int numberOfGuesses = 0;
-				string guess = string.Empty;
+				bool isGuessCorrect = false;
 
-				while (!_validation.IsCorrectGuess(guess, secretNumber))
+				while (!isGuessCorrect)
 				{
-					guess = ProcessGuess(secretNumber, ref numberOfGuesses);
-					if (_validation.IsCorrectGuess(guess, secretNumber))
-					{
-						break;
-					}
+					isGuessCorrect = HandleUserGuess(secretNumber, ref numberOfGuesses);
 				}
 
 				EndGame(secretNumber, userName, numberOfGuesses);
@@ -89,30 +86,26 @@ namespace Laboration.GameLogic.Implementations
 			}
 		}
 
-		// Processes the player's guess, validates it, and provides feedback.
-		public string ProcessGuess(string secretNumber, ref int numberOfGuesses)
+		// Retrieves the user's guess from the console UI and processes it.
+
+		public bool HandleUserGuess(string secretNumber, ref int numberOfGuesses)
 		{
-			try
-			{
-				string guess = _consoleUI.GetValidGuessFromUser();
+			string guess = _consoleUI.GetValidGuessFromUser();
 
-				if (string.IsNullOrEmpty(guess) || !_validation.IsInputValid(guess))
-				{
-					Console.WriteLine("Guess is empty or invalid.");
-					return string.Empty;
-				}
+			return ProcessGuess(secretNumber, guess, ref numberOfGuesses);
+		}
 
-				string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
-				Console.WriteLine($"{guessFeedback}\n");
-				numberOfGuesses++;
+		// Processes the user's guess, generates feedback, and updates the number of guesses.
 
-				return _validation.IsCorrectGuess(guess, secretNumber) ? guess : guessFeedback;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error processing guess: {ex.Message}");
-				throw;
-			}
+		public bool ProcessGuess(string secretNumber, string guess, ref int numberOfGuesses)
+		{
+			string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
+
+			_consoleUI.DisplayGuessFeedback(guessFeedback);
+
+			numberOfGuesses++;
+
+			return _validation.IsCorrectGuess(guess, secretNumber);
 		}
 
 		// Ends the game, saves the result, and displays high scores.

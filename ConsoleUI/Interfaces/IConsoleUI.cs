@@ -20,6 +20,10 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Prompts the user to enter a valid 4-digit guess.
 		string GetValidGuessFromUser();
 
+		// Displays feedback for the player's guess.
+
+		void DisplayGuessFeedback(string guessFeedback);
+
 		// Displays a message indicating the correct number and the number of guesses taken.
 		void DisplayCorrectMessage(string secretNumber, int numberOfGuesses);
 

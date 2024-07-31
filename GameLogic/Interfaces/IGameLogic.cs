@@ -15,8 +15,11 @@
 		// Executes the main game loop, processing guesses and providing feedback.
 		void PlayGameLoop(string secretNumber, string userName);
 
+		// Retrieves the user's guess from the console UI and processes it.
+		bool HandleUserGuess(string secretNumber, ref int numberOfGuesses);
+
 		// Processes the player's guess, validates it, and provides feedback.
-		string ProcessGuess(string secretNumber, ref int numberOfGuesses);
+		bool ProcessGuess(string secretNumber, string guess, ref int numberOfGuesses);
 
 		// Ends the game, saving the result and displaying high scores.
 		void EndGame(string secretNumber, string userName, int numberOfGuesses);

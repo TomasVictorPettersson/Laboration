@@ -4,7 +4,6 @@ namespace Laboration.Validation.Implementations
 {
 	public class BullsAndCowsValidation : IValidation
 	{
-		// TODO: Incorporate this into BullsAndCowsConsoleUI.
 		// Validates username and prints error messages if invalid.
 		public string ValidateUserName(string userName)
 		{
