@@ -5,6 +5,7 @@ namespace Laboration.UnitTests.ConsoleUI
 {
 	[TestClass]
 	public class BullsAndCowsConsoleUITests
+
 	{
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 

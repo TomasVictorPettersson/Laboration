@@ -20,6 +20,7 @@ namespace Laboration.GameLogic.Implementations
 			{
 				InitializeGame(userName);
 				string secretNumber = MakeSecretNumber();
+				//comment out or remove next line to play real games!
 				_consoleUI.DisplaySecretNumberForPractice(secretNumber);
 				PlayGameLoop(secretNumber, userName);
 			}

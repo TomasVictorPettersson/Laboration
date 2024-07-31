@@ -115,7 +115,7 @@ namespace Laboration.UnitTests.Validation
 		public void IsInputValid_ShouldReturnFalseForNullInput()
 		{
 			// Arrange
-			const string input = null;
+			const string input = null!;
 
 			// Act
 			bool result = _validation.IsInputValid(input);
