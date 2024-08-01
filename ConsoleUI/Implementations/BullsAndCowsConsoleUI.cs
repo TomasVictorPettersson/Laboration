@@ -6,10 +6,10 @@ using Laboration.Validation.Interfaces;
 namespace Laboration.ConsoleUI.Implementations
 {
 	// Handles user interactions for the Bulls and Cows game in a console application.
-	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManagement) : IConsoleUI
+	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
 		private readonly IValidation _validation = validation;
-		private readonly IHighScoreManager _highScoreManagement = highScoreManagement;
+		private readonly IHighScoreManager _highScoreManager = highScoreManager;
 
 		// Prompts the user to enter their username, validating its length.
 		public string GetUserName()
@@ -97,8 +97,8 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			try
 			{
-				var results = _highScoreManagement.ReadHighScoreResultsFromFile();
-				_highScoreManagement.SortHighScoreList(results);
+				var results = _highScoreManager.ReadHighScoreResultsFromFile();
+				_highScoreManager.SortHighScoreList(results);
 				RenderHighScoreList(results, currentUserName);
 			}
 			catch (Exception ex)
@@ -113,7 +113,7 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			try
 			{
-				var (maxUserNameLength, totalWidth) = _highScoreManagement.CalculateDisplayDimensions(results);
+				var (maxUserNameLength, totalWidth) = _highScoreManager.CalculateDisplayDimensions(results);
 				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
 				PrintHighScoreResults(results, currentUserName, maxUserNameLength);
 			}

@@ -18,12 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj" />
     <ProjectReference Include="..\GameApplication\GameApplication.csproj" />
-    <ProjectReference Include="..\HighScoreManagement\HighScoreManagement.csproj" />
-    <ProjectReference Include="..\GameFlow\GameFlow.csproj" />
+    <ProjectReference Include="..\GameFactory\GameFactory.csproj" />
     <ProjectReference Include="..\GameLogic\GameLogic.csproj" />
-    <ProjectReference Include="..\ConsoleUI\ConsoleUI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

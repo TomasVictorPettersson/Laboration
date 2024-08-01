@@ -21,7 +21,6 @@ namespace Laboration.DependencyInjection.Implementations
 			IHighScoreManager highScoreManager = new BullsAndCowsHighScoreManager();
 			IConsoleUI consoleUI = new BullsAndCowsConsoleUI(validation, highScoreManager);
 			IGameLogic gameLogic = new BullsAndCowsGameLogic(highScoreManager, consoleUI, validation);
-
 			return (consoleUI, gameLogic);
 		}
 	}

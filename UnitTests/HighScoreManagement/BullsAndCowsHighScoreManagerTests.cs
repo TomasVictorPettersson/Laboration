@@ -8,12 +8,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 	public class BullsAndCowsHighScoreManagerTests
 	{
 		private readonly BullsAndCowsHighScoreManager _highScoreManager = new();
-		private readonly List<IPlayerData> _results;
-
-		public BullsAndCowsHighScoreManagerTests()
-		{
-			_results = [];
-		}
+		private readonly List<IPlayerData> _results = [];
+		private const string FilePath = "result.txt";
+		private const string Separator = "#&#";
 
 		[TestMethod]
 		public void SaveResult_SavesToFile()
@@ -26,17 +23,17 @@ namespace Laboration.UnitTests.HighScoreManagement
 			_highScoreManager.SaveResult(userName, numberOfGuesses);
 
 			// Assert
-			const string filePath = "result.txt";
-			string[] lines = File.ReadAllLines(filePath);
+			string[] lines = File.ReadAllLines(FilePath);
 			Assert.IsTrue(lines.Length > 0, "The file should contain at least one line.");
-			Assert.IsTrue(lines[0].Contains("TestUser#&#10"), "The first line should contain 'TestUser#&#10'.");
+			Assert.IsTrue(lines[0].Contains($"{userName}{Separator}{numberOfGuesses}"), "The first line should contain the correct formatted result.");
 		}
 
 		[TestMethod]
 		public void ReadResultsFromFile_ReadsFromFile()
 		{
 			// Arrange
-			File.WriteAllText("result.txt", "TestUser#&#10");
+			File.WriteAllText(FilePath, $"TestUser{Separator}10");
+
 			// Act
 			List<IPlayerData> results = _highScoreManager.ReadHighScoreResultsFromFile();
 
@@ -50,7 +47,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void ParseLine_ParsesLine()
 		{
 			// Arrange
-			const string line = "TestUser#&#10";
+			string line = $"TestUser{Separator}10";
 
 			// Act
 			IPlayerData playerData = _highScoreManager.ParseLineToPlayerData(line);
@@ -94,17 +91,16 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void TestCleanup()
 		{
 			// Clean up any resources here
-			const string filePath = "result.txt";
 			try
 			{
-				if (File.Exists(filePath))
+				if (File.Exists(FilePath))
 				{
-					File.Delete(filePath);
+					File.Delete(FilePath);
 				}
 			}
 			catch (Exception ex)
 			{
-				Assert.Inconclusive($"Error cleaning up test resources: {ex.Message}");
+				Assert.Fail($"Error cleaning up test resources: {ex.Message}");
 			}
 		}
 	}

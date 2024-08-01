@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HighScoreManagement\HighScoreManagement.csproj" />
-    <ProjectReference Include="..\PlayerData\PlayerData.csproj" />
     <ProjectReference Include="..\Validation\Validation.csproj" />
   </ItemGroup>
 

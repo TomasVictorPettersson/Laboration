@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HighScoreManagement\HighScoreManagement.csproj" />
     <ProjectReference Include="..\ConsoleUI\ConsoleUI.csproj" />
   </ItemGroup>
 

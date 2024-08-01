@@ -9,9 +9,9 @@ namespace Laboration.GameLogic.Implementations
 	// Manages the Bulls and Cows game logic, including setup, gameplay, and result handling.
 	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : IGameLogic
 	{
-		private readonly IHighScoreManager _highScoreManager = highScoreManager ?? throw new ArgumentNullException(nameof(highScoreManager));
-		private readonly IConsoleUI _consoleUI = consoleUI ?? throw new ArgumentNullException(nameof(consoleUI));
-		private readonly IValidation _validation = validation ?? throw new ArgumentNullException(nameof(validation));
+		private readonly IHighScoreManager _highScoreManager = highScoreManager;
+		private readonly IConsoleUI _consoleUI = consoleUI;
+		private readonly IValidation _validation = validation;
 
 		// Starts the game by generating a secret number and initiating the game loop.
 		public void PlayGame(string userName)
