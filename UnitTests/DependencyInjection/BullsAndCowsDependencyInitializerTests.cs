@@ -9,46 +9,42 @@ namespace Laboration.UnitTests.DependencyInjection
 	[TestClass]
 	public class BullsAndCowsDependencyInitializerTests
 	{
+		private BullsAndCowsDependencyInitializer? _dependencyInitializer;
+		private IConsoleUI? _consoleUI;
+		private IGameLogic? _gameLogic;
+
+		[TestInitialize]
+		public void TestInitialize()
+		{
+			// Arrange
+			_dependencyInitializer = new BullsAndCowsDependencyInitializer();
+
+			// Act
+			(_consoleUI, _gameLogic) = _dependencyInitializer.InitializeDependencies();
+		}
+
 		[TestMethod]
 		public void InitializeDependencies_ReturnsValidInstances()
 		{
-			// Arrange
-			var dependencyInitializer = new BullsAndCowsDependencyInitializer();
-
-			// Act
-			var (consoleUI, gameLogic) = dependencyInitializer.InitializeDependencies();
-
 			// Assert
-			Assert.IsNotNull(consoleUI, "Expected a non-null ConsoleUI instance from InitializeDependencies.");
-			Assert.IsNotNull(gameLogic, "Expected a non-null GameLogic instance from InitializeDependencies.");
+			Assert.IsNotNull(_consoleUI, "Expected a non-null ConsoleUI instance from InitializeDependencies.");
+			Assert.IsNotNull(_gameLogic, "Expected a non-null GameLogic instance from InitializeDependencies.");
 		}
 
 		[TestMethod]
 		public void InitializeDependencies_ReturnsCorrectInterfaces()
 		{
-			// Arrange
-			var dependencyInitializer = new BullsAndCowsDependencyInitializer();
-
-			// Act
-			var (consoleUI, gameLogic) = dependencyInitializer.InitializeDependencies();
-
 			// Assert
-			Assert.IsInstanceOfType(consoleUI, typeof(IConsoleUI), "ConsoleUI instance should implement IConsoleUI.");
-			Assert.IsInstanceOfType(gameLogic, typeof(IGameLogic), "GameLogic instance should implement IGameLogic.");
+			Assert.IsInstanceOfType(_consoleUI, typeof(IConsoleUI), "ConsoleUI instance should implement IConsoleUI.");
+			Assert.IsInstanceOfType(_gameLogic, typeof(IGameLogic), "GameLogic instance should implement IGameLogic.");
 		}
 
 		[TestMethod]
 		public void InitializeDependencies_UsesCorrectImplementations()
 		{
-			// Arrange
-			var dependencyInitializer = new BullsAndCowsDependencyInitializer();
-
-			// Act
-			var (consoleUI, gameLogic) = dependencyInitializer.InitializeDependencies();
-
 			// Assert
-			Assert.IsInstanceOfType(consoleUI, typeof(BullsAndCowsConsoleUI), "ConsoleUI instance should be of type BullsAndCowsConsoleUI.");
-			Assert.IsInstanceOfType(gameLogic, typeof(BullsAndCowsGameLogic), "GameLogic instance should be of type BullsAndCowsGameLogic.");
+			Assert.IsInstanceOfType(_consoleUI, typeof(BullsAndCowsConsoleUI), "ConsoleUI instance should be of type BullsAndCowsConsoleUI.");
+			Assert.IsInstanceOfType(_gameLogic, typeof(BullsAndCowsGameLogic), "GameLogic instance should be of type BullsAndCowsGameLogic.");
 		}
 	}
 }

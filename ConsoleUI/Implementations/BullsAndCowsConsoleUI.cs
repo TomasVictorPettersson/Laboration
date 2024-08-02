@@ -8,6 +8,8 @@ namespace Laboration.ConsoleUI.Implementations
 	// Handles user interactions for the Bulls and Cows game in a console application.
 	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
+		private const string YesInput = "y";
+		private const string NoInput = "n";
 		private readonly IValidation _validation = validation;
 		private readonly IHighScoreManager _highScoreManager = highScoreManager;
 
@@ -71,13 +73,8 @@ namespace Laboration.ConsoleUI.Implementations
 		// Gets input from the user with a custom prompt.
 		public string GetInputFromUser(string prompt)
 		{
-			string input;
-			do
-			{
-				Console.Write(prompt);
-				input = Console.ReadLine()!.Trim();
-			} while (string.IsNullOrEmpty(input));
-			return input;
+			Console.Write(prompt);
+			return Console.ReadLine()!.Trim();
 		}
 
 		// Displays feedback for the player's guess.
@@ -183,11 +180,11 @@ namespace Laboration.ConsoleUI.Implementations
 				string answer = Console.ReadLine()!.ToLower();
 				switch (answer)
 				{
-					case "y":
+					case YesInput:
 						Console.Clear();
 						return true;
 
-					case "n":
+					case NoInput:
 						return false;
 
 					default:

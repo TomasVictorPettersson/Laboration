@@ -17,7 +17,7 @@ namespace Laboration.UnitTests.Validation
 			string result = _validation.ValidateUserName(userName);
 
 			// Assert
-			Assert.AreEqual("Empty values are not allowed. Please enter a valid username.", result, "Expected error message for empty username.");
+			Assert.AreEqual("Empty values are not allowed. Please enter a valid username.\n", result, "Expected error message for empty username.");
 		}
 
 		[TestMethod]
@@ -30,7 +30,7 @@ namespace Laboration.UnitTests.Validation
 			string result = _validation.ValidateUserName(userName);
 
 			// Assert
-			Assert.AreEqual("Username must be between 2 and 20 characters long.", result, "Expected error message for username too short.");
+			Assert.AreEqual("Username must be between 2 and 20 characters long.\n", result, "Expected error message for username too short.");
 		}
 
 		[TestMethod]
@@ -43,7 +43,7 @@ namespace Laboration.UnitTests.Validation
 			string result = _validation.ValidateUserName(userName);
 
 			// Assert
-			Assert.AreEqual("Username must be between 2 and 20 characters long.", result, "Expected error message for username too long.");
+			Assert.AreEqual("Username must be between 2 and 20 characters long.\n", result, "Expected error message for username too long.");
 		}
 
 		[TestMethod]
