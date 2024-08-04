@@ -8,6 +8,16 @@ namespace Laboration.ConsoleUI.Implementations
 	// Handles user interactions for the Bulls and Cows game in a console application.
 	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
+		private const string WelcomeMessageFormat =
+	"Welcome {0} to Bulls and Cows!\n\n" +
+	"The objective of the game is to guess a 4-digit number.\n" +
+	"Each digit in the 4-digit number will only appear once.\n\n" +
+	"For each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
+	"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
+	"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
+	"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n" +
+	"New game:\n";
+
 		private const string YesInput = "y";
 		private const string NoInput = "n";
 		private readonly IValidation _validation = validation;
@@ -24,21 +34,20 @@ namespace Laboration.ConsoleUI.Implementations
 				Console.WriteLine(_validation.ValidateUserName(userName));
 			}
 			while (!_validation.IsValidUserName(userName));
+			ClearConsole();
 			return userName;
+		}
+
+		// Clears the console screen.
+		public void ClearConsole()
+		{
+			Console.Clear();
 		}
 
 		// Displays a welcome message to the player.
 		public void DisplayWelcomeMessage(string userName)
 		{
-			Console.Clear();
-			Console.WriteLine($"Welcome {userName} to Bulls and Cows!");
-			Console.WriteLine("\nThe objective of the game is to guess a 4-digit number.");
-			Console.WriteLine("Each digit in the 4-digit number will only appear once.");
-			Console.WriteLine("\nFor each guess, you will receive feedback in the form of 'BBBB,CCCC',");
-			Console.WriteLine("where 'BBBB' represents the number of bulls (correct digits in the correct positions),");
-			Console.WriteLine("and 'CCCC' represents the number of cows (correct digits in the wrong positions).");
-			Console.WriteLine("If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n");
-			Console.WriteLine("New game:\n");
+			Console.WriteLine(string.Format(WelcomeMessageFormat, userName));
 		}
 
 		// Displays the secret number for practice mode.
@@ -61,7 +70,7 @@ namespace Laboration.ConsoleUI.Implementations
 			string guess;
 			do
 			{
-				guess = GetInputFromUser("Enter your guess: ");
+				guess = GetInputFromUser();
 				if (!_validation.IsInputValid(guess))
 				{
 					Console.WriteLine("Invalid input. Please enter a 4-digit number with unique digits.\n");
@@ -70,10 +79,10 @@ namespace Laboration.ConsoleUI.Implementations
 			return guess;
 		}
 
-		// Gets input from the user with a custom prompt.
-		public string GetInputFromUser(string prompt)
+		// Gets input from the user.
+		public string GetInputFromUser()
 		{
-			Console.Write(prompt);
+			Console.Write("Enter your 4-digit guess: ");
 			return Console.ReadLine()!.Trim();
 		}
 
@@ -181,7 +190,7 @@ namespace Laboration.ConsoleUI.Implementations
 				switch (answer)
 				{
 					case YesInput:
-						Console.Clear();
+						ClearConsole();
 						return true;
 
 					case NoInput:

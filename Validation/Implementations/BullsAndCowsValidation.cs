@@ -4,7 +4,8 @@ namespace Laboration.Validation.Implementations
 {
 	public class BullsAndCowsValidation : IValidation
 	{
-		// Validates username and prints error messages if invalid.
+		// Validates the username and returns an error message if invalid.
+		// Returns an empty string if valid.
 		public string ValidateUserName(string userName)
 		{
 			if (string.IsNullOrEmpty(userName))

@@ -1,13 +1,34 @@
-﻿using Laboration.ConsoleUI.Interfaces;
+﻿using Laboration.ConsoleUI.Implementations;
+using Laboration.ConsoleUI.Interfaces;
+using Laboration.HighScoreManagement.Interfaces;
+using Laboration.Validation.Interfaces;
 using Moq;
 
 namespace Laboration.UnitTests.ConsoleUI
 {
 	[TestClass]
 	public class BullsAndCowsConsoleUITests
-
 	{
-		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
+		private Mock<IValidation> _mockValidation;
+		private Mock<IHighScoreManager> _mockHighScoreManager;
+		private BullsAndCowsConsoleUI _consoleUI;
+		private StringWriter _consoleOutput;
+		private TextWriter _originalConsoleOut;
+		private TextReader _originalConsoleIn;
+		private Mock<IConsoleUI> _mockConsoleUI;
+
+		[TestInitialize]
+		public void Setup()
+		{
+			_mockValidation = new Mock<IValidation>();
+			_mockHighScoreManager = new Mock<IHighScoreManager>();
+			_mockConsoleUI = new Mock<IConsoleUI>();
+			_consoleUI = new BullsAndCowsConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
+			_originalConsoleOut = Console.Out;
+			_originalConsoleIn = Console.In;
+			_consoleOutput = new StringWriter();
+			Console.SetOut(_consoleOutput);
+		}
 
 		[TestMethod]
 		public void GetUserName_ValidUserName_ReturnsUserName()
@@ -38,14 +59,54 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplayCorrectMessage_ValidData_DisplaysMessage()
 		{
 			// Arrange
-			_mockConsoleUI.Setup(ui => ui.DisplayCorrectMessage("1234", 5));
+			string secretNumber = "1234";
+			int numberOfGuesses = 5;
 
 			// Act
-			_mockConsoleUI.Object.DisplayCorrectMessage("1234", 5);
+			_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
 
 			// Assert
-			_mockConsoleUI.Verify(ui => ui.DisplayCorrectMessage("1234", 5), Times.Once,
-				"DisplayCorrectMessage should be called once with parameters '1234' and 5.");
+			var expectedOutput = $"Correct! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses.";
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output.");
+		}
+
+		[TestMethod]
+		public void TestDisplayWelcomeMessage()
+		{
+			// Arrange
+			string userName = "TestUser";
+			string expectedOutput =
+				$"Welcome {userName} to Bulls and Cows!\n" +
+				"\nThe objective of the game is to guess a 4-digit number.\n" +
+				"Each digit in the 4-digit number will only appear once.\n" +
+				"\nFor each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
+				"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
+				"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
+				"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n" +
+				"New game:";
+
+			var consoleOutput = new StringWriter();
+			Console.SetOut(consoleOutput);
+
+			// Act
+			_consoleUI.DisplayWelcomeMessage(userName);
+
+			// Assert
+			string actualOutput = consoleOutput.ToString().Trim();
+			Assert.AreEqual(expectedOutput, actualOutput);
+		}
+
+		[TestMethod]
+		public void DisplaySecretNumberForPractice_ShouldPrintSecretNumber()
+		{
+			// Arrange
+			var secretNumber = "1234";
+
+			// Act
+			_consoleUI.DisplaySecretNumberForPractice(secretNumber);
+
+			// Assert
+			Assert.AreEqual($"For practice, number is: {secretNumber}", _consoleOutput.ToString().Trim(), "The secret number message should match the expected output.");
 		}
 
 		[TestMethod]
@@ -78,12 +139,39 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void AskToContinue_InvalidInput_ThrowsException()
 		{
 			// Arrange
-			_mockConsoleUI.Setup(ui => ui.AskToContinue())
-				.Throws(new InvalidOperationException("Invalid input."));
+			_mockConsoleUI.Setup(ui => ui.AskToContinue()).Throws(new InvalidOperationException("Invalid input."));
 
 			// Act & Assert
 			var exception = Assert.ThrowsException<InvalidOperationException>(() => _mockConsoleUI.Object.AskToContinue());
 			Assert.AreEqual("Invalid input.", exception.Message, "Exception message should be 'Invalid input.'");
+		}
+
+		[TestMethod]
+		public void DisplayGoodbyeMessage_ShouldPrintGoodbyeMessage()
+		{
+			// Arrange
+			string userName = "testUser";
+
+			// Act
+			_consoleUI.DisplayGoodbyeMessage(userName);
+
+			// Assert
+			var expectedOutput = $"Thank you, {userName}, for playing Bulls and Cows!";
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The goodbye message should match the expected output.");
+		}
+
+		[TestCleanup]
+		public void Cleanup()
+		{
+			try
+			{
+				Console.SetOut(_originalConsoleOut);
+				Console.SetIn(_originalConsoleIn);
+			}
+			finally
+			{
+				_consoleOutput.Dispose();
+			}
 		}
 	}
 }

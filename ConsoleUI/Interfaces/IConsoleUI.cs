@@ -8,14 +8,17 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Prompts the user to enter their username.
 		string GetUserName();
 
+		// Clears the console screen.
+		void ClearConsole();
+
 		// Displays a welcome message to the user, explaining the game rules.
 		void DisplayWelcomeMessage(string userName);
 
 		// Displays the secret number for practice mode.
 		void DisplaySecretNumberForPractice(string secretNumber);
 
-		// Gets input from the user with a custom prompt.
-		string GetInputFromUser(string prompt);
+		// Gets input from the user.
+		string GetInputFromUser();
 
 		// Prompts the user to enter a valid 4-digit guess.
 		string GetValidGuessFromUser();

@@ -2,7 +2,8 @@
 {
 	public interface IValidation
 	{
-		// Validates the provided username and prints error messages if invalid.
+		// Validates the username and returns an error message if invalid.
+		// Returns an empty string if valid.
 		string ValidateUserName(string userName);
 
 		// Checks if the provided username meets the required criteria.
