@@ -42,8 +42,11 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Displays the list of player data in a formatted manner, highlighting the current user.
 		void PrintHighScoreResults(List<IPlayerData> results, string currentUserName, int maxUserNameLength);
 
+		// Sets console color based on whether the player is the current user.
+		void SetConsoleColor(bool isCurrentUser);
+
 		// Displays the rank of the player, highlighting the current user if necessary.
-		void DisplayRank(int rank, bool isCurrentUser);
+		void DisplayRank(int rank);
 
 		// Displays detailed player data, with special formatting for the current user.
 		void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength);

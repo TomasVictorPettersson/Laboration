@@ -9,14 +9,14 @@ namespace Laboration.ConsoleUI.Implementations
 	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
 		private const string WelcomeMessageFormat =
-	"Welcome {0} to Bulls and Cows!\n\n" +
-	"The objective of the game is to guess a 4-digit number.\n" +
-	"Each digit in the 4-digit number will only appear once.\n\n" +
-	"For each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
-	"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
-	"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
-	"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n" +
-	"New game:\n";
+			"Welcome {0} to Bulls and Cows!\n\n" +
+			"The objective of the game is to guess a 4-digit number.\n" +
+			"Each digit in the 4-digit number will only appear once.\n\n" +
+			"For each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
+			"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
+			"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
+				"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n" +
+				"New game:\n";
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";
@@ -135,9 +135,14 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			const string header = "=== High Score List ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
-			Console.WriteLine($"\n{new string(' ', leftPadding)}{header}");
-			Console.WriteLine($"{"Rank",-6} {"Player".PadRight(maxUserNameLength)} {"Games",-8} {"Average Guesses",-15}");
-			Console.WriteLine(new string('-', totalWidth));
+
+			// Define the header format as a single string constant
+			string headerFormat = $"\n{new string(' ', leftPadding)}{header}\n" +
+								   $"{"Rank",-6} {"Player".PadRight(maxUserNameLength)} {"Games",-8} {"Average Guesses",-15}\n" +
+								   new string('-', totalWidth) + "\n";
+
+			// Output the formatted header
+			Console.WriteLine(headerFormat);
 		}
 
 		// Displays the list of player data in a formatted manner, highlighting the current user.
@@ -149,8 +154,10 @@ namespace Laboration.ConsoleUI.Implementations
 				foreach (IPlayerData p in results)
 				{
 					bool isCurrentUser = p.UserName.Equals(currentUserName, StringComparison.OrdinalIgnoreCase);
-					DisplayRank(rank, isCurrentUser);
+					SetConsoleColor(isCurrentUser);
+					DisplayRank(rank);
 					DisplayPlayerData(p, isCurrentUser, maxUserNameLength);
+					Console.ResetColor();
 					rank++;
 				}
 			}
@@ -161,23 +168,22 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
-		// Displays the rank of the player, highlighting the current user if necessary.
-		public void DisplayRank(int rank, bool isCurrentUser)
+		// Sets console color based on whether the player is the current user.
+		public void SetConsoleColor(bool isCurrentUser)
 		{
-			if (isCurrentUser)
-			{
-				Console.ForegroundColor = ConsoleColor.Green;
-			}
+			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
+		}
+
+		// Displays the rank of the player.
+		public void DisplayRank(int rank)
+		{
 			Console.Write($"{rank,-6}");
-			Console.ResetColor();
 		}
 
 		// Displays detailed player data, with special formatting for the current user.
 		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength)
 		{
-			Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
 			Console.WriteLine($"{player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,8} {player.CalculateAverageGuesses(),15:F2}");
-			Console.ResetColor();
 		}
 
 		// Asks the user if they want to continue playing or exit.
