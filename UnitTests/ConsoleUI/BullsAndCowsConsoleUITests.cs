@@ -1,6 +1,7 @@
 ﻿using Laboration.ConsoleUI.Implementations;
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.HighScoreManagement.Interfaces;
+using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
 using Moq;
 
@@ -160,6 +161,138 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The goodbye message should match the expected output.");
 		}
 
+		[TestMethod]
+		public void DisplayHighScoreList_ShouldCallHighScoreManagerMethods()
+		{
+			// Arrange
+			string currentUserName = "TestUser";
+			var results = new List<IPlayerData>();
+			_mockHighScoreManager.Setup(m => m.ReadHighScoreResultsFromFile()).Returns(results);
+
+			// Configure the mock to return valid dimensions
+			_mockHighScoreManager.Setup(m => m.CalculateDisplayDimensions(results)).Returns((10, 50));
+
+			// Act
+			_consoleUI.DisplayHighScoreList(currentUserName);
+
+			// Assert
+			_mockHighScoreManager.Verify(m => m.ReadHighScoreResultsFromFile(), Times.Once);
+			_mockHighScoreManager.Verify(m => m.SortHighScoreList(results), Times.Once);
+			_mockHighScoreManager.Verify(m => m.CalculateDisplayDimensions(results), Times.Once);
+		}
+
+		[TestMethod]
+		public void DisplayHighScoreListHeader_ShouldPrintCorrectHeader()
+		{
+			// Arrange
+			int maxUserNameLength = 10;
+			int totalWidth = 50;
+
+			// Act
+			_consoleUI.DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
+
+			// Assert
+			var output = _consoleOutput.ToString().Trim();
+
+			// Construct the expected output
+			var header = "=== High Score List ===";
+			var rankHeader = "Rank";
+			var playerHeader = "Player".PadRight(maxUserNameLength);
+			var gamesHeader = "Games";
+			var averageGuessesHeader = "Average Guesses";
+			var separator = new string('-', totalWidth);
+
+			// Calculate header padding for centering
+			int headerPadding = (totalWidth - header.Length) / 2;
+			var paddedHeader = new string(' ', headerPadding) + header;
+
+			// Construct the expected output string
+			var expectedOutput = $"\n{paddedHeader}\n" +
+								 $"{rankHeader,-6} {playerHeader} {gamesHeader,-8} {averageGuessesHeader}\n" +
+								 $"{separator}";
+
+			// Perform the assertion
+			Assert.AreEqual(expectedOutput, output, "The header format should match the expected format.");
+		}
+
+		[TestMethod]
+		public void PrintHighScoreResults_ShouldPrintPlayerDataWithCorrectFormatting()
+		{
+			// Arrange
+			var results = new List<IPlayerData>
+			{
+		CreateMockPlayerData("Player1", 10, 5.5)
+			};
+			string currentUserName = "Player1";
+			int maxUserNameLength = 10;
+
+			// Act
+			_consoleUI.PrintHighScoreResults(results, currentUserName, maxUserNameLength);
+
+			var output = _consoleOutput.ToString().Trim();
+
+			// Construct the expected output
+			var expectedRank = "1";
+			var expectedUserName = "Player1".PadRight(maxUserNameLength);
+			var expectedTotalGamesPlayed = "10";
+			var expectedAverageGuesses = "5,50";
+
+			// The expected output should include the rank, user name, games played, and average guesses
+			var expectedOutput = $"{expectedRank,-6}{expectedUserName} {expectedTotalGamesPlayed,8} {expectedAverageGuesses,15}";
+
+			// Assert
+			Assert.AreEqual(expectedOutput, output, "Player data should be printed with correct formatting.");
+		}
+
+		[TestMethod]
+		public void DisplayRank_ShouldHighlightCurrentUser()
+		{
+			// Arrange
+			int rank = 1;
+			bool isCurrentUser = true;
+			var originalColor = Console.ForegroundColor; // Store the original color
+
+			// Act
+			_consoleUI.DisplayRank(rank, isCurrentUser);
+
+			// Assert
+			var output = _consoleOutput.ToString();
+			var expectedOutput = $"{rank,-6}"; // Adjust based on the actual format
+
+			// Check if the entire output matches the expected output
+			Assert.AreEqual(expectedOutput, output, "The rank output does not match the expected format.");
+
+			// Check if the console color is set to green
+			Assert.AreEqual(ConsoleColor.Green, Console.ForegroundColor, "Current user should be highlighted in green.");
+
+			// Restore the original color
+			Console.ForegroundColor = originalColor;
+		}
+
+		[TestMethod]
+		public void DisplayPlayerData_ShouldPrintPlayerDataWithCorrectFormatting()
+		{
+			// Arrange
+			var player = CreateMockPlayerData("Player1", 10, 5.5);
+			int maxUserNameLength = 10;
+			bool isCurrentUser = true;
+
+			// Act
+			_consoleUI.DisplayPlayerData(player, isCurrentUser, maxUserNameLength);
+
+			var output = _consoleOutput.ToString().Trim();
+
+			// Construct the expected output
+			var expectedUserName = "Player1".PadRight(maxUserNameLength);
+			var expectedTotalGamesPlayed = "10";
+			var expectedAverageGuesses = "5,50";
+
+			var expectedOutput = $"{expectedUserName} {expectedTotalGamesPlayed,8} {expectedAverageGuesses,15}";
+
+			// Assert
+			Assert.AreEqual(expectedOutput, output, "Player data should be printed with correct formatting.");
+		}
+
 		[TestCleanup]
 		public void Cleanup()
 		{
@@ -172,6 +305,15 @@ namespace Laboration.UnitTests.ConsoleUI
 			{
 				_consoleOutput.Dispose();
 			}
+		}
+
+		private IPlayerData CreateMockPlayerData(string userName, int totalGamesPlayed, double averageGuesses)
+		{
+			var mockPlayerData = new Mock<IPlayerData>();
+			mockPlayerData.Setup(p => p.UserName).Returns(userName);
+			mockPlayerData.Setup(p => p.TotalGamesPlayed).Returns(totalGamesPlayed);
+			mockPlayerData.Setup(p => p.CalculateAverageGuesses()).Returns(averageGuesses);
+			return mockPlayerData.Object;
 		}
 	}
 }
