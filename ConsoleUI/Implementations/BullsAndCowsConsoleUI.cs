@@ -20,6 +20,11 @@ namespace Laboration.ConsoleUI.Implementations
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";
+		private const int RankColumnWidth = 6;
+		private const int GamesPlayedColumnWidth = 8;
+		private const int AverageGuessesColumnWidth = 15;
+		private const int Padding = 3;
+
 		private readonly IValidation _validation = validation;
 		private readonly IHighScoreManager _highScoreManager = highScoreManager;
 
@@ -119,7 +124,7 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			try
 			{
-				var (maxUserNameLength, totalWidth) = _highScoreManager.CalculateDisplayDimensions(results);
+				var (maxUserNameLength, totalWidth) = CalculateDisplayDimensions(results);
 				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
 				PrintHighScoreResults(results, currentUserName, maxUserNameLength);
 			}
@@ -130,16 +135,25 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
+		// Calculates the maximum username length and total display width for formatting.
+		public (int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results)
+		{
+			int maxUserNameLength = results.Max(p => p.UserName.Length);
+			int totalWidth = RankColumnWidth + maxUserNameLength + GamesPlayedColumnWidth + AverageGuessesColumnWidth + Padding;
+
+			return (maxUserNameLength, totalWidth);
+		}
+
 		// Displays the header for the high score list with proper formatting.
 		public void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth)
 		{
 			const string header = "=== High Score List ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
 
-			// Define the header format as a single string constant
+			// Define the header format using constants
 			string headerFormat = $"\n{new string(' ', leftPadding)}{header}\n" +
-								   $"{"Rank",-6} {"Player".PadRight(maxUserNameLength)} {"Games",-8} {"Average Guesses",-15}\n" +
-								   new string('-', totalWidth) + "\n";
+								   $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}\n" +
+								   new string('-', totalWidth);
 
 			// Output the formatted header
 			Console.WriteLine(headerFormat);
@@ -177,13 +191,13 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays the rank of the player.
 		public void DisplayRank(int rank)
 		{
-			Console.Write($"{rank,-6}");
+			Console.Write($"{rank,-RankColumnWidth}");
 		}
 
 		// Displays detailed player data, with special formatting for the current user.
 		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength)
 		{
-			Console.WriteLine($"{player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,8} {player.CalculateAverageGuesses(),15:F2}");
+			Console.WriteLine($"{player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,GamesPlayedColumnWidth} {player.CalculateAverageGuesses(),AverageGuessesColumnWidth:F2}");
 		}
 
 		// Asks the user if they want to continue playing or exit.

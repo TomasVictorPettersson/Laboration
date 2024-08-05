@@ -36,6 +36,9 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Displays the high score list with headers and formatted player data.
 		void RenderHighScoreList(List<IPlayerData> results, string currentUserName);
 
+		// Calculates the maximum username length and total display width for formatting.
+		(int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results);
+
 		// Displays the header for the high score list with proper formatting.
 		void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth);
 
@@ -45,7 +48,7 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Sets console color based on whether the player is the current user.
 		void SetConsoleColor(bool isCurrentUser);
 
-		// Displays the rank of the player, highlighting the current user if necessary.
+		// Displays the rank of the player.
 		void DisplayRank(int rank);
 
 		// Displays detailed player data, with special formatting for the current user.

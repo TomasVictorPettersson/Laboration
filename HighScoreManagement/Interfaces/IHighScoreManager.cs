@@ -25,9 +25,5 @@ namespace Laboration.HighScoreManagement.Interfaces
 		// Sorts the high score list based on the average number of guesses.
 
 		void SortHighScoreList(List<IPlayerData> results);
-
-		// Calculates the maximum username length and total display width for formatting the high score list.
-
-		(int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results);
 	}
 }

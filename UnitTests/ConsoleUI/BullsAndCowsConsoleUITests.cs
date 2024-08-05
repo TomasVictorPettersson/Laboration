@@ -4,6 +4,7 @@ using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
 using Moq;
+using System.Globalization;
 
 namespace Laboration.UnitTests.ConsoleUI
 {
@@ -12,7 +13,14 @@ namespace Laboration.UnitTests.ConsoleUI
 	{
 		private const string UserName = "TestUser";
 		private const string SecretNumber = "1234";
-		private const string CurrentUserName = "Player1";
+		private const string TotalGamesPlayed = "10";
+		private const string AverageGuesses = "5,50";
+		private const int MaxUserNameLength = 10;
+		private const string Rank = "1";
+
+		private const int RankColumnWidth = 6;
+		private const int GamesPlayedColumnWidth = 8;
+		private const int AverageGuessesColumnWidth = 15;
 
 		private Mock<IValidation> _mockValidation = new();
 		private Mock<IHighScoreManager> _mockHighScoreManager = new();
@@ -45,7 +53,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			string userName = _mockConsoleUI.Object.GetUserName();
 
 			// Assert
-			Assert.AreEqual(UserName, userName, "The user name returned should be 'ValidUser'.");
+			Assert.AreEqual(UserName, userName, "The user name returned should be 'TestUser'.");
 		}
 
 		[TestMethod]
@@ -139,7 +147,6 @@ namespace Laboration.UnitTests.ConsoleUI
 		[TestMethod]
 		public void DisplayGoodbyeMessage_ShouldPrintGoodbyeMessage()
 		{
-			// Arrange
 			// Act
 			_consoleUI.DisplayGoodbyeMessage(UserName);
 
@@ -156,15 +163,15 @@ namespace Laboration.UnitTests.ConsoleUI
 			_mockHighScoreManager.Setup(m => m.ReadHighScoreResultsFromFile()).Returns(results);
 
 			// Configure the mock to return valid dimensions
-			_mockHighScoreManager.Setup(m => m.CalculateDisplayDimensions(results)).Returns((10, 50));
+			_mockConsoleUI.Setup(m => m.CalculateDisplayDimensions(results)).Returns((10, 50));
 
 			// Act
-			_consoleUI.DisplayHighScoreList(CurrentUserName);
+			_consoleUI.DisplayHighScoreList(UserName);
 
 			// Assert
 			_mockHighScoreManager.Verify(m => m.ReadHighScoreResultsFromFile(), Times.Once);
 			_mockHighScoreManager.Verify(m => m.SortHighScoreList(results), Times.Once);
-			_mockHighScoreManager.Verify(m => m.CalculateDisplayDimensions(results), Times.Once);
+			_mockConsoleUI.Verify(m => m.CalculateDisplayDimensions(results), Times.Once);
 		}
 
 		[TestMethod]
@@ -173,23 +180,16 @@ namespace Laboration.UnitTests.ConsoleUI
 			// Arrange
 			var results = new List<IPlayerData>
 			{
-				CreateMockPlayerData(CurrentUserName, 10, 5.5)
+				CreateMockPlayerData()
 			};
-			const int maxUserNameLength = 10;
 
 			// Act
-			_consoleUI.PrintHighScoreResults(results, CurrentUserName, maxUserNameLength);
+			_consoleUI.PrintHighScoreResults(results, UserName, MaxUserNameLength);
 
 			var output = _consoleOutput.ToString().Trim();
 
 			// Construct the expected output
-			const string expectedRank = "1";
-			var expectedUserName = CurrentUserName.PadRight(maxUserNameLength);
-			const string expectedTotalGamesPlayed = "10";
-			const string expectedAverageGuesses = "5,50";
-
-			// The expected output should include the rank, user name, games played, and average guesses
-			var expectedOutput = $"{expectedRank,-6}{expectedUserName} {expectedTotalGamesPlayed,8} {expectedAverageGuesses,15}";
+			var expectedOutput = $"{Rank,-RankColumnWidth}{UserName,-MaxUserNameLength} {TotalGamesPlayed,GamesPlayedColumnWidth} {AverageGuesses,AverageGuessesColumnWidth}";
 
 			// Assert
 			Assert.AreEqual(expectedOutput, output, "Player data should be printed with correct formatting.");
@@ -199,11 +199,10 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplayRank_ShouldFormatRankCorrectly()
 		{
 			// Arrange
-			const int rank = 1;
-			var expectedOutput = $"{rank,-6}";
+			var expectedOutput = $"{Rank,-RankColumnWidth}";
 
 			// Act
-			_consoleUI.DisplayRank(rank);
+			_consoleUI.DisplayRank(int.Parse(Rank));
 
 			// Assert
 			var actualOutput = _consoleOutput.ToString();
@@ -214,21 +213,15 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplayPlayerData_ShouldPrintPlayerDataWithCorrectFormatting()
 		{
 			// Arrange
-			var player = CreateMockPlayerData(CurrentUserName, 10, 5.5);
-			const int maxUserNameLength = 10;
-			const bool isCurrentUser = true;
+			var player = CreateMockPlayerData();
 
 			// Act
-			_consoleUI.DisplayPlayerData(player, isCurrentUser, maxUserNameLength);
+			_consoleUI.DisplayPlayerData(player, true, MaxUserNameLength);
 
 			var output = _consoleOutput.ToString().Trim();
 
 			// Construct the expected output
-			var expectedUserName = CurrentUserName.PadRight(maxUserNameLength);
-			const string expectedTotalGamesPlayed = "10";
-			const string expectedAverageGuesses = "5,50";
-
-			var expectedOutput = $"{expectedUserName} {expectedTotalGamesPlayed,8} {expectedAverageGuesses,15}";
+			var expectedOutput = $"{UserName,-MaxUserNameLength} {TotalGamesPlayed,GamesPlayedColumnWidth} {AverageGuesses,AverageGuessesColumnWidth}";
 
 			// Assert
 			Assert.AreEqual(expectedOutput, output, "Player data should be printed with correct formatting.");
@@ -238,29 +231,20 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplayHighScoreListHeader_ValidInputs_ShouldFormatHeaderCorrectly()
 		{
 			// Arrange
-
-			const int maxUserNameLength = 10;
 			const int totalWidth = 50;
 			const string header = "=== High Score List ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
 
 			var expectedHeaderOutput = $"\n{new string(' ', leftPadding)}{header}\n" +
-									   $"{"Rank",-6} {"Player".PadRight(maxUserNameLength)} {"Games",-8} {"Average Guesses",-15}\n" +
+									   $"{"Rank",-RankColumnWidth} {"Player",-MaxUserNameLength} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}\n" +
 									   new string('-', totalWidth);
 
 			// Act
-			// Redirect console output
-			using var consoleOutput = new StringWriter();
-			Console.SetOut(consoleOutput);
-
-			_consoleUI.DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
-
-			// Capture and clean up output
-			var actualOutput = consoleOutput.ToString();
-			actualOutput = actualOutput.TrimEnd(); // Remove trailing newlines
+			_consoleUI.DisplayHighScoreListHeader(MaxUserNameLength, totalWidth);
 
 			// Assert
-			Assert.AreEqual(expectedHeaderOutput, actualOutput, "The header should be formatted correctly.");
+			var actualOutput = _consoleOutput.ToString().TrimEnd();
+			Assert.AreEqual(expectedHeaderOutput, actualOutput, "The high score list header should match the expected format.");
 		}
 
 		[TestCleanup]
@@ -277,12 +261,12 @@ namespace Laboration.UnitTests.ConsoleUI
 			}
 		}
 
-		private static IPlayerData CreateMockPlayerData(string userName, int totalGamesPlayed, double averageGuesses)
+		private static IPlayerData CreateMockPlayerData()
 		{
 			var mockPlayerData = new Mock<IPlayerData>();
-			mockPlayerData.Setup(p => p.UserName).Returns(userName);
-			mockPlayerData.Setup(p => p.TotalGamesPlayed).Returns(totalGamesPlayed);
-			mockPlayerData.Setup(p => p.CalculateAverageGuesses()).Returns(averageGuesses);
+			mockPlayerData.Setup(p => p.UserName).Returns(UserName);
+			mockPlayerData.Setup(p => p.TotalGamesPlayed).Returns(int.Parse(TotalGamesPlayed));
+			mockPlayerData.Setup(p => p.CalculateAverageGuesses()).Returns(double.Parse(AverageGuesses.Replace(',', '.'), CultureInfo.InvariantCulture));
 			return mockPlayerData.Object;
 		}
 	}

@@ -101,13 +101,5 @@ namespace Laboration.HighScoreManagement.Implementations
 				throw;
 			}
 		}
-
-		// Calculates the maximum username length and total display width for formatting.
-		public (int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results)
-		{
-			int maxUserNameLength = results.Max(p => p.UserName.Length);
-			int totalWidth = 6 + maxUserNameLength + 8 + 15 + 3;
-			return (maxUserNameLength, totalWidth);
-		}
 	}
 }
