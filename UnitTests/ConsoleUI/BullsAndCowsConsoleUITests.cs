@@ -73,17 +73,18 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			const int numberOfGuesses = 5;
+			var expectedOutput = $"Correct! The secret number was: {SecretNumber}\nIt took you {numberOfGuesses} guesses.";
 
 			// Act
 			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);
 
 			// Assert
-			var expectedOutput = $"Correct! The secret number was: {SecretNumber}\nIt took you {numberOfGuesses} guesses.";
+
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output.");
 		}
 
 		[TestMethod]
-		public void TestDisplayWelcomeMessage()
+		public void DisplayWelcomeMessage_ShouldPrintWelcomeMessage()
 		{
 			// Arrange
 			const string expectedOutput =
@@ -111,11 +112,12 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplaySecretNumberForPractice_ShouldPrintSecretNumber()
 		{
 			// Arrange
+			var expectedOutput = $"For practice, number is: {SecretNumber}";
 			// Act
 			_consoleUI.DisplaySecretNumberForPractice(SecretNumber);
 
 			// Assert
-			Assert.AreEqual($"For practice, number is: {SecretNumber}", _consoleOutput.ToString().Trim(), "The secret number message should match the expected output.");
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The secret number message should match the expected output.");
 		}
 
 		[TestMethod]
@@ -147,11 +149,14 @@ namespace Laboration.UnitTests.ConsoleUI
 		[TestMethod]
 		public void DisplayGoodbyeMessage_ShouldPrintGoodbyeMessage()
 		{
+			// Arrange
+			var expectedOutput = $"Thank you, {UserName}, for playing Bulls and Cows!";
+
 			// Act
 			_consoleUI.DisplayGoodbyeMessage(UserName);
 
 			// Assert
-			var expectedOutput = $"Thank you, {UserName}, for playing Bulls and Cows!";
+
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The goodbye message should match the expected output.");
 		}
 
@@ -220,7 +225,6 @@ namespace Laboration.UnitTests.ConsoleUI
 
 			var output = _consoleOutput.ToString().Trim();
 
-			// Construct the expected output
 			var expectedOutput = $"{UserName,-MaxUserNameLength} {TotalGamesPlayed,GamesPlayedColumnWidth} {AverageGuesses,AverageGuessesColumnWidth}";
 
 			// Assert
