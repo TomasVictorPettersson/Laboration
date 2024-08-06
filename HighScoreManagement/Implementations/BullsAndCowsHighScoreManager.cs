@@ -32,18 +32,20 @@ namespace Laboration.HighScoreManagement.Implementations
 			var results = new List<IPlayerData>();
 			try
 			{
-				using StreamReader input = new(FilePath);
-				string line;
-				while ((line = input.ReadLine()!) != null)
+				if (File.Exists(FilePath))
 				{
-					IPlayerData playerData = ParseLineToPlayerData(line);
-					results = UpdateResultsList(results, playerData);
+					using StreamReader input = new(FilePath);
+					string line;
+					while ((line = input.ReadLine()!) != null)
+					{
+						IPlayerData playerData = ParseLineToPlayerData(line);
+						results = UpdateResultsList(results, playerData);
+					}
 				}
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error reading high score results from file: {ex.Message}");
-				throw;
 			}
 			return results;
 		}
@@ -54,8 +56,17 @@ namespace Laboration.HighScoreManagement.Implementations
 			try
 			{
 				string[] userNameAndUserScore = line.Split(Separator, StringSplitOptions.None);
+				if (userNameAndUserScore.Length != 2)
+				{
+					throw new FormatException("The data format is invalid.");
+				}
+
 				string userName = userNameAndUserScore[0];
-				int guesses = Convert.ToInt32(userNameAndUserScore[1]);
+				if (!int.TryParse(userNameAndUserScore[1], out int guesses))
+				{
+					throw new FormatException("The number of guesses is not a valid integer.");
+				}
+
 				return new BullsAndCowsPlayerData(userName, guesses);
 			}
 			catch (Exception ex)

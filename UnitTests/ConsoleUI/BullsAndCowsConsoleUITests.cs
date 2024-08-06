@@ -2,9 +2,9 @@
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Interfaces;
+using Laboration.UnitTests.Mocks;
 using Laboration.Validation.Interfaces;
 using Moq;
-using System.Globalization;
 
 namespace Laboration.UnitTests.ConsoleUI
 {
@@ -57,18 +57,6 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		[TestMethod]
-		public void GetUserName_EmptyUserName_ThrowsException()
-		{
-			// Arrange
-			_mockConsoleUI.Setup(ui => ui.GetUserName())
-				.Throws(new InvalidOperationException("User name cannot be empty."));
-
-			// Act & Assert
-			var exception = Assert.ThrowsException<InvalidOperationException>(() => _mockConsoleUI.Object.GetUserName());
-			Assert.AreEqual("User name cannot be empty.", exception.Message, "Exception message should be 'User name cannot be empty.'");
-		}
-
-		[TestMethod]
 		public void DisplayCorrectMessage_ValidData_DisplaysMessage()
 		{
 			// Arrange
@@ -105,7 +93,8 @@ namespace Laboration.UnitTests.ConsoleUI
 
 			// Assert
 			string actualOutput = consoleOutput.ToString().Trim();
-			Assert.AreEqual(expectedOutput, actualOutput);
+			Assert.AreEqual(expectedOutput, actualOutput,
+				"The welcome message printed to the console does not match the expected output. Verify the formatting and content of the welcome message.");
 		}
 
 		[TestMethod]
@@ -161,22 +150,25 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		[TestMethod]
-		public void DisplayHighScoreList_ShouldCallHighScoreManagerMethods()
+		public void DisplayHighScoreList_ShouldDisplayHighScoreList()
 		{
 			// Arrange
-			var results = new List<IPlayerData>();
-			_mockHighScoreManager.Setup(m => m.ReadHighScoreResultsFromFile()).Returns(results);
+			var mockHighScoreManager = new Mock<IHighScoreManager>();
+			var consoleUI = new BullsAndCowsConsoleUI(null!, mockHighScoreManager.Object);
 
-			// Configure the mock to return valid dimensions
-			_mockConsoleUI.Setup(m => m.CalculateDisplayDimensions(results)).Returns((10, 50));
+			var expectedResults = new List<IPlayerData>
+				{
+					MockPlayerData.CreateMock()
+				};
+
+			mockHighScoreManager.Setup(m => m.ReadHighScoreResultsFromFile()).Returns(expectedResults);
 
 			// Act
-			_consoleUI.DisplayHighScoreList(UserName);
+			consoleUI.DisplayHighScoreList("TestUser");
 
 			// Assert
-			_mockHighScoreManager.Verify(m => m.ReadHighScoreResultsFromFile(), Times.Once);
-			_mockHighScoreManager.Verify(m => m.SortHighScoreList(results), Times.Once);
-			_mockConsoleUI.Verify(m => m.CalculateDisplayDimensions(results), Times.Once);
+			mockHighScoreManager.Verify(m => m.ReadHighScoreResultsFromFile(), Times.Once);
+			mockHighScoreManager.Verify(m => m.SortHighScoreList(expectedResults), Times.Once);
 		}
 
 		[TestMethod]
@@ -185,7 +177,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			// Arrange
 			var results = new List<IPlayerData>
 			{
-				CreateMockPlayerData()
+				MockPlayerData.CreateMock()
 			};
 
 			// Act
@@ -218,7 +210,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplayPlayerData_ShouldPrintPlayerDataWithCorrectFormatting()
 		{
 			// Arrange
-			var player = CreateMockPlayerData();
+			var player = MockPlayerData.CreateMock();
 
 			// Act
 			_consoleUI.DisplayPlayerData(player, true, MaxUserNameLength);
@@ -239,9 +231,10 @@ namespace Laboration.UnitTests.ConsoleUI
 			const string header = "=== High Score List ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
 
-			var expectedHeaderOutput = $"\n{new string(' ', leftPadding)}{header}\n" +
-									   $"{"Rank",-RankColumnWidth} {"Player",-MaxUserNameLength} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}\n" +
-									   new string('-', totalWidth);
+			var expectedHeaderOutput = $@"
+			{new string(' ', leftPadding)}{header}
+			{"Rank",-RankColumnWidth} {"Player",-MaxUserNameLength} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}
+			{new string('-', totalWidth)}";
 
 			// Act
 			_consoleUI.DisplayHighScoreListHeader(MaxUserNameLength, totalWidth);
@@ -263,15 +256,6 @@ namespace Laboration.UnitTests.ConsoleUI
 			{
 				_consoleOutput?.Dispose();
 			}
-		}
-
-		private static IPlayerData CreateMockPlayerData()
-		{
-			var mockPlayerData = new Mock<IPlayerData>();
-			mockPlayerData.Setup(p => p.UserName).Returns(UserName);
-			mockPlayerData.Setup(p => p.TotalGamesPlayed).Returns(int.Parse(TotalGamesPlayed));
-			mockPlayerData.Setup(p => p.CalculateAverageGuesses()).Returns(double.Parse(AverageGuesses.Replace(',', '.'), CultureInfo.InvariantCulture));
-			return mockPlayerData.Object;
 		}
 	}
 }

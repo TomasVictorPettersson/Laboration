@@ -188,5 +188,58 @@ namespace Laboration.UnitTests.Validation
 			// Assert
 			Assert.IsTrue(result, "Expected true for a valid 4-digit unique number.");
 		}
+
+		[TestMethod]
+		public void IsInputValid_InputWithNonNumericCharacters_ReturnsFalse()
+		{
+			const string input = "12A4";
+			bool result = _validation.IsInputValid(input);
+			Assert.IsFalse(result, "Expected false for input containing non-numeric characters.");
+		}
+
+		[TestMethod]
+		public void IsInputValid_InputWithMixedCharacters_ReturnsFalse()
+		{
+			const string input = "1a34";
+			bool result = _validation.IsInputValid(input);
+			Assert.IsFalse(result, "Expected false for input containing a mix of numeric and non-numeric characters.");
+		}
+
+		[TestMethod]
+		public void IsInputValid_InputWithSpecialCharacters_ReturnsFalse()
+		{
+			const string input = "12@4";
+			bool result = _validation.IsInputValid(input);
+			Assert.IsFalse(result, "Expected false for input containing special characters.");
+		}
+
+		[TestMethod]
+		public void IsInputValid_InputWithLeadingOrTrailingSpaces_ReturnsTrue()
+		{
+			const string input = " 1234 ";
+			bool result = _validation.IsInputValid(input.Trim());
+			Assert.IsTrue(result, "Expected true for input with leading or trailing spaces when trimmed.");
+		}
+
+		[TestMethod]
+		public void IsInputValid_InputWithSpacesInBetween_ReturnsFalse()
+		{
+			const string input = "12 34";
+			bool result = _validation.IsInputValid(input);
+			Assert.IsFalse(result, "Expected false for input containing spaces between digits.");
+		}
+
+		[TestMethod]
+		public void IsInputValid_InputWithAllZeroes_ReturnsFalse()
+		{
+			// Arrange
+			const string input = "0000";
+
+			// Act
+			bool result = _validation.IsInputValid(input);
+
+			// Assert
+			Assert.IsFalse(result, "Expected false for input with all zeroes.");
+		}
 	}
 }

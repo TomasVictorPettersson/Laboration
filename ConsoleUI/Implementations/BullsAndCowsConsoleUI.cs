@@ -151,9 +151,10 @@ namespace Laboration.ConsoleUI.Implementations
 			int leftPadding = (totalWidth - header.Length) / 2;
 
 			// Define the header format using constants
-			string headerFormat = $"\n{new string(' ', leftPadding)}{header}\n" +
-								   $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}\n" +
-								   new string('-', totalWidth);
+			string headerFormat = $@"
+			{new string(' ', leftPadding)}{header}
+			{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}
+			{new string('-', totalWidth)}";
 
 			// Output the formatted header
 			Console.WriteLine(headerFormat);
