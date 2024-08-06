@@ -61,8 +61,7 @@ namespace Laboration.UnitTests.ConsoleUI
 				"\nFor each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
 				"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
 				"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
-				"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n" +
-				"New game:";
+				"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.";
 
 			// Act
 			_consoleUI.DisplayWelcomeMessage(UserName);
