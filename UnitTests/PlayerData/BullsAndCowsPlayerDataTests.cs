@@ -5,7 +5,6 @@ namespace Laboration.UnitTests.PlayerData
 	[TestClass]
 	public class BullsAndCowsPlayerDataTests
 	{
-		// Constants for usernames
 		private const string UserNameJohnDoe = "JohnDoe";
 
 		private const string UserNameJaneDoe = "JaneDoe";

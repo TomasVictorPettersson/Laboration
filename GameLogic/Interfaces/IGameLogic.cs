@@ -1,6 +1,6 @@
 ﻿namespace Laboration.GameLogic.Interfaces
 {
-	// Defines the contract for the game logic in a Bulls and Cows game.
+	// Defines the contract for the game logic.
 	public interface IGameLogic
 	{
 		// Starts the game, initializing game state and playing the game.

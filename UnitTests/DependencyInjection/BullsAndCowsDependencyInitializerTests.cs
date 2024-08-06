@@ -9,17 +9,13 @@ namespace Laboration.UnitTests.DependencyInjection
 	[TestClass]
 	public class BullsAndCowsDependencyInitializerTests
 	{
-		private BullsAndCowsDependencyInitializer? _dependencyInitializer;
+		private readonly BullsAndCowsDependencyInitializer _dependencyInitializer = new();
 		private IConsoleUI? _consoleUI;
 		private IGameLogic? _gameLogic;
 
 		[TestInitialize]
 		public void TestInitialize()
 		{
-			// Arrange
-			_dependencyInitializer = new BullsAndCowsDependencyInitializer();
-
-			// Act
 			(_consoleUI, _gameLogic) = _dependencyInitializer.InitializeDependencies();
 		}
 

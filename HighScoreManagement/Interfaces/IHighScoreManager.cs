@@ -2,7 +2,7 @@
 
 namespace Laboration.HighScoreManagement.Interfaces
 {
-	// Defines the contract for managing high scores in the Bulls and Cows game.
+	// Defines the contract for managing high scores.
 
 	public interface IHighScoreManager
 	{

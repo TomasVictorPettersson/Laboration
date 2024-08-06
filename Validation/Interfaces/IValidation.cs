@@ -1,5 +1,6 @@
 ﻿namespace Laboration.Validation.Interfaces
 {
+	// Defines the contract for validation functionalities.
 	public interface IValidation
 	{
 		// Validates the username and returns an error message if invalid.

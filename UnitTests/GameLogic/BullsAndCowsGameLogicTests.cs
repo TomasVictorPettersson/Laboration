@@ -21,7 +21,7 @@ namespace Laboration.UnitTests.GameLogic
 		}
 
 		[TestMethod]
-		public void GenerateUnique4DigitNumber_ShouldReturnDifferentNumbers()
+		public void MakeSecretNumber_ShouldReturnDifferentNumbers()
 		{
 			// Arrange
 			string secretNumber1 = _gameLogic.MakeSecretNumber();
@@ -53,14 +53,17 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should increment for a correct guess.");
 
 			// Verify that feedback is displayed
-			_mockConsoleUI.Verify(ui => ui.DisplayGuessFeedback(feedback), Times.Once);
+			_mockConsoleUI.Verify(
+				ui => ui.DisplayGuessFeedback(feedback),
+				Times.Once,
+				"DisplayGuessFeedback should be called once with the correct feedback for a correct guess."
+			);
 		}
 
 		[TestMethod]
 		public void ProcessGuess_ShouldIncrementCounter_ForIncorrectGuess()
 		{
 			// Arrange
-
 			int numberOfGuesses = 0;
 			const string inCorrectGuess = "5678";
 			const string feedback = ",";
@@ -77,14 +80,17 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should increment for an incorrect guess.");
 
 			// Verify that feedback is displayed
-			_mockConsoleUI.Verify(ui => ui.DisplayGuessFeedback(feedback), Times.Once);
+			_mockConsoleUI.Verify(
+				ui => ui.DisplayGuessFeedback(feedback),
+				Times.Once,
+				"DisplayGuessFeedback should be called once with the correct feedback for an incorrect guess."
+			);
 		}
 
 		[TestMethod]
 		public void BullsAndCowsFeedback_ShouldReturnBBBB_ForCorrectGuess()
 		{
 			// Arrange
-
 			const string guess = "1234";
 
 			// Act
@@ -98,7 +104,6 @@ namespace Laboration.UnitTests.GameLogic
 		public void BullsAndCowsFeedback_ShouldReturnCorrectFeedback_ForIncorrectGuess()
 		{
 			// Arrange
-
 			const string guess = "1568";
 
 			// Act
@@ -114,6 +119,7 @@ namespace Laboration.UnitTests.GameLogic
 		{
 			// Arrange
 			const string guess = "4321";
+
 			// Act
 			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(SecretNumber, guess);
 
@@ -125,7 +131,6 @@ namespace Laboration.UnitTests.GameLogic
 		public void BullsAndCowsFeedback_ShouldReturnMixedBullsAndCows_ForPartialMatch()
 		{
 			// Arrange
-
 			const string guess = "1243";
 
 			// Act
@@ -139,7 +144,6 @@ namespace Laboration.UnitTests.GameLogic
 		public void BullsAndCowsFeedback_ShouldReturnBB_ForOnlyBulls()
 		{
 			// Arrange
-
 			const string guess = "1259";
 
 			// Act
@@ -153,7 +157,6 @@ namespace Laboration.UnitTests.GameLogic
 		public void BullsAndCowsFeedback_ShouldReturnCC_ForOnlyCows()
 		{
 			// Arrange
-
 			const string guess = "3498";
 
 			// Act

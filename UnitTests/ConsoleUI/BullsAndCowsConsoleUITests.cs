@@ -22,24 +22,18 @@ namespace Laboration.UnitTests.ConsoleUI
 		private const int GamesPlayedColumnWidth = 8;
 		private const int AverageGuessesColumnWidth = 15;
 
-		private Mock<IValidation> _mockValidation = new();
-		private Mock<IHighScoreManager> _mockHighScoreManager = new();
-		private BullsAndCowsConsoleUI _consoleUI = new(null!, null!);
-		private StringWriter _consoleOutput = new();
-		private TextWriter _originalConsoleOut = Console.Out;
-		private TextReader _originalConsoleIn = Console.In;
-		private Mock<IConsoleUI> _mockConsoleUI = new();
+		private readonly Mock<IValidation> _mockValidation = new();
+		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
+		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
+		private BullsAndCowsConsoleUI _consoleUI = null!;
+		private readonly StringWriter _consoleOutput = new();
+		private readonly TextWriter _originalConsoleOut = Console.Out;
+		private readonly TextReader _originalConsoleIn = Console.In;
 
 		[TestInitialize]
 		public void Setup()
 		{
-			_mockValidation = new Mock<IValidation>();
-			_mockHighScoreManager = new Mock<IHighScoreManager>();
-			_mockConsoleUI = new Mock<IConsoleUI>();
 			_consoleUI = new BullsAndCowsConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
-			_originalConsoleOut = Console.Out;
-			_originalConsoleIn = Console.In;
-			_consoleOutput = new StringWriter();
 			Console.SetOut(_consoleOutput);
 		}
 
@@ -57,21 +51,6 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		[TestMethod]
-		public void DisplayCorrectMessage_ValidData_DisplaysMessage()
-		{
-			// Arrange
-			const int numberOfGuesses = 5;
-			var expectedOutput = $"Correct! The secret number was: {SecretNumber}\nIt took you {numberOfGuesses} guesses.";
-
-			// Act
-			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);
-
-			// Assert
-
-			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output.");
-		}
-
-		[TestMethod]
 		public void DisplayWelcomeMessage_ShouldPrintWelcomeMessage()
 		{
 			// Arrange
@@ -85,14 +64,11 @@ namespace Laboration.UnitTests.ConsoleUI
 				"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n" +
 				"New game:";
 
-			var consoleOutput = new StringWriter();
-			Console.SetOut(consoleOutput);
-
 			// Act
 			_consoleUI.DisplayWelcomeMessage(UserName);
 
 			// Assert
-			string actualOutput = consoleOutput.ToString().Trim();
+			string actualOutput = _consoleOutput.ToString().Trim();
 			Assert.AreEqual(expectedOutput, actualOutput,
 				"The welcome message printed to the console does not match the expected output. Verify the formatting and content of the welcome message.");
 		}
@@ -102,6 +78,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var expectedOutput = $"For practice, number is: {SecretNumber}";
+
 			// Act
 			_consoleUI.DisplaySecretNumberForPractice(SecretNumber);
 
@@ -110,65 +87,45 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		[TestMethod]
-		public void AskToContinue_ValidYesInput_ReturnsTrue()
+		public void DisplayCorrectMessage_ValidData_DisplaysMessage()
 		{
 			// Arrange
-			_mockConsoleUI.Setup(ui => ui.AskToContinue()).Returns(true);
+			const int numberOfGuesses = 5;
+			var expectedOutput = $"Correct! The secret number was: {SecretNumber}\nIt took you {numberOfGuesses} guesses.";
 
 			// Act
-			bool continueGame = _mockConsoleUI.Object.AskToContinue();
+			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);
 
 			// Assert
-			Assert.IsTrue(continueGame, "AskToContinue should return true for a valid 'yes' input.");
-		}
-
-		[TestMethod]
-		public void AskToContinue_ValidNoInput_ReturnsFalse()
-		{
-			// Arrange
-			_mockConsoleUI.Setup(ui => ui.AskToContinue()).Returns(false);
-
-			// Act
-			bool continueGame = _mockConsoleUI.Object.AskToContinue();
-
-			// Assert
-			Assert.IsFalse(continueGame, "AskToContinue should return false for a valid 'no' input.");
-		}
-
-		[TestMethod]
-		public void DisplayGoodbyeMessage_ShouldPrintGoodbyeMessage()
-		{
-			// Arrange
-			var expectedOutput = $"Thank you, {UserName}, for playing Bulls and Cows!";
-
-			// Act
-			_consoleUI.DisplayGoodbyeMessage(UserName);
-
-			// Assert
-
-			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The goodbye message should match the expected output.");
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output.");
 		}
 
 		[TestMethod]
 		public void DisplayHighScoreList_ShouldDisplayHighScoreList()
 		{
 			// Arrange
-			var mockHighScoreManager = new Mock<IHighScoreManager>();
-			var consoleUI = new BullsAndCowsConsoleUI(null!, mockHighScoreManager.Object);
-
 			var expectedResults = new List<IPlayerData>
-				{
-					MockPlayerData.CreateMock()
-				};
+			{
+				MockPlayerData.CreateMock()
+			};
 
-			mockHighScoreManager.Setup(m => m.ReadHighScoreResultsFromFile()).Returns(expectedResults);
+			_mockHighScoreManager.Setup(m => m.ReadHighScoreResultsFromFile()).Returns(expectedResults);
 
 			// Act
-			consoleUI.DisplayHighScoreList("TestUser");
+			_consoleUI.DisplayHighScoreList(UserName);
 
 			// Assert
-			mockHighScoreManager.Verify(m => m.ReadHighScoreResultsFromFile(), Times.Once);
-			mockHighScoreManager.Verify(m => m.SortHighScoreList(expectedResults), Times.Once);
+			_mockHighScoreManager.Verify(
+				m => m.ReadHighScoreResultsFromFile(),
+				Times.Once,
+				"ReadHighScoreResultsFromFile should be called once to retrieve the high score list."
+			);
+
+			_mockHighScoreManager.Verify(
+				m => m.SortHighScoreList(expectedResults),
+				Times.Once,
+				"SortHighScoreList should be called once with the expected results to sort the high score list."
+			);
 		}
 
 		[TestMethod]
@@ -176,20 +133,18 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var results = new List<IPlayerData>
-			{
-				MockPlayerData.CreateMock()
-			};
+		{
+			MockPlayerData.CreateMock()
+		};
 
 			// Act
 			_consoleUI.PrintHighScoreResults(results, UserName, MaxUserNameLength);
 
-			var output = _consoleOutput.ToString().Trim();
-
-			// Construct the expected output
 			var expectedOutput = $"{Rank,-RankColumnWidth}{UserName,-MaxUserNameLength} {TotalGamesPlayed,GamesPlayedColumnWidth} {AverageGuesses,AverageGuessesColumnWidth}";
 
 			// Assert
-			Assert.AreEqual(expectedOutput, output, "Player data should be printed with correct formatting.");
+			var actualOutput = _consoleOutput.ToString().Trim();
+			Assert.AreEqual(expectedOutput, actualOutput, "Player data should be printed with correct formatting.");
 		}
 
 		[TestMethod]
@@ -231,10 +186,9 @@ namespace Laboration.UnitTests.ConsoleUI
 			const string header = "=== High Score List ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
 
-			var expectedHeaderOutput = $@"
-			{new string(' ', leftPadding)}{header}
-			{"Rank",-RankColumnWidth} {"Player",-MaxUserNameLength} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}
-			{new string('-', totalWidth)}";
+			var expectedHeaderOutput = $"\n{new string(' ', leftPadding)}{header}\n" +
+									   $"{"Rank",-RankColumnWidth} {"Player",-MaxUserNameLength} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}\n" +
+									   new string('-', totalWidth);
 
 			// Act
 			_consoleUI.DisplayHighScoreListHeader(MaxUserNameLength, totalWidth);
@@ -242,6 +196,45 @@ namespace Laboration.UnitTests.ConsoleUI
 			// Assert
 			var actualOutput = _consoleOutput.ToString().TrimEnd();
 			Assert.AreEqual(expectedHeaderOutput, actualOutput, "The high score list header should match the expected format.");
+		}
+
+		[TestMethod]
+		public void AskToContinue_ValidYesInput_ReturnsTrue()
+		{
+			// Arrange
+			_mockConsoleUI.Setup(ui => ui.AskToContinue()).Returns(true);
+
+			// Act
+			bool continueGame = _mockConsoleUI.Object.AskToContinue();
+
+			// Assert
+			Assert.IsTrue(continueGame, "AskToContinue should return true for a valid 'yes' input.");
+		}
+
+		[TestMethod]
+		public void AskToContinue_ValidNoInput_ReturnsFalse()
+		{
+			// Arrange
+			_mockConsoleUI.Setup(ui => ui.AskToContinue()).Returns(false);
+
+			// Act
+			bool continueGame = _mockConsoleUI.Object.AskToContinue();
+
+			// Assert
+			Assert.IsFalse(continueGame, "AskToContinue should return false for a valid 'no' input.");
+		}
+
+		[TestMethod]
+		public void DisplayGoodbyeMessage_ShouldPrintGoodbyeMessage()
+		{
+			// Arrange
+			var expectedOutput = $"Thank you, {UserName}, for playing Bulls and Cows!";
+
+			// Act
+			_consoleUI.DisplayGoodbyeMessage(UserName);
+
+			// Assert
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The goodbye message should match the expected output.");
 		}
 
 		[TestCleanup]

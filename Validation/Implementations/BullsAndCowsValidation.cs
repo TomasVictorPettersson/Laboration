@@ -2,6 +2,7 @@
 
 namespace Laboration.Validation.Implementations
 {
+	// Provides validation functionality for the Bulls and Cows game.
 	public class BullsAndCowsValidation : IValidation
 	{
 		// Validates the username and returns an error message if invalid.

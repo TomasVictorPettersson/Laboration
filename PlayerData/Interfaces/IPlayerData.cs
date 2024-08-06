@@ -1,7 +1,6 @@
 ﻿namespace Laboration.PlayerData.Interfaces
 {
-	// Represents player data for the Bulls and Cows game.
-
+	// Defines the contract for managing player data in a game.
 	public interface IPlayerData
 	{
 		// Gets the username of the player.

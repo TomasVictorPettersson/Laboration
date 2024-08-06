@@ -11,21 +11,20 @@ namespace Laboration.UnitTests.GameApplication
 	[TestClass]
 	public class ProgramTests
 	{
-		private Mock<IDependencyInitializer>? _mockDependencyInitializer;
-		private Mock<IGameFlowController>? _mockGameFlowController;
-		private Mock<IConsoleUI>? _mockConsoleUI;
-		private Mock<IGameLogic>? _mockGameLogic;
-		private Mock<IGameFactory>? _mockGameFactory;
+		private readonly Mock<IDependencyInitializer> _mockDependencyInitializer = new();
+		private readonly Mock<IGameFlowController> _mockGameFlowController = new();
+		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
+		private readonly Mock<IGameLogic> _mockGameLogic = new();
+		private readonly Mock<IGameFactory> _mockGameFactory = new();
+
+		private readonly TextWriter _originalConsoleOut = Console.Out;
+		private readonly StringWriter _consoleOutput = new();
 
 		[TestInitialize]
 		public void SetUp()
 		{
-			// Initialize mocks for dependencies and game flow controller.
-			_mockDependencyInitializer = new Mock<IDependencyInitializer>();
-			_mockGameFlowController = new Mock<IGameFlowController>();
-			_mockConsoleUI = new Mock<IConsoleUI>();
-			_mockGameLogic = new Mock<IGameLogic>();
-			_mockGameFactory = new Mock<IGameFactory>();
+			// Set up console output redirection.
+			Console.SetOut(_consoleOutput);
 
 			// Set up the dependency initializer mock to return mocked interfaces.
 			_mockDependencyInitializer
@@ -51,32 +50,24 @@ namespace Laboration.UnitTests.GameApplication
 			Program.Main();
 
 			// Assert: Verify that InitializeDependencies was called once.
-			_mockDependencyInitializer!.Verify(di => di.InitializeDependencies(), Times.Once, "Dependencies should be initialized once.");
+			_mockDependencyInitializer.Verify(di => di.InitializeDependencies(), Times.Once, "Dependencies should be initialized once.");
 		}
 
 		[TestMethod]
 		public void Main_ExecutesGameLoop()
 		{
-			// Arrange: Redirect console output for verification.
-			var consoleOutput = new StringWriter();
-			Console.SetOut(consoleOutput);
-
 			// Act: Call the Main method to verify game loop execution.
 			Program.Main();
 
 			// Assert: Verify that ExecuteGameLoop was called once.
-			_mockGameFlowController!.Verify(gfc => gfc.ExecuteGameLoop(It.IsAny<IConsoleUI>(), It.IsAny<IGameLogic>()), Times.Once, "Game loop should be executed once.");
+			_mockGameFlowController.Verify(gfc => gfc.ExecuteGameLoop(It.IsAny<IConsoleUI>(), It.IsAny<IGameLogic>()), Times.Once, "Game loop should be executed once.");
 		}
 
 		[TestMethod]
 		public void Main_HandlesExceptions()
 		{
-			// Arrange: Redirect console output for verification and configure mock to throw exception.
-			var originalConsoleOut = Console.Out;
-			var consoleOutput = new StringWriter();
-			Console.SetOut(consoleOutput);
-
-			_mockGameFlowController!
+			// Arrange: Configure mock to throw exception.
+			_mockGameFlowController
 				.Setup(gfc => gfc.ExecuteGameLoop(It.IsAny<IConsoleUI>(), It.IsAny<IGameLogic>()))
 				.Throws(new Exception("Test exception"));
 
@@ -84,10 +75,15 @@ namespace Laboration.UnitTests.GameApplication
 			Program.Main();
 
 			// Assert: Verify that the error message was displayed correctly.
-			Assert.IsTrue(consoleOutput.ToString().Contains("An error occurred:"), "Error message was not displayed correctly.");
+			Assert.IsTrue(_consoleOutput.ToString().Contains("An error occurred:"), "Error message was not displayed correctly.");
+		}
 
-			// Restore original console output.
-			Console.SetOut(originalConsoleOut);
+		[TestCleanup]
+		public void Cleanup()
+		{
+			// Restore the original console output.
+			Console.SetOut(_originalConsoleOut);
+			_consoleOutput.Dispose();
 		}
 	}
 }
