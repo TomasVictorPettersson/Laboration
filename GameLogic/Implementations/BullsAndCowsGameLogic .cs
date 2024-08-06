@@ -21,7 +21,7 @@ namespace Laboration.GameLogic.Implementations
 				InitializeGame(userName);
 				string secretNumber = MakeSecretNumber();
 				// Comment out or remove next line to play the real game!
-				_consoleUI.DisplaySecretNumberForPractice(secretNumber);
+				// _consoleUI.DisplaySecretNumberForPractice(secretNumber);
 				PlayGameLoop(secretNumber, userName);
 			}
 			catch (Exception ex)

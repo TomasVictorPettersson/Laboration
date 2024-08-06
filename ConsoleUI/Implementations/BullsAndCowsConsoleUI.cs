@@ -9,13 +9,14 @@ namespace Laboration.ConsoleUI.Implementations
 	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
 		private const string WelcomeMessageFormat =
-			"Welcome {0} to Bulls and Cows!\n\n" +
-			"The objective of the game is to guess a 4-digit number.\n" +
-			"Each digit in the 4-digit number will only appear once.\n\n" +
-			"For each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
-			"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
-			"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
-				"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n";
+	"Welcome {0} to Bulls and Cows!\n\n" +
+	"The objective of the game is to guess a 4-digit number.\n" +
+	"Each digit in the 4-digit number will only appear once.\n" +
+	"You can only use digits from 0 to 9.\n\n" +
+	"For each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
+	"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
+	"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
+	"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n";
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";

@@ -58,6 +58,7 @@ namespace Laboration.UnitTests.ConsoleUI
 				$"Welcome {UserName} to Bulls and Cows!\n" +
 				"\nThe objective of the game is to guess a 4-digit number.\n" +
 				"Each digit in the 4-digit number will only appear once.\n" +
+				"You can only use digits from 0 to 9.\n" +
 				"\nFor each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
 				"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
 				"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
