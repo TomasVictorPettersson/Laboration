@@ -9,7 +9,7 @@ namespace Laboration.HighScoreManagement.Implementations
 	public class BullsAndCowsHighScoreManager : IHighScoreManager
 	{
 		private const string Separator = "#&#";
-		private const string FilePath = "result.txt";
+		private const string FilePath = "bullsandcows_highscores.txt";
 
 		// Saves a user's result to a file.
 		public void SaveResult(string userName, int numberOfGuesses)

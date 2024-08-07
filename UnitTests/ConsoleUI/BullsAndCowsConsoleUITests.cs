@@ -133,9 +133,9 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var results = new List<IPlayerData>
-		{
+			{
 			MockPlayerData.CreateMock()
-		};
+			};
 
 			// Act
 			_consoleUI.PrintHighScoreResults(results, UserName, MaxUserNameLength);
@@ -183,15 +183,22 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			const int totalWidth = 50;
-			const string header = "=== High Score List ===";
+			const int maxUserNameLength = 20;
+
+			const string header = "=== HIGH SCORE LIST ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
 
-			var expectedHeaderOutput = $"\n{new string(' ', leftPadding)}{header}\n" +
-									   $"{"Rank",-RankColumnWidth} {"Player",-MaxUserNameLength} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}\n" +
-									   new string('-', totalWidth);
+			string SeparatorLine = new('-', totalWidth);
+
+			string HeaderRowFormat = $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}";
+
+			var expectedHeaderOutput = $"{new string(' ', leftPadding)}{header}\n" +
+									   $"{SeparatorLine}\n" +
+									   $"{HeaderRowFormat}\n" +
+									   $"{SeparatorLine}";
 
 			// Act
-			_consoleUI.DisplayHighScoreListHeader(MaxUserNameLength, totalWidth);
+			_consoleUI.DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
 
 			// Assert
 			var actualOutput = _consoleOutput.ToString().TrimEnd();

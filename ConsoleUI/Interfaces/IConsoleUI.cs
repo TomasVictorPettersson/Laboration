@@ -36,6 +36,8 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Displays the high score list with headers and formatted player data.
 		void RenderHighScoreList(List<IPlayerData> results, string currentUserName);
 
+		string CreateSeparatorLine(int totalWidth);
+
 		// Calculates the maximum username length and total display width for formatting.
 		(int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results);
 

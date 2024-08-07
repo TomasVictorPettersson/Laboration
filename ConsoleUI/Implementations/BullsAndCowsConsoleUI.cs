@@ -20,6 +20,7 @@ namespace Laboration.ConsoleUI.Implementations
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";
+
 		private const int RankColumnWidth = 6;
 		private const int GamesPlayedColumnWidth = 8;
 		private const int AverageGuessesColumnWidth = 15;
@@ -100,7 +101,7 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays a message indicating the correct number and number of guesses taken.
 		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
-			Console.WriteLine($"\nCorrect! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses.");
+			Console.WriteLine($"Correct! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses.\n");
 		}
 
 		// Displays the high score list with formatted player data and highlights the current user.
@@ -127,12 +128,19 @@ namespace Laboration.ConsoleUI.Implementations
 				var (maxUserNameLength, totalWidth) = CalculateDisplayDimensions(results);
 				DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
 				PrintHighScoreResults(results, currentUserName, maxUserNameLength);
+				Console.WriteLine(CreateSeparatorLine(totalWidth));
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error rendering high score list: {ex.Message}");
 				throw;
 			}
+		}
+
+		// Creates a separator line of the specified width using dashes.
+		public string CreateSeparatorLine(int totalWidth)
+		{
+			return new string('-', totalWidth);
 		}
 
 		// Calculates the maximum username length and total display width for formatting.
@@ -147,16 +155,17 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays the header for the high score list with proper formatting.
 		public void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth)
 		{
-			const string header = "=== High Score List ===";
+			const string header = "=== HIGH SCORE LIST ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
 
-			// Define the header format using constants
-			// Define the header format using constants
-			string headerFormat = $"\n{new string(' ', leftPadding)}{header}\n" +
-								   $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}\n" +
-								   new string('-', totalWidth);
-			// Output the formatted header
-			Console.WriteLine(headerFormat);
+			string headerRowFormat = $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}";
+
+			string headerFormat = $"{new string(' ', leftPadding)}{header}\n" +
+								  $"{CreateSeparatorLine(totalWidth)}\n" +
+								  $"{headerRowFormat}\n" +
+								  $"{CreateSeparatorLine(totalWidth)}";
+
+			Console.WriteLine($"{headerFormat}");
 		}
 
 		// Displays the list of player data in a formatted manner, highlighting the current user.

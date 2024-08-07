@@ -8,7 +8,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 	public class BullsAndCowsHighScoreManagerTests
 	{
 		// Constants
-		private const string FilePath = "result.txt";
+		private const string FilePath = "bullsandcows_highscores.txt";
 
 		private const string UserName = "TestUser";
 		private const string Separator = "#&#";

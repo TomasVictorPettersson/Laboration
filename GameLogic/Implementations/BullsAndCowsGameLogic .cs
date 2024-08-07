@@ -21,7 +21,7 @@ namespace Laboration.GameLogic.Implementations
 				InitializeGame(userName);
 				string secretNumber = MakeSecretNumber();
 				// Comment out or remove next line to play the real game!
-				// _consoleUI.DisplaySecretNumberForPractice(secretNumber);
+				_consoleUI.DisplaySecretNumberForPractice(secretNumber);
 				PlayGameLoop(secretNumber, userName);
 			}
 			catch (Exception ex)
@@ -115,8 +115,8 @@ namespace Laboration.GameLogic.Implementations
 			try
 			{
 				_highScoreManager.SaveResult(userName, numberOfGuesses);
-				_consoleUI.DisplayHighScoreList(userName);
 				_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
+				_consoleUI.DisplayHighScoreList(userName);
 			}
 			catch (Exception ex)
 			{
