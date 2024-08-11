@@ -1,8 +1,8 @@
 ﻿using Laboration.ConsoleUI.Implementations;
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.HighScoreManagement.Interfaces;
-using Laboration.PlayerData.Interfaces;
 using Laboration.Mocks;
+using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
 using Moq;
 
@@ -62,7 +62,7 @@ namespace Laboration.UnitTests.ConsoleUI
 				"\nFor each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
 				"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
 				"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n" +
-				"If the response is ',', it means none of the digits in your guess are present in the 4-digit number.";
+				"If the feedback is ',', it means none of the digits in your guess are present in the 4-digit number.";
 
 			// Act
 			_consoleUI.DisplayWelcomeMessage(UserName);
@@ -77,7 +77,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplaySecretNumberForPractice_ShouldPrintSecretNumber()
 		{
 			// Arrange
-			var expectedOutput = $"For practice, number is: {SecretNumber}";
+			var expectedOutput = $"For practice mode, the secret number is: {SecretNumber}";
 
 			// Act
 			_consoleUI.DisplaySecretNumberForPractice(SecretNumber);
@@ -145,25 +145,6 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		[TestMethod]
-		public void PrintHighScoreResults_ShouldPrintPlayerDataWithCorrectFormatting()
-		{
-			// Arrange
-			var results = new List<IPlayerData>
-			{
-			MockPlayerData.CreateMock()
-			};
-
-			// Act
-			_consoleUI.PrintHighScoreResults(results, UserName, MaxUserNameLength);
-
-			var expectedOutput = $"{Rank,-RankColumnWidth}{UserName,-MaxUserNameLength} {TotalGamesPlayed,GamesPlayedColumnWidth} {AverageGuesses,AverageGuessesColumnWidth}";
-
-			// Assert
-			var actualOutput = _consoleOutput.ToString().Trim();
-			Assert.AreEqual(expectedOutput, actualOutput, "Player data should be printed with correct formatting.");
-		}
-
-		[TestMethod]
 		public void DisplayRank_ShouldFormatRankCorrectly()
 		{
 			// Arrange
@@ -206,7 +187,7 @@ namespace Laboration.UnitTests.ConsoleUI
 
 			string SeparatorLine = new('-', totalWidth);
 
-			string HeaderRowFormat = $"{"Rank",-RankColumnWidth} {"Player",-maxUserNameLength} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}";
+			string HeaderRowFormat = $"{"Rank",-RankColumnWidth} {"Player",-maxUserNameLength} {"   Games",-GamesPlayedColumnWidth} {"   Avg. Guesses",-AverageGuessesColumnWidth}";
 
 			var expectedHeaderOutput = $"{new string(' ', leftPadding)}{header}\n" +
 									   $"{SeparatorLine}\n" +

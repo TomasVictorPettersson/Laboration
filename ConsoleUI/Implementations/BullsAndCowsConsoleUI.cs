@@ -16,7 +16,7 @@ namespace Laboration.ConsoleUI.Implementations
 	"For each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
 	"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
 	"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n" +
-	"If the response is ',', it means none of the digits in your guess are present in the 4-digit number.\n\n";
+	"If the feedback is ',', it means none of the digits in your guess are present in the 4-digit number.\n";
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";
@@ -61,7 +61,7 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			try
 			{
-				Console.WriteLine($"For practice, number is: {secretNumber}\n");
+				Console.WriteLine($"For practice mode, the secret number is: {secretNumber}\n");
 			}
 			catch (Exception ex)
 			{
@@ -158,7 +158,7 @@ namespace Laboration.ConsoleUI.Implementations
 			const string header = "=== HIGH SCORE LIST ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
 
-			string headerRowFormat = $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}";
+			string headerRowFormat = $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"   Games",-GamesPlayedColumnWidth} {"   Avg. Guesses",-AverageGuessesColumnWidth}";
 
 			string headerFormat = $"{new string(' ', leftPadding)}{header}\n" +
 								  $"{CreateSeparatorLine(totalWidth)}\n" +
@@ -206,7 +206,7 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays detailed player data, with special formatting for the current user.
 		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength)
 		{
-			Console.WriteLine($"{player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,GamesPlayedColumnWidth} {player.CalculateAverageGuesses(),AverageGuessesColumnWidth:F2}");
+			Console.WriteLine($" {player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,GamesPlayedColumnWidth} {player.CalculateAverageGuesses(),AverageGuessesColumnWidth:F2}");
 		}
 
 		// Asks the user if they want to continue playing or exit.
