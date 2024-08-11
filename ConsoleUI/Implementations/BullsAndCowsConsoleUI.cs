@@ -9,14 +9,14 @@ namespace Laboration.ConsoleUI.Implementations
 	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
 		private const string WelcomeMessageFormat =
-	"Welcome {0} to Bulls and Cows!\n\n" +
+	"Welcome, {0}, to Bulls and Cows!\n\n" +
 	"The objective of the game is to guess a 4-digit number.\n" +
 	"Each digit in the 4-digit number will only appear once.\n" +
 	"You can only use digits from 0 to 9.\n\n" +
-	"For each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
-	"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
-	"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
-	"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.\n\n";
+	"For each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
+	"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
+	"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n" +
+	"If the response is ',', it means none of the digits in your guess are present in the 4-digit number.\n\n";
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";
@@ -95,13 +95,13 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays feedback for the player's guess.
 		public void DisplayGuessFeedback(string guessFeedback)
 		{
-			Console.WriteLine($"{guessFeedback}\n");
+			Console.WriteLine($"Feedback: {guessFeedback}\n");
 		}
 
 		// Displays a message indicating the correct number and number of guesses taken.
 		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
-			Console.WriteLine($"Correct! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} guesses.\n");
+			Console.WriteLine($"Correct! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} {(numberOfGuesses == 1 ? "guess" : "guesses")}.\n");
 		}
 
 		// Displays the high score list with formatted player data and highlights the current user.
@@ -214,7 +214,7 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			while (true)
 			{
-				Console.Write("\nContinue? (y/n): ");
+				Console.Write("\nDo you want to play again? (y/n): ");
 				string answer = Console.ReadLine()!.ToLower();
 				switch (answer)
 				{

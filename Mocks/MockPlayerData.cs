@@ -2,7 +2,7 @@
 using Moq;
 using System.Globalization;
 
-namespace Laboration.UnitTests.Mocks
+namespace Laboration.Mocks
 {
 	// Provides mock data for testing IPlayerData implementations.
 

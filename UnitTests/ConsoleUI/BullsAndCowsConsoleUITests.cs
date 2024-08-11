@@ -2,7 +2,7 @@
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Interfaces;
-using Laboration.UnitTests.Mocks;
+using Laboration.Mocks;
 using Laboration.Validation.Interfaces;
 using Moq;
 
@@ -55,14 +55,14 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			const string expectedOutput =
-				$"Welcome {UserName} to Bulls and Cows!\n" +
+				$"Welcome, {UserName}, to Bulls and Cows!\n" +
 				"\nThe objective of the game is to guess a 4-digit number.\n" +
 				"Each digit in the 4-digit number will only appear once.\n" +
 				"You can only use digits from 0 to 9.\n" +
-				"\nFor each guess, you will receive feedback in the form of 'BBBB,CCCC',\n" +
-				"where 'BBBB' represents the number of bulls (correct digits in the correct positions),\n" +
-				"and 'CCCC' represents the number of cows (correct digits in the wrong positions).\n" +
-				"If you receive a response of only ',' it means none of the digits in your guess are present in the 4-digit number.";
+				"\nFor each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
+				"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
+				"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n" +
+				"If the response is ',', it means none of the digits in your guess are present in the 4-digit number.";
 
 			// Act
 			_consoleUI.DisplayWelcomeMessage(UserName);
@@ -87,17 +87,33 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		[TestMethod]
-		public void DisplayCorrectMessage_ValidData_DisplaysMessage()
+		public void DisplayCorrectMessage_SingleGuess_DisplaysMessage()
+		{
+			// Arrange
+			const int numberOfGuesses = 1;
+
+			var expectedOutput = $"Correct! The secret number was: {SecretNumber}\nIt took you {numberOfGuesses} guess.";
+
+			// Act
+			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);
+
+			// Assert
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output for a single guess.");
+		}
+
+		[TestMethod]
+		public void DisplayCorrectMessage_MultipleGuesses_DisplaysMessage()
 		{
 			// Arrange
 			const int numberOfGuesses = 5;
+
 			var expectedOutput = $"Correct! The secret number was: {SecretNumber}\nIt took you {numberOfGuesses} guesses.";
 
 			// Act
 			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);
 
 			// Assert
-			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output.");
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output for multiple guesses.");
 		}
 
 		[TestMethod]
@@ -190,7 +206,7 @@ namespace Laboration.UnitTests.ConsoleUI
 
 			string SeparatorLine = new('-', totalWidth);
 
-			string HeaderRowFormat = $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}";
+			string HeaderRowFormat = $"{"Rank",-RankColumnWidth} {"Player",-maxUserNameLength} {"Games",-GamesPlayedColumnWidth} {"Average Guesses",-AverageGuessesColumnWidth}";
 
 			var expectedHeaderOutput = $"{new string(' ', leftPadding)}{header}\n" +
 									   $"{SeparatorLine}\n" +
