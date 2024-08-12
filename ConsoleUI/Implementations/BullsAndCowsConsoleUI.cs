@@ -15,17 +15,15 @@ namespace Laboration.ConsoleUI.Implementations
 	"You can only use digits from 0 to 9.\n\n" +
 	"For each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
 	"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
-	"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n" +
-	"If the feedback is 'No matches', it means none of the digits in your guess are present in the 4-digit number.\n";
+	"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n\n" +
+	"If the feedback is 'No matches found',\n" + "it means none of the digits in your guess was found in the 4-digit number.\n";
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";
-
 		private const int RankColumnWidth = 6;
 		private const int GamesPlayedColumnWidth = 8;
 		private const int AverageGuessesColumnWidth = 15;
 		private const int Padding = 3;
-
 		private readonly IValidation _validation = validation;
 		private readonly IHighScoreManager _highScoreManager = highScoreManager;
 
@@ -35,7 +33,7 @@ namespace Laboration.ConsoleUI.Implementations
 			string userName;
 			do
 			{
-				Console.Write("Enter your user name: ");
+				Console.Write("Enter your username: ");
 				userName = Console.ReadLine()!;
 				Console.WriteLine(_validation.ValidateUserName(userName));
 			}
@@ -95,7 +93,7 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays feedback for the player's guess.
 		public void DisplayGuessFeedback(string guessFeedback)
 		{
-			Console.WriteLine($"Feedback: {(guessFeedback == "," ? "No matches" : guessFeedback)}\n");
+			Console.WriteLine($"Feedback: {(guessFeedback == "," ? "No matches found" : guessFeedback)}\n");
 		}
 
 		// Displays a message indicating the correct number and number of guesses taken.

@@ -59,8 +59,9 @@ namespace Laboration.UnitTests.ConsoleUI
 				"You can only use digits from 0 to 9.\n" +
 				"\nFor each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
 				"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
-				"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n" +
-				"If the feedback is 'No matches', it means none of the digits in your guess are present in the 4-digit number.";
+				"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n\n" +
+				"If the feedback is 'No matches found',\n" +
+				"it means none of the digits in your guess was found in the 4-digit number.";
 
 			// Act
 			_consoleUI.DisplayWelcomeMessage(UserName);
