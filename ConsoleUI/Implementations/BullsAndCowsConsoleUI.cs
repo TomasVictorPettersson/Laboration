@@ -16,7 +16,7 @@ namespace Laboration.ConsoleUI.Implementations
 	"For each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
 	"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
 	"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n" +
-	"If the feedback is ',', it means none of the digits in your guess are present in the 4-digit number.\n";
+	"If the feedback is 'No matches', it means none of the digits in your guess are present in the 4-digit number.\n";
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";
@@ -95,7 +95,7 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays feedback for the player's guess.
 		public void DisplayGuessFeedback(string guessFeedback)
 		{
-			Console.WriteLine($"Feedback: {guessFeedback}\n");
+			Console.WriteLine($"Feedback: {(guessFeedback == "," ? "No matches" : guessFeedback)}\n");
 		}
 
 		// Displays a message indicating the correct number and number of guesses taken.

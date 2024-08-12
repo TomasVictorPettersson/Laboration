@@ -2,7 +2,6 @@
 using Laboration.GameFlow.Implementations;
 using Laboration.GameLogic.Interfaces;
 using Moq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Laboration.UnitTests.GameFlow
 {

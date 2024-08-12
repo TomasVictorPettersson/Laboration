@@ -2,9 +2,9 @@ using Laboration.PlayerData.Interfaces;
 
 namespace Laboration.PlayerData.Implementations
 {
-	// Represents player data for the Bulls and Cows game, including username,
+	// Represents player data in the context of games, including username,
 	// total games played, and total guesses made.
-	public class BullsAndCowsPlayerData : IPlayerData
+	public class GamePlayerData : IPlayerData
 	{
 		// Properties
 		public string UserName { get; }
@@ -13,7 +13,7 @@ namespace Laboration.PlayerData.Implementations
 		public int TotalGuesses { get; private set; }
 
 		// Constructor
-		public BullsAndCowsPlayerData(string userName, int guesses)
+		public GamePlayerData(string userName, int guesses)
 		{
 			if (string.IsNullOrEmpty(userName))
 			{
@@ -56,7 +56,7 @@ namespace Laboration.PlayerData.Implementations
 		// Overrides Equals method to compare BullsAndCowsPlayerData objects based on username.
 		public override bool Equals(object? obj)
 		{
-			return obj is BullsAndCowsPlayerData other && UserName.Equals(other.UserName, StringComparison.OrdinalIgnoreCase);
+			return obj is GamePlayerData other && UserName.Equals(other.UserName, StringComparison.OrdinalIgnoreCase);
 		}
 
 		// Overrides GetHashCode method to generate hash code based on username.

@@ -3,11 +3,9 @@
 	// Defines the contract for the game logic.
 	public interface IGameLogic
 	{
-		// Starts the game, initializing game state and playing the game.
+		// Starts the game by displaying a welcome message, generating a secret number,
+		// and then running the main game loop.
 		void PlayGame(string userName);
-
-		// Initializes the game, displaying a welcome message to the user.
-		void InitializeGame(string userName);
 
 		// Generates a random 4-digit secret number for the game.
 		string MakeSecretNumber();
@@ -21,7 +19,8 @@
 		// Processes the player's guess, validates it, and provides feedback.
 		bool ProcessGuess(string secretNumber, string guess, ref int numberOfGuesses);
 
-		// Ends the game, saving the result and displaying high scores.
+		// Ends the game by saving the player's result, displaying a message with the
+		// correct number and number of guesses, and showing the updated high score list.
 		void EndGame(string secretNumber, string userName, int numberOfGuesses);
 	}
 }

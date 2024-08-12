@@ -17,11 +17,9 @@ namespace Laboration.UnitTests.ConsoleUI
 		private const string AverageGuesses = "5,50";
 		private const int MaxUserNameLength = 10;
 		private const string Rank = "1";
-
 		private const int RankColumnWidth = 6;
 		private const int GamesPlayedColumnWidth = 8;
 		private const int AverageGuessesColumnWidth = 15;
-
 		private readonly Mock<IValidation> _mockValidation = new();
 		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
@@ -62,7 +60,7 @@ namespace Laboration.UnitTests.ConsoleUI
 				"\nFor each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
 				"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
 				"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n" +
-				"If the feedback is ',', it means none of the digits in your guess are present in the 4-digit number.";
+				"If the feedback is 'No matches', it means none of the digits in your guess are present in the 4-digit number.";
 
 			// Act
 			_consoleUI.DisplayWelcomeMessage(UserName);
@@ -251,7 +249,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			}
 			finally
 			{
-				_consoleOutput?.Dispose();
+				_consoleOutput.Dispose();
 			}
 		}
 	}

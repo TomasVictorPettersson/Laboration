@@ -106,7 +106,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void UpdateResultsList_AddsNewData()
 		{
 			// Arrange
-			IPlayerData playerData = new BullsAndCowsPlayerData(UserName, NumberOfGuesses);
+			IPlayerData playerData = new GamePlayerData(UserName, NumberOfGuesses);
 
 			// Act
 			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(_results, playerData);
@@ -120,8 +120,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void UpdateResultsList_UpdatesExistingData()
 		{
 			// Arrange
-			IPlayerData playerData1 = new BullsAndCowsPlayerData(UserName, NumberOfGuesses);
-			IPlayerData playerData2 = new BullsAndCowsPlayerData(UserName, 15);
+			IPlayerData playerData1 = new GamePlayerData(UserName, NumberOfGuesses);
+			IPlayerData playerData2 = new GamePlayerData(UserName, 15);
 			_results.Add(playerData1);
 
 			// Act
@@ -138,9 +138,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 			// Arrange
 			var results = new List<IPlayerData>
 			{
-				new BullsAndCowsPlayerData("Player1", 10),
-				new BullsAndCowsPlayerData("Player2", 5),
-				new BullsAndCowsPlayerData("Player3", 8)
+				new GamePlayerData("Player1", 10),
+				new GamePlayerData("Player2", 5),
+				new GamePlayerData("Player3", 8)
 			};
 
 			// Act
@@ -177,7 +177,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			// Arrange
 			var results = new List<IPlayerData>
 			{
-				new BullsAndCowsPlayerData(UserName, NumberOfGuesses)
+				new GamePlayerData(UserName, NumberOfGuesses)
 			};
 
 			// Act
@@ -195,8 +195,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			// Arrange
 			var results = new List<IPlayerData>
 			{
-				new BullsAndCowsPlayerData("Player1", 10),
-				new BullsAndCowsPlayerData("Player2", 10)
+				new GamePlayerData("Player1", 10),
+				new GamePlayerData("Player2", 10)
 			};
 
 			// Act
@@ -213,8 +213,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			// Arrange
 			var results = new List<IPlayerData>
 			{
-				new BullsAndCowsPlayerData("Player1", int.MaxValue),
-				new BullsAndCowsPlayerData("Player2", 5)
+				new GamePlayerData("Player1", int.MaxValue),
+				new GamePlayerData("Player2", 5)
 			};
 
 			// Act

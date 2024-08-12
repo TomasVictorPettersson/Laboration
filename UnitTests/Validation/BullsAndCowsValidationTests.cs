@@ -30,20 +30,20 @@ namespace Laboration.UnitTests.Validation
 			string result = _validation.ValidateUserName(userName);
 
 			// Assert
-			Assert.AreEqual("Username must be between 6 and 30 characters long.\n", result, "Expected error message for username too short.");
+			Assert.AreEqual("Username must be between 6 and 20 characters long.\n", result, "Expected error message for username too short.");
 		}
 
 		[TestMethod]
 		public void ValidateUserName_ShouldReturnErrorForUserNameTooLong()
 		{
 			// Arrange
-			string userName = new('A', 31);
+			string userName = new('A', 21);
 
 			// Act
 			string result = _validation.ValidateUserName(userName);
 
 			// Assert
-			Assert.AreEqual("Username must be between 6 and 30 characters long.\n", result, "Expected error message for username too long.");
+			Assert.AreEqual("Username must be between 6 and 20 characters long.\n", result, "Expected error message for username too long.");
 		}
 
 		[TestMethod]
@@ -89,7 +89,7 @@ namespace Laboration.UnitTests.Validation
 		public void IsValidUserName_ShouldReturnFalseForUserNameTooLong()
 		{
 			// Arrange
-			string userName = new('A', 31);
+			string userName = new('A', 21);
 
 			// Act
 			bool result = _validation.IsValidUserName(userName);

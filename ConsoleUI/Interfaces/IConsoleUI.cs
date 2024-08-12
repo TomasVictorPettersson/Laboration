@@ -24,7 +24,6 @@ namespace Laboration.ConsoleUI.Interfaces
 		string GetValidGuessFromUser();
 
 		// Displays feedback for the player's guess.
-
 		void DisplayGuessFeedback(string guessFeedback);
 
 		// Displays a message indicating the correct number and the number of guesses taken.
@@ -36,6 +35,7 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Displays the high score list with headers and formatted player data.
 		void RenderHighScoreList(List<IPlayerData> results, string currentUserName);
 
+		// Creates a separator line of the specified width using dashes.
 		string CreateSeparatorLine(int totalWidth);
 
 		// Calculates the maximum username length and total display width for formatting.

@@ -3,17 +3,16 @@
 namespace Laboration.UnitTests.PlayerData
 {
 	[TestClass]
-	public class BullsAndCowsPlayerDataTests
+	public class GamePlayerDataTests
 	{
 		private const string UserNameJohnDoe = "JohnDoe";
-
 		private const string UserNameJaneDoe = "JaneDoe";
 
 		[TestMethod]
 		public void AddGuess_IncreasesTotalGuessesAndGamesPlayed()
 		{
 			// Arrange
-			var playerData = new BullsAndCowsPlayerData(UserNameJohnDoe, 10);
+			var playerData = new GamePlayerData(UserNameJohnDoe, 10);
 
 			// Act
 			playerData.AddGuess(5);
@@ -27,7 +26,7 @@ namespace Laboration.UnitTests.PlayerData
 		public void CalculateAverageGuesses_ReturnsCorrectAverage()
 		{
 			// Arrange
-			var playerData = new BullsAndCowsPlayerData(UserNameJohnDoe, 10);
+			var playerData = new GamePlayerData(UserNameJohnDoe, 10);
 			playerData.AddGuess(8);
 			playerData.AddGuess(12);
 
@@ -42,7 +41,7 @@ namespace Laboration.UnitTests.PlayerData
 		public void CalculateAverageGuesses_ReturnsZeroWhenNoGuesses()
 		{
 			// Arrange
-			var playerData = new BullsAndCowsPlayerData(UserNameJohnDoe, 0);
+			var playerData = new GamePlayerData(UserNameJohnDoe, 0);
 
 			// Act
 			double averageGuesses = playerData.CalculateAverageGuesses();
@@ -55,8 +54,8 @@ namespace Laboration.UnitTests.PlayerData
 		public void Equals_ReturnsTrueForSameUserName()
 		{
 			// Arrange
-			var playerData1 = new BullsAndCowsPlayerData(UserNameJohnDoe, 10);
-			var playerData2 = new BullsAndCowsPlayerData(UserNameJohnDoe, 5);
+			var playerData1 = new GamePlayerData(UserNameJohnDoe, 10);
+			var playerData2 = new GamePlayerData(UserNameJohnDoe, 5);
 
 			// Act
 			bool areEqual = playerData1.Equals(playerData2);
@@ -69,8 +68,8 @@ namespace Laboration.UnitTests.PlayerData
 		public void Equals_ReturnsFalseForDifferentUserName()
 		{
 			// Arrange
-			var playerData1 = new BullsAndCowsPlayerData(UserNameJohnDoe, 10);
-			var playerData2 = new BullsAndCowsPlayerData(UserNameJaneDoe, 5);
+			var playerData1 = new GamePlayerData(UserNameJohnDoe, 10);
+			var playerData2 = new GamePlayerData(UserNameJaneDoe, 5);
 
 			// Act
 			bool areEqual = playerData1.Equals(playerData2);
@@ -83,8 +82,8 @@ namespace Laboration.UnitTests.PlayerData
 		public void GetHashCode_ReturnsSameHashCodeForSameUserName()
 		{
 			// Arrange
-			var playerData1 = new BullsAndCowsPlayerData(UserNameJohnDoe, 10);
-			var playerData2 = new BullsAndCowsPlayerData(UserNameJohnDoe, 5);
+			var playerData1 = new GamePlayerData(UserNameJohnDoe, 10);
+			var playerData2 = new GamePlayerData(UserNameJohnDoe, 5);
 
 			// Act
 			int hashCode1 = playerData1.GetHashCode();
@@ -98,8 +97,8 @@ namespace Laboration.UnitTests.PlayerData
 		public void GetHashCode_ReturnsDifferentHashCodeForDifferentUserName()
 		{
 			// Arrange
-			var playerData1 = new BullsAndCowsPlayerData(UserNameJohnDoe, 10);
-			var playerData2 = new BullsAndCowsPlayerData(UserNameJaneDoe, 5);
+			var playerData1 = new GamePlayerData(UserNameJohnDoe, 10);
+			var playerData2 = new GamePlayerData(UserNameJaneDoe, 5);
 
 			// Act
 			int hashCode1 = playerData1.GetHashCode();

@@ -67,7 +67,7 @@ namespace Laboration.HighScoreManagement.Implementations
 					throw new FormatException("The number of guesses is not a valid integer.");
 				}
 
-				return new BullsAndCowsPlayerData(userName, guesses);
+				return new GamePlayerData(userName, guesses);
 			}
 			catch (Exception ex)
 			{
