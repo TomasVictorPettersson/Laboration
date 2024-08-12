@@ -76,7 +76,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplaySecretNumberForPractice_ShouldPrintSecretNumber()
 		{
 			// Arrange
-			var expectedOutput = $"For practice mode, the secret number is: {SecretNumber}";
+			var expectedOutput = $"For practice mode, the 4-digit number is: {SecretNumber}";
 
 			// Act
 			_consoleUI.DisplaySecretNumberForPractice(SecretNumber);
@@ -91,7 +91,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			// Arrange
 			const int numberOfGuesses = 1;
 
-			var expectedOutput = $"Correct! The secret number was: {SecretNumber}\nIt took you {numberOfGuesses} guess.";
+			var expectedOutput = $"Correct! The 4-digit number was: {SecretNumber}\nIt took you {numberOfGuesses} guess.";
 
 			// Act
 			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);
@@ -106,7 +106,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			// Arrange
 			const int numberOfGuesses = 5;
 
-			var expectedOutput = $"Correct! The secret number was: {SecretNumber}\nIt took you {numberOfGuesses} guesses.";
+			var expectedOutput = $"Correct! The 4-digit number was: {SecretNumber}\nIt took you {numberOfGuesses} guesses.";
 
 			// Act
 			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);

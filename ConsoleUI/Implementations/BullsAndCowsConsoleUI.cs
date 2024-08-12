@@ -59,7 +59,7 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			try
 			{
-				Console.WriteLine($"For practice mode, the secret number is: {secretNumber}\n");
+				Console.WriteLine($"For practice mode, the 4-digit number is: {secretNumber}\n");
 			}
 			catch (Exception ex)
 			{
@@ -99,7 +99,7 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays a message indicating the correct number and number of guesses taken.
 		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
-			Console.WriteLine($"Correct! The secret number was: {secretNumber}\nIt took you {numberOfGuesses} {(numberOfGuesses == 1 ? "guess" : "guesses")}.\n");
+			Console.WriteLine($"Correct! The 4-digit number was: {secretNumber}\nIt took you {numberOfGuesses} {(numberOfGuesses == 1 ? "guess" : "guesses")}.\n\n");
 		}
 
 		// Displays the high score list with formatted player data and highlights the current user.
