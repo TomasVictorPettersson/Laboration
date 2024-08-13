@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConstantsLibrary\ConstantsLibrary.csproj" />
     <ProjectReference Include="..\PlayerData\PlayerData.csproj" />
   </ItemGroup>
 

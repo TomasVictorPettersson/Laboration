@@ -1,19 +1,14 @@
-﻿using Laboration.HighScoreManagement.Implementations;
+﻿using Laboration.ConstantsLibrary.Constants;
+using Laboration.HighScoreManagement.Implementations;
 using Laboration.PlayerData.Implementations;
 using Laboration.PlayerData.Interfaces;
+using Library.ConstantsLibrary.Constants;
 
 namespace Laboration.UnitTests.HighScoreManagement
 {
 	[TestClass]
 	public class BullsAndCowsHighScoreManagerTests
 	{
-		// Constants
-		private const string FilePath = "bullsandcows_highscores.txt";
-
-		private const string UserName = "TestUser";
-		private const string Separator = "#&#";
-		private const int NumberOfGuesses = 10;
-
 		private readonly BullsAndCowsHighScoreManager _highScoreManager = new();
 		private readonly List<IPlayerData> _results = [];
 
@@ -21,20 +16,20 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void SaveResult_SavesToFile()
 		{
 			// Act
-			_highScoreManager.SaveResult(UserName, NumberOfGuesses);
+			_highScoreManager.SaveResult(TestConstants.UserName, TestConstants.NumberOfGuesses);
 
 			// Assert
-			string[] lines = File.ReadAllLines(FilePath);
+			string[] lines = File.ReadAllLines(FileConstants.FilePath);
 			Assert.IsTrue(lines.Length > 0, "The file should contain at least one line.");
-			Assert.IsTrue(lines[0].Contains($"{UserName}{Separator}{NumberOfGuesses}"), "The first line should contain the correct formatted result.");
+			Assert.IsTrue(lines[0].Contains($"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}"), "The first line should contain the correct formatted result.");
 		}
 
 		[TestMethod]
 		public void SaveResult_WithExistingFile_ShouldAppendData()
 		{
 			// Arrange
-			var initialContent = $"{UserName}{Separator}{NumberOfGuesses}\n";
-			File.WriteAllText(FilePath, initialContent);
+			var initialContent = $"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}\n";
+			File.WriteAllText(FileConstants.FilePath, initialContent);
 			const string newUserName = "NewUser";
 			const int newNumberOfGuesses = 20;
 
@@ -42,33 +37,33 @@ namespace Laboration.UnitTests.HighScoreManagement
 			_highScoreManager.SaveResult(newUserName, newNumberOfGuesses);
 
 			// Assert
-			var lines = File.ReadAllLines(FilePath);
+			var lines = File.ReadAllLines(FileConstants.FilePath);
 			Assert.AreEqual(2, lines.Length, "The file should contain two lines.");
-			Assert.IsTrue(lines[1].Contains($"{newUserName}{Separator}{newNumberOfGuesses}"), "The new line should be correctly appended.");
+			Assert.IsTrue(lines[1].Contains($"{newUserName}{FileConstants.Separator}{newNumberOfGuesses}"), "The new line should be correctly appended.");
 		}
 
 		[TestMethod]
 		public void ReadHighScoreResultsFromFile_ReadsFromFile()
 		{
 			// Arrange
-			File.WriteAllText(FilePath, $"{UserName}{Separator}{NumberOfGuesses}");
+			File.WriteAllText(FileConstants.FilePath, $"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}");
 
 			// Act
 			List<IPlayerData> results = _highScoreManager.ReadHighScoreResultsFromFile();
 
 			// Assert
 			Assert.AreEqual(1, results.Count, "The result list should contain exactly one player data.");
-			Assert.AreEqual(UserName, results[0].UserName, "The user name should be 'TestUser'.");
-			Assert.AreEqual(NumberOfGuesses, results[0].TotalGuesses, "The total guesses should be 10.");
+			Assert.AreEqual(TestConstants.UserName, results[0].UserName, "The user name should be 'TestUser'.");
+			Assert.AreEqual(TestConstants.NumberOfGuesses, results[0].TotalGuesses, "The total guesses should be 10.");
 		}
 
 		[TestMethod]
 		public void ReadHighScoreResultsFromFile_FileDoesNotExist_ShouldReturnEmptyList()
 		{
 			// Arrange
-			if (File.Exists(FilePath))
+			if (File.Exists(FileConstants.FilePath))
 			{
-				File.Delete(FilePath);
+				File.Delete(FileConstants.FilePath);
 			}
 
 			// Act
@@ -82,21 +77,21 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void ParseLineToPlayerData_ParsesLine()
 		{
 			// Arrange
-			string line = $"{UserName}{Separator}{NumberOfGuesses}";
+			string line = $"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}";
 
 			// Act
 			IPlayerData playerData = _highScoreManager.ParseLineToPlayerData(line);
 
 			// Assert
-			Assert.AreEqual(UserName, playerData.UserName, "The user name should be 'TestUser'.");
-			Assert.AreEqual(NumberOfGuesses, playerData.TotalGuesses, "The total guesses should be 10.");
+			Assert.AreEqual(TestConstants.UserName, playerData.UserName, "The user name should be 'TestUser'.");
+			Assert.AreEqual(TestConstants.NumberOfGuesses, playerData.TotalGuesses, "The total guesses should be 10.");
 		}
 
 		[TestMethod]
 		public void ParseLineToPlayerData_InvalidData_ShouldThrowFormatException()
 		{
 			// Arrange
-			var invalidLine = $"{UserName}{NumberOfGuesses}";
+			var invalidLine = $"{TestConstants.UserName}{TestConstants.NumberOfGuesses}";
 
 			// Act & Assert
 			Assert.ThrowsException<FormatException>(() => _highScoreManager.ParseLineToPlayerData(invalidLine));
@@ -106,7 +101,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void UpdateResultsList_AddsNewData()
 		{
 			// Arrange
-			IPlayerData playerData = new GamePlayerData(UserName, NumberOfGuesses);
+			IPlayerData playerData = new GamePlayerData(TestConstants.UserName, TestConstants.NumberOfGuesses);
 
 			// Act
 			List<IPlayerData> updatedResults = _highScoreManager.UpdateResultsList(_results, playerData);
@@ -120,8 +115,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void UpdateResultsList_UpdatesExistingData()
 		{
 			// Arrange
-			IPlayerData playerData1 = new GamePlayerData(UserName, NumberOfGuesses);
-			IPlayerData playerData2 = new GamePlayerData(UserName, 15);
+			IPlayerData playerData1 = new GamePlayerData(TestConstants.UserName, TestConstants.NumberOfGuesses);
+			IPlayerData playerData2 = new GamePlayerData(TestConstants.UserName, 15);
 			_results.Add(playerData1);
 
 			// Act
@@ -177,7 +172,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			// Arrange
 			var results = new List<IPlayerData>
 			{
-				new GamePlayerData(UserName, NumberOfGuesses)
+				new GamePlayerData(TestConstants.UserName, TestConstants.NumberOfGuesses)
 			};
 
 			// Act
@@ -185,8 +180,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 
 			// Assert
 			Assert.AreEqual(1, results.Count, "The results list should contain exactly one entry.");
-			Assert.AreEqual(UserName, results[0].UserName, "The single entry should be unchanged.");
-			Assert.AreEqual(NumberOfGuesses, results[0].TotalGuesses, "The number of guesses should be 10.");
+			Assert.AreEqual(TestConstants.UserName, results[0].UserName, "The single entry should be unchanged.");
+			Assert.AreEqual(TestConstants.NumberOfGuesses, results[0].TotalGuesses, "The number of guesses should be 10.");
 		}
 
 		[TestMethod]
@@ -230,9 +225,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 		{
 			try
 			{
-				if (File.Exists(FilePath))
+				if (File.Exists(FileConstants.FilePath))
 				{
-					File.Delete(FilePath);
+					File.Delete(FileConstants.FilePath);
 				}
 			}
 			catch (Exception ex)

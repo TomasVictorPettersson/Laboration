@@ -4,6 +4,7 @@ using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Mocks;
 using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
+using Library.ConstantsLibrary.Constants;
 using Moq;
 
 namespace Laboration.UnitTests.ConsoleUI
@@ -11,15 +12,6 @@ namespace Laboration.UnitTests.ConsoleUI
 	[TestClass]
 	public class BullsAndCowsConsoleUITests
 	{
-		private const string UserName = "TestUser";
-		private const string SecretNumber = "1234";
-		private const string TotalGamesPlayed = "10";
-		private const string AverageGuesses = "5,50";
-		private const int MaxUserNameLength = 10;
-		private const string Rank = "1";
-		private const int RankColumnWidth = 6;
-		private const int GamesPlayedColumnWidth = 8;
-		private const int AverageGuessesColumnWidth = 15;
 		private readonly Mock<IValidation> _mockValidation = new();
 		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
@@ -39,13 +31,13 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void GetUserName_ValidUserName_ReturnsUserName()
 		{
 			// Arrange
-			_mockConsoleUI.Setup(ui => ui.GetUserName()).Returns(UserName);
+			_mockConsoleUI.Setup(ui => ui.GetUserName()).Returns(TestConstants.UserName);
 
 			// Act
 			string userName = _mockConsoleUI.Object.GetUserName();
 
 			// Assert
-			Assert.AreEqual(UserName, userName, "The user name returned should be 'TestUser'.");
+			Assert.AreEqual(TestConstants.UserName, userName, "The user name returned should be 'TestUser'.");
 		}
 
 		[TestMethod]
@@ -53,7 +45,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			const string expectedOutput =
-				$"Welcome, {UserName}, to Bulls and Cows!\n\n" +
+				$"Welcome, {TestConstants.UserName}, to Bulls and Cows!\n\n" +
 				"The goal is to guess a 4-digit number where each digit is unique and between 0 and 9.\n\n" +
 				"For each guess, you’ll get feedback in the format ‘BBBB,CCCC’, where:\n" +
 				"- ‘BBBB’ is the number of bulls (correct digits in the correct positions).\n" +
@@ -61,7 +53,7 @@ namespace Laboration.UnitTests.ConsoleUI
 				"If you get 'No matches found', none of your guessed digits are in the 4-digit number.";
 
 			// Act
-			_consoleUI.DisplayWelcomeMessage(UserName, true);
+			_consoleUI.DisplayWelcomeMessage(TestConstants.UserName, true);
 
 			// Assert
 			string actualOutput = _consoleOutput.ToString().Trim();
@@ -74,10 +66,10 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			const string expectedOutput =
-				$"Welcome back, {UserName}!\nGlad to see you again. Good luck with your next game!";
+				$"Welcome back, {TestConstants.UserName}!\nGlad to see you again. Good luck with your next game!";
 
 			// Act
-			_consoleUI.DisplayWelcomeMessage(UserName, false);
+			_consoleUI.DisplayWelcomeMessage(TestConstants.UserName, false);
 
 			// Assert
 			string actualOutput = _consoleOutput.ToString().Trim();
@@ -89,10 +81,10 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplaySecretNumberForPractice_ShouldPrintSecretNumber()
 		{
 			// Arrange
-			var expectedOutput = $"For practice mode, the 4-digit number is: {SecretNumber}";
+			var expectedOutput = $"For practice mode, the 4-digit number is: {TestConstants.SecretNumber}";
 
 			// Act
-			_consoleUI.DisplaySecretNumberForPractice(SecretNumber);
+			_consoleUI.DisplaySecretNumberForPractice(TestConstants.SecretNumber);
 
 			// Assert
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The secret number message should match the expected output.");
@@ -104,10 +96,10 @@ namespace Laboration.UnitTests.ConsoleUI
 			// Arrange
 			const int numberOfGuesses = 1;
 
-			var expectedOutput = $"Correct! The 4-digit number was: {SecretNumber}\nIt took you {numberOfGuesses} guess.";
+			var expectedOutput = $"Correct! The 4-digit number was: {TestConstants.SecretNumber}\nIt took you {numberOfGuesses} guess.";
 
 			// Act
-			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);
+			_consoleUI.DisplayCorrectMessage(TestConstants.SecretNumber, numberOfGuesses);
 
 			// Assert
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output for a single guess.");
@@ -119,10 +111,10 @@ namespace Laboration.UnitTests.ConsoleUI
 			// Arrange
 			const int numberOfGuesses = 5;
 
-			var expectedOutput = $"Correct! The 4-digit number was: {SecretNumber}\nIt took you {numberOfGuesses} guesses.";
+			var expectedOutput = $"Correct! The 4-digit number was: {TestConstants.SecretNumber}\nIt took you {numberOfGuesses} guesses.";
 
 			// Act
-			_consoleUI.DisplayCorrectMessage(SecretNumber, numberOfGuesses);
+			_consoleUI.DisplayCorrectMessage(TestConstants.SecretNumber, numberOfGuesses);
 
 			// Assert
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output for multiple guesses.");
@@ -140,7 +132,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			_mockHighScoreManager.Setup(m => m.ReadHighScoreResultsFromFile()).Returns(expectedResults);
 
 			// Act
-			_consoleUI.DisplayHighScoreList(UserName);
+			_consoleUI.DisplayHighScoreList(TestConstants.UserName);
 
 			// Assert
 			_mockHighScoreManager.Verify(
@@ -160,10 +152,10 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplayRank_ShouldFormatRankCorrectly()
 		{
 			// Arrange
-			var expectedOutput = $"{Rank,-RankColumnWidth}";
+			var expectedOutput = $"{TestConstants.Rank,-DisplayConstants.RankColumnWidth}";
 
 			// Act
-			_consoleUI.DisplayRank(int.Parse(Rank));
+			_consoleUI.DisplayRank(int.Parse(TestConstants.Rank));
 
 			// Assert
 			var actualOutput = _consoleOutput.ToString();
@@ -177,11 +169,11 @@ namespace Laboration.UnitTests.ConsoleUI
 			var player = MockPlayerData.CreateMock();
 
 			// Act
-			_consoleUI.DisplayPlayerData(player, true, MaxUserNameLength);
+			_consoleUI.DisplayPlayerData(player, true, TestConstants.MaxUserNameLength);
 
 			var output = _consoleOutput.ToString().Trim();
 
-			var expectedOutput = $"{UserName,-MaxUserNameLength} {TotalGamesPlayed,GamesPlayedColumnWidth} {AverageGuesses,AverageGuessesColumnWidth}";
+			var expectedOutput = $"{TestConstants.UserName,-TestConstants.MaxUserNameLength} {TestConstants.TotalGamesPlayed,DisplayConstants.GamesPlayedColumnWidth} {TestConstants.AverageGuesses,DisplayConstants.AverageGuessesColumnWidth}";
 
 			// Assert
 			Assert.AreEqual(expectedOutput, output, "Player data should be printed with correct formatting.");
@@ -199,7 +191,7 @@ namespace Laboration.UnitTests.ConsoleUI
 
 			string SeparatorLine = new('-', totalWidth);
 
-			string HeaderRowFormat = $"{"Rank",-RankColumnWidth} {"Player",-maxUserNameLength} {"   Games",-GamesPlayedColumnWidth} {"   Avg. Guesses",-AverageGuessesColumnWidth}";
+			string HeaderRowFormat = $"{"Rank",-DisplayConstants.RankColumnWidth} {"Player",-maxUserNameLength} {"   Games",-DisplayConstants.GamesPlayedColumnWidth} {"   Avg. Guesses",-DisplayConstants.AverageGuessesColumnWidth}";
 
 			var expectedHeaderOutput = $"{new string(' ', leftPadding)}{header}\n" +
 									   $"{SeparatorLine}\n" +

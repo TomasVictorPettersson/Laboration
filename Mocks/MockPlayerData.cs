@@ -7,6 +7,7 @@ namespace Laboration.Mocks
 	// Provides mock data for testing IPlayerData implementations.
 	public static class MockPlayerData
 	{
+		// TODO: Remove these constants
 		// Constants representing test data for player information.
 		public const string UserName = "TestUser";
 

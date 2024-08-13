@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConstantsLibrary\ConstantsLibrary.csproj" />
     <ProjectReference Include="..\GameApplication\GameApplication.csproj" />
     <ProjectReference Include="..\GameFactory\GameFactory.csproj" />
     <ProjectReference Include="..\GameLogic\GameLogic.csproj" />

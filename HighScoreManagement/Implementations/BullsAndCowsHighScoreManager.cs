@@ -1,4 +1,5 @@
-﻿using Laboration.HighScoreManagement.Interfaces;
+﻿using Laboration.ConstantsLibrary.Constants;
+using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Implementations;
 using Laboration.PlayerData.Interfaces;
 
@@ -8,16 +9,13 @@ namespace Laboration.HighScoreManagement.Implementations
 	// reading from a file, parsing player data, updating the results list and sorting.
 	public class BullsAndCowsHighScoreManager : IHighScoreManager
 	{
-		private const string Separator = "#&#";
-		private const string FilePath = "bullsandcows_highscores.txt";
-
 		// Saves a user's result to a file.
 		public void SaveResult(string userName, int numberOfGuesses)
 		{
 			try
 			{
-				using StreamWriter output = new(FilePath, append: true);
-				output.WriteLine($"{userName}{Separator}{numberOfGuesses}");
+				using StreamWriter output = new(FileConstants.FilePath, append: true);
+				output.WriteLine($"{userName}{FileConstants.Separator}{numberOfGuesses}");
 			}
 			catch (Exception ex)
 			{
@@ -32,9 +30,9 @@ namespace Laboration.HighScoreManagement.Implementations
 			var results = new List<IPlayerData>();
 			try
 			{
-				if (File.Exists(FilePath))
+				if (File.Exists(FileConstants.FilePath))
 				{
-					using StreamReader input = new(FilePath);
+					using StreamReader input = new(FileConstants.FilePath);
 					string line;
 					while ((line = input.ReadLine()!) != null)
 					{
@@ -55,7 +53,7 @@ namespace Laboration.HighScoreManagement.Implementations
 		{
 			try
 			{
-				string[] userNameAndUserScore = line.Split(Separator, StringSplitOptions.None);
+				string[] userNameAndUserScore = line.Split(FileConstants.Separator, StringSplitOptions.None);
 				if (userNameAndUserScore.Length != 2)
 				{
 					throw new FormatException("The data format is invalid.");

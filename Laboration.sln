@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameFactory", "GameFactory\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validation", "Validation\Validation.csproj", "{845C0A76-EFB4-46B2-A7EA-E9F030331250}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocks", "Mocks\Mocks.csproj", "{B77A12B4-65EE-4A32-95F5-7685AD703439}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mocks", "Mocks\Mocks.csproj", "{B77A12B4-65EE-4A32-95F5-7685AD703439}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstantsLibrary", "ConstantsLibrary\ConstantsLibrary.csproj", "{53A35F00-B3B5-4039-ABF0-AD801D15D7A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{B77A12B4-65EE-4A32-95F5-7685AD703439}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B77A12B4-65EE-4A32-95F5-7685AD703439}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B77A12B4-65EE-4A32-95F5-7685AD703439}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53A35F00-B3B5-4039-ABF0-AD801D15D7A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A35F00-B3B5-4039-ABF0-AD801D15D7A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53A35F00-B3B5-4039-ABF0-AD801D15D7A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A35F00-B3B5-4039-ABF0-AD801D15D7A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

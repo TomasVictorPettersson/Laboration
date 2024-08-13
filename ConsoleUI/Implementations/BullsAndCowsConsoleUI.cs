@@ -2,12 +2,14 @@
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
+using Library.ConstantsLibrary.Constants;
 
 namespace Laboration.ConsoleUI.Implementations
 {
 	// Handles user interactions for the Bulls and Cows game in a console application.
 	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
+		// TODO: Handle this message in a Const
 		private const string WelcomeMessageFormat =
 	"Welcome, {0}, to Bulls and Cows!\n\n" +
 	"The goal is to guess a 4-digit number where each digit is unique and between 0 and 9.\n\n" +
@@ -17,12 +19,9 @@ namespace Laboration.ConsoleUI.Implementations
 	"- ‘CCCC’ is the number of cows (correct digits in the wrong positions).\n\n" +
 	"If you get 'No matches found', none of your guessed digits are in the 4-digit number.\n";
 
-		private const string YesInput = "y";
-		private const string NoInput = "n";
-		private const int RankColumnWidth = 6;
-		private const int GamesPlayedColumnWidth = 8;
-		private const int AverageGuessesColumnWidth = 15;
+		// TODO: Move this constant
 		private const int Padding = 3;
+
 		private readonly IValidation _validation = validation;
 		private readonly IHighScoreManager _highScoreManager = highScoreManager;
 
@@ -153,17 +152,18 @@ namespace Laboration.ConsoleUI.Implementations
 		public (int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results)
 		{
 			int maxUserNameLength = Math.Max(results.Max(p => p.UserName.Length), 6);
-			int totalWidth = RankColumnWidth + maxUserNameLength + GamesPlayedColumnWidth + AverageGuessesColumnWidth + Padding;
+			int totalWidth = DisplayConstants.RankColumnWidth + maxUserNameLength + DisplayConstants.GamesPlayedColumnWidth + DisplayConstants.AverageGuessesColumnWidth + Padding;
 			return (maxUserNameLength, totalWidth);
 		}
 
 		// Displays the header for the high score list with proper formatting.
 		public void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth)
 		{
+			// TODO: Move this constant
 			const string header = "=== HIGH SCORE LIST ===";
 			int leftPadding = (totalWidth - header.Length) / 2;
 
-			string headerRowFormat = $"{"Rank",-RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"   Games",-GamesPlayedColumnWidth} {"   Avg. Guesses",-AverageGuessesColumnWidth}";
+			string headerRowFormat = $"{"Rank",-DisplayConstants.RankColumnWidth} {"Player".PadRight(maxUserNameLength)} {"   Games",-DisplayConstants.GamesPlayedColumnWidth} {"   Avg. Guesses",-DisplayConstants.AverageGuessesColumnWidth}";
 
 			string headerFormat = $"{new string(' ', leftPadding)}{header}\n" +
 								  $"{CreateSeparatorLine(totalWidth)}\n" +
@@ -205,13 +205,13 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays the rank of the player.
 		public void DisplayRank(int rank)
 		{
-			Console.Write($"{rank,-RankColumnWidth}");
+			Console.Write($"{rank,-DisplayConstants.RankColumnWidth}");
 		}
 
 		// Displays detailed player data, with special formatting for the current user.
 		public void DisplayPlayerData(IPlayerData player, bool isCurrentUser, int maxUserNameLength)
 		{
-			Console.WriteLine($" {player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,GamesPlayedColumnWidth} {player.CalculateAverageGuesses(),AverageGuessesColumnWidth:F2}");
+			Console.WriteLine($" {player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,DisplayConstants.GamesPlayedColumnWidth} {player.CalculateAverageGuesses(),DisplayConstants.AverageGuessesColumnWidth:F2}");
 		}
 
 		// Asks the user if they want to continue playing or exit.
@@ -223,11 +223,11 @@ namespace Laboration.ConsoleUI.Implementations
 				string answer = Console.ReadLine()!.ToLower();
 				switch (answer)
 				{
-					case YesInput:
+					case DisplayConstants.YesInput:
 						Console.Clear();
 						return true;
 
-					case NoInput:
+					case DisplayConstants.NoInput:
 						return false;
 
 					default:

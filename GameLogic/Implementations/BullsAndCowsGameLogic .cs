@@ -26,7 +26,7 @@ namespace Laboration.GameLogic.Implementations
 
 				_consoleUI.WaitForUserToContinue(
 					isNewGame
-						? "You’ve read the game instructions. Press any key to start playing."
+						? "You’ve read the game instructions. Press any key to start playing..."
 						: "Press any key to start playing..."
 				);
 
