@@ -8,8 +8,10 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Prompts the user to enter their username.
 		string GetUserName();
 
-		// Displays a welcome message to the user, explaining the game rules.
-		void DisplayWelcomeMessage(string userName);
+		// Displays a personalized message to the player.
+		// Shows a detailed welcome message if it's a new game,
+		// or a brief welcome back message if the player has played before.
+		void DisplayWelcomeMessage(string userName, bool isNewGame);
 
 		// Displays the secret number for practice mode.
 		void DisplaySecretNumberForPractice(string secretNumber);

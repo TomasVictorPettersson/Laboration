@@ -10,13 +10,12 @@ namespace Laboration.ConsoleUI.Implementations
 	{
 		private const string WelcomeMessageFormat =
 	"Welcome, {0}, to Bulls and Cows!\n\n" +
-	"The objective of the game is to guess a 4-digit number.\n" +
-	"Each digit in the 4-digit number will only appear once.\n" +
-	"You can only use digits from 0 to 9.\n\n" +
-	"For each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
-	"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
-	"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n\n" +
-	"If the feedback is 'No matches found',\n" + "it means none of the digits in your guess was found in the 4-digit number.\n";
+	"The goal is to guess a 4-digit number where each digit is unique and between 0 and 9.\n\n" +
+
+	"For each guess, you’ll get feedback in the format ‘BBBB,CCCC’, where:\n" +
+	"- ‘BBBB’ is the number of bulls (correct digits in the correct positions).\n" +
+	"- ‘CCCC’ is the number of cows (correct digits in the wrong positions).\n\n" +
+	"If you get 'No matches found', none of your guessed digits are in the 4-digit number.\n";
 
 		private const string YesInput = "y";
 		private const string NoInput = "n";
@@ -42,10 +41,16 @@ namespace Laboration.ConsoleUI.Implementations
 			return userName;
 		}
 
-		// Displays a welcome message to the player.
-		public void DisplayWelcomeMessage(string userName)
+		// Displays a personalized message to the player.
+		// Shows a detailed welcome message if it's a new game,
+		// or a brief welcome back message if the player has played before.
+		public void DisplayWelcomeMessage(string userName, bool isNewGame)
 		{
-			Console.WriteLine(string.Format(WelcomeMessageFormat, userName));
+			Console.WriteLine(
+				isNewGame
+					? string.Format(WelcomeMessageFormat, userName)
+					: $"Welcome back, {userName}!\nGlad to see you again. Good luck with your next game!\n"
+			);
 		}
 
 		// Displays the secret number for practice mode.

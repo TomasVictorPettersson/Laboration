@@ -13,16 +13,23 @@ namespace Laboration.GameLogic.Implementations
 		private readonly IConsoleUI _consoleUI = consoleUI;
 		private readonly IValidation _validation = validation;
 
-		// Initiates the game process by showing a welcome message, generating a secret number,
-		// waiting for the user to acknowledge the instructions, optionally displaying the secret number
-		// for practice, and then executing the main game loop.
-		public void PlayGame(string userName)
+		// Starts the game by displaying a welcome message based on whether it's a new game,
+		// generating a secret number, prompting the user with instructions,
+		// optionally showing the secret number for practice and then running the main game loop.
+		public void PlayGame(string userName, bool isNewGame)
 		{
 			try
 			{
-				_consoleUI.DisplayWelcomeMessage(userName);
+				_consoleUI.DisplayWelcomeMessage(userName, isNewGame);
+
 				string secretNumber = MakeSecretNumber();
-				_consoleUI.WaitForUserToContinue("You’ve read the game instructions. Press any key to start playing.");
+
+				_consoleUI.WaitForUserToContinue(
+					isNewGame
+						? "You’ve read the game instructions. Press any key to start playing."
+						: "Press any key to start playing..."
+				);
+
 				// Comment out or remove the next line to play the real game!
 				_consoleUI.DisplaySecretNumberForPractice(secretNumber);
 				PlayGameLoop(secretNumber, userName);
@@ -104,7 +111,7 @@ namespace Laboration.GameLogic.Implementations
 			{
 				_highScoreManager.SaveResult(userName, numberOfGuesses);
 				_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
-				_consoleUI.WaitForUserToContinue("Congratulations on finishing the game! Press any key to see your high score.");
+				_consoleUI.WaitForUserToContinue("Congratulations on finishing the game! Press any key to see your high score...");
 				_consoleUI.DisplayHighScoreList(userName);
 				_consoleUI.WaitForUserToContinue("\nPress any key to continue...");
 			}

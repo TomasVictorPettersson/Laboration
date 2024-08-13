@@ -49,27 +49,40 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		[TestMethod]
-		public void DisplayWelcomeMessage_ShouldPrintWelcomeMessage()
+		public void DisplayWelcomeMessage_ShouldPrintDetailedMessage_WhenNewGame()
 		{
 			// Arrange
 			const string expectedOutput =
-				$"Welcome, {UserName}, to Bulls and Cows!\n" +
-				"\nThe objective of the game is to guess a 4-digit number.\n" +
-				"Each digit in the 4-digit number will only appear once.\n" +
-				"You can only use digits from 0 to 9.\n" +
-				"\nFor each guess, you will receive feedback in the form 'BBBB,CCCC', where:\n" +
-				"- 'BBBB' represents the number of bulls (correct digits in correct positions).\n" +
-				"- 'CCCC' represents the number of cows (correct digits in wrong positions).\n\n" +
-				"If the feedback is 'No matches found',\n" +
-				"it means none of the digits in your guess was found in the 4-digit number.";
+				$"Welcome, {UserName}, to Bulls and Cows!\n\n" +
+				"The goal is to guess a 4-digit number where each digit is unique and between 0 and 9.\n\n" +
+				"For each guess, you’ll get feedback in the format ‘BBBB,CCCC’, where:\n" +
+				"- ‘BBBB’ is the number of bulls (correct digits in the correct positions).\n" +
+				"- ‘CCCC’ is the number of cows (correct digits in the wrong positions).\n\n" +
+				"If you get 'No matches found', none of your guessed digits are in the 4-digit number.";
 
 			// Act
-			_consoleUI.DisplayWelcomeMessage(UserName);
+			_consoleUI.DisplayWelcomeMessage(UserName, true);
 
 			// Assert
 			string actualOutput = _consoleOutput.ToString().Trim();
 			Assert.AreEqual(expectedOutput, actualOutput,
-				"The welcome message printed to the console does not match the expected output. Verify the formatting and content of the welcome message.");
+				"The welcome message printed to the console does not match the expected output. Verify the formatting and content.");
+		}
+
+		[TestMethod]
+		public void DisplayWelcomeMessage_ShouldPrintBriefMessage_WhenReturningPlayer()
+		{
+			// Arrange
+			const string expectedOutput =
+				$"Welcome back, {UserName}!\nGlad to see you again. Good luck with your next game!";
+
+			// Act
+			_consoleUI.DisplayWelcomeMessage(UserName, false);
+
+			// Assert
+			string actualOutput = _consoleOutput.ToString().Trim();
+			Assert.AreEqual(expectedOutput, actualOutput,
+				"The welcome back message printed to the console does not match the expected output. Verify the formatting and content.");
 		}
 
 		[TestMethod]

@@ -3,10 +3,10 @@
 	// Defines the contract for the game logic.
 	public interface IGameLogic
 	{
-		// Initiates the game process by showing a welcome message, generating a secret number,
-		// waiting for the user to acknowledge the instructions, optionally displaying the secret number
-		// for practice, and then executing the main game loop.
-		void PlayGame(string userName);
+		// Starts the game by displaying a welcome message based on whether it's a new game,
+		// generating a secret number, prompting the user with instructions,
+		// optionally showing the secret number for practice and then running the main game loop.
+		void PlayGame(string userName, bool isNewGame);
 
 		// Generates a random 4-digit secret number for the game.
 		string MakeSecretNumber();

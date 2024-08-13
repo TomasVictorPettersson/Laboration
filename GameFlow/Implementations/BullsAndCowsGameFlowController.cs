@@ -7,7 +7,9 @@ namespace Laboration.GameFlow.Implementations
 	// Manages the game flow for the Bulls and Cows game.
 	public class BullsAndCowsGameFlowController : IGameFlowController
 	{
-		// Executes the main game loop with the provided user interface and game logic.
+		// Manages the game flow by retrieving the user’s name, running the game loop
+		// (starting with a flag for the first game),
+		// repeating the loop if the user wants to play again, and showing a goodbye message when finished.
 		public void ExecuteGameLoop(IConsoleUI consoleUI, IGameLogic gameLogic)
 		{
 			string userName;
@@ -22,11 +24,14 @@ namespace Laboration.GameFlow.Implementations
 				return; // Exit if user name cannot be retrieved
 			}
 
+			bool isFirstGame = true;
+
 			do
 			{
 				try
 				{
-					gameLogic.PlayGame(userName);
+					gameLogic.PlayGame(userName, isFirstGame);
+					isFirstGame = false; // Set to false after the first game
 				}
 				catch (Exception ex)
 				{
@@ -34,6 +39,7 @@ namespace Laboration.GameFlow.Implementations
 					return; // Exit if an error occurs during game play
 				}
 			} while (consoleUI.AskToContinue()); // Continue if user wants to play again
+
 			consoleUI.DisplayGoodbyeMessage(userName);
 		}
 	}
