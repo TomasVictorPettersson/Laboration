@@ -38,6 +38,7 @@ namespace Laboration.UnitTests.GameLogic
 		{
 			// Arrange
 			int numberOfGuesses = 0;
+
 			const string correctGuess = "1234";
 			const string feedback = "BBBB,";
 

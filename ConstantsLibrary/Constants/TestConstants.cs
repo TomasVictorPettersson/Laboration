@@ -4,38 +4,39 @@
 
 	public static class TestConstants
 	{
-		// The default username used for testing.
-
+		// Default username used for testing.
 		public const string UserName = "TestUser";
-		// The default username for John Doe used in tests.
 
+		// Default username for John Doe used in tests.
 		public const string UserNameJohnDoe = "JohnDoe";
 
-		// The default username for Jane Doe used in tests.
-
+		// Default username for Jane Doe used in tests.
 		public const string UserNameJaneDoe = "JaneDoe";
 
-		// The default secret number for testing purposes.
-
+		// Default secret number for testing purposes.
 		public const string SecretNumber = "1234";
 
-		// The total number of games played (for testing purposes).
-
+		// Total number of games played (for testing purposes).
 		public const string TotalGamesPlayed = "10";
 
-		// The average number of guesses (for testing purposes).
-
+		// Average number of guesses (for testing purposes).
 		public const string AverageGuesses = "5,50";
 
-		// The maximum length allowed for a username in testing scenarios.
+		// Maximum length allowed for a username in testing scenarios.
+		public const int MaxUserNameLength = 20;
 
-		public const int MaxUserNameLength = 10;
-
-		// The rank displayed for the user in testing scenarios.
-
+		// Rank displayed for the user in testing scenarios.
 		public const string Rank = "1";
 
-		// The total number of guesses made (for testing purposes).
+		// Total number of guesses made (for testing purposes).
 		public const int NumberOfGuesses = 10;
+
+		// Number of guesses for specific test scenarios.
+		public const int SingleGuess = 1;
+
+		public const int MultipleGuesses = 5;
+
+		// Total width for formatting tables or UI elements.
+		public const int TotalWidth = 50;
 	}
 }

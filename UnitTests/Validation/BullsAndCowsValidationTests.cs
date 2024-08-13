@@ -24,6 +24,7 @@ namespace Laboration.UnitTests.Validation
 		public void ValidateUserName_ShouldReturnErrorForUserNameTooShort()
 		{
 			// Arrange
+
 			const string userName = "A";
 
 			// Act

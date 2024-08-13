@@ -1,4 +1,5 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
+using Laboration.ConstantsLibrary.Constants;
 using Laboration.GameLogic.Interfaces;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
@@ -13,9 +14,9 @@ namespace Laboration.GameLogic.Implementations
 		private readonly IConsoleUI _consoleUI = consoleUI;
 		private readonly IValidation _validation = validation;
 
-		// Starts the game by displaying a welcome message based on whether it's a new game,
-		// generating a secret number, prompting the user with instructions,
-		// optionally showing the secret number for practice and then running the main game loop.
+		// Starts the game by displaying a welcome message, generating a secret number,
+		// prompting the user, optionally showing the secret number for practice,
+		// and then running the main game loop.
 		public void PlayGame(string userName, bool isNewGame)
 		{
 			try
@@ -26,8 +27,8 @@ namespace Laboration.GameLogic.Implementations
 
 				_consoleUI.WaitForUserToContinue(
 					isNewGame
-						? "You’ve read the game instructions. Press any key to start playing..."
-						: "Press any key to start playing..."
+						? $"\n{MessageConstants.InstructionsReadMessage}"
+						: $"\n{MessageConstants.StartPlayingPrompt}"
 				);
 
 				// Comment out or remove the next line to play the real game!
@@ -46,7 +47,7 @@ namespace Laboration.GameLogic.Implementations
 		{
 			Random randomGenerator = new();
 			StringBuilder secretNumber = new();
-			HashSet<int> usedDigits = [];
+			HashSet<int> usedDigits = new();
 
 			while (secretNumber.Length < 4)
 			{
@@ -86,7 +87,6 @@ namespace Laboration.GameLogic.Implementations
 		public bool HandleUserGuess(string secretNumber, ref int numberOfGuesses)
 		{
 			string guess = _consoleUI.GetValidGuessFromUser();
-
 			return ProcessGuess(secretNumber, guess, ref numberOfGuesses);
 		}
 
@@ -94,11 +94,8 @@ namespace Laboration.GameLogic.Implementations
 		public bool ProcessGuess(string secretNumber, string guess, ref int numberOfGuesses)
 		{
 			string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
-
 			_consoleUI.DisplayGuessFeedback(guessFeedback);
-
 			numberOfGuesses++;
-
 			return _validation.IsCorrectGuess(guess, secretNumber);
 		}
 
@@ -111,9 +108,9 @@ namespace Laboration.GameLogic.Implementations
 			{
 				_highScoreManager.SaveResult(userName, numberOfGuesses);
 				_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
-				_consoleUI.WaitForUserToContinue("Congratulations on finishing the game! Press any key to see your high score...");
+				_consoleUI.WaitForUserToContinue(MessageConstants.FinishGamePrompt);
 				_consoleUI.DisplayHighScoreList(userName);
-				_consoleUI.WaitForUserToContinue("\nPress any key to continue...");
+				_consoleUI.WaitForUserToContinue(MessageConstants.ContinuePrompt);
 			}
 			catch (Exception ex)
 			{
@@ -131,7 +128,6 @@ namespace Laboration.GameLogic.Implementations
 			{
 				int bulls = CountBulls(secretNumber, guess);
 				int cows = CountCows(secretNumber, guess);
-
 				return $"{new string('B', bulls)},{new string('C', cows)}";
 			}
 			catch (Exception ex)
@@ -173,7 +169,7 @@ namespace Laboration.GameLogic.Implementations
 			try
 			{
 				int cows = 0;
-				Dictionary<char, int> digitFrequency = [];
+				Dictionary<char, int> digitFrequency = new();
 
 				// Count frequency of each digit in the secret number.
 				foreach (char digit in secretNumber)
