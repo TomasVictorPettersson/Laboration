@@ -34,7 +34,6 @@ namespace Laboration.GameFlow.Implementations
 					return; // Exit if an error occurs during game play
 				}
 			} while (consoleUI.AskToContinue()); // Continue if user wants to play again
-
 			consoleUI.DisplayGoodbyeMessage(userName);
 		}
 	}

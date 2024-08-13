@@ -8,9 +8,6 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Prompts the user to enter their username.
 		string GetUserName();
 
-		// Clears the console screen.
-		void ClearConsole();
-
 		// Displays a welcome message to the user, explaining the game rules.
 		void DisplayWelcomeMessage(string userName);
 
@@ -28,6 +25,9 @@ namespace Laboration.ConsoleUI.Interfaces
 
 		// Displays a message indicating the correct number and the number of guesses taken.
 		void DisplayCorrectMessage(string secretNumber, int numberOfGuesses);
+
+		// Displays a custom message and waits for a key press before continuing.
+		void WaitForUserToContinue(string message);
 
 		// Displays the high score list with formatted player data and highlights the current user.
 		void DisplayHighScoreList(string currentUserName);
@@ -59,7 +59,8 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Asks the user if they want to continue playing or exit.
 		bool AskToContinue();
 
-		// Displays a farewell message to the user after the game ends.
+		// Displays a personalized goodbye message to the user and prompts them to close the window.
+
 		void DisplayGoodbyeMessage(string userName);
 	}
 }

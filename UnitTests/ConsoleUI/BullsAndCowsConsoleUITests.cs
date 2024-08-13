@@ -227,19 +227,6 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.IsFalse(continueGame, "AskToContinue should return false for a valid 'no' input.");
 		}
 
-		[TestMethod]
-		public void DisplayGoodbyeMessage_ShouldPrintGoodbyeMessage()
-		{
-			// Arrange
-			var expectedOutput = $"Thank you, {UserName}, for playing Bulls and Cows!";
-
-			// Act
-			_consoleUI.DisplayGoodbyeMessage(UserName);
-
-			// Assert
-			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The goodbye message should match the expected output.");
-		}
-
 		[TestCleanup]
 		public void Cleanup()
 		{

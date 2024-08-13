@@ -38,14 +38,8 @@ namespace Laboration.ConsoleUI.Implementations
 				Console.WriteLine(_validation.ValidateUserName(userName));
 			}
 			while (!_validation.IsValidUserName(userName));
-			ClearConsole();
-			return userName;
-		}
-
-		// Clears the console screen.
-		public void ClearConsole()
-		{
 			Console.Clear();
+			return userName;
 		}
 
 		// Displays a welcome message to the player.
@@ -99,7 +93,15 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays a message indicating the correct number and number of guesses taken.
 		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
-			Console.WriteLine($"Correct! The 4-digit number was: {secretNumber}\nIt took you {numberOfGuesses} {(numberOfGuesses == 1 ? "guess" : "guesses")}.\n\n");
+			Console.WriteLine($"Correct! The 4-digit number was: {secretNumber}\nIt took you {numberOfGuesses} {(numberOfGuesses == 1 ? "guess" : "guesses")}.\n");
+		}
+
+		// Displays a custom message and waits for a key press before continuing.
+		public void WaitForUserToContinue(string message)
+		{
+			Console.WriteLine(message);
+			Console.ReadKey(intercept: true);
+			Console.Clear();
 		}
 
 		// Displays the high score list with formatted player data and highlights the current user.
@@ -142,11 +144,11 @@ namespace Laboration.ConsoleUI.Implementations
 		}
 
 		// Calculates the maximum username length and total display width for formatting.
+		// Treats usernames shorter than six characters as if they were six characters long.
 		public (int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results)
 		{
-			int maxUserNameLength = results.Max(p => p.UserName.Length);
+			int maxUserNameLength = Math.Max(results.Max(p => p.UserName.Length), 6);
 			int totalWidth = RankColumnWidth + maxUserNameLength + GamesPlayedColumnWidth + AverageGuessesColumnWidth + Padding;
-
 			return (maxUserNameLength, totalWidth);
 		}
 
@@ -212,28 +214,29 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			while (true)
 			{
-				Console.Write("\nDo you want to play again? (y/n): ");
+				Console.Write("Do you want to play again? (y/n): ");
 				string answer = Console.ReadLine()!.ToLower();
 				switch (answer)
 				{
 					case YesInput:
-						ClearConsole();
+						Console.Clear();
 						return true;
 
 					case NoInput:
 						return false;
 
 					default:
-						Console.WriteLine("Invalid input. Please enter y for yes or n for no.");
+						Console.WriteLine("Invalid input. Please enter y for yes or n for no.\n");
 						break;
 				}
 			}
 		}
 
-		// Displays a farewell message to the user after the game ends.
+		// Displays a personalized goodbye message to the user and prompts them to close the window.
 		public void DisplayGoodbyeMessage(string userName)
 		{
 			Console.WriteLine($"Thank you, {userName}, for playing Bulls and Cows!");
+			WaitForUserToContinue("\nPress any key to close this window...");
 		}
 	}
 }

@@ -13,15 +13,17 @@ namespace Laboration.GameLogic.Implementations
 		private readonly IConsoleUI _consoleUI = consoleUI;
 		private readonly IValidation _validation = validation;
 
-		// Starts the game by displaying a welcome message, generating a secret number,
-		// and then running the main game loop.
+		// Initiates the game process by showing a welcome message, generating a secret number,
+		// waiting for the user to acknowledge the instructions, optionally displaying the secret number
+		// for practice, and then executing the main game loop.
 		public void PlayGame(string userName)
 		{
 			try
 			{
 				_consoleUI.DisplayWelcomeMessage(userName);
 				string secretNumber = MakeSecretNumber();
-				// Comment out or remove next line to play the real game!
+				_consoleUI.WaitForUserToContinue("You’ve read the game instructions. Press any key to start playing.");
+				// Comment out or remove the next line to play the real game!
 				_consoleUI.DisplaySecretNumberForPractice(secretNumber);
 				PlayGameLoop(secretNumber, userName);
 			}
@@ -93,15 +95,18 @@ namespace Laboration.GameLogic.Implementations
 			return _validation.IsCorrectGuess(guess, secretNumber);
 		}
 
-		// Ends the game by saving the player's result, displaying a message with the
-		// correct number and number of guesses, and showing the updated high score list.
+		// Concludes the game by saving the player's result to the high score list,
+		// displaying a message with the correct number and the number of guesses,
+		// showing the updated high score list, and prompting the user to continue.
 		public void EndGame(string secretNumber, string userName, int numberOfGuesses)
 		{
 			try
 			{
 				_highScoreManager.SaveResult(userName, numberOfGuesses);
 				_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
+				_consoleUI.WaitForUserToContinue("Congratulations on finishing the game! Press any key to see your high score.");
 				_consoleUI.DisplayHighScoreList(userName);
+				_consoleUI.WaitForUserToContinue("\nPress any key to continue...");
 			}
 			catch (Exception ex)
 			{
