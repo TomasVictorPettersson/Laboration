@@ -1,7 +1,7 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameFlow.Implementations;
 using Laboration.GameLogic.Interfaces;
-using Library.ConstantsLibrary.Constants;
+using Laboration.GameResources.Constants;
 using Moq;
 
 namespace Laboration.UnitTests.GameFlow

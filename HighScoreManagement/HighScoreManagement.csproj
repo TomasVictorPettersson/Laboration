@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConstantsLibrary\ConstantsLibrary.csproj" />
+    <ProjectReference Include="..\GameResources\GameResources.csproj" />
     <ProjectReference Include="..\PlayerData\PlayerData.csproj" />
   </ItemGroup>
 

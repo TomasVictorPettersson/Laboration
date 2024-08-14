@@ -1,8 +1,8 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameLogic.Implementations;
+using Laboration.GameResources.Constants;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
-using Library.ConstantsLibrary.Constants;
 using Moq;
 
 namespace Laboration.UnitTests.GameLogic

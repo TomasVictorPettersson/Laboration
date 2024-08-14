@@ -1,15 +1,14 @@
-﻿using Laboration.ConstantsLibrary.Constants;
+﻿using Laboration.GameResources.Constants;
 using Laboration.HighScoreManagement.Implementations;
 using Laboration.PlayerData.Implementations;
 using Laboration.PlayerData.Interfaces;
-using Library.ConstantsLibrary.Constants;
 
 namespace Laboration.UnitTests.HighScoreManagement
 {
 	[TestClass]
-	public class BullsAndCowsHighScoreManagerTests
+	public class HighScoreManagerTests
 	{
-		private readonly BullsAndCowsHighScoreManager _highScoreManager = new();
+		private readonly HighScoreManager _highScoreManager = new();
 		private readonly List<IPlayerData> _results = [];
 
 		[TestMethod]

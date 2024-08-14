@@ -1,4 +1,5 @@
-﻿using Laboration.Validation.Interfaces;
+﻿using Laboration.GameResources.Constants;
+using Laboration.Validation.Interfaces;
 
 namespace Laboration.Validation.Implementations
 {
@@ -11,11 +12,11 @@ namespace Laboration.Validation.Implementations
 		{
 			if (string.IsNullOrEmpty(userName))
 			{
-				return "Empty values are not allowed. Please enter a valid username.\n";
+				return UserInteractionMessages.EmptyUsernameMessage;
 			}
 			else if (userName.Length < 2 || userName.Length > 20)
 			{
-				return "Username must be between 2 and 20 characters long.\n";
+				return UserInteractionMessages.UsernameLengthMessage;
 			}
 			return string.Empty;
 		}

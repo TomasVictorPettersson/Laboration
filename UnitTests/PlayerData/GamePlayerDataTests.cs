@@ -1,5 +1,5 @@
-﻿using Laboration.PlayerData.Implementations;
-using Library.ConstantsLibrary.Constants;
+﻿using Laboration.GameResources.Constants;
+using Laboration.PlayerData.Implementations;
 
 namespace Laboration.UnitTests.PlayerData
 {

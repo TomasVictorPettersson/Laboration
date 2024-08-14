@@ -1,11 +1,10 @@
 ﻿using Laboration.ConsoleUI.Implementations;
 using Laboration.ConsoleUI.Interfaces;
-using Laboration.ConstantsLibrary.Constants;
+using Laboration.GameResources.Constants;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Mocks;
 using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
-using Library.ConstantsLibrary.Constants;
 using Moq;
 
 namespace Laboration.UnitTests.ConsoleUI
@@ -46,7 +45,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var expectedOutput = string.Format(
-				MessageConstants.WelcomeMessageFormat,
+				GameMessages.WelcomeMessageFormat,
 				TestConstants.UserName
 			);
 
@@ -64,7 +63,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var expectedOutput = string.Format(
-				MessageConstants.WelcomeBackMessageFormat,
+				GameMessages.WelcomeBackMessageFormat,
 				TestConstants.UserName
 			);
 
@@ -82,7 +81,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var expectedOutput = string.Format(
-				MessageConstants.SecretNumberPracticeMessage,
+				GameMessages.SecretNumberPracticeMessage,
 				TestConstants.SecretNumber
 			);
 
@@ -98,10 +97,10 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var expectedOutput = string.Format(
-				MessageConstants.CorrectGuessMessageFormat,
+				GameMessages.CorrectGuessMessageFormat,
 				TestConstants.SecretNumber,
 				TestConstants.SingleGuess,
-				MessageConstants.GuessSingular
+				Plurals.GuessSingular
 			);
 
 			// Act
@@ -116,10 +115,10 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var expectedOutput = string.Format(
-				MessageConstants.CorrectGuessMessageFormat,
+				GameMessages.CorrectGuessMessageFormat,
 				TestConstants.SecretNumber,
 				TestConstants.MultipleGuesses,
-				MessageConstants.GuessPlural
+				Plurals.GuessPlural
 			);
 
 			// Act
@@ -185,7 +184,6 @@ namespace Laboration.UnitTests.ConsoleUI
 
 			var output = _consoleOutput.ToString().Trim();
 
-			// TODO: String interpolation
 			var expectedOutput = string.Format(
 				"{0,-" + TestConstants.MaxUserNameLength + "} {1," + FormattingConstants.GamesPlayedColumnWidth + "} {2," + FormattingConstants.AverageGuessesColumnWidth + "}",
 				TestConstants.UserName,
@@ -201,19 +199,19 @@ namespace Laboration.UnitTests.ConsoleUI
 		public void DisplayHighScoreListHeader_ValidInputs_ShouldFormatHeaderCorrectly()
 		{
 			// Arrange
-			int leftPadding = (TestConstants.TotalWidth - DisplayConstants.HighScoreHeader.Length) / 2;
+			int leftPadding = (TestConstants.TotalWidth - HighScoreHeaders.HighScoreHeader.Length) / 2;
 
 			string SeparatorLine = new('-', TestConstants.TotalWidth);
 
 			string HeaderRowFormat = string.Format(
 				"{0,-" + FormattingConstants.RankColumnWidth + "} {1,-" + TestConstants.MaxUserNameLength + "} {2," + FormattingConstants.GamesPlayedColumnWidth + "} {3," + FormattingConstants.AverageGuessesColumnWidth + "}",
-				MessageConstants.RankHeader,
-				MessageConstants.PlayerHeader,
-				MessageConstants.GamesHeader,
-				MessageConstants.AverageGuessesHeader
+				HighScoreHeaders.RankHeader,
+				HighScoreHeaders.PlayerHeader,
+				HighScoreHeaders.GamesHeader,
+				HighScoreHeaders.AverageGuessesHeader
 			);
 
-			var expectedHeaderOutput = $"{new string(' ', leftPadding)}{DisplayConstants.HighScoreHeader}\n" +
+			var expectedHeaderOutput = $"{new string(' ', leftPadding)}{HighScoreHeaders.HighScoreHeader}\n" +
 									   $"{SeparatorLine}\n" +
 									   $"{HeaderRowFormat}\n" +
 									   $"{SeparatorLine}";

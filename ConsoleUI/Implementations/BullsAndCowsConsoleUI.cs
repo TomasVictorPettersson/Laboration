@@ -1,5 +1,5 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.ConstantsLibrary.Constants;
+using Laboration.GameResources.Constants;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
@@ -18,7 +18,7 @@ namespace Laboration.ConsoleUI.Implementations
 			string userName;
 			do
 			{
-				Console.Write(MessageConstants.UserNamePrompt);
+				Console.Write(UserInteractionMessages.UserNamePrompt);
 				userName = Console.ReadLine()!;
 				Console.WriteLine(_validation.ValidateUserName(userName));
 			}
@@ -34,8 +34,8 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			Console.WriteLine(
 				isNewGame
-					? string.Format(MessageConstants.WelcomeMessageFormat, userName)
-					: string.Format(MessageConstants.WelcomeBackMessageFormat, userName)
+					? string.Format(GameMessages.WelcomeMessageFormat, userName)
+					: string.Format(GameMessages.WelcomeBackMessageFormat, userName)
 			);
 		}
 
@@ -44,7 +44,7 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			try
 			{
-				Console.WriteLine($"{string.Format(MessageConstants.SecretNumberPracticeMessage, secretNumber)}\n");
+				Console.WriteLine($"{string.Format(GameMessages.SecretNumberPracticeMessage, secretNumber)}\n");
 			}
 			catch (Exception ex)
 			{
@@ -62,7 +62,7 @@ namespace Laboration.ConsoleUI.Implementations
 				guess = GetInputFromUser();
 				if (!_validation.IsInputValid(guess))
 				{
-					Console.WriteLine(MessageConstants.InvalidInputMessage);
+					Console.WriteLine(UserInteractionMessages.InvalidInputMessage);
 				}
 			} while (!_validation.IsInputValid(guess));
 			return guess;
@@ -71,24 +71,24 @@ namespace Laboration.ConsoleUI.Implementations
 		// Gets input from the user.
 		public string GetInputFromUser()
 		{
-			Console.Write(MessageConstants.GuessPrompt);
+			Console.Write(UserInteractionMessages.GuessPrompt);
 			return Console.ReadLine()!.Trim();
 		}
 
 		// Displays feedback for the player's guess.
 		public void DisplayGuessFeedback(string guessFeedback)
 		{
-			Console.WriteLine($"{MessageConstants.FeedbackPrefix}{(guessFeedback == "," ? MessageConstants.NoMatchesFoundMessage : guessFeedback)}\n");
+			Console.WriteLine($"{GameMessages.FeedbackPrefix}{(guessFeedback == "," ? GameMessages.NoMatchesFoundMessage : guessFeedback)}\n");
 		}
 
 		// Displays a message indicating the correct number and number of guesses taken.
 		public void DisplayCorrectMessage(string secretNumber, int numberOfGuesses)
 		{
 			Console.WriteLine(string.Format(
-				MessageConstants.CorrectGuessMessageFormat,
+				GameMessages.CorrectGuessMessageFormat,
 				secretNumber,
 				numberOfGuesses,
-				numberOfGuesses == 1 ? MessageConstants.GuessSingular : MessageConstants.GuessPlural
+				numberOfGuesses == 1 ? Plurals.GuessSingular : Plurals.GuessPlural
 			));
 		}
 
@@ -152,23 +152,22 @@ namespace Laboration.ConsoleUI.Implementations
 		public void DisplayHighScoreListHeader(int maxUserNameLength, int totalWidth)
 		{
 			// Calculate left padding for centered header
-			int leftPadding = (totalWidth - DisplayConstants.HighScoreHeader.Length) / 2;
+			int leftPadding = (totalWidth - HighScoreHeaders.HighScoreHeader.Length) / 2;
 
-			// TODO: String interpolation
 			// Create formatted header row
 			string headerRowFormat = string.Format(
 				"{0,-" + FormattingConstants.RankColumnWidth + "} " +
 				"{1,-" + maxUserNameLength + "} " +
 				"{2," + FormattingConstants.GamesPlayedColumnWidth + "} " +
 				"{3," + FormattingConstants.AverageGuessesColumnWidth + "}",
-				MessageConstants.RankHeader,
-				MessageConstants.PlayerHeader,
-				MessageConstants.GamesHeader,
-				MessageConstants.AverageGuessesHeader
+				HighScoreHeaders.RankHeader,
+				HighScoreHeaders.PlayerHeader,
+				HighScoreHeaders.GamesHeader,
+				HighScoreHeaders.AverageGuessesHeader
 			);
 
 			// Construct the complete header format
-			string headerFormat = $"{new string(' ', leftPadding)}{DisplayConstants.HighScoreHeader}\n" +
+			string headerFormat = $"{new string(' ', leftPadding)}{HighScoreHeaders.HighScoreHeader}\n" +
 								  $"{CreateSeparatorLine(totalWidth)}\n" +
 								  $"{headerRowFormat}\n" +
 								  $"{CreateSeparatorLine(totalWidth)}";
@@ -223,19 +222,19 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			while (true)
 			{
-				Console.Write(MessageConstants.PlayAgainPrompt);
+				Console.Write(UserInteractionMessages.PlayAgainPrompt);
 				string answer = Console.ReadLine()!.ToLower();
 				switch (answer)
 				{
-					case DisplayConstants.YesInput:
+					case UserInputConstants.YesInput:
 						Console.Clear();
 						return true;
 
-					case DisplayConstants.NoInput:
+					case UserInputConstants.NoInput:
 						return false;
 
 					default:
-						Console.WriteLine(MessageConstants.InvalidPlayAgainResponse);
+						Console.WriteLine(UserInteractionMessages.InvalidPlayAgainResponse);
 						break;
 				}
 			}
@@ -244,8 +243,8 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays a personalized goodbye message to the user and prompts them to close the window.
 		public void DisplayGoodbyeMessage(string userName)
 		{
-			Console.WriteLine(string.Format(MessageConstants.GoodbyeMessageFormat, userName));
-			WaitForUserToContinue(MessageConstants.CloseWindowPrompt);
+			Console.WriteLine(string.Format(GameMessages.GoodbyeMessageFormat, userName));
+			WaitForUserToContinue(PromptMessages.CloseWindowPrompt);
 		}
 	}
 }

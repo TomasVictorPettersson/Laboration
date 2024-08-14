@@ -1,6 +1,6 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.ConstantsLibrary.Constants;
 using Laboration.GameLogic.Interfaces;
+using Laboration.GameResources.Constants;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
 using System.Text;
@@ -27,8 +27,8 @@ namespace Laboration.GameLogic.Implementations
 
 				_consoleUI.WaitForUserToContinue(
 					isNewGame
-						? $"\n{MessageConstants.InstructionsReadMessage}"
-						: $"\n{MessageConstants.StartPlayingPrompt}"
+						? $"\n{PromptMessages.InstructionsReadMessage}"
+						: $"\n{PromptMessages.StartPlayingPrompt}"
 				);
 
 				// Comment out or remove the next line to play the real game!
@@ -47,7 +47,7 @@ namespace Laboration.GameLogic.Implementations
 		{
 			Random randomGenerator = new();
 			StringBuilder secretNumber = new();
-			HashSet<int> usedDigits = new();
+			HashSet<int> usedDigits = [];
 
 			while (secretNumber.Length < 4)
 			{
@@ -108,9 +108,9 @@ namespace Laboration.GameLogic.Implementations
 			{
 				_highScoreManager.SaveResult(userName, numberOfGuesses);
 				_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
-				_consoleUI.WaitForUserToContinue(MessageConstants.FinishGamePrompt);
+				_consoleUI.WaitForUserToContinue(PromptMessages.FinishGamePrompt);
 				_consoleUI.DisplayHighScoreList(userName);
-				_consoleUI.WaitForUserToContinue(MessageConstants.ContinuePrompt);
+				_consoleUI.WaitForUserToContinue(PromptMessages.ContinuePrompt);
 			}
 			catch (Exception ex)
 			{
@@ -169,7 +169,7 @@ namespace Laboration.GameLogic.Implementations
 			try
 			{
 				int cows = 0;
-				Dictionary<char, int> digitFrequency = new();
+				Dictionary<char, int> digitFrequency = [];
 
 				// Count frequency of each digit in the secret number.
 				foreach (char digit in secretNumber)

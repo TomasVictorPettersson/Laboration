@@ -1,5 +1,5 @@
-﻿using Laboration.PlayerData.Interfaces;
-using Library.ConstantsLibrary.Constants;
+﻿using Laboration.GameResources.Constants;
+using Laboration.PlayerData.Interfaces;
 using Moq;
 using System.Globalization;
 

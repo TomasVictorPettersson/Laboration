@@ -1,13 +1,13 @@
-﻿using Laboration.ConstantsLibrary.Constants;
+﻿using Laboration.GameResources.Constants;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Implementations;
 using Laboration.PlayerData.Interfaces;
 
 namespace Laboration.HighScoreManagement.Implementations
 {
-	// Manages high score data for the Bulls and Cows game, including saving results,
-	// reading from a file, parsing player data, updating the results list and sorting.
-	public class BullsAndCowsHighScoreManager : IHighScoreManager
+	// Manages high score data, including saving results,
+	// reading from a file, parsing player data, updating the results list, and sorting.
+	public class HighScoreManager : IHighScoreManager
 	{
 		// Saves a user's result to a file.
 		public void SaveResult(string userName, int numberOfGuesses)

@@ -18,7 +18,7 @@ namespace Laboration.DependencyInjection.Implementations
 		{
 			// Initialize dependencies
 			IValidation validation = new BullsAndCowsValidation();
-			IHighScoreManager highScoreManager = new BullsAndCowsHighScoreManager();
+			IHighScoreManager highScoreManager = new HighScoreManager();
 			IConsoleUI consoleUI = new BullsAndCowsConsoleUI(validation, highScoreManager);
 			IGameLogic gameLogic = new BullsAndCowsGameLogic(highScoreManager, consoleUI, validation);
 			return (consoleUI, gameLogic);
