@@ -11,6 +11,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		private readonly HighScoreManager _highScoreManager = new();
 		private readonly List<IPlayerData> _results = [];
 
+		// Verifies that SaveResult saves the result to a file.
 		[TestMethod]
 		public void SaveResult_SavesToFile()
 		{
@@ -23,6 +24,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.IsTrue(lines[0].Contains($"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}"), "The first line should contain the correct formatted result.");
 		}
 
+		// Verifies that SaveResult appends new data to an existing file.
 		[TestMethod]
 		public void SaveResult_WithExistingFile_ShouldAppendData()
 		{
@@ -41,6 +43,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.IsTrue(lines[1].Contains($"{newUserName}{FileConstants.Separator}{newNumberOfGuesses}"), "The new line should be correctly appended.");
 		}
 
+		// Verifies that ReadHighScoreResultsFromFile reads data from the file.
 		[TestMethod]
 		public void ReadHighScoreResultsFromFile_ReadsFromFile()
 		{
@@ -56,6 +59,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(TestConstants.NumberOfGuesses, results[0].TotalGuesses, "The total guesses should be 10.");
 		}
 
+		// Verifies that ReadHighScoreResultsFromFile returns an empty list if the file does not exist.
 		[TestMethod]
 		public void ReadHighScoreResultsFromFile_FileDoesNotExist_ShouldReturnEmptyList()
 		{
@@ -72,6 +76,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(0, results.Count, "The result list should be empty.");
 		}
 
+		// Verifies that ParseLineToPlayerData correctly parses a line into player data.
 		[TestMethod]
 		public void ParseLineToPlayerData_ParsesLine()
 		{
@@ -86,6 +91,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(TestConstants.NumberOfGuesses, playerData.TotalGuesses, "The total guesses should be 10.");
 		}
 
+		// Verifies that ParseLineToPlayerData throws a FormatException for invalid data.
 		[TestMethod]
 		public void ParseLineToPlayerData_InvalidData_ShouldThrowFormatException()
 		{
@@ -96,6 +102,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.ThrowsException<FormatException>(() => _highScoreManager.ParseLineToPlayerData(invalidLine));
 		}
 
+		// Verifies that UpdateResultsList adds new player data to the results list.
 		[TestMethod]
 		public void UpdateResultsList_AddsNewData()
 		{
@@ -110,6 +117,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.IsTrue(updatedResults.Contains(playerData), "The updated results list should contain the new player data.");
 		}
 
+		// Verifies that UpdateResultsList updates existing player data in the results list.
 		[TestMethod]
 		public void UpdateResultsList_UpdatesExistingData()
 		{
@@ -123,9 +131,10 @@ namespace Laboration.UnitTests.HighScoreManagement
 
 			// Assert
 			Assert.AreEqual(1, updatedResults.Count, "The updated results list should contain exactly one player data.");
-			Assert.AreEqual(25, updatedResults[0].TotalGuesses, "The total guesses should be updated to 25.");
+			Assert.AreEqual(15, updatedResults[0].TotalGuesses, "The total guesses should be updated to 15.");
 		}
 
+		// Verifies that SortHighScoreList correctly sorts the results list by number of guesses.
 		[TestMethod]
 		public void SortHighScoreList_ValidData_SortsListCorrectly()
 		{
@@ -152,6 +161,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(10, results[2].TotalGuesses, "The number of guesses for Player1 should be 10.");
 		}
 
+		// Verifies that SortHighScoreList does not alter an empty list.
 		[TestMethod]
 		public void SortHighScoreList_EmptyList_ShouldRemainEmpty()
 		{
@@ -165,6 +175,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(0, results.Count, "The results list should remain empty.");
 		}
 
+		// Verifies that SortHighScoreList does not alter a list with a single entry.
 		[TestMethod]
 		public void SortHighScoreList_SingleEntry_ShouldRemainUnchanged()
 		{
@@ -183,6 +194,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(TestConstants.NumberOfGuesses, results[0].TotalGuesses, "The number of guesses should be 10.");
 		}
 
+		// Verifies that SortHighScoreList maintains order for entries with the same number of guesses.
 		[TestMethod]
 		public void SortHighScoreList_SameNumberOfGuesses_ShouldNotAlterOrder()
 		{
@@ -201,6 +213,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual("Player2", results[1].UserName, "Order should be consistent for same number of guesses.");
 		}
 
+		// Verifies that SortHighScoreList correctly sorts when there are large numbers of guesses.
 		[TestMethod]
 		public void SortHighScoreList_WithLargeNumberOfGuesses_ShouldSortCorrectly()
 		{
@@ -219,6 +232,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual("Player1", results[1].UserName, "The player with large number of guesses should be last.");
 		}
 
+		// Cleans up test resources by deleting the file if it exists.
 		[TestCleanup]
 		public void TestCleanup()
 		{

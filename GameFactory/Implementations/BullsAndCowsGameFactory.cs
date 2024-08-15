@@ -13,13 +13,13 @@ namespace Laboration.GameFactory.Implementations
 		// Creates an instance of IDependencyInitializer to set up game dependencies.
 		public IDependencyInitializer CreateDependencyInitializer()
 		{
-			return new BullsAndCowsDependencyInitializer();
+			return new GameDependencyInitializer();
 		}
 
 		// Creates an instance of IGameFlowController to manage the game flow.
 		public IGameFlowController CreateGameFlowController()
 		{
-			return new BullsAndCowsGameFlowController();
+			return new GameFlowController();
 		}
 	}
 }

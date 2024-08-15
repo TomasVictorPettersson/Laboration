@@ -7,18 +7,21 @@ using Laboration.GameLogic.Interfaces;
 namespace Laboration.UnitTests.DependencyInjection
 {
 	[TestClass]
-	public class BullsAndCowsDependencyInitializerTests
+	public class GameDependencyInitializerTests
 	{
-		private readonly BullsAndCowsDependencyInitializer _dependencyInitializer = new();
+		private readonly GameDependencyInitializer _dependencyInitializer = new();
 		private IConsoleUI? _consoleUI;
 		private IGameLogic? _gameLogic;
 
+		// Initializes dependencies before each test.
 		[TestInitialize]
 		public void TestInitialize()
 		{
+			// Initializes the dependencies and assigns them to fields.
 			(_consoleUI, _gameLogic) = _dependencyInitializer.InitializeDependencies();
 		}
 
+		// Tests if InitializeDependencies returns non-null instances of dependencies.
 		[TestMethod]
 		public void InitializeDependencies_ReturnsValidInstances()
 		{
@@ -27,6 +30,7 @@ namespace Laboration.UnitTests.DependencyInjection
 			Assert.IsNotNull(_gameLogic, "Expected a non-null GameLogic instance from InitializeDependencies.");
 		}
 
+		// Tests if InitializeDependencies returns instances that implement the correct interfaces.
 		[TestMethod]
 		public void InitializeDependencies_ReturnsCorrectInterfaces()
 		{
@@ -35,11 +39,12 @@ namespace Laboration.UnitTests.DependencyInjection
 			Assert.IsInstanceOfType(_gameLogic, typeof(IGameLogic), "GameLogic instance should implement IGameLogic.");
 		}
 
+		// Tests if InitializeDependencies returns instances of the correct concrete types.
 		[TestMethod]
 		public void InitializeDependencies_UsesCorrectImplementations()
 		{
 			// Assert
-			Assert.IsInstanceOfType(_consoleUI, typeof(BullsAndCowsConsoleUI), "ConsoleUI instance should be of type BullsAndCowsConsoleUI.");
+			Assert.IsInstanceOfType(_consoleUI, typeof(GameConsoleUI), "ConsoleUI instance should be of type GameConsoleUI.");
 			Assert.IsInstanceOfType(_gameLogic, typeof(BullsAndCowsGameLogic), "GameLogic instance should be of type BullsAndCowsGameLogic.");
 		}
 	}

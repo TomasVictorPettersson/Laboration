@@ -3,13 +3,13 @@ using Laboration.GameFlow.Interfaces;
 
 namespace Laboration.GameFactory.Interfaces
 {
-	// Defines a factory interface for creating game-related components.
+	// Defines the contract for a factory that creates game-related components.
 	public interface IGameFactory
 	{
-		// Creates an instance of IDependencyInitializer to set up game dependencies.
+		// Creates and returns an instance of IDependencyInitializer for setting up game dependencies.
 		IDependencyInitializer CreateDependencyInitializer();
 
-		// Creates an instance of IGameFlowController to manage the game flow.
+		// Creates and returns an instance of IGameFlowController for managing the game flow.
 		IGameFlowController CreateGameFlowController();
 	}
 }

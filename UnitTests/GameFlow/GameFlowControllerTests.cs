@@ -7,17 +7,18 @@ using Moq;
 namespace Laboration.UnitTests.GameFlow
 {
 	[TestClass]
-	public class BullsAndCowsGameFlowControllerTests
+	public class GameFlowControllerTests
 	{
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 		private readonly Mock<IGameLogic> _mockGameLogic = new();
-		private readonly BullsAndCowsGameFlowController _gameFlowController = new();
+		private readonly GameFlowController _gameFlowController = new();
 
+		// Verifies that ExecuteGameLoop plays the game once and displays a
+		// goodbye message when AskToContinue returns false.
 		[TestMethod]
 		public void ExecuteGameLoop_ShouldPlayOnce_WhenAskToContinueReturnsFalse()
 		{
 			// Arrange
-
 			_mockConsoleUI.Setup(ui => ui.GetUserName()).Returns(TestConstants.UserName);
 			_mockConsoleUI.Setup(ui => ui.AskToContinue()).Returns(false);
 			_mockGameLogic.Setup(gl => gl.PlayGame(TestConstants.UserName, true));
@@ -30,11 +31,12 @@ namespace Laboration.UnitTests.GameFlow
 			_mockConsoleUI.Verify(ui => ui.DisplayGoodbyeMessage(TestConstants.UserName), Times.Once, "DisplayGoodbyeMessage should be called once after the game loop ends.");
 		}
 
+		// Verifies that ExecuteGameLoop plays the game multiple times and displays a
+		// goodbye message when AskToContinue returns true initially and then false.
 		[TestMethod]
 		public void ExecuteGameLoop_ShouldPlayMultipleTimes_WhenAskToContinueReturnsTrue()
 		{
 			// Arrange
-
 			_mockConsoleUI.Setup(ui => ui.GetUserName()).Returns(TestConstants.UserName);
 			_mockConsoleUI.SetupSequence(ui => ui.AskToContinue())
 				.Returns(true)

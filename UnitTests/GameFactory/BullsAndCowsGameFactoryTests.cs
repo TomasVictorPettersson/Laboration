@@ -9,8 +9,10 @@ namespace Laboration.UnitTests.GameFactory
 	[TestClass]
 	public class BullsAndCowsGameFactoryTests
 	{
+		// Instance of the game factory to be tested.
 		private readonly BullsAndCowsGameFactory _factory = new();
 
+		// Verifies that CreateDependencyInitializer returns an instance of GameDependencyInitializer.
 		[TestMethod]
 		public void CreateDependencyInitializer_ReturnsBullsAndCowsDependencyInitializer()
 		{
@@ -18,9 +20,14 @@ namespace Laboration.UnitTests.GameFactory
 			IDependencyInitializer dependencyInitializer = _factory.CreateDependencyInitializer();
 
 			// Assert
-			Assert.IsInstanceOfType(dependencyInitializer, typeof(BullsAndCowsDependencyInitializer), "Expected an instance of BullsAndCowsDependencyInitializer.");
+			Assert.IsInstanceOfType(
+				dependencyInitializer,
+				typeof(GameDependencyInitializer),
+				"Expected an instance of GameDependencyInitializer."
+			);
 		}
 
+		// Ensures that CreateDependencyInitializer does not return null.
 		[TestMethod]
 		public void CreateDependencyInitializer_ReturnsNonNullDependencyInitializer()
 		{
@@ -28,9 +35,13 @@ namespace Laboration.UnitTests.GameFactory
 			IDependencyInitializer dependencyInitializer = _factory.CreateDependencyInitializer();
 
 			// Assert
-			Assert.IsNotNull(dependencyInitializer, "DependencyInitializer should not be null.");
+			Assert.IsNotNull(
+				dependencyInitializer,
+				"DependencyInitializer should not be null."
+			);
 		}
 
+		// Verifies that CreateGameFlowController returns an instance of GameFlowController.
 		[TestMethod]
 		public void CreateGameFlowController_ReturnsBullsAndCowsGameFlowController()
 		{
@@ -38,9 +49,14 @@ namespace Laboration.UnitTests.GameFactory
 			IGameFlowController gameFlowController = _factory.CreateGameFlowController();
 
 			// Assert
-			Assert.IsInstanceOfType(gameFlowController, typeof(BullsAndCowsGameFlowController), "Expected an instance of BullsAndCowsGameFlowController.");
+			Assert.IsInstanceOfType(
+				gameFlowController,
+				typeof(GameFlowController),
+				"Expected an instance of GameFlowController."
+			);
 		}
 
+		// Ensures that CreateGameFlowController does not return null.
 		[TestMethod]
 		public void CreateGameFlowController_ReturnsNonNullGameFlowController()
 		{
@@ -48,7 +64,10 @@ namespace Laboration.UnitTests.GameFactory
 			IGameFlowController gameFlowController = _factory.CreateGameFlowController();
 
 			// Assert
-			Assert.IsNotNull(gameFlowController, "GameFlowController should not be null.");
+			Assert.IsNotNull(
+				gameFlowController,
+				"GameFlowController should not be null."
+			);
 		}
 	}
 }

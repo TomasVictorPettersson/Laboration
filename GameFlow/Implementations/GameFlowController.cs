@@ -5,7 +5,7 @@ using Laboration.GameLogic.Interfaces;
 namespace Laboration.GameFlow.Implementations
 {
 	// Manages the game flow for the Bulls and Cows game.
-	public class BullsAndCowsGameFlowController : IGameFlowController
+	public class GameFlowController : IGameFlowController
 	{
 		// Manages the game flow by retrieving the user’s name, running the game loop
 		// (starting with a flag for the first game),

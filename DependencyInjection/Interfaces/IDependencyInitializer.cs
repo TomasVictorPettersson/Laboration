@@ -3,11 +3,11 @@ using Laboration.GameLogic.Interfaces;
 
 namespace Laboration.DependencyInjection.Interfaces
 {
-	// Defines a contract for initializing dependencies needed for the game.
+	// Defines the contract for initializing game dependencies.
 	public interface IDependencyInitializer
 	{
-		// Initializes and returns the dependencies required for the game.
-		// Returns a tuple containing instances of IConsoleUI and IGameLogic.
-		(IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies();
+		// Initializes and returns the required game dependencies.
+		// Returns a tuple with instances of IConsoleUI and IGameLogic.
+		(IConsoleUI ConsoleUI, IGameLogic GameLogic) InitializeDependencies();
 	}
 }

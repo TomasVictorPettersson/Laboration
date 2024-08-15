@@ -2,17 +2,19 @@ using Laboration.PlayerData.Interfaces;
 
 namespace Laboration.PlayerData.Implementations
 {
-	// Represents player data in the context of games, including username,
-	// total games played, and total guesses made.
+	// Represents player data, including username, total games played, and total guesses made.
 	public class GamePlayerData : IPlayerData
 	{
-		// Properties
+		// Gets the username of the player.
 		public string UserName { get; }
 
+		// Gets the total number of games played by the player.
 		public int TotalGamesPlayed { get; private set; } = 0;
+
+		// Gets the total number of guesses made by the player.
 		public int TotalGuesses { get; private set; }
 
-		// Constructor
+		// Constructor to initialize player data with a username and the number of guesses for the first game.
 		public GamePlayerData(string userName, int guesses)
 		{
 			if (string.IsNullOrEmpty(userName))
@@ -27,10 +29,10 @@ namespace Laboration.PlayerData.Implementations
 
 			UserName = userName;
 			TotalGuesses = guesses;
-			TotalGamesPlayed = 1; // Initialize to 1 if this is the player's first game
+			TotalGamesPlayed = 1; // Initialize to 1 if this is the player's first game.
 		}
 
-		// Adds the specified number of guesses to the player's total and increments games played.
+		// Adds the specified number of guesses to the player's total and increments the games played count.
 		public void AddGuess(int guesses)
 		{
 			if (guesses < 0)
@@ -42,7 +44,7 @@ namespace Laboration.PlayerData.Implementations
 			TotalGamesPlayed++;
 		}
 
-		// Calculates and returns the average number of guesses per game played by the player.
+		// Calculates and returns the average number of guesses per game played.
 		public double CalculateAverageGuesses()
 		{
 			if (TotalGamesPlayed == 0)
@@ -53,13 +55,13 @@ namespace Laboration.PlayerData.Implementations
 			return (double)TotalGuesses / TotalGamesPlayed;
 		}
 
-		// Overrides Equals method to compare BullsAndCowsPlayerData objects based on username.
+		// Compares this GamePlayerData object to another based on the username.
 		public override bool Equals(object? obj)
 		{
 			return obj is GamePlayerData other && UserName.Equals(other.UserName, StringComparison.OrdinalIgnoreCase);
 		}
 
-		// Overrides GetHashCode method to generate hash code based on username.
+		// Generates a hash code for this GamePlayerData object based on the username.
 		public override int GetHashCode()
 		{
 			return UserName.GetHashCode(StringComparison.OrdinalIgnoreCase);

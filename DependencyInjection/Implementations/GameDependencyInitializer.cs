@@ -11,15 +11,15 @@ using Laboration.Validation.Interfaces;
 namespace Laboration.DependencyInjection.Implementations
 {
 	// Initializes dependencies for the Bulls and Cows game.
-	public class BullsAndCowsDependencyInitializer : IDependencyInitializer
+	public class GameDependencyInitializer : IDependencyInitializer
 	{
 		// Creates and returns instances of dependencies used in the game loop.
 		public (IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies()
 		{
 			// Initialize dependencies
-			IValidation validation = new BullsAndCowsValidation();
+			IValidation validation = new GameValidation();
 			IHighScoreManager highScoreManager = new HighScoreManager();
-			IConsoleUI consoleUI = new BullsAndCowsConsoleUI(validation, highScoreManager);
+			IConsoleUI consoleUI = new GameConsoleUI(validation, highScoreManager);
 			IGameLogic gameLogic = new BullsAndCowsGameLogic(highScoreManager, consoleUI, validation);
 			return (consoleUI, gameLogic);
 		}

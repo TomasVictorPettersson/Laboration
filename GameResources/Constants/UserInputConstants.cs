@@ -1,10 +1,12 @@
 ﻿namespace Laboration.GameResources.Constants
 {
-	// Contains constants related to user input.
+	// Contains constants related to user input for handling common responses.
 	public static class UserInputConstants
 	{
-		public const string YesInput = "y";
+		// Represents the user input for a positive confirmation (yes).
+		public const string YesInput = "y"; // Commonly used to indicate 'yes'
 
-		public const string NoInput = "n";
+		// Represents the user input for a negative response (no).
+		public const string NoInput = "n"; // Commonly used to indicate 'no'
 	}
 }

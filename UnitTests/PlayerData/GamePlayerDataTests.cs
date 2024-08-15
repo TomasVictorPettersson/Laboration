@@ -6,6 +6,7 @@ namespace Laboration.UnitTests.PlayerData
 	[TestClass]
 	public class GamePlayerDataTests
 	{
+		// Verifies that AddGuess correctly updates the total guesses and games played.
 		[TestMethod]
 		public void AddGuess_IncreasesTotalGuessesAndGamesPlayed()
 		{
@@ -20,6 +21,7 @@ namespace Laboration.UnitTests.PlayerData
 			Assert.AreEqual(2, playerData.TotalGamesPlayed, "Games played not updated correctly.");
 		}
 
+		// Verifies that CalculateAverageGuesses returns the correct average number of guesses.
 		[TestMethod]
 		public void CalculateAverageGuesses_ReturnsCorrectAverage()
 		{
@@ -35,6 +37,7 @@ namespace Laboration.UnitTests.PlayerData
 			Assert.AreEqual(10, averageGuesses, "Average guesses calculation is incorrect.");
 		}
 
+		// Verifies that CalculateAverageGuesses returns zero when no guesses have been made.
 		[TestMethod]
 		public void CalculateAverageGuesses_ReturnsZeroWhenNoGuesses()
 		{
@@ -48,6 +51,7 @@ namespace Laboration.UnitTests.PlayerData
 			Assert.AreEqual(0, averageGuesses, "Average guesses should be zero when no guesses are made.");
 		}
 
+		// Verifies that Equals returns true when comparing players with the same username.
 		[TestMethod]
 		public void Equals_ReturnsTrueForSameUserName()
 		{
@@ -62,6 +66,7 @@ namespace Laboration.UnitTests.PlayerData
 			Assert.IsTrue(areEqual, "Equals method should return true for players with the same username.");
 		}
 
+		// Verifies that Equals returns false when comparing players with different usernames.
 		[TestMethod]
 		public void Equals_ReturnsFalseForDifferentUserName()
 		{
@@ -76,6 +81,7 @@ namespace Laboration.UnitTests.PlayerData
 			Assert.IsFalse(areEqual, "Equals method should return false for players with different usernames.");
 		}
 
+		// Verifies that GetHashCode returns the same hash code for players with the same username.
 		[TestMethod]
 		public void GetHashCode_ReturnsSameHashCodeForSameUserName()
 		{
@@ -91,6 +97,7 @@ namespace Laboration.UnitTests.PlayerData
 			Assert.AreEqual(hashCode1, hashCode2, "GetHashCode should return the same hash code for the same username.");
 		}
 
+		// Verifies that GetHashCode returns different hash codes for players with different usernames.
 		[TestMethod]
 		public void GetHashCode_ReturnsDifferentHashCodeForDifferentUserName()
 		{

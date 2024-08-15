@@ -11,27 +11,30 @@ namespace Laboration.UnitTests.GameApplication
 	[TestClass]
 	public class ProgramTests
 	{
+		// Mocks for dependencies used in tests.
 		private readonly Mock<IDependencyInitializer> _mockDependencyInitializer = new();
+
 		private readonly Mock<IGameFlowController> _mockGameFlowController = new();
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 		private readonly Mock<IGameLogic> _mockGameLogic = new();
 		private readonly Mock<IGameFactory> _mockGameFactory = new();
 
+		// Captures console output during tests.
 		private readonly TextWriter _originalConsoleOut = Console.Out;
+
 		private readonly StringWriter _consoleOutput = new();
 
 		[TestInitialize]
 		public void SetUp()
 		{
-			// Set up console output redirection.
+			// Redirect console output to capture it.
 			Console.SetOut(_consoleOutput);
 
-			// Set up the dependency initializer mock to return mocked interfaces.
+			// Configure mocks to return predefined objects.
 			_mockDependencyInitializer
 				.Setup(di => di.InitializeDependencies())
 				.Returns((_mockConsoleUI.Object, _mockGameLogic.Object));
 
-			// Set up the game factory mock to return the dependency initializer and game flow controller mocks.
 			_mockGameFactory
 				.Setup(factory => factory.CreateDependencyInitializer())
 				.Returns(_mockDependencyInitializer.Object);
@@ -39,43 +42,57 @@ namespace Laboration.UnitTests.GameApplication
 				.Setup(factory => factory.CreateGameFlowController())
 				.Returns(_mockGameFlowController.Object);
 
-			// Configure Program to use mocks for testing.
+			// Set Program's factory to use the mock game factory.
 			Program.Factory = _mockGameFactory.Object;
 		}
 
+		// Verifies that the Main method calls InitializeDependencies once.
 		[TestMethod]
-		public void Main_InitializesDependencies()
+		public void Main_ShouldInitializeDependencies()
 		{
-			// Act: Call the Main method to verify dependency initialization.
+			// Act
 			Program.Main();
 
-			// Assert: Verify that InitializeDependencies was called once.
-			_mockDependencyInitializer.Verify(di => di.InitializeDependencies(), Times.Once, "Dependencies should be initialized once.");
+			// Assert
+			_mockDependencyInitializer.Verify(
+				di => di.InitializeDependencies(),
+				Times.Once,
+				"InitializeDependencies should be called once."
+			);
 		}
 
+		// Ensures that the Main method calls ExecuteGameLoop once.
 		[TestMethod]
-		public void Main_ExecutesGameLoop()
+		public void Main_ShouldExecuteGameLoop()
 		{
-			// Act: Call the Main method to verify game loop execution.
+			// Act
 			Program.Main();
 
-			// Assert: Verify that ExecuteGameLoop was called once.
-			_mockGameFlowController.Verify(gfc => gfc.ExecuteGameLoop(It.IsAny<IConsoleUI>(), It.IsAny<IGameLogic>()), Times.Once, "Game loop should be executed once.");
+			// Assert
+			_mockGameFlowController.Verify(
+				gfc => gfc.ExecuteGameLoop(It.IsAny<IConsoleUI>(), It.IsAny<IGameLogic>()),
+				Times.Once,
+				"ExecuteGameLoop should be called once."
+			);
 		}
 
+		// Checks that exceptions are handled and an error message is displayed correctly.
 		[TestMethod]
-		public void Main_HandlesExceptions()
+		public void Main_ShouldHandleExceptions()
 		{
-			// Arrange: Configure mock to throw exception.
+			// Arrange
 			_mockGameFlowController
 				.Setup(gfc => gfc.ExecuteGameLoop(It.IsAny<IConsoleUI>(), It.IsAny<IGameLogic>()))
 				.Throws(new Exception("Test exception"));
 
-			// Act: Call the Main method to verify exception handling.
+			// Act
 			Program.Main();
 
-			// Assert: Verify that the error message was displayed correctly.
-			Assert.IsTrue(_consoleOutput.ToString().Contains("An error occurred:"), "Error message was not displayed correctly.");
+			// Assert
+			Assert.IsTrue(
+				_consoleOutput.ToString().Contains("An error occurred:"),
+				"Error message should be displayed on exception."
+			);
 		}
 
 		[TestCleanup]

@@ -7,7 +7,7 @@ using Laboration.Validation.Interfaces;
 namespace Laboration.ConsoleUI.Implementations
 {
 	// Handles user interactions for the Bulls and Cows game in a console application.
-	public class BullsAndCowsConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
+	public class GameConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
 		private readonly IValidation _validation = validation;
 		private readonly IHighScoreManager _highScoreManager = highScoreManager;

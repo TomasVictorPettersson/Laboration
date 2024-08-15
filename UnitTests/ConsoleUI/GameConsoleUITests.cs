@@ -10,23 +10,25 @@ using Moq;
 namespace Laboration.UnitTests.ConsoleUI
 {
 	[TestClass]
-	public class BullsAndCowsConsoleUITests
+	public class GameConsoleUITests
 	{
 		private readonly Mock<IValidation> _mockValidation = new();
 		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
-		private BullsAndCowsConsoleUI _consoleUI = null!;
+		private GameConsoleUI _consoleUI = null!;
 		private readonly StringWriter _consoleOutput = new();
 		private readonly TextWriter _originalConsoleOut = Console.Out;
 		private readonly TextReader _originalConsoleIn = Console.In;
 
+		// Initializes test environment, including setting up console output redirection.
 		[TestInitialize]
 		public void Setup()
 		{
-			_consoleUI = new BullsAndCowsConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
+			_consoleUI = new GameConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
 			Console.SetOut(_consoleOutput);
 		}
 
+		// Tests if GetUserName returns the expected user name.
 		[TestMethod]
 		public void GetUserName_ValidUserName_ReturnsUserName()
 		{
@@ -40,6 +42,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(TestConstants.UserName, userName, "The user name returned should be 'TestUser'.");
 		}
 
+		// Tests if DisplayWelcomeMessage prints the detailed welcome message for a new game.
 		[TestMethod]
 		public void DisplayWelcomeMessage_ShouldPrintDetailedMessage_WhenNewGame()
 		{
@@ -58,6 +61,7 @@ namespace Laboration.UnitTests.ConsoleUI
 				"The welcome message printed to the console does not match the expected output. Verify the formatting and content.");
 		}
 
+		// Tests if DisplayWelcomeMessage prints the brief welcome message for a returning player.
 		[TestMethod]
 		public void DisplayWelcomeMessage_ShouldPrintBriefMessage_WhenReturningPlayer()
 		{
@@ -76,6 +80,7 @@ namespace Laboration.UnitTests.ConsoleUI
 				"The welcome back message printed to the console does not match the expected output. Verify the formatting and content.");
 		}
 
+		// Tests if DisplaySecretNumberForPractice prints the secret number correctly.
 		[TestMethod]
 		public void DisplaySecretNumberForPractice_ShouldPrintSecretNumber()
 		{
@@ -92,6 +97,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The secret number message should match the expected output.");
 		}
 
+		// Tests if DisplayCorrectMessage handles a single guess correctly.
 		[TestMethod]
 		public void DisplayCorrectMessage_SingleGuess_DisplaysMessage()
 		{
@@ -110,6 +116,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output for a single guess.");
 		}
 
+		// Tests if DisplayCorrectMessage handles multiple guesses correctly.
 		[TestMethod]
 		public void DisplayCorrectMessage_MultipleGuesses_DisplaysMessage()
 		{
@@ -128,6 +135,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The message should match the expected output for multiple guesses.");
 		}
 
+		// Tests if DisplayHighScoreList displays the high score list correctly.
 		[TestMethod]
 		public void DisplayHighScoreList_ShouldDisplayHighScoreList()
 		{
@@ -156,6 +164,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			);
 		}
 
+		// Tests if DisplayRank formats the rank output correctly.
 		[TestMethod]
 		public void DisplayRank_ShouldFormatRankCorrectly()
 		{
@@ -173,6 +182,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedOutput, actualOutput, "The rank output does not match the expected format.");
 		}
 
+		// Tests if DisplayPlayerData prints player data with the correct formatting.
 		[TestMethod]
 		public void DisplayPlayerData_ShouldPrintPlayerDataWithCorrectFormatting()
 		{
@@ -195,6 +205,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedOutput, output, "Player data should be printed with correct formatting.");
 		}
 
+		// Tests if DisplayHighScoreListHeader formats the header correctly.
 		[TestMethod]
 		public void DisplayHighScoreListHeader_ValidInputs_ShouldFormatHeaderCorrectly()
 		{
@@ -224,6 +235,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedHeaderOutput, actualOutput, "The high score list header should match the expected format.");
 		}
 
+		// Tests if AskToContinue returns true for a valid 'yes' input.
 		[TestMethod]
 		public void AskToContinue_ValidYesInput_ReturnsTrue()
 		{
@@ -237,6 +249,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.IsTrue(continueGame, "AskToContinue should return true for a valid 'yes' input.");
 		}
 
+		// Tests if AskToContinue returns false for a valid 'no' input.
 		[TestMethod]
 		public void AskToContinue_ValidNoInput_ReturnsFalse()
 		{
@@ -250,6 +263,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.IsFalse(continueGame, "AskToContinue should return false for a valid 'no' input.");
 		}
 
+		// Restores original console input and output after tests.
 		[TestCleanup]
 		public void Cleanup()
 		{
