@@ -8,6 +8,6 @@ namespace Laboration.DependencyInjection.Interfaces
 	{
 		// Initializes and returns the required game dependencies.
 		// Returns a tuple with instances of IConsoleUI and IGameLogic.
-		(IConsoleUI ConsoleUI, IGameLogic GameLogic) InitializeDependencies();
+		(IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies();
 	}
 }

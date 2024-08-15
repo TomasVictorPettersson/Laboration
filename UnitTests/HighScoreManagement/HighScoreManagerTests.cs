@@ -123,7 +123,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		{
 			// Arrange
 			IPlayerData playerData1 = new GamePlayerData(TestConstants.UserName, TestConstants.NumberOfGuesses);
-			IPlayerData playerData2 = new GamePlayerData(TestConstants.UserName, 15);
+			IPlayerData playerData2 = new GamePlayerData(TestConstants.UserName, TestConstants.NumberOfGuesses);
 			_results.Add(playerData1);
 
 			// Act
@@ -131,7 +131,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 
 			// Assert
 			Assert.AreEqual(1, updatedResults.Count, "The updated results list should contain exactly one player data.");
-			Assert.AreEqual(15, updatedResults[0].TotalGuesses, "The total guesses should be updated to 15.");
+			Assert.AreEqual(20, updatedResults[0].TotalGuesses, "The total guesses should be updated to 20.");
 		}
 
 		// Verifies that SortHighScoreList correctly sorts the results list by number of guesses.
