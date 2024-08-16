@@ -140,7 +140,10 @@ namespace Laboration.ConsoleUI.Implementations
 		}
 
 		// Calculates the maximum username length and total display width for formatting.
-		// Treats usernames shorter than six characters as if they were six characters long.
+		// Usernames shorter than six characters are treated as six characters long
+		// to maintain consistent column width in the display.
+		// This ensures that the table formatting remains aligned and visually appealing,
+		// even for users with short usernames.
 		public (int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results)
 		{
 			int maxUserNameLength = Math.Max(results.Max(p => p.UserName.Length), 6);
