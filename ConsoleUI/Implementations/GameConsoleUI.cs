@@ -19,7 +19,7 @@ namespace Laboration.ConsoleUI.Implementations
 			do
 			{
 				Console.Write(UserInteractionMessages.UserNamePrompt);
-				userName = Console.ReadLine()!;
+				userName = Console.ReadLine()!.Trim();
 				Console.WriteLine(_validation.ValidateUserName(userName));
 			}
 			while (!_validation.IsValidUserName(userName));
@@ -223,7 +223,7 @@ namespace Laboration.ConsoleUI.Implementations
 			while (true)
 			{
 				Console.Write(UserInteractionMessages.PlayAgainPrompt);
-				string answer = Console.ReadLine()!.ToLower();
+				string answer = Console.ReadLine()!.ToLower().Trim();
 				switch (answer)
 				{
 					case UserInputConstants.YesInput:

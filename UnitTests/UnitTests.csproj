@@ -18,10 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameResources\GameResources.csproj" />
     <ProjectReference Include="..\GameApplication\GameApplication.csproj" />
     <ProjectReference Include="..\GameFactory\GameFactory.csproj" />
-    <ProjectReference Include="..\GameLogic\GameLogic.csproj" />
     <ProjectReference Include="..\Mocks\Mocks.csproj" />
   </ItemGroup>
 
