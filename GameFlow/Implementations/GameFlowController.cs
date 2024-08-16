@@ -1,11 +1,12 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameFlow.Interfaces;
 using Laboration.GameLogic.Interfaces;
+using Laboration.GameResources.Enums;
 
 namespace Laboration.GameFlow.Implementations
 {
 	// Manages the game flow for the Bulls and Cows game.
-	public class GameFlowController : IGameFlowController
+	public class GameFlowController(GameTypes gameType) : IGameFlowController
 	{
 		// Manages the game flow by retrieving the user’s name, running the game loop
 		// (starting with a flag for the first game),
@@ -40,7 +41,7 @@ namespace Laboration.GameFlow.Implementations
 				}
 			} while (consoleUI.AskToContinue()); // Continue if user wants to play again
 
-			consoleUI.DisplayGoodbyeMessage(userName);
+			consoleUI.DisplayGoodbyeMessage(gameType, userName);
 		}
 	}
 }

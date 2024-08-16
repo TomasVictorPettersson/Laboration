@@ -1,4 +1,5 @@
 ﻿using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 using Laboration.Validation.Implementations;
 
 namespace Laboration.UnitTests.Validation
@@ -128,7 +129,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = null!;
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for null input.");
@@ -142,7 +143,7 @@ namespace Laboration.UnitTests.Validation
 			string input = string.Empty;
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for empty input.");
@@ -156,7 +157,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "text";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for non-numeric input.");
@@ -170,7 +171,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "123";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input that is not 4 digits long.");
@@ -184,7 +185,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "1122";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input with repeating digits.");
@@ -198,7 +199,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "1234";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsTrue(result, "Expected true for a valid 4-digit unique number.");
@@ -212,7 +213,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "12A4";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input containing non-numeric characters.");
@@ -226,7 +227,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "1a34";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input containing a mix of numeric and non-numeric characters.");
@@ -240,7 +241,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "12@4";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input containing special characters.");
@@ -254,7 +255,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = " 1234 ";
 
 			// Act
-			bool result = _validation.IsInputValid(input.Trim());
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input.Trim());
 
 			// Assert
 			Assert.IsTrue(result, "Expected true for input with leading or trailing spaces when trimmed.");
@@ -268,7 +269,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "12 34";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input containing spaces between digits.");
@@ -282,7 +283,7 @@ namespace Laboration.UnitTests.Validation
 			const string input = "0000";
 
 			// Act
-			bool result = _validation.IsInputValid(input);
+			bool result = _validation.IsInputValid(GameTypes.BullsAndCows, input);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input with all zeroes.");

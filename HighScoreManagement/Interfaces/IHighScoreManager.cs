@@ -8,6 +8,9 @@ namespace Laboration.HighScoreManagement.Interfaces
 		// Saves a user's game result to a file with their username and number of guesses.
 		void SaveResult(string userName, int numberOfGuesses);
 
+		// Gets the file path based on the game type
+		string GetFilePath();
+
 		// Reads high score results from a file and returns them as a list of player data.
 		List<IPlayerData> ReadHighScoreResultsFromFile();
 

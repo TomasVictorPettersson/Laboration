@@ -1,4 +1,6 @@
-﻿namespace Laboration.Validation.Interfaces
+﻿using Laboration.GameResources.Enums;
+
+namespace Laboration.Validation.Interfaces
 {
 	// Defines the contract for validation functionality.
 	public interface IValidation
@@ -10,7 +12,7 @@
 		bool IsValidUserName(string userName);
 
 		// Validates if the input is a 4-digit number with unique digits.
-		bool IsInputValid(string input);
+		bool IsInputValid(GameTypes gameType, string input);
 
 		// Checks if the provided guess matches the secret number.
 		bool IsCorrectGuess(string guess, string secretNumber);

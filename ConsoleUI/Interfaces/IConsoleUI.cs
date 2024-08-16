@@ -1,4 +1,5 @@
-﻿using Laboration.PlayerData.Interfaces;
+﻿using Laboration.GameResources.Enums;
+using Laboration.PlayerData.Interfaces;
 
 namespace Laboration.ConsoleUI.Interfaces
 {
@@ -10,7 +11,7 @@ namespace Laboration.ConsoleUI.Interfaces
 
 		// Displays a personalized welcome message.
 		// Provides a detailed message if it's a new game, or a brief message if returning.
-		void DisplayWelcomeMessage(string userName, bool isNewGame);
+		void DisplayWelcomeMessage(GameTypes gameType, string userName, bool isNewGame);
 
 		// Shows the secret number in practice mode.
 		void DisplaySecretNumberForPractice(string secretNumber);
@@ -19,7 +20,7 @@ namespace Laboration.ConsoleUI.Interfaces
 		string GetInputFromUser();
 
 		// Prompts the user to enter a valid 4-digit guess.
-		string GetValidGuessFromUser();
+		string GetValidGuessFromUser(GameTypes gameType);
 
 		// Provides feedback on the user's guess.
 		void DisplayGuessFeedback(string guessFeedback);
@@ -61,6 +62,6 @@ namespace Laboration.ConsoleUI.Interfaces
 		bool AskToContinue();
 
 		// Displays a personalized goodbye message and prompts the user to close the window.
-		void DisplayGoodbyeMessage(string userName);
+		void DisplayGoodbyeMessage(GameTypes gameType, string userName);
 	}
 }

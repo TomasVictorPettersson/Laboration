@@ -3,13 +3,14 @@ using Laboration.ConsoleUI.Interfaces;
 using Laboration.DependencyInjection.Implementations;
 using Laboration.GameLogic.Implementations;
 using Laboration.GameLogic.Interfaces;
+using Laboration.GameResources.Enums;
 
 namespace Laboration.UnitTests.DependencyInjection
 {
 	[TestClass]
 	public class GameDependencyInitializerTests
 	{
-		private readonly GameDependencyInitializer _dependencyInitializer = new();
+		private readonly GameDependencyInitializer _dependencyInitializer = new(GameTypes.BullsAndCows);
 		private IConsoleUI? _consoleUI;
 		private IGameLogic? _gameLogic;
 

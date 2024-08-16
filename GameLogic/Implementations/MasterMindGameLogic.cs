@@ -6,10 +6,10 @@ using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
 using System.Text;
 
-namespace Laboration.GameLogic.Implementations
+namespace GameLogic.Implementations
 {
-	// Manages the Bulls and Cows game logic, including setup, gameplay, and result handling.
-	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : IGameLogic
+	public class MasterMindGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : IGameLogic
+
 	{
 		private readonly IHighScoreManager _highScoreManager = highScoreManager;
 		private readonly IConsoleUI _consoleUI = consoleUI;
@@ -22,7 +22,7 @@ namespace Laboration.GameLogic.Implementations
 		{
 			try
 			{
-				_consoleUI.DisplayWelcomeMessage(GameTypes.BullsAndCows, userName, isNewGame);
+				_consoleUI.DisplayWelcomeMessage(GameTypes.MasterMind, userName, isNewGame);
 
 				string secretNumber = MakeSecretNumber();
 
@@ -48,15 +48,11 @@ namespace Laboration.GameLogic.Implementations
 		{
 			Random randomGenerator = new();
 			StringBuilder secretNumber = new();
-			HashSet<int> usedDigits = [];
 
 			while (secretNumber.Length < 4)
 			{
 				int randomDigit = randomGenerator.Next(10);
-				if (usedDigits.Add(randomDigit))
-				{
-					secretNumber.Append(randomDigit);
-				}
+				secretNumber.Append(randomDigit);
 			}
 
 			return secretNumber.ToString();
@@ -87,7 +83,7 @@ namespace Laboration.GameLogic.Implementations
 		// Retrieves the user's guess from the console UI and processes it.
 		public bool HandleUserGuess(string secretNumber, ref int numberOfGuesses)
 		{
-			string guess = _consoleUI.GetValidGuessFromUser(GameTypes.BullsAndCows);
+			string guess = _consoleUI.GetValidGuessFromUser(GameTypes.MasterMind);
 			return ProcessGuess(secretNumber, guess, ref numberOfGuesses);
 		}
 

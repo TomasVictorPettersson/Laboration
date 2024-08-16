@@ -1,4 +1,5 @@
 ﻿using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Implementations;
 using Laboration.PlayerData.Interfaces;
@@ -7,14 +8,14 @@ namespace Laboration.HighScoreManagement.Implementations
 {
 	// Manages high score data, including saving results,
 	// reading from a file, parsing player data, updating the results list, and sorting.
-	public class HighScoreManager : IHighScoreManager
+	public class HighScoreManager(GameTypes gameType) : IHighScoreManager
 	{
 		// Saves a user's result to a file.
 		public void SaveResult(string userName, int numberOfGuesses)
 		{
 			try
 			{
-				using StreamWriter output = new(FileConstants.FilePath, append: true);
+				using StreamWriter output = new(GetFilePath(), append: true);
 				output.WriteLine($"{userName}{FileConstants.Separator}{numberOfGuesses}");
 			}
 			catch (Exception ex)
@@ -24,15 +25,26 @@ namespace Laboration.HighScoreManagement.Implementations
 			}
 		}
 
+		// Gets the file path based on the game type
+		public string GetFilePath()
+		{
+			return gameType switch
+			{
+				GameTypes.BullsAndCows => FileConstants.BullsAndCowsFilePath,
+				GameTypes.MasterMind => FileConstants.MasterMindFilePath,
+				_ => throw new ArgumentException("Invalid game type", nameof(gameType))
+			};
+		}
+
 		// Reads high score results from a file and returns a list of player data.
 		public List<IPlayerData> ReadHighScoreResultsFromFile()
 		{
 			var results = new List<IPlayerData>();
 			try
 			{
-				if (File.Exists(FileConstants.FilePath))
+				if (File.Exists(GetFilePath()))
 				{
-					using StreamReader input = new(FileConstants.FilePath);
+					using StreamReader input = new(GetFilePath());
 					string line;
 					while ((line = input.ReadLine()!) != null)
 					{

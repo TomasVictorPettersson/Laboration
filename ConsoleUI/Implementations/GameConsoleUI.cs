@@ -1,5 +1,6 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
@@ -15,6 +16,7 @@ namespace Laboration.ConsoleUI.Implementations
 		// Prompts the user to enter their username, validating its length.
 		public string GetUserName()
 		{
+			Console.Clear();
 			string userName;
 			do
 			{
@@ -27,15 +29,35 @@ namespace Laboration.ConsoleUI.Implementations
 			return userName;
 		}
 
-		// Displays a personalized message to the player.
-		// Shows a detailed welcome message if it's a new game,
-		// or a brief welcome back message if the player has played before.
-		public void DisplayWelcomeMessage(string userName, bool isNewGame)
+		// Displays a personalized welcome message to the player based on the game type.
+		// Shows a detailed welcome message if it's a new game, or a brief
+		// welcome back message if the player has played before.
+
+		public void DisplayWelcomeMessage(GameTypes gameType, string userName, bool isNewGame)
 		{
+			string welcomeMessage;
+			string welcomeBackMessage;
+
+			switch (gameType)
+			{
+				case GameTypes.BullsAndCows:
+					welcomeMessage = GameMessages.BullsAndCowsWelcomeMessageFormat;
+					welcomeBackMessage = GameMessages.WelcomeBackMessageFormat;
+					break;
+
+				case GameTypes.MasterMind:
+					welcomeMessage = GameMessages.MasterMindWelcomeMessageFormat;
+					welcomeBackMessage = GameMessages.WelcomeBackMessageFormat;
+					break;
+
+				default:
+					throw new ArgumentException("Invalid game type", nameof(gameType));
+			}
+
 			Console.WriteLine(
 				isNewGame
-					? string.Format(GameMessages.WelcomeMessageFormat, userName)
-					: string.Format(GameMessages.WelcomeBackMessageFormat, userName)
+					? string.Format(welcomeMessage, userName)
+					: string.Format(welcomeBackMessage, userName)
 			);
 		}
 
@@ -53,18 +75,33 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
-		// Prompts the user to enter a valid 4-digit guess.
-		public string GetValidGuessFromUser()
+		// Prompts the user to enter a valid 4-digit guess based on the game type.
+		public string GetValidGuessFromUser(GameTypes gameType)
 		{
 			string guess;
+			bool isValidInput;
+
 			do
 			{
 				guess = GetInputFromUser();
-				if (!_validation.IsInputValid(guess))
+				isValidInput = _validation.IsInputValid(gameType, guess);
+
+				if (!isValidInput)
 				{
-					Console.WriteLine(UserInteractionMessages.InvalidInputMessage);
+					// Display appropriate message based on game type
+					switch (gameType)
+					{
+						case GameTypes.MasterMind:
+							Console.WriteLine(UserInteractionMessages.MasterMindInvalidInputMessage);
+							break;
+
+						case GameTypes.BullsAndCows:
+							Console.WriteLine(UserInteractionMessages.BullsAndCowsInvalidInputMessage);
+							break;
+					}
 				}
-			} while (!_validation.IsInputValid(guess));
+			} while (!isValidInput);
+
 			return guess;
 		}
 
@@ -243,10 +280,17 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
-		// Displays a personalized goodbye message to the user and prompts them to close the window.
-		public void DisplayGoodbyeMessage(string userName)
+		// Method to display a personalized goodbye message based on the game type
+		public void DisplayGoodbyeMessage(GameTypes gameType, string userName)
 		{
-			Console.WriteLine(string.Format(GameMessages.GoodbyeMessageFormat, userName));
+			string goodbyeMessageFormat = gameType switch
+			{
+				GameTypes.BullsAndCows => GameMessages.BullsAndCowsGoodbyeMessageFormat,
+				GameTypes.MasterMind => GameMessages.MasterMindGoodbyeMessageFormat,
+				_ => throw new ArgumentException("Invalid game type", nameof(gameType))
+			};
+
+			Console.WriteLine(string.Format(goodbyeMessageFormat, userName));
 			WaitForUserToContinue(PromptMessages.CloseWindowPrompt);
 		}
 	}

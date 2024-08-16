@@ -1,4 +1,5 @@
 ﻿using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Implementations;
 using Laboration.PlayerData.Implementations;
 using Laboration.PlayerData.Interfaces;
@@ -8,7 +9,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 	[TestClass]
 	public class HighScoreManagerTests
 	{
-		private readonly HighScoreManager _highScoreManager = new();
+		private readonly HighScoreManager _highScoreManager = new(GameTypes.BullsAndCows);
 		private readonly List<IPlayerData> _results = [];
 
 		// Verifies that SaveResult saves the result to a file.
@@ -19,7 +20,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			_highScoreManager.SaveResult(TestConstants.UserName, TestConstants.NumberOfGuesses);
 
 			// Assert
-			string[] lines = File.ReadAllLines(FileConstants.FilePath);
+			string[] lines = File.ReadAllLines(_highScoreManager.GetFilePath());
 			Assert.IsTrue(lines.Length > 0, "The file should contain at least one line.");
 			Assert.IsTrue(lines[0].Contains($"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}"), "The first line should contain the correct formatted result.");
 		}
@@ -30,7 +31,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		{
 			// Arrange
 			var initialContent = $"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}\n";
-			File.WriteAllText(FileConstants.FilePath, initialContent);
+			File.WriteAllText(_highScoreManager.GetFilePath(), initialContent);
 			const string newUserName = "NewUser";
 			const int newNumberOfGuesses = 20;
 
@@ -38,7 +39,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			_highScoreManager.SaveResult(newUserName, newNumberOfGuesses);
 
 			// Assert
-			var lines = File.ReadAllLines(FileConstants.FilePath);
+			var lines = File.ReadAllLines(_highScoreManager.GetFilePath());
 			Assert.AreEqual(2, lines.Length, "The file should contain two lines.");
 			Assert.IsTrue(lines[1].Contains($"{newUserName}{FileConstants.Separator}{newNumberOfGuesses}"), "The new line should be correctly appended.");
 		}
@@ -48,7 +49,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void ReadHighScoreResultsFromFile_ReadsFromFile()
 		{
 			// Arrange
-			File.WriteAllText(FileConstants.FilePath, $"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}");
+			File.WriteAllText(_highScoreManager.GetFilePath(), $"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}");
 
 			// Act
 			List<IPlayerData> results = _highScoreManager.ReadHighScoreResultsFromFile();
@@ -64,9 +65,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void ReadHighScoreResultsFromFile_FileDoesNotExist_ShouldReturnEmptyList()
 		{
 			// Arrange
-			if (File.Exists(FileConstants.FilePath))
+			if (File.Exists(_highScoreManager.GetFilePath()))
 			{
-				File.Delete(FileConstants.FilePath);
+				File.Delete(_highScoreManager.GetFilePath());
 			}
 
 			// Act
@@ -238,9 +239,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 		{
 			try
 			{
-				if (File.Exists(FileConstants.FilePath))
+				if (File.Exists(_highScoreManager.GetFilePath()))
 				{
-					File.Delete(FileConstants.FilePath);
+					File.Delete(_highScoreManager.GetFilePath());
 				}
 			}
 			catch (Exception ex)

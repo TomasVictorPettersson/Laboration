@@ -2,6 +2,7 @@
 using Laboration.GameFlow.Implementations;
 using Laboration.GameLogic.Interfaces;
 using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 using Moq;
 
 namespace Laboration.UnitTests.GameFlow
@@ -11,7 +12,7 @@ namespace Laboration.UnitTests.GameFlow
 	{
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 		private readonly Mock<IGameLogic> _mockGameLogic = new();
-		private readonly GameFlowController _gameFlowController = new();
+		private readonly GameFlowController _gameFlowController = new(GameTypes.BullsAndCows);
 
 		// Verifies that ExecuteGameLoop plays the game once and displays a
 		// goodbye message when AskToContinue returns false.
@@ -28,7 +29,7 @@ namespace Laboration.UnitTests.GameFlow
 
 			// Assert
 			_mockGameLogic.Verify(gl => gl.PlayGame(TestConstants.UserName, true), Times.Once, "PlayGame should be called once when AskToContinue returns false.");
-			_mockConsoleUI.Verify(ui => ui.DisplayGoodbyeMessage(TestConstants.UserName), Times.Once, "DisplayGoodbyeMessage should be called once after the game loop ends.");
+			_mockConsoleUI.Verify(ui => ui.DisplayGoodbyeMessage(GameTypes.BullsAndCows, TestConstants.UserName), Times.Once, "DisplayGoodbyeMessage should be called once after the game loop ends.");
 		}
 
 		// Verifies that ExecuteGameLoop plays the game multiple times and displays a
@@ -46,7 +47,7 @@ namespace Laboration.UnitTests.GameFlow
 			_mockGameLogic.Setup(gl => gl.PlayGame(TestConstants.UserName, true)).Verifiable();
 			_mockGameLogic.Setup(gl => gl.PlayGame(TestConstants.UserName, false)).Verifiable();
 
-			_mockConsoleUI.Setup(ui => ui.DisplayGoodbyeMessage(TestConstants.UserName));
+			_mockConsoleUI.Setup(ui => ui.DisplayGoodbyeMessage(GameTypes.BullsAndCows, TestConstants.UserName));
 
 			// Act
 			_gameFlowController.ExecuteGameLoop(_mockConsoleUI.Object, _mockGameLogic.Object);
@@ -54,7 +55,7 @@ namespace Laboration.UnitTests.GameFlow
 			// Assert
 			_mockGameLogic.Verify(gl => gl.PlayGame(TestConstants.UserName, true), Times.Once, "PlayGame should be called once for the first game.");
 			_mockGameLogic.Verify(gl => gl.PlayGame(TestConstants.UserName, false), Times.Exactly(2), "PlayGame should be called twice for the subsequent games.");
-			_mockConsoleUI.Verify(ui => ui.DisplayGoodbyeMessage(TestConstants.UserName), Times.Once, "DisplayGoodbyeMessage should be called once after the game loop ends.");
+			_mockConsoleUI.Verify(ui => ui.DisplayGoodbyeMessage(GameTypes.BullsAndCows, TestConstants.UserName), Times.Once, "DisplayGoodbyeMessage should be called once after the game loop ends.");
 		}
 	}
 }

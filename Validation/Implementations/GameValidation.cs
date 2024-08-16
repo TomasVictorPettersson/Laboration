@@ -1,10 +1,11 @@
 ﻿using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 using Laboration.Validation.Interfaces;
 
 namespace Laboration.Validation.Implementations
 {
 	// Provides validation functionality for the Bulls and Cows game.
-	public class GameValidation : IValidation
+	public class GameValidation() : IValidation
 	{
 		// Validates the username and returns an error message if invalid.
 		// Returns an empty string if valid.
@@ -28,9 +29,16 @@ namespace Laboration.Validation.Implementations
 		}
 
 		// Validates if the input is a valid 4-digit number with unique digits.
-		public bool IsInputValid(string input)
+		public bool IsInputValid(GameTypes gameType, string input)
 		{
-			return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _) && input.Distinct().Count() == 4;
+			if (gameType.Equals(GameTypes.BullsAndCows))
+			{
+				return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _) && input.Distinct().Count() == 4;
+			}
+			else
+			{
+				return !string.IsNullOrEmpty(input) && input.Length == 4 && int.TryParse(input, out _) && input.Length == 4;
+			}
 		}
 
 		// Checks if the player's guess matches the secret number.

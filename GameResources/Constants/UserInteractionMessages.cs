@@ -3,6 +3,9 @@
 	// Contains constants related to user interaction messages and prompts.
 	public static class UserInteractionMessages
 	{
+		// Prompt for the user to enter the game he wants to play.
+		public const string ChoseGamePrompt = "\nEnter the game you want to play: ";
+
 		// Prompt for the user to enter their username.
 		public const string UserNamePrompt = "Enter your username: ";
 
@@ -16,7 +19,10 @@
 		public const string GuessPrompt = "Enter your 4-digit guess: ";
 
 		// Message shown when the user enters an invalid input for a guess.
-		public const string InvalidInputMessage = "Invalid input. Please enter a 4-digit number with unique digits.\n";
+		public const string BullsAndCowsInvalidInputMessage = "Invalid input. Please enter a 4-digit number with unique digits.\n";
+
+		// Message shown when the user enters an invalid input for a guess.
+		public const string MasterMindInvalidInputMessage = "Invalid input. Please enter a 4-digit number.\n";
 
 		// Prompt asking the user if they want to play the game again.
 		public const string PlayAgainPrompt = "Do you want to play again? (y/n): ";

@@ -1,6 +1,7 @@
 ﻿using Laboration.ConsoleUI.Implementations;
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Mocks;
 using Laboration.PlayerData.Interfaces;
@@ -48,12 +49,12 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var expectedOutput = string.Format(
-				GameMessages.WelcomeMessageFormat,
+				GameMessages.BullsAndCowsWelcomeMessageFormat,
 				TestConstants.UserName
 			);
 
 			// Act
-			_consoleUI.DisplayWelcomeMessage(TestConstants.UserName, true);
+			_consoleUI.DisplayWelcomeMessage(GameTypes.BullsAndCows, TestConstants.UserName, true);
 
 			// Assert
 			string actualOutput = _consoleOutput.ToString().Trim();
@@ -72,7 +73,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			);
 
 			// Act
-			_consoleUI.DisplayWelcomeMessage(TestConstants.UserName, false);
+			_consoleUI.DisplayWelcomeMessage(GameTypes.BullsAndCows, TestConstants.UserName, false);
 
 			// Assert
 			string actualOutput = _consoleOutput.ToString().Trim();
