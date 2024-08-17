@@ -30,35 +30,27 @@ namespace Laboration.ConsoleUI.Implementations
 		}
 
 		// Displays a personalized welcome message to the player based on the game type.
-		// Shows a detailed welcome message if it's a new game, or a brief
-		// welcome back message if the player has played before.
-
+		// Shows a detailed welcome message if it's a new game, or a brief welcome back message if the player has played before.
 		public void DisplayWelcomeMessage(GameTypes gameType, string userName, bool isNewGame)
 		{
-			string welcomeMessage;
-			string welcomeBackMessage;
-
-			switch (gameType)
-			{
-				case GameTypes.BullsAndCows:
-					welcomeMessage = GameMessages.BullsAndCowsWelcomeMessageFormat;
-					welcomeBackMessage = GameMessages.WelcomeBackMessageFormat;
-					break;
-
-				case GameTypes.MasterMind:
-					welcomeMessage = GameMessages.MasterMindWelcomeMessageFormat;
-					welcomeBackMessage = GameMessages.WelcomeBackMessageFormat;
-					break;
-
-				default:
-					throw new ArgumentException("Invalid game type", nameof(gameType));
-			}
+			string welcomeMessage = GetWelcomeMessageFormat(gameType);
 
 			Console.WriteLine(
 				isNewGame
 					? string.Format(welcomeMessage, userName)
-					: string.Format(welcomeBackMessage, userName)
+					: string.Format(GameMessages.WelcomeBackMessageFormat, userName)
 			);
+		}
+
+		// Returns the appropriate welcome message format based on the game type.
+		public string GetWelcomeMessageFormat(GameTypes gameType)
+		{
+			return gameType switch
+			{
+				GameTypes.BullsAndCows => GameMessages.BullsAndCowsWelcomeMessageFormat,
+				GameTypes.MasterMind => GameMessages.MasterMindWelcomeMessageFormat,
+				_ => throw new ArgumentException("Invalid game type", nameof(gameType))
+			};
 		}
 
 		// Displays the secret number for practice mode.
@@ -283,15 +275,21 @@ namespace Laboration.ConsoleUI.Implementations
 		// Method to display a personalized goodbye message based on the game type
 		public void DisplayGoodbyeMessage(GameTypes gameType, string userName)
 		{
-			string goodbyeMessageFormat = gameType switch
+			string goodbyeMessageFormat = GetGoodbyeMessageFormat(gameType);
+
+			Console.WriteLine(string.Format(goodbyeMessageFormat, userName));
+			WaitForUserToContinue(PromptMessages.CloseWindowPrompt);
+		}
+
+		// Returns the appropriate goodbye message format based on the game type.
+		public string GetGoodbyeMessageFormat(GameTypes gameType)
+		{
+			return gameType switch
 			{
 				GameTypes.BullsAndCows => GameMessages.BullsAndCowsGoodbyeMessageFormat,
 				GameTypes.MasterMind => GameMessages.MasterMindGoodbyeMessageFormat,
 				_ => throw new ArgumentException("Invalid game type", nameof(gameType))
 			};
-
-			Console.WriteLine(string.Format(goodbyeMessageFormat, userName));
-			WaitForUserToContinue(PromptMessages.CloseWindowPrompt);
 		}
 	}
 }
