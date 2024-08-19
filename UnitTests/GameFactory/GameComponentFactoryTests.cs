@@ -3,14 +3,15 @@ using Laboration.DependencyInjection.Interfaces;
 using Laboration.GameFactory.Implementations;
 using Laboration.GameFlow.Implementations;
 using Laboration.GameFlow.Interfaces;
+using Laboration.GameResources.Enums;
 
 namespace Laboration.UnitTests.GameFactory
 {
 	[TestClass]
-	public class BullsAndCowsGameFactoryTests
+	public class GameComponentFactoryTests
 	{
 		// Instance of the game factory to be tested.
-		private readonly BullsAndCowsGameFactory _factory = new();
+		private readonly GameComponentFactory _factory = new(GameTypes.BullsAndCows);
 
 		// Verifies that CreateDependencyInitializer returns an instance of GameDependencyInitializer.
 		[TestMethod]
