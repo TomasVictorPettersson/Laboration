@@ -12,7 +12,7 @@ namespace Laboration.UnitTests.GameFlow
 	{
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 		private readonly Mock<IGameLogic> _mockGameLogic = new();
-		private readonly GameFlowController _gameFlowController = new(GameTypes.BullsAndCows);
+		private readonly GameFlowControllerBase _gameFlowController = new(GameTypes.BullsAndCows);
 
 		// Verifies that ExecuteGameLoop plays the game once and displays a
 		// goodbye message when AskToContinue returns false.

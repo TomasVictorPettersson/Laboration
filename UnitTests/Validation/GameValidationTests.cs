@@ -7,7 +7,7 @@ namespace Laboration.UnitTests.Validation
 	[TestClass]
 	public class GameValidationTests
 	{
-		private readonly GameValidation _validation = new();
+		private readonly ValidationBase _validation = new();
 
 		// Verifies that ValidateUserName returns an error message for an empty username.
 		[TestMethod]

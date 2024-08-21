@@ -1,50 +1,21 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
 using System.Text;
 
-namespace GameLogic.Implementations
+namespace Laboration.GameLogic.Implementations
 {
-	public class MasterMindGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : IGameLogic
-
+	// Manages the MasterMind game logic, including setup, gameplay, and result handling.
+	public class MasterMindGameLogic : GameLogicBase
 	{
-		private readonly IHighScoreManager _highScoreManager = highScoreManager;
-		private readonly IConsoleUI _consoleUI = consoleUI;
-		private readonly IValidation _validation = validation;
-
-		// Starts the game by displaying a welcome message, generating a secret number,
-		// prompting the user, optionally showing the secret number for practice,
-		// and then running the main game loop.
-		public void PlayGame(string userName, bool isNewGame)
+		public MasterMindGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation)
+			: base(highScoreManager, consoleUI, validation)
 		{
-			try
-			{
-				_consoleUI.DisplayWelcomeMessage(GameTypes.MasterMind, userName, isNewGame);
-
-				string secretNumber = MakeSecretNumber();
-
-				_consoleUI.WaitForUserToContinue(
-					isNewGame
-						? $"\n{PromptMessages.InstructionsReadMessage}"
-						: $"\n{PromptMessages.StartPlayingPrompt}"
-				);
-
-				// Comment out or remove the next line to play the real game!
-				_consoleUI.DisplaySecretNumberForPractice(secretNumber);
-				PlayGameLoop(secretNumber, userName);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error playing game: {ex.Message}");
-				throw;
-			}
 		}
 
 		// Generates a random 4-digit secret number.
-		public string MakeSecretNumber()
+		public override string MakeSecretNumber()
 		{
 			Random randomGenerator = new();
 			StringBuilder secretNumber = new();
@@ -58,145 +29,61 @@ namespace GameLogic.Implementations
 			return secretNumber.ToString();
 		}
 
-		// Main game loop that continues until the user guesses the secret number.
-		public void PlayGameLoop(string secretNumber, string userName)
+		// Generates feedback for MasterMind game, i.e., 'BBBB,CCCC'.
+		protected override string GenerateFeedback(string secretNumber, string guess)
 		{
-			try
-			{
-				int numberOfGuesses = 0;
-				bool isGuessCorrect = false;
-
-				while (!isGuessCorrect)
-				{
-					isGuessCorrect = HandleUserGuess(secretNumber, ref numberOfGuesses);
-				}
-
-				EndGame(secretNumber, userName, numberOfGuesses);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error in game loop: {ex.Message}");
-				throw;
-			}
-		}
-
-		// Retrieves the user's guess from the console UI and processes it.
-		public bool HandleUserGuess(string secretNumber, ref int numberOfGuesses)
-		{
-			string guess = _consoleUI.GetValidGuessFromUser(GameTypes.MasterMind);
-			return ProcessGuess(secretNumber, guess, ref numberOfGuesses);
-		}
-
-		// Processes the user's guess, generates feedback, and updates the number of guesses.
-		public bool ProcessGuess(string secretNumber, string guess, ref int numberOfGuesses)
-		{
-			string guessFeedback = GenerateBullsAndCowsFeedback(secretNumber, guess);
-			_consoleUI.DisplayGuessFeedback(guessFeedback);
-			numberOfGuesses++;
-			return _validation.IsCorrectGuess(guess, secretNumber);
-		}
-
-		// Concludes the game by saving the player's result to the high score list,
-		// displaying a message with the correct number and the number of guesses,
-		// showing the updated high score list, and prompting the user to continue.
-		public void EndGame(string secretNumber, string userName, int numberOfGuesses)
-		{
-			try
-			{
-				_highScoreManager.SaveResult(userName, numberOfGuesses);
-				_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
-				_consoleUI.WaitForUserToContinue(PromptMessages.FinishGamePrompt);
-				_consoleUI.DisplayHighScoreList(userName);
-				_consoleUI.WaitForUserToContinue(PromptMessages.ContinuePrompt);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error ending game: {ex.Message}");
-				throw;
-			}
-		}
-
-		// Generates feedback for the player's guess in the form of 'BBBB,CCCC',
-		// where 'BBBB' is the count of bulls (correct digits in correct positions),
-		// and 'CCCC' is the count of cows (correct digits in wrong positions).
-		public static string GenerateBullsAndCowsFeedback(string secretNumber, string guess)
-		{
-			try
-			{
-				int bulls = CountBulls(secretNumber, guess);
-				int cows = CountCows(secretNumber, guess);
-				return $"{new string('B', bulls)},{new string('C', cows)}";
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error generating feedback: {ex.Message}");
-				throw;
-			}
+			int bulls = CountBulls(secretNumber, guess);
+			int cows = CountCows(secretNumber, guess);
+			return $"{new string('B', bulls)},{new string('C', cows)}";
 		}
 
 		// Counts the number of bulls in the guess compared to the secret number.
-		// Bulls are defined as digits that are both correct and in the correct position.
-		public static int CountBulls(string secretNumber, string guess)
+		private static int CountBulls(string secretNumber, string guess)
 		{
-			try
+			int bulls = 0;
+			for (int i = 0; i < 4; i++)
 			{
-				int bulls = 0;
-
-				for (int i = 0; i < 4; i++)
+				if (secretNumber[i] == guess[i])
 				{
-					if (secretNumber[i] == guess[i])
-					{
-						bulls++;
-					}
+					bulls++;
 				}
-				return bulls;
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error counting bulls: {ex.Message}");
-				throw;
-			}
+			return bulls;
 		}
 
 		// Counts the number of cows in the guess compared to the secret number.
-		// Cows are defined as digits that are correct but in the wrong position.
-		// The method also ensures not to count digits more than once.
-		public static int CountCows(string secretNumber, string guess)
+		private static int CountCows(string secretNumber, string guess)
 		{
-			try
-			{
-				int cows = 0;
-				Dictionary<char, int> digitFrequency = [];
+			int cows = 0;
+			Dictionary<char, int> digitFrequency = new();
 
-				// Count frequency of each digit in the secret number.
-				foreach (char digit in secretNumber)
-				{
-					if (digitFrequency.TryGetValue(digit, out int value))
-					{
-						digitFrequency[digit] = ++value;
-					}
-					else
-					{
-						digitFrequency[digit] = 1;
-					}
-				}
-
-				// Count cows by checking digits in the guess against the secret number.
-				for (int i = 0; i < 4; i++)
-				{
-					if (secretNumber[i] != guess[i] && digitFrequency.TryGetValue(guess[i], out int value) && value > 0)
-					{
-						cows++;
-						digitFrequency[guess[i]] = --value;
-					}
-				}
-				return cows;
-			}
-			catch (Exception ex)
+			foreach (char digit in secretNumber)
 			{
-				Console.WriteLine($"Error counting cows: {ex.Message}");
-				throw;
+				if (digitFrequency.TryGetValue(digit, out int value))
+				{
+					digitFrequency[digit] = ++value;
+				}
+				else
+				{
+					digitFrequency[digit] = 1;
+				}
 			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				if (secretNumber[i] != guess[i] && digitFrequency.TryGetValue(guess[i], out int value) && value > 0)
+				{
+					cows++;
+					digitFrequency[guess[i]] = --value;
+				}
+			}
+			return cows;
+		}
+
+		// Returns the game type.
+		protected override GameTypes GetGameType()
+		{
+			return GameTypes.MasterMind;
 		}
 	}
 }

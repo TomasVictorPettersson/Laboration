@@ -10,7 +10,7 @@ namespace Laboration.UnitTests.DependencyInjection
 	[TestClass]
 	public class GameDependencyInitializerTests
 	{
-		private readonly GameDependencyInitializer _dependencyInitializer = new(GameTypes.BullsAndCows);
+		private readonly GameDependencyInitializerBase _dependencyInitializer = new(GameTypes.BullsAndCows);
 		private IConsoleUI? _consoleUI;
 		private IGameLogic? _gameLogic;
 
@@ -45,7 +45,7 @@ namespace Laboration.UnitTests.DependencyInjection
 		public void InitializeDependencies_UsesCorrectImplementations()
 		{
 			// Assert
-			Assert.IsInstanceOfType(_consoleUI, typeof(GameConsoleUI), "ConsoleUI instance should be of type GameConsoleUI.");
+			Assert.IsInstanceOfType(_consoleUI, typeof(ConsoleUIBase), "ConsoleUI instance should be of type GameConsoleUI.");
 			Assert.IsInstanceOfType(_gameLogic, typeof(BullsAndCowsGameLogic), "GameLogic instance should be of type BullsAndCowsGameLogic.");
 		}
 	}

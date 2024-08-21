@@ -25,17 +25,14 @@ namespace Laboration.ConsoleUI.GameSelection
 					return selectedGameType.Value;
 				}
 
-				Console.WriteLine("Invalid selection. Please enter a valid number.");
+				Console.WriteLine(UserInteractionMessages.InvalidSelectionMessage);
 			}
 		}
 
 		// Displays the available game options to the user.
 		private static void DisplayGameOptions()
 		{
-			Console.WriteLine("Select a game to play:");
-			Console.WriteLine("1. Bulls and Cows");
-			Console.WriteLine("2. MasterMind");
-			Console.WriteLine("3. Exit");
+			Console.WriteLine(UserInteractionMessages.GameSelectionOptions);
 		}
 
 		// Parses the user's input and returns the corresponding GameType.

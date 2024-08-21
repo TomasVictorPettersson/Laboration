@@ -6,11 +6,15 @@ using Laboration.PlayerData.Interfaces;
 
 namespace Laboration.HighScoreManagement.Implementations
 {
-	// Manages high score data, including saving results,
-	// reading from a file, parsing player data, updating the results list, and sorting.
-	public class HighScoreManager(GameTypes gameType) : IHighScoreManager
+	// Abstract base class for managing high scores across different game types.
+	// Provides methods to save results, read and parse high score data from a file,
+	// update the high score list, and sort the results based on the average number of guesses.
+	public abstract class HighScoreManagerBase(GameTypes gameType) : IHighScoreManager
 	{
-		// Saves a user's result to a file.
+		// Game type for which the high score manager is responsible.
+		protected readonly GameTypes GameType = gameType;
+
+		// Saves a user's result (name and number of guesses) to a file.
 		public void SaveResult(string userName, int numberOfGuesses)
 		{
 			try
@@ -25,28 +29,22 @@ namespace Laboration.HighScoreManagement.Implementations
 			}
 		}
 
-		// Gets the file path based on the game type
-		public string GetFilePath()
-		{
-			return gameType switch
-			{
-				GameTypes.BullsAndCows => FileConstants.BullsAndCowsFilePath,
-				GameTypes.MasterMind => FileConstants.MasterMindFilePath,
-				_ => throw new ArgumentException("Invalid game type", nameof(gameType))
-			};
-		}
+		// Abstract method to get the file path for saving/loading high scores.
+		// Must be implemented in derived classes.
+		protected abstract string GetFilePath();
 
-		// Reads high score results from a file and returns a list of player data.
+		// Reads high score results from the file and returns them as a list of player data.
 		public List<IPlayerData> ReadHighScoreResultsFromFile()
 		{
 			var results = new List<IPlayerData>();
 			try
 			{
-				if (File.Exists(GetFilePath()))
+				var filePath = GetFilePath();
+				if (File.Exists(filePath))
 				{
-					using StreamReader input = new(GetFilePath());
+					using StreamReader input = new(filePath);
 					string line;
-					while ((line = input.ReadLine()!) != null)
+					while ((line = input.ReadLine()) != null)
 					{
 						IPlayerData playerData = ParseLineToPlayerData(line);
 						results = UpdateResultsList(results, playerData);
@@ -60,7 +58,8 @@ namespace Laboration.HighScoreManagement.Implementations
 			return results;
 		}
 
-		// Parses a line of text to create a player data object.
+		// Parses a line of text into a player data object.
+		// Expects format: "userName{Separator}numberOfGuesses".
 		public IPlayerData ParseLineToPlayerData(string line)
 		{
 			try
@@ -86,7 +85,8 @@ namespace Laboration.HighScoreManagement.Implementations
 			}
 		}
 
-		// Updates the results list with a new player's data or updates existing data.
+		// Updates the list of results with a new player's data.
+		// Adds the player if not present, or updates existing data.
 		public List<IPlayerData> UpdateResultsList(List<IPlayerData> results, IPlayerData playerData)
 		{
 			try
@@ -109,7 +109,7 @@ namespace Laboration.HighScoreManagement.Implementations
 			}
 		}
 
-		// Sorts the high score list based on the average number of guesses.
+		// Sorts the high score list by the average number of guesses.
 		public void SortHighScoreList(List<IPlayerData> results)
 		{
 			try

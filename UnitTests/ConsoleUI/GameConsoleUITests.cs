@@ -16,7 +16,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		private readonly Mock<IValidation> _mockValidation = new();
 		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
-		private GameConsoleUI _consoleUI = null!;
+		private ConsoleUIBase _consoleUI = null!;
 		private readonly StringWriter _consoleOutput = new();
 		private readonly TextWriter _originalConsoleOut = Console.Out;
 		private readonly TextReader _originalConsoleIn = Console.In;
@@ -25,7 +25,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		[TestInitialize]
 		public void Setup()
 		{
-			_consoleUI = new GameConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
+			_consoleUI = new ConsoleUIBase(_mockValidation.Object, _mockHighScoreManager.Object);
 			Console.SetOut(_consoleOutput);
 		}
 

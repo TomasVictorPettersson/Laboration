@@ -1,74 +1,37 @@
-﻿using Laboration.DependencyInjection.Implementations;
+﻿using Laboration.ConsoleUI.Implementations;
+using Laboration.ConsoleUI.Interfaces;
 using Laboration.DependencyInjection.Interfaces;
-using Laboration.GameFactory.Implementations;
-using Laboration.GameFlow.Implementations;
-using Laboration.GameFlow.Interfaces;
+using Laboration.GameLogic.Interfaces;
 using Laboration.GameResources.Enums;
+using Laboration.HighScoreManagement.Interfaces;
+using Laboration.Validation.Implementations;
+using Laboration.Validation.Interfaces;
 
-namespace Laboration.UnitTests.GameFactory
+namespace Laboration.DependencyInjection.Implementations
 {
-	[TestClass]
-	public class GameComponentFactoryTests
+	// Abstract base class for initializing game dependencies.
+	public abstract class GameDependencyInitializerBase : IDependencyInitializer
 	{
-		// Instance of the game factory to be tested.
-		private readonly GameComponentFactory _factory = new(GameTypes.BullsAndCows);
+		protected readonly GameTypes GameType;
 
-		// Verifies that CreateDependencyInitializer returns an instance of GameDependencyInitializer.
-		[TestMethod]
-		public void CreateDependencyInitializer_ReturnsBullsAndCowsDependencyInitializer()
+		protected GameDependencyInitializerBase(GameTypes gameType)
 		{
-			// Act
-			IDependencyInitializer dependencyInitializer = _factory.CreateDependencyInitializer();
-
-			// Assert
-			Assert.IsInstanceOfType(
-				dependencyInitializer,
-				typeof(GameDependencyInitializer),
-				"Expected an instance of GameDependencyInitializer."
-			);
+			GameType = gameType;
 		}
 
-		// Ensures that CreateDependencyInitializer does not return null.
-		[TestMethod]
-		public void CreateDependencyInitializer_ReturnsNonNullDependencyInitializer()
+		// Abstract method to create and return specific game logic.
+		protected abstract IGameLogic CreateGameLogic(IConsoleUI consoleUI, IValidation validation, IHighScoreManager highScoreManager);
+
+		// Creates and returns instances of dependencies used in the game loop.
+		public (IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies()
 		{
-			// Act
-			IDependencyInitializer dependencyInitializer = _factory.CreateDependencyInitializer();
+			// Initialize common dependencies
+			IValidation validation = new ValidationBase();
+			IHighScoreManager highScoreManager = new HighScoreManager(GameType);
+			IConsoleUI consoleUI = new ConsoleUIBase(validation, highScoreManager);
+			IGameLogic gameLogic = CreateGameLogic(consoleUI, validation, highScoreManager);
 
-			// Assert
-			Assert.IsNotNull(
-				dependencyInitializer,
-				"DependencyInitializer should not be null."
-			);
-		}
-
-		// Verifies that CreateGameFlowController returns an instance of GameFlowController.
-		[TestMethod]
-		public void CreateGameFlowController_ReturnsBullsAndCowsGameFlowController()
-		{
-			// Act
-			IGameFlowController gameFlowController = _factory.CreateGameFlowController();
-
-			// Assert
-			Assert.IsInstanceOfType(
-				gameFlowController,
-				typeof(GameFlowController),
-				"Expected an instance of GameFlowController."
-			);
-		}
-
-		// Ensures that CreateGameFlowController does not return null.
-		[TestMethod]
-		public void CreateGameFlowController_ReturnsNonNullGameFlowController()
-		{
-			// Act
-			IGameFlowController gameFlowController = _factory.CreateGameFlowController();
-
-			// Assert
-			Assert.IsNotNull(
-				gameFlowController,
-				"GameFlowController should not be null."
-			);
+			return (consoleUI, gameLogic);
 		}
 	}
 }
