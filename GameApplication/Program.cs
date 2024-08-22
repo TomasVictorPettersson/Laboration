@@ -29,11 +29,6 @@ namespace Laboration.GameApplication
 		private static void InitializeGameSelector()
 		{
 			GameSelector = new GameSelector();
-			if (GameSelector == null)
-			{
-				Console.WriteLine("Failed to initialize game selector.");
-				Environment.Exit(1); // Exit the application if the selector cannot be initialized
-			}
 		}
 
 		private static void RunGameLoop()
@@ -42,7 +37,7 @@ namespace Laboration.GameApplication
 
 			do
 			{
-				selectedGameType = GameSelector.SelectGameType();
+				selectedGameType = GameSelector!.SelectGameType();
 
 				if (selectedGameType == GameTypes.Quit)
 					break;

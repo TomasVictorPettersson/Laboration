@@ -10,18 +10,16 @@ namespace Laboration.UnitTests.ConsoleUI
 	[TestClass]
 	public class BullsAndCowsConsoleUITests
 	{
-		private Mock<IValidation> _mockValidation;
-		private Mock<IHighScoreManager> _mockHighScoreManager;
-		private ConsoleUIBase _consoleUI;
-		private StringWriter _consoleOutput;
-		private TextWriter _originalConsoleOut;
-		private TextReader _originalConsoleIn;
+		private readonly Mock<IValidation> _mockValidation = new();
+		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
+		private ConsoleUIBase _consoleUI = null!;
+		private StringWriter _consoleOutput = new();
+		private TextWriter _originalConsoleOut = null!;
+		private TextReader _originalConsoleIn = null!;
 
 		[TestInitialize]
 		public void Setup()
 		{
-			_mockValidation = new Mock<IValidation>();
-			_mockHighScoreManager = new Mock<IHighScoreManager>();
 			_consoleUI = new TestConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
 			_consoleOutput = new StringWriter();
 			_originalConsoleOut = Console.Out;
@@ -54,11 +52,8 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		// Derived class for testing abstract methods
-		private class TestConsoleUI : ConsoleUIBase
+		private class TestConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : ConsoleUIBase(validation, highScoreManager)
 		{
-			public TestConsoleUI(IValidation validation, IHighScoreManager highScoreManager)
-				: base(validation, highScoreManager) { }
-
 			public override string GetWelcomeMessageFormat(GameTypes gameType)
 				=> GameMessages.BullsAndCowsWelcomeMessageFormat;
 

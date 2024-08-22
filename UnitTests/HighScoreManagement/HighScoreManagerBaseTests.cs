@@ -93,7 +93,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void ParseLineToPlayerData_InvalidFormat_ShouldThrowFormatException()
 		{
 			// Arrange
-			var line = "InvalidFormatLine";
+			const string line = "InvalidFormatLine";
 
 			// Act
 			_highScoreManager.ParseLineToPlayerData(line);

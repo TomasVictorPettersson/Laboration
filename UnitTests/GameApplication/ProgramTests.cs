@@ -1,22 +1,26 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.DependencyInjection.Interfaces;
+﻿using System;
+using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameApplication;
 using Laboration.GameFactory.Interfaces;
-using Laboration.GameFlow.Interfaces;
 using Laboration.GameLogic.Interfaces;
 using Laboration.GameResources.Enums;
-using Moq;
+using Laboration.DependencyInjection.Interfaces;
+using Laboration.GameFactory.Creators;
+using Laboration.GameFlow.Interfaces;
 
 namespace Laboration.UnitTests.GameApplication
 {
 	[TestClass]
 	public class ProgramTests
 	{
-		private readonly Mock<IDependencyInitializer> _mockDependencyInitializer = new();
 		private readonly Mock<IGameFlowController> _mockGameFlowController = new();
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 		private readonly Mock<IGameLogic> _mockGameLogic = new();
 		private readonly Mock<IGameFactory> _mockGameFactory = new();
+		private readonly Mock<IDependencyInitializer> _mockDependencyInitializer = new();
 		private readonly Mock<IGameSelector> _mockGameSelector = new();
 
 		private readonly TextWriter _originalConsoleOut = Console.Out;
@@ -27,6 +31,7 @@ namespace Laboration.UnitTests.GameApplication
 		{
 			Console.SetOut(_consoleOutput);
 
+			// Setting up mocks
 			_mockDependencyInitializer
 				.Setup(di => di.InitializeDependencies())
 				.Returns((_mockConsoleUI.Object, _mockGameLogic.Object));
@@ -38,8 +43,11 @@ namespace Laboration.UnitTests.GameApplication
 				.Setup(factory => factory.CreateGameFlowController())
 				.Returns(_mockGameFlowController.Object);
 
-			// Set Program's factory and game selector to use mocks.
-			Program.Factory = _mockGameFactory.Object;
+			// Mocking FactoryCreator.CreateFactory
+			Mock<IGameFactory> mockGameFactory = new();
+			FactoryCreator.CreateFactory gameType => mockGameFactory.Object;
+
+			// Setting Program's factory and game selector to use mocks
 			Program.GameSelector = _mockGameSelector.Object;
 		}
 
@@ -93,7 +101,7 @@ namespace Laboration.UnitTests.GameApplication
 
 			// Assert
 			Assert.IsTrue(
-				_consoleOutput.ToString().Contains("An error occurred:"),
+				_consoleOutput.ToString().Contains("An unexpected error occurred:"),
 				"Error message should be displayed on exception."
 			);
 		}

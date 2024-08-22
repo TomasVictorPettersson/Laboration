@@ -6,182 +6,182 @@ using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
 using Moq;
 
-[TestClass]
-public class BullsAndCowsGameLogicTests
+namespace Laboration.UnitTests.GameLogic
 {
-	private BullsAndCowsGameLogic _gameLogic;
-	private Mock<IHighScoreManager> _mockHighScoreManager;
-	private Mock<IConsoleUI> _mockConsoleUI;
-	private Mock<IValidation> _mockValidation;
-
-	[TestInitialize]
-	public void Setup()
+	[TestClass]
+	public class BullsAndCowsGameLogicTests
 	{
-		_mockHighScoreManager = new Mock<IHighScoreManager>();
-		_mockConsoleUI = new Mock<IConsoleUI>();
-		_mockValidation = new Mock<IValidation>();
-		_gameLogic = new BullsAndCowsGameLogic(
-			_mockHighScoreManager.Object,
-			_mockConsoleUI.Object,
-			_mockValidation.Object
-		);
-	}
+		private BullsAndCowsGameLogic _gameLogic = null!;
+		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
+		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
+		private readonly Mock<IValidation> _mockValidation = new();
 
-	[TestMethod]
-	public void MakeSecretNumber_ShouldGenerateUnique4DigitNumber()
-	{
-		// Act
-		string secretNumber = _gameLogic.MakeSecretNumber();
+		[TestInitialize]
+		public void Setup()
+		{
+			_gameLogic = new BullsAndCowsGameLogic(
+				_mockHighScoreManager.Object,
+				_mockConsoleUI.Object,
+				_mockValidation.Object
+			);
+		}
 
-		// Assert
-		Assert.AreEqual(4, secretNumber.Length, "Secret number should be 4 digits long.");
-		Assert.IsTrue(HasUniqueDigits(secretNumber), "Secret number should have unique digits.");
-	}
+		[TestMethod]
+		public void MakeSecretNumber_ShouldGenerateUnique4DigitNumber()
+		{
+			// Act
+			string secretNumber = _gameLogic.MakeSecretNumber();
 
-	[TestMethod]
-	public void CountBulls_ShouldReturnCorrectNumberOfBulls()
-	{
-		// Arrange
+			// Assert
+			Assert.AreEqual(4, secretNumber.Length, "Secret number should be 4 digits long.");
+			Assert.IsTrue(HasUniqueDigits(secretNumber), "Secret number should have unique digits.");
+		}
 
-		string guess = "1212";
+		[TestMethod]
+		public void CountBulls_ShouldReturnCorrectNumberOfBulls()
+		{
+			// Arrange
 
-		// Act
-		int bulls = _gameLogic.CountBulls(TestConstants.SecretNumber, guess);
+			const string guess = "1212";
 
-		// Assert
-		Assert.AreEqual(2, bulls, "CountCows should return 2 for this guess.");
-	}
+			// Act
+			int bulls = _gameLogic.CountBulls(TestConstants.SecretNumber, guess);
 
-	[TestMethod]
-	public void CountCows_ShouldReturnCorrectNumberOfCows()
-	{
-		// Arrange
+			// Assert
+			Assert.AreEqual(2, bulls, "CountCows should return 2 for this guess.");
+		}
 
-		string guess = "1325";
+		[TestMethod]
+		public void CountCows_ShouldReturnCorrectNumberOfCows()
+		{
+			// Arrange
 
-		// Act
-		int cows = _gameLogic.CountCows(TestConstants.SecretNumber, guess);
+			const string guess = "1325";
 
-		// Assert
-		Assert.AreEqual(2, cows, "CountCows should return 2 for this guess.");
-	}
+			// Act
+			int cows = _gameLogic.CountCows(TestConstants.SecretNumber, guess);
 
-	[TestMethod]
-	public void GenerateFeedback_ShouldReturnBBBB_ForCorrectGuess()
-	{
-		// Act
-		string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, TestConstants.Guess);
+			// Assert
+			Assert.AreEqual(2, cows, "CountCows should return 2 for this guess.");
+		}
 
-		// Assert
-		Assert.AreEqual("BBBB,", feedback, "Feedback should be 'BBBB,' for a correct guess.");
-	}
+		[TestMethod]
+		public void GenerateFeedback_ShouldReturnBBBB_ForCorrectGuess()
+		{
+			// Act
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, TestConstants.Guess);
 
-	[TestMethod]
-	public void GenerateFeedback_ShouldHandleGuessWithRepeatingDigits()
-	{
-		// Arrange
-		string secretNumber = "5699";
-		string guess = "1299";
+			// Assert
+			Assert.AreEqual("BBBB,", feedback, "Feedback should be 'BBBB,' for a correct guess.");
+		}
 
-		// Act
-		string feedback = _gameLogic.GenerateFeedback(secretNumber, guess);
+		[TestMethod]
+		public void GenerateFeedback_ShouldHandleGuessWithRepeatingDigits()
+		{
+			// Arrange
+			const string secretNumber = "5699";
+			const string guess = "1299";
 
-		// Assert
-		Assert.AreEqual("BB,", feedback, "Feedback should correctly handle guesses with repeating digits.");
-	}
+			// Act
+			string feedback = _gameLogic.GenerateFeedback(secretNumber, guess);
 
-	[TestMethod]
-	public void GenerateFeedback_ShouldReturnCorrectFeedback_ForIncorrectGuess()
-	{
-		// Arrange
-		const string guess = "1568";
+			// Assert
+			Assert.AreEqual("BB,", feedback, "Feedback should correctly handle guesses with repeating digits.");
+		}
 
-		// Act
-		string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
+		[TestMethod]
+		public void GenerateFeedback_ShouldReturnCorrectFeedback_ForIncorrectGuess()
+		{
+			// Arrange
+			const string guess = "1568";
 
-		// Assert
-		Assert.AreNotEqual(TestConstants.FeedbackBBBB, feedback, "Feedback should not be 'BBBB,' for incorrect guess.");
-		Assert.IsTrue(feedback.Contains('B') || feedback.Contains('C'), "Feedback should contain 'B' or 'C' for incorrect guess.");
-	}
+			// Act
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
-	[TestMethod]
-	public void GenerateFeedback_ShouldReturnCCCC_ForCorrectCows()
-	{
-		// Arrange
-		const string guess = "4321";
+			// Assert
+			Assert.AreNotEqual(TestConstants.FeedbackBBBB, feedback, "Feedback should not be 'BBBB,' for incorrect guess.");
+			Assert.IsTrue(feedback.Contains('B') || feedback.Contains('C'), "Feedback should contain 'B' or 'C' for incorrect guess.");
+		}
 
-		// Act
-		string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
+		[TestMethod]
+		public void GenerateFeedback_ShouldReturnCCCC_ForCorrectCows()
+		{
+			// Arrange
+			const string guess = "4321";
 
-		// Assert
-		Assert.AreEqual(TestConstants.FeedbackCCCC, feedback, "Feedback should be ',CCCC' for correct cows.");
-	}
+			// Act
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
-	[TestMethod]
-	public void GenerateFeedback_ShouldReturnMixedBullsAndCows_ForPartialMatch()
-	{
-		// Arrange
-		const string guess = "1243";
+			// Assert
+			Assert.AreEqual(TestConstants.FeedbackCCCC, feedback, "Feedback should be ',CCCC' for correct cows.");
+		}
 
-		// Act
-		string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
+		[TestMethod]
+		public void GenerateFeedback_ShouldReturnMixedBullsAndCows_ForPartialMatch()
+		{
+			// Arrange
+			const string guess = "1243";
 
-		// Assert
-		Assert.AreEqual(TestConstants.FeedbackBBCC, feedback, "Feedback should be 'BB,CC' for partial match.");
-	}
+			// Act
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
-	[TestMethod]
-	public void GenerateFeedback_ShouldReturnBB_ForOnlyBulls()
-	{
-		// Arrange
-		const string guess = "1259";
+			// Assert
+			Assert.AreEqual(TestConstants.FeedbackBBCC, feedback, "Feedback should be 'BB,CC' for partial match.");
+		}
 
-		// Act
-		string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
+		[TestMethod]
+		public void GenerateFeedback_ShouldReturnBB_ForOnlyBulls()
+		{
+			// Arrange
+			const string guess = "1259";
 
-		// Assert
-		Assert.AreEqual(TestConstants.FeedbackBBComma, feedback, "Feedback should be 'BB,' for only bulls.");
-	}
+			// Act
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
-	[TestMethod]
-	public void GenerateFeedback_ShouldReturnCC_ForOnlyCows()
-	{
-		// Arrange
-		const string guess = "3498";
+			// Assert
+			Assert.AreEqual(TestConstants.FeedbackBBComma, feedback, "Feedback should be 'BB,' for only bulls.");
+		}
 
-		// Act
-		string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
+		[TestMethod]
+		public void GenerateFeedback_ShouldReturnCC_ForOnlyCows()
+		{
+			// Arrange
+			const string guess = "3498";
 
-		// Assert
-		Assert.AreEqual(TestConstants.FeedbackCommaCC, feedback, "Feedback should be ',CC' for only cows.");
-	}
+			// Act
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
-	[TestMethod]
-	public void GenerateFeedback_ShouldReturnComma_ForNoBullsOrCows()
-	{
-		// Arrange
-		const string guess = "5678"; // A guess with no matching digits to the secret number.
+			// Assert
+			Assert.AreEqual(TestConstants.FeedbackCommaCC, feedback, "Feedback should be ',CC' for only cows.");
+		}
 
-		// Act
-		string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
+		[TestMethod]
+		public void GenerateFeedback_ShouldReturnComma_ForNoBullsOrCows()
+		{
+			// Arrange
+			const string guess = "5678"; // A guess with no matching digits to the secret number.
 
-		// Assert
-		Assert.AreEqual(TestConstants.FeedbackComma, feedback, "Feedback should be ',' when no bulls or cows are found.");
-	}
+			// Act
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
-	[TestMethod]
-	public void GetGameType_ShouldReturnBullsAndCows()
-	{
-		// Act
-		GameTypes gameType = _gameLogic.GetGameType();
+			// Assert
+			Assert.AreEqual(TestConstants.FeedbackComma, feedback, "Feedback should be ',' when no bulls or cows are found.");
+		}
 
-		// Assert
-		Assert.AreEqual(GameTypes.BullsAndCows, gameType, "GetGameType should return BullsAndCows.");
-	}
+		[TestMethod]
+		public void GetGameType_ShouldReturnBullsAndCows()
+		{
+			// Act
+			GameTypes gameType = _gameLogic.GetGameType();
 
-	private bool HasUniqueDigits(string number)
-	{
-		HashSet<char> digits = new HashSet<char>(number);
-		return digits.Count == number.Length;
+			// Assert
+			Assert.AreEqual(GameTypes.BullsAndCows, gameType, "GetGameType should return BullsAndCows.");
+		}
+
+		private static bool HasUniqueDigits(string number)
+		{
+			HashSet<char> digits = new(number);
+			return digits.Count == number.Length;
+		}
 	}
 }

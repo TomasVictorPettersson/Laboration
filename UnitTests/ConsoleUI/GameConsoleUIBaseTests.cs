@@ -13,20 +13,18 @@ namespace Laboration.UnitTests.ConsoleUI
 	[TestClass]
 	public class GameConsoleUIBaseTests
 	{
-		private Mock<IValidation> _mockValidation;
-		private Mock<IHighScoreManager> _mockHighScoreManager;
-		private ConsoleUIBase _consoleUI;
-		private StringWriter _consoleOutput;
-		private TextWriter _originalConsoleOut;
-		private TextReader _originalConsoleIn;
+		private readonly Mock<IValidation> _mockValidation = new();
+		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
+		private ConsoleUIBase _consoleUI = null!;
+		private readonly StringWriter _consoleOutput = new();
+		private TextWriter _originalConsoleOut = null!;
+		private TextReader _originalConsoleIn = null!;
 
 		[TestInitialize]
 		public void Setup()
 		{
-			_mockValidation = new Mock<IValidation>();
-			_mockHighScoreManager = new Mock<IHighScoreManager>();
 			_consoleUI = CreateTestConsoleUI();
-			_consoleOutput = new StringWriter();
+
 			_originalConsoleOut = Console.Out;
 			_originalConsoleIn = Console.In;
 			Console.SetOut(_consoleOutput);
@@ -144,11 +142,8 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		// Derived class for testing abstract methods
-		private class TestConsoleUI : ConsoleUIBase
+		private class TestConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : ConsoleUIBase(validation, highScoreManager)
 		{
-			public TestConsoleUI(IValidation validation, IHighScoreManager highScoreManager)
-				: base(validation, highScoreManager) { }
-
 			public override string GetWelcomeMessageFormat(GameTypes gameType) => "Welcome {0}!";
 
 			public override string GetGoodbyeMessageFormat(GameTypes gameType) => "Goodbye {0}!";

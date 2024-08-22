@@ -11,17 +11,14 @@ namespace Laboration.UnitTests.GameLogic
 	[TestClass]
 	public class GameLogicBaseTests
 	{
-		private Mock<IHighScoreManager> _mockHighScoreManager;
-		private Mock<IConsoleUI> _mockConsoleUI;
-		private Mock<IValidation> _mockValidation;
-		private TestGameLogic _gameLogic;
+		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
+		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
+		private readonly Mock<IValidation> _mockValidation = new();
+		private TestGameLogic _gameLogic = null!;
 
 		[TestInitialize]
 		public void TestInitialize()
 		{
-			_mockHighScoreManager = new Mock<IHighScoreManager>();
-			_mockConsoleUI = new Mock<IConsoleUI>();
-			_mockValidation = new Mock<IValidation>();
 			_gameLogic = new TestGameLogic(
 				_mockHighScoreManager.Object,
 				_mockConsoleUI.Object,
@@ -112,13 +109,8 @@ namespace Laboration.UnitTests.GameLogic
 		}
 
 		// Define a test-specific implementation of GameLogicBase for testing.
-		private class TestGameLogic : GameLogicBase
+		private class TestGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : GameLogicBase(highScoreManager, consoleUI, validation)
 		{
-			public TestGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation)
-				: base(highScoreManager, consoleUI, validation)
-			{
-			}
-
 			public override string MakeSecretNumber() => TestConstants.SecretNumber;
 
 			public override int CountCows(string secretNumber, string guess) => 0;
