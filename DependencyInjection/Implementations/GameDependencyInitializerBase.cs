@@ -10,7 +10,7 @@ namespace Laboration.DependencyInjection.Implementations
 	// Abstract base class for initializing game dependencies.
 	public abstract class GameDependencyInitializerBase(GameTypes gameType) : IDependencyInitializer
 	{
-		protected readonly GameTypes GameType = gameType;
+		public readonly GameTypes GameType = gameType;
 
 		// Abstract method to create and return specific game logic.
 		public abstract IGameLogic CreateGameLogic(IConsoleUI consoleUI, IValidation validation, IHighScoreManager highScoreManager);

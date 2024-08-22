@@ -1,8 +1,11 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameLogic.Implementations;
+using Laboration.GameLogic.Interfaces;
 using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Laboration.UnitTests.GameLogic
@@ -10,17 +13,21 @@ namespace Laboration.UnitTests.GameLogic
 	[TestClass]
 	public class BullsAndCowsGameLogicTests
 	{
-		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
-		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
-		private readonly Mock<IValidation> _mockValidation = new();
-		private readonly BullsAndCowsGameLogic _gameLogic;
+		private Mock<IHighScoreManager> _mockHighScoreManager;
+		private Mock<IConsoleUI> _mockConsoleUI;
+		private Mock<IValidation> _mockValidation;
+		private BullsAndCowsGameLogic _gameLogic;
 
-		public BullsAndCowsGameLogicTests()
+		[TestInitialize]
+		public void TestInitialize()
 		{
+			// Arrange
+			_mockHighScoreManager = new Mock<IHighScoreManager>();
+			_mockConsoleUI = new Mock<IConsoleUI>();
+			_mockValidation = new Mock<IValidation>();
 			_gameLogic = new BullsAndCowsGameLogic(_mockHighScoreManager.Object, _mockConsoleUI.Object, _mockValidation.Object);
 		}
 
-		// Verifies that MakeSecretNumber returns different numbers each time it is called.
 		[TestMethod]
 		public void MakeSecretNumber_ShouldReturnDifferentNumbers()
 		{
@@ -34,19 +41,19 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.IsTrue(int.TryParse(secretNumber1, out _) && int.TryParse(secretNumber2, out _), "Numbers should be valid integers.");
 		}
 
-		// Verifies that ProcessGuess increments the counter and returns true for a correct guess.
 		[TestMethod]
 		public void ProcessGuess_ShouldIncrementCounter_ForCorrectGuess()
 		{
 			// Arrange
 			int numberOfGuesses = 0;
+			const string correctGuess = "1234";
 
 			// Set up the mocks
-			_mockValidation.Setup(v => v.IsCorrectGuess(TestConstants.Guess, TestConstants.SecretNumber)).Returns(true);
+			_mockValidation.Setup(v => v.IsCorrectGuess(correctGuess, It.IsAny<string>())).Returns(true);
 			_mockConsoleUI.Setup(ui => ui.DisplayGuessFeedback(TestConstants.FeedbackBBBB));
 
 			// Act
-			bool result = _gameLogic.ProcessGuess(TestConstants.SecretNumber, TestConstants.Guess, ref numberOfGuesses);
+			bool result = _gameLogic.ProcessGuess(It.IsAny<string>(), correctGuess, ref numberOfGuesses);
 
 			// Assert
 			Assert.IsTrue(result, "ProcessGuess should return true for a correct guess.");
@@ -58,20 +65,19 @@ namespace Laboration.UnitTests.GameLogic
 			);
 		}
 
-		// Verifies that ProcessGuess increments the counter and returns false for an incorrect guess.
 		[TestMethod]
 		public void ProcessGuess_ShouldIncrementCounter_ForIncorrectGuess()
 		{
 			// Arrange
 			int numberOfGuesses = 0;
-			const string inCorrectGuess = "5678";
+			const string incorrectGuess = "5678";
 
 			// Set up the mocks
-			_mockValidation.Setup(v => v.IsCorrectGuess(inCorrectGuess, TestConstants.SecretNumber)).Returns(false);
+			_mockValidation.Setup(v => v.IsCorrectGuess(incorrectGuess, It.IsAny<string>())).Returns(false);
 			_mockConsoleUI.Setup(ui => ui.DisplayGuessFeedback(TestConstants.FeedbackComma));
 
 			// Act
-			bool result = _gameLogic.ProcessGuess(TestConstants.SecretNumber, inCorrectGuess, ref numberOfGuesses);
+			bool result = _gameLogic.ProcessGuess(It.IsAny<string>(), incorrectGuess, ref numberOfGuesses);
 
 			// Assert
 			Assert.IsFalse(result, "ProcessGuess should return false for an incorrect guess.");
@@ -83,18 +89,16 @@ namespace Laboration.UnitTests.GameLogic
 			);
 		}
 
-		// Verifies that GenerateBullsAndCowsFeedback returns 'BBBB' for a correct guess.
 		[TestMethod]
 		public void BullsAndCowsFeedback_ShouldReturnBBBB_ForCorrectGuess()
 		{
 			// Act
-			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(TestConstants.SecretNumber, TestConstants.Guess);
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, TestConstants.Guess);
 
 			// Assert
-			Assert.AreEqual(TestConstants.FeedbackBBBB, feedback, "Feedback should be 'BBBB,' for correct guess.");
+			Assert.AreEqual(TestConstants.FeedbackBBBB, feedback, "Feedback should be 'BBBB' for a correct guess.");
 		}
 
-		// Verifies that GenerateBullsAndCowsFeedback returns correct feedback for an incorrect guess.
 		[TestMethod]
 		public void BullsAndCowsFeedback_ShouldReturnCorrectFeedback_ForIncorrectGuess()
 		{
@@ -102,14 +106,13 @@ namespace Laboration.UnitTests.GameLogic
 			const string guess = "1568";
 
 			// Act
-			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(TestConstants.SecretNumber, guess);
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
 			// Assert
-			Assert.AreNotEqual(TestConstants.FeedbackBBBB, feedback, "Feedback should not be 'BBBB,' for incorrect guess.");
+			Assert.AreNotEqual(TestConstants.FeedbackBBBB, feedback, "Feedback should not be 'BBBB' for an incorrect guess.");
 			Assert.IsTrue(feedback.Contains('B') || feedback.Contains('C'), "Feedback should contain 'B' or 'C' for incorrect guess.");
 		}
 
-		// Verifies that GenerateBullsAndCowsFeedback returns 'CCCC' for a guess with correct cows.
 		[TestMethod]
 		public void BullsAndCowsFeedback_ShouldReturnCCCC_ForCorrectCows()
 		{
@@ -117,13 +120,12 @@ namespace Laboration.UnitTests.GameLogic
 			const string guess = "4321";
 
 			// Act
-			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(TestConstants.SecretNumber, guess);
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
 			// Assert
-			Assert.AreEqual(TestConstants.FeedbackCCCC, feedback, "Feedback should be ',CCCC' for correct cows.");
+			Assert.AreEqual(TestConstants.FeedbackCCCC, feedback, "Feedback should be 'CCCC' for correct cows.");
 		}
 
-		// Verifies that GenerateBullsAndCowsFeedback returns mixed bulls and cows for a partial match.
 		[TestMethod]
 		public void BullsAndCowsFeedback_ShouldReturnMixedBullsAndCows_ForPartialMatch()
 		{
@@ -131,13 +133,12 @@ namespace Laboration.UnitTests.GameLogic
 			const string guess = "1243";
 
 			// Act
-			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(TestConstants.SecretNumber, guess);
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
 			// Assert
 			Assert.AreEqual(TestConstants.FeedbackBBCC, feedback, "Feedback should be 'BB,CC' for partial match.");
 		}
 
-		// Verifies that GenerateBullsAndCowsFeedback returns 'BB,' for a guess with only bulls.
 		[TestMethod]
 		public void BullsAndCowsFeedback_ShouldReturnBB_ForOnlyBulls()
 		{
@@ -145,13 +146,12 @@ namespace Laboration.UnitTests.GameLogic
 			const string guess = "1259";
 
 			// Act
-			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(TestConstants.SecretNumber, guess);
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
 			// Assert
 			Assert.AreEqual(TestConstants.FeedbackBBComma, feedback, "Feedback should be 'BB,' for only bulls.");
 		}
 
-		// Verifies that GenerateBullsAndCowsFeedback returns ',CC' for a guess with only cows.
 		[TestMethod]
 		public void BullsAndCowsFeedback_ShouldReturnCC_ForOnlyCows()
 		{
@@ -159,7 +159,7 @@ namespace Laboration.UnitTests.GameLogic
 			const string guess = "3498";
 
 			// Act
-			string feedback = BullsAndCowsGameLogic.GenerateBullsAndCowsFeedback(TestConstants.SecretNumber, guess);
+			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
 			// Assert
 			Assert.AreEqual(TestConstants.FeedbackCommaCC, feedback, "Feedback should be ',CC' for only cows.");

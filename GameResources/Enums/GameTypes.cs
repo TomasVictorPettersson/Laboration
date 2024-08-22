@@ -14,6 +14,9 @@
 		MasterMind,
 
 		// Represents the option to quit the game.
-		Quit
+		Quit,
+
+		// Reserved for testing purposes.
+		Test
 	}
 }

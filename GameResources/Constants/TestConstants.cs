@@ -34,5 +34,9 @@
 		public const string FeedbackBBCC = "BB,CC"; // Example feedback format for 'BBCC'
 		public const string FeedbackBBComma = "BB,"; // Example feedback format with 'BB,'
 		public const string FeedbackCommaCC = ",CC"; // Example feedback format with ',CC'
+
+		// The file name used for storing high scores during unit tests.
+
+		public const string HighScoresFileName = "test_highscores.txt";
 	}
 }
