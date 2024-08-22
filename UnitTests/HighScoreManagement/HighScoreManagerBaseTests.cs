@@ -8,14 +8,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 	[TestClass]
 	public class HighScoreManagerBaseTests
 	{
-		private TestHighScoreManager _highScoreManager;
+		private readonly TestHighScoreManager _highScoreManager = new();
 		private readonly string _testFilePath = Path.Combine(Path.GetTempPath(), TestConstants.HighScoresFileName);
-
-		[TestInitialize]
-		public void Setup()
-		{
-			_highScoreManager = new TestHighScoreManager();
-		}
 
 		[TestMethod]
 		public void SaveResult_ShouldCreateFileAndSaveResult()

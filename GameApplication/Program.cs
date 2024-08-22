@@ -2,6 +2,7 @@
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameFactory.Creators;
 using Laboration.GameFactory.Interfaces;
+using Laboration.GameLogic.Interfaces;
 using Laboration.GameResources.Enums;
 
 namespace Laboration.GameApplication
@@ -13,6 +14,30 @@ namespace Laboration.GameApplication
 
 		public static void Main()
 		{
+			try
+			{
+				InitializeGameSelector();
+				RunGameLoop();
+				Console.WriteLine("Thank you for playing!");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+			}
+		}
+
+		private static void InitializeGameSelector()
+		{
+			GameSelector = new GameSelector();
+			if (GameSelector == null)
+			{
+				Console.WriteLine("Failed to initialize game selector.");
+				Environment.Exit(1); // Exit the application if the selector cannot be initialized
+			}
+		}
+
+		private static void RunGameLoop()
+		{
 			GameTypes selectedGameType;
 
 			do
@@ -22,30 +47,28 @@ namespace Laboration.GameApplication
 				if (selectedGameType == GameTypes.Quit)
 					break;
 
-				Factory = FactoryCreator.CreateFactory(selectedGameType);
-
-				if (Factory == null)
+				if (!InitializeGameFactory(selectedGameType))
 				{
-					Console.WriteLine("Game initialization failed. Please try again.");
+					Console.WriteLine("Failed to create game factory. Please try again.");
 					continue;
 				}
 
-				var dependencyInitializer = Factory.CreateDependencyInitializer();
-				var (userInterface, gameLogic) = dependencyInitializer.InitializeDependencies();
+				var (userInterface, gameLogic) = InitializeDependencies();
+				var gameFlowController = Factory!.CreateGameFlowController();
+				gameFlowController.ExecuteGameLoop(userInterface, gameLogic);
+			} while (selectedGameType != GameTypes.Quit);
+		}
 
-				try
-				{
-					var gameFlowController = Factory.CreateGameFlowController();
-					gameFlowController.ExecuteGameLoop(userInterface, gameLogic);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine($"An error occurred: {ex.Message}");
-				}
-			}
-			while (selectedGameType != GameTypes.Quit);
+		private static bool InitializeGameFactory(GameTypes gameType)
+		{
+			Factory = FactoryCreator.CreateFactory(gameType);
+			return Factory != null;
+		}
 
-			Console.WriteLine("Thank you for playing!");
+		private static (IConsoleUI, IGameLogic) InitializeDependencies()
+		{
+			var dependencyInitializer = Factory!.CreateDependencyInitializer();
+			return dependencyInitializer.InitializeDependencies();
 		}
 	}
 }
