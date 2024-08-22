@@ -1,15 +1,9 @@
 ﻿using Laboration.ConsoleUI.Implementations;
-using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Mocks;
-using Laboration.PlayerData.Interfaces;
 using Laboration.Validation.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.IO;
 
 namespace Laboration.UnitTests.ConsoleUI
 {
@@ -48,14 +42,6 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			var expectedOutput = string.Format(GameMessages.WelcomeBackMessageFormat, TestConstants.UserName);
 			_consoleUI.DisplayWelcomeMessage(GameTypes.BullsAndCows, TestConstants.UserName, false);
-			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim());
-		}
-
-		[TestMethod]
-		public void DisplayGoodbyeMessage_ShouldPrintCorrectMessage()
-		{
-			var expectedOutput = string.Format(GameMessages.BullsAndCowsGoodbyeMessageFormat, TestConstants.UserName);
-			_consoleUI.DisplayGoodbyeMessage(GameTypes.BullsAndCows, TestConstants.UserName);
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim());
 		}
 

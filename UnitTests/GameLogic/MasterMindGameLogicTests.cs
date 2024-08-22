@@ -3,17 +3,14 @@ using Laboration.GameLogic.Implementations;
 using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
 
 namespace Laboration.UnitTests.GameLogic
 {
 	[TestClass]
-	public class BullsAndCowsGameLogicTests
+	public class MasterMindGameLogicTests
 	{
-		private BullsAndCowsGameLogic _gameLogic;
+		private MasterMindGameLogic _gameLogic;
 		private Mock<IHighScoreManager> _mockHighScoreManager;
 		private Mock<IConsoleUI> _mockConsoleUI;
 		private Mock<IValidation> _mockValidation;
@@ -24,7 +21,7 @@ namespace Laboration.UnitTests.GameLogic
 			_mockHighScoreManager = new Mock<IHighScoreManager>();
 			_mockConsoleUI = new Mock<IConsoleUI>();
 			_mockValidation = new Mock<IValidation>();
-			_gameLogic = new BullsAndCowsGameLogic(
+			_gameLogic = new MasterMindGameLogic(
 				_mockHighScoreManager.Object,
 				_mockConsoleUI.Object,
 				_mockValidation.Object
@@ -32,22 +29,22 @@ namespace Laboration.UnitTests.GameLogic
 		}
 
 		[TestMethod]
-		public void MakeSecretNumber_ShouldGenerateUnique4DigitNumber()
+		public void MakeSecretNumber_ShouldGenerate4DigitNumber()
 		{
 			// Act
 			string secretNumber = _gameLogic.MakeSecretNumber();
 
 			// Assert
 			Assert.AreEqual(4, secretNumber.Length, "Secret number should be 4 digits long.");
-			Assert.IsTrue(HasUniqueDigits(secretNumber), "Secret number should have unique digits.");
+			Assert.IsTrue(IsDigitsOnly(secretNumber), "Secret number should contain only digits.");
 		}
 
 		[TestMethod]
 		public void CountCows_ShouldReturnCorrectNumberOfCows()
 		{
 			// Arrange
-			string secretNumber = "1234";
-			string guess = "1325";
+			string secretNumber = "1122";
+			string guess = "1212";
 
 			// Act
 			int cows = _gameLogic.CountCows(secretNumber, guess);
@@ -57,19 +54,25 @@ namespace Laboration.UnitTests.GameLogic
 		}
 
 		[TestMethod]
-		public void GetGameType_ShouldReturnBullsAndCows()
+		public void GetGameType_ShouldReturnMasterMind()
 		{
 			// Act
 			GameTypes gameType = _gameLogic.GetGameType();
 
 			// Assert
-			Assert.AreEqual(GameTypes.BullsAndCows, gameType, "GetGameType should return BullsAndCows.");
+			Assert.AreEqual(GameTypes.MasterMind, gameType, "GetGameType should return MasterMind.");
 		}
 
-		private bool HasUniqueDigits(string number)
+		private bool IsDigitsOnly(string input)
 		{
-			HashSet<char> digits = new HashSet<char>(number);
-			return digits.Count == number.Length;
+			foreach (char c in input)
+			{
+				if (!char.IsDigit(c))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

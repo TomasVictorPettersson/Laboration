@@ -1,13 +1,12 @@
 ﻿using Laboration.GameResources.Enums;
 using Laboration.Validation.Implementations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Laboration.UnitTests.Validation
 {
 	[TestClass]
 	public class BullsAndCowsValidationTests
 	{
-		private BullsAndCowsValidation _validation;
+		private BullsAndCowsValidation _validation = new();
 
 		[TestInitialize]
 		public void Setup()

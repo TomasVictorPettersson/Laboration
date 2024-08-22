@@ -7,7 +7,7 @@ namespace Laboration.UnitTests.Validation
 	[TestClass]
 	public class MasterMindValidationTests
 	{
-		private MasterMindValidation _validation;
+		private MasterMindValidation _validation = new();
 
 		[TestInitialize]
 		public void Setup()

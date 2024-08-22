@@ -8,11 +8,11 @@ using Moq;
 namespace Laboration.UnitTests.GameFlow
 {
 	[TestClass]
-	public class GameFlowControllerTests
+	public class BullsAndCowsGameFlowControllerTests
 	{
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 		private readonly Mock<IGameLogic> _mockGameLogic = new();
-		private readonly GameFlowControllerBase _gameFlowController = new(GameTypes.BullsAndCows);
+		private readonly BullsAndCowsGameFlowController _gameFlowController = new();
 
 		// Verifies that ExecuteGameLoop plays the game once and displays a
 		// goodbye message when AskToContinue returns false.
@@ -56,6 +56,14 @@ namespace Laboration.UnitTests.GameFlow
 			_mockGameLogic.Verify(gl => gl.PlayGame(TestConstants.UserName, true), Times.Once, "PlayGame should be called once for the first game.");
 			_mockGameLogic.Verify(gl => gl.PlayGame(TestConstants.UserName, false), Times.Exactly(2), "PlayGame should be called twice for the subsequent games.");
 			_mockConsoleUI.Verify(ui => ui.DisplayGoodbyeMessage(GameTypes.BullsAndCows, TestConstants.UserName), Times.Once, "DisplayGoodbyeMessage should be called once after the game loop ends.");
+		}
+
+		// Verifies that the GameType is correctly set to BullsAndCows.
+		[TestMethod]
+		public void BullsAndCowsGameFlowController_ShouldHaveCorrectGameType()
+		{
+			// Assert
+			Assert.AreEqual(GameTypes.BullsAndCows, _gameFlowController.GameType, "GameType should be set to BullsAndCows.");
 		}
 	}
 }

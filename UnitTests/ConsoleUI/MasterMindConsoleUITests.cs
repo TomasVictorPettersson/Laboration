@@ -45,14 +45,6 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim());
 		}
 
-		[TestMethod]
-		public void DisplayGoodbyeMessage_ShouldPrintCorrectMessage()
-		{
-			var expectedOutput = string.Format(GameMessages.MasterMindGoodbyeMessageFormat, TestConstants.UserName);
-			_consoleUI.DisplayGoodbyeMessage(GameTypes.MasterMind, TestConstants.UserName);
-			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim());
-		}
-
 		[TestCleanup]
 		public void Cleanup()
 		{

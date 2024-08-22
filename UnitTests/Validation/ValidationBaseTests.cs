@@ -6,7 +6,7 @@ namespace Laboration.UnitTests.Validation
 	[TestClass]
 	public class ValidationBaseTests
 	{
-		private readonly ValidationBase _validation;
+		private readonly BullsAndCowsValidation _validation = new();
 
 		// Verifies that ValidateUserName returns an error message for an empty username.
 		[TestMethod]

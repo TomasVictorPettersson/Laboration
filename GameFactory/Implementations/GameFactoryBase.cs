@@ -7,7 +7,7 @@ namespace Laboration.GameFactory.Interfaces
 	// Abstract base class for creating game-related components.
 	public abstract class GameFactoryBase(GameTypes gameType) : IGameFactory
 	{
-		protected readonly GameTypes GameType = gameType;
+		public readonly GameTypes GameType = gameType;
 
 		// Abstract methods to create specific components.
 		public abstract IDependencyInitializer CreateDependencyInitializer();
