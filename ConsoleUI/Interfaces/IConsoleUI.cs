@@ -63,5 +63,11 @@ namespace Laboration.ConsoleUI.Interfaces
 
 		// Displays a personalized goodbye message and prompts the user to close the window.
 		void DisplayGoodbyeMessage(GameTypes gameType, string userName);
+
+		// Provides a format for the welcome message based on the game type.
+		string GetWelcomeMessageFormat(GameTypes gameType);
+
+		// Provides a format for the goodbye message based on the game type.
+		string GetGoodbyeMessageFormat(GameTypes gameType);
 	}
 }

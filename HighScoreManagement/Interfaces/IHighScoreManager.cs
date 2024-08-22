@@ -19,5 +19,8 @@ namespace Laboration.HighScoreManagement.Interfaces
 
 		// Sorts the high score list by the average number of guesses in ascending order.
 		void SortHighScoreList(List<IPlayerData> results);
+
+		// Gets the file path for saving/loading high scores.
+		string GetFilePath();
 	}
 }

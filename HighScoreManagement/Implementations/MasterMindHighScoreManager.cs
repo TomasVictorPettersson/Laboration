@@ -13,7 +13,7 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Provides the file path for storing high scores specific to the MasterMind game.
-		protected override string GetFilePath()
+		public override string GetFilePath()
 		{
 			return FileConstants.MasterMindFilePath;
 		}

@@ -6,24 +6,20 @@ using System.Text;
 
 namespace Laboration.GameLogic.Implementations
 {
-	// Manages the Bulls and Cows game logic, including setup, gameplay, and result handling.
-	public class BullsAndCowsGameLogic : GameLogicBase
+	// Represents the game logic specific to the Bulls and Cows game.
+	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : GameLogicBase(highScoreManager, consoleUI, validation)
 	{
-		public BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation)
-			: base(highScoreManager, consoleUI, validation)
-		{
-		}
-
-		// Generates a random 4-digit secret number with unique digits.
+		// Generates a random 4-digit secret number where each digit is unique.
 		public override string MakeSecretNumber()
 		{
-			Random randomGenerator = new();
+			Random random = new();
 			StringBuilder secretNumber = new();
-			HashSet<int> usedDigits = new();
+			HashSet<int> usedDigits = [];
 
+			// Continue adding unique random digits until we have a 4-digit number
 			while (secretNumber.Length < 4)
 			{
-				int randomDigit = randomGenerator.Next(10);
+				int randomDigit = random.Next(10);
 				if (usedDigits.Add(randomDigit))
 				{
 					secretNumber.Append(randomDigit);
@@ -33,59 +29,41 @@ namespace Laboration.GameLogic.Implementations
 			return secretNumber.ToString();
 		}
 
-		// Generates feedback for Bulls and Cows, i.e., 'BBBB,CCCC'.
-		protected override string GenerateFeedback(string secretNumber, string guess)
-		{
-			int bulls = CountBulls(secretNumber, guess);
-			int cows = CountCows(secretNumber, guess);
-			return $"{new string('B', bulls)},{new string('C', cows)}";
-		}
-
-		// Counts the number of bulls in the guess compared to the secret number.
-		private static int CountBulls(string secretNumber, string guess)
-		{
-			int bulls = 0;
-			for (int i = 0; i < 4; i++)
-			{
-				if (secretNumber[i] == guess[i])
-				{
-					bulls++;
-				}
-			}
-			return bulls;
-		}
-
-		// Counts the number of cows in the guess compared to the secret number.
-		private static int CountCows(string secretNumber, string guess)
+		// Counts the number of cows (correct digits in incorrect positions)
+		// in the guess compared to the secret number.
+		public override int CountCows(string secretNumber, string guess)
 		{
 			int cows = 0;
-			Dictionary<char, int> digitFrequency = new();
+			Dictionary<char, int> secretFrequency = [];
 
-			foreach (char digit in secretNumber)
+			// Populate frequency of non-bull digits from the secret number
+			for (int i = 0; i < secretNumber.Length; i++)
 			{
-				if (digitFrequency.TryGetValue(digit, out int value))
+				if (secretNumber[i] != guess[i])
 				{
-					digitFrequency[digit] = ++value;
-				}
-				else
-				{
-					digitFrequency[digit] = 1;
+					if (!secretFrequency.ContainsKey(secretNumber[i]))
+						secretFrequency[secretNumber[i]] = 0;
+					secretFrequency[secretNumber[i]]++;
 				}
 			}
 
-			for (int i = 0; i < 4; i++)
+			// Count cows (digits correct but in incorrect positions)
+			for (int i = 0; i < guess.Length; i++)
 			{
-				if (secretNumber[i] != guess[i] && digitFrequency.TryGetValue(guess[i], out int value) && value > 0)
+				if (secretNumber[i] != guess[i] &&
+					secretFrequency.TryGetValue(guess[i], out int count) &&
+					count > 0)
 				{
 					cows++;
-					digitFrequency[guess[i]] = --value;
+					secretFrequency[guess[i]]--;
 				}
 			}
+
 			return cows;
 		}
 
-		// Returns the game type.
-		protected override GameTypes GetGameType()
+		// Returns the type of game (Bulls and Cows).
+		public override GameTypes GetGameType()
 		{
 			return GameTypes.BullsAndCows;
 		}

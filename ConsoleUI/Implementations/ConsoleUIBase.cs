@@ -122,6 +122,7 @@ namespace Laboration.ConsoleUI.Implementations
 			var (maxUserNameLength, totalWidth) = CalculateDisplayDimensions(results); // Calculates formatting dimensions.
 			DisplayHighScoreListHeader(maxUserNameLength, totalWidth); // Displays the header.
 			PrintHighScoreResults(results, currentUserName, maxUserNameLength); // Prints each high score entry.
+			Console.WriteLine(CreateSeparatorLine(totalWidth));
 		}
 
 		// Creates a separator line to format the high score display.
@@ -161,9 +162,9 @@ namespace Laboration.ConsoleUI.Implementations
 
 			// Displays the formatted header and separator lines.
 			string headerFormat = $"{new string(' ', leftPadding)}{HighScoreHeaders.HighScoreHeader}\n" +
-								  $"{new string('-', totalWidth)}\n" +
+								  $"{CreateSeparatorLine(totalWidth)}\n" +
 								  $"{headerRowFormat}\n" +
-								  $"{new string('-', totalWidth)}";
+								  $"{CreateSeparatorLine(totalWidth)}";
 
 			Console.WriteLine(headerFormat);
 		}

@@ -18,25 +18,25 @@ namespace Laboration.DependencyInjection.Implementations
 		}
 
 		// Creates and returns the MasterMind specific game logic.
-		protected override IGameLogic CreateGameLogic(IConsoleUI consoleUI, IValidation validation, IHighScoreManager highScoreManager)
+		public override IGameLogic CreateGameLogic(IConsoleUI consoleUI, IValidation validation, IHighScoreManager highScoreManager)
 		{
 			return new MasterMindGameLogic(highScoreManager, consoleUI, validation);
 		}
 
 		// Creates and returns the specific validation implementation for MasterMind.
-		protected override IValidation CreateValidation()
+		public override IValidation CreateValidation()
 		{
 			return new MasterMindValidation(); // Specific validation for MasterMind
 		}
 
 		// Creates and returns the specific console UI implementation for MasterMind.
-		protected override IConsoleUI CreateConsoleUI(IValidation validation, IHighScoreManager highScoreManager)
+		public override IConsoleUI CreateConsoleUI(IValidation validation, IHighScoreManager highScoreManager)
 		{
 			return new MasterMindConsoleUI(validation, highScoreManager); // Specific UI for MasterMind
 		}
 
 		// Creates and returns the specific high score manager implementation for MasterMind.
-		protected override IHighScoreManager CreateHighScoreManager()
+		public override IHighScoreManager CreateHighScoreManager()
 		{
 			return new MasterMindHighScoreManager(); // Specific high score manager for MasterMind
 		}

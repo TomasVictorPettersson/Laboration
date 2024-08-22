@@ -11,5 +11,10 @@ namespace Laboration.GameFactory.Interfaces
 
 		// Creates and returns an instance of IGameFlowController for managing the game flow.
 		IGameFlowController CreateGameFlowController();
+
+		// Factory methods to get game components.
+		IDependencyInitializer GetDependencyInitializer();
+
+		IGameFlowController GetGameFlowController();
 	}
 }

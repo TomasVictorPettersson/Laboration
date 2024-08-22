@@ -18,25 +18,25 @@ namespace Laboration.DependencyInjection.Implementations
 		}
 
 		// Creates and returns the Bulls and Cows specific game logic.
-		protected override IGameLogic CreateGameLogic(IConsoleUI consoleUI, IValidation validation, IHighScoreManager highScoreManager)
+		public override IGameLogic CreateGameLogic(IConsoleUI consoleUI, IValidation validation, IHighScoreManager highScoreManager)
 		{
 			return new BullsAndCowsGameLogic(highScoreManager, consoleUI, validation);
 		}
 
 		// Creates and returns the specific validation implementation for Bulls and Cows.
-		protected override IValidation CreateValidation()
+		public override IValidation CreateValidation()
 		{
 			return new BullsAndCowsValidation(); // Specific validation for Bulls and Cows
 		}
 
 		// Creates and returns the specific console UI implementation for Bulls and Cows.
-		protected override IConsoleUI CreateConsoleUI(IValidation validation, IHighScoreManager highScoreManager)
+		public override IConsoleUI CreateConsoleUI(IValidation validation, IHighScoreManager highScoreManager)
 		{
 			return new BullsAndCowsConsoleUI(validation, highScoreManager); // Specific UI for Bulls and Cows
 		}
 
 		// Creates and returns the specific high score manager implementation for Bulls and Cows.
-		protected override IHighScoreManager CreateHighScoreManager()
+		public override IHighScoreManager CreateHighScoreManager()
 		{
 			return new BullsAndCowsHighScoreManager(); // Specific high score manager for Bulls and Cows
 		}

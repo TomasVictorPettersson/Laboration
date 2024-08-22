@@ -13,7 +13,7 @@ namespace Laboration.HighScoreManagement.Implementations
 		}
 
 		// Provides the file path for storing high scores specific to the Bulls and Cows game.
-		protected override string GetFilePath()
+		public override string GetFilePath()
 		{
 			return FileConstants.BullsAndCowsFilePath;
 		}

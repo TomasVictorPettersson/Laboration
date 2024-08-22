@@ -1,4 +1,6 @@
-﻿namespace Laboration.GameLogic.Interfaces
+﻿using Laboration.GameResources.Enums;
+
+namespace Laboration.GameLogic.Interfaces
 {
 	// Defines the contract for game logic management.
 	public interface IGameLogic
@@ -22,5 +24,17 @@
 		// Ends the game by saving the player's result, displaying the correct number and number of guesses,
 		// showing the updated high score list, and asking if the user wants to continue.
 		void EndGame(string secretNumber, string userName, int numberOfGuesses);
+
+		// Generates feedback for the user's guess compared to the secret number.
+		string GenerateFeedback(string secretNumber, string guess);
+
+		// Counts the number of bulls (correct digits in correct positions).
+		int CountBulls(string secretNumber, string guess);
+
+		// Counts the number of cows (correct digits in incorrect positions).
+		int CountCows(string secretNumber, string guess);
+
+		// Returns the type of game (e.g., MasterMind, BullsAndCows).
+		GameTypes GetGameType();
 	}
 }

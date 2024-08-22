@@ -13,16 +13,16 @@ namespace Laboration.DependencyInjection.Implementations
 		protected readonly GameTypes GameType = gameType;
 
 		// Abstract method to create and return specific game logic.
-		protected abstract IGameLogic CreateGameLogic(IConsoleUI consoleUI, IValidation validation, IHighScoreManager highScoreManager);
+		public abstract IGameLogic CreateGameLogic(IConsoleUI consoleUI, IValidation validation, IHighScoreManager highScoreManager);
 
 		// Abstract method to create and return the specific validation implementation.
-		protected abstract IValidation CreateValidation();
+		public abstract IValidation CreateValidation();
 
 		// Abstract method to create and return the specific console UI implementation.
-		protected abstract IConsoleUI CreateConsoleUI(IValidation validation, IHighScoreManager highScoreManager);
+		public abstract IConsoleUI CreateConsoleUI(IValidation validation, IHighScoreManager highScoreManager);
 
 		// Abstract method to create and return the specific high score manager implementation.
-		protected abstract IHighScoreManager CreateHighScoreManager();
+		public abstract IHighScoreManager CreateHighScoreManager();
 
 		// Creates and returns instances of dependencies used in the game loop.
 		public (IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies()

@@ -31,7 +31,7 @@ namespace Laboration.HighScoreManagement.Implementations
 
 		// Abstract method to get the file path for saving/loading high scores.
 		// Must be implemented in derived classes.
-		protected abstract string GetFilePath();
+		public abstract string GetFilePath();
 
 		// Reads high score results from the file and returns them as a list of player data.
 		public List<IPlayerData> ReadHighScoreResultsFromFile()
@@ -44,7 +44,7 @@ namespace Laboration.HighScoreManagement.Implementations
 				{
 					using StreamReader input = new(filePath);
 					string line;
-					while ((line = input.ReadLine()) != null)
+					while ((line = input.ReadLine()!) != null)
 					{
 						IPlayerData playerData = ParseLineToPlayerData(line);
 						results = UpdateResultsList(results, playerData);

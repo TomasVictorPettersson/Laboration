@@ -2,19 +2,13 @@
 using Laboration.GameFlow.Interfaces;
 using Laboration.GameLogic.Interfaces;
 using Laboration.GameResources.Enums;
-using System;
 
 namespace Laboration.GameFlow.Implementations
 {
 	// Abstract base class for managing game flow.
-	public abstract class GameFlowControllerBase : IGameFlowController
+	public abstract class GameFlowControllerBase(GameTypes gameType) : IGameFlowController
 	{
-		protected readonly GameTypes GameType;
-
-		protected GameFlowControllerBase(GameTypes gameType)
-		{
-			GameType = gameType;
-		}
+		protected readonly GameTypes GameType = gameType;
 
 		// Manages the game flow, including user interaction and game loop.
 		public void ExecuteGameLoop(IConsoleUI consoleUI, IGameLogic gameLogic)
