@@ -66,7 +66,6 @@ namespace Laboration.UnitTests.GameLogic
 		{
 			// Arrange
 			int numberOfGuesses = 0;
-
 			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser(GameTypes.Test)).Returns(TestConstants.Guess);
 			_mockValidation.Setup(v => v.IsCorrectGuess(TestConstants.Guess, TestConstants.SecretNumber)).Returns(true);
 
@@ -99,7 +98,6 @@ namespace Laboration.UnitTests.GameLogic
 		{
 			// Arrange
 			const int numberOfGuesses = 1;
-
 			_mockHighScoreManager.Setup(h => h.SaveResult(TestConstants.UserName, numberOfGuesses));
 			_mockConsoleUI.Setup(ui => ui.DisplayCorrectMessage(TestConstants.SecretNumber, numberOfGuesses));
 			_mockConsoleUI.Setup(ui => ui.DisplayHighScoreList(TestConstants.UserName));
@@ -113,46 +111,6 @@ namespace Laboration.UnitTests.GameLogic
 			_mockConsoleUI.Verify(ui => ui.DisplayHighScoreList(TestConstants.UserName), Times.Once);
 		}
 
-		[TestMethod]
-		public void GenerateFeedback_ShouldReturnCorrectFeedbackForFullMatch()
-		{
-			// Act
-			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, TestConstants.Guess);
-
-			// Assert
-			Assert.AreEqual(TestConstants.FeedbackBBBB, feedback, "GenerateFeedback should return 'BBBB,' for a full match.");
-		}
-
-		[TestMethod]
-		public void GenerateFeedback_ShouldReturnCorrectFeedbackForPartialMatch()
-		{
-			// Act
-			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, TestConstants.Guess);
-
-			// Assert
-			Assert.AreEqual(TestConstants.FeedbackBBCC, feedback, "GenerateFeedback should return 'BB,CC' for a partial match.");
-		}
-
-		[TestMethod]
-		public void GenerateFeedback_ShouldReturnCorrectFeedbackForOnlyBulls()
-		{
-			// Act
-			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, "1259");
-
-			// Assert
-			Assert.AreEqual(TestConstants.FeedbackBBComma, feedback, "GenerateFeedback should return 'BB,' for only bulls.");
-		}
-
-		[TestMethod]
-		public void GenerateFeedback_ShouldReturnCorrectFeedbackForOnlyCows()
-		{
-			// Act
-			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, "3498");
-
-			// Assert
-			Assert.AreEqual(TestConstants.FeedbackCommaCC, feedback, "GenerateFeedback should return ',CC' for only cows.");
-		}
-
 		// Define a test-specific implementation of GameLogicBase for testing.
 		private class TestGameLogic : GameLogicBase
 		{
@@ -163,9 +121,13 @@ namespace Laboration.UnitTests.GameLogic
 
 			public override string MakeSecretNumber() => TestConstants.SecretNumber;
 
-			public override int CountCows(string secretNumber, string guess) => 2;
+			public override int CountCows(string secretNumber, string guess) => 0;
 
 			public override GameTypes GetGameType() => GameTypes.Test;
+
+			public override string GenerateFeedback(string secretNumber, string guess) => "Feedback";
+
+			public override int CountBulls(string secretNumber, string guess) => 0;
 		}
 	}
 }

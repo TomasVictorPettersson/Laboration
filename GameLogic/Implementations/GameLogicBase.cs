@@ -84,28 +84,13 @@ namespace Laboration.GameLogic.Implementations
 			_consoleUI.WaitForUserToContinue(PromptMessages.ContinuePrompt);
 		}
 
-		// Generates feedback for the user's guess compared to the secret number,
-		// formatted as "Bulls,Cows".
-		public string GenerateFeedback(string secretNumber, string guess)
-		{
-			int bulls = CountBulls(secretNumber, guess);
-			int cows = CountCows(secretNumber, guess);
-			return $"{new string('B', bulls)},{new string('C', cows)}";
-		}
+		// Abstract method to generate feedback based on the game rules and must be implemented by derived classes
+		// The feedback should provide information about the number of bulls and cows in the user's guess.
+		public abstract string GenerateFeedback(string secretNumber, string guess);
 
-		// Counts the number of bulls (correct digits in the correct positions).
-		public int CountBulls(string secretNumber, string guess)
-		{
-			int bulls = 0;
-			for (int i = 0; i < 4; i++)
-			{
-				if (secretNumber[i] == guess[i])
-				{
-					bulls++;
-				}
-			}
-			return bulls;
-		}
+		// Abstract method to count the number of cows (correct digits in correct positions).
+		// To be implemented by derived classes based on specific game rules.
+		public abstract int CountBulls(string secretNumber, string guess);
 
 		// Abstract method to count the number of cows (correct digits in incorrect positions).
 		// To be implemented by derived classes based on specific game rules.

@@ -25,6 +25,29 @@ namespace Laboration.GameLogic.Implementations
 			return secretNumber.ToString();
 		}
 
+		// Generates feedback for the user's guess compared to the secret number,
+		// formatted as "Bulls,Cows".
+		public override string GenerateFeedback(string secretNumber, string guess)
+		{
+			int bulls = CountBulls(secretNumber, guess);
+			int cows = CountCows(secretNumber, guess);
+			return $"{new string('B', bulls)},{new string('C', cows)}";
+		}
+
+		// Counts the number of bulls (correct digits in the correct positions).
+		public override int CountBulls(string secretNumber, string guess)
+		{
+			int bulls = 0;
+			for (int i = 0; i < 4; i++)
+			{
+				if (secretNumber[i] == guess[i])
+				{
+					bulls++;
+				}
+			}
+			return bulls;
+		}
+
 		// Counts the number of cows (correct digits in wrong positions)
 		// in the guess compared to the secret number.
 		public override int CountCows(string secretNumber, string guess)

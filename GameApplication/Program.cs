@@ -1,4 +1,5 @@
-﻿using Laboration.ConsoleUI.Interfaces;
+﻿using Laboration.ConsoleUI.GameSelection;
+using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameFactory.Creators;
 using Laboration.GameFactory.Interfaces;
 using Laboration.GameResources.Enums;
@@ -16,7 +17,7 @@ namespace Laboration.GameApplication
 
 			do
 			{
-				selectedGameType = GameSelector?.SelectGameType() ?? GameTypes.Quit;
+				selectedGameType = GameSelector.SelectGameType();
 
 				if (selectedGameType == GameTypes.Quit)
 					break;
