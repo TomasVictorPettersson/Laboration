@@ -1,4 +1,5 @@
-﻿using Laboration.GameResources.Enums;
+﻿using Laboration.GameResources.Constants;
+using Laboration.GameResources.Enums;
 
 namespace Laboration.HighScoreManagement.Implementations
 {
@@ -10,7 +11,7 @@ namespace Laboration.HighScoreManagement.Implementations
 
 		public override string GetFilePath()
 		{
-			return Path.Combine(Path.GetTempPath(), "test_highscores.txt");
+			return Path.Combine(Path.GetTempPath(), TestConstants.TestFilePath);
 		}
 	}
 }

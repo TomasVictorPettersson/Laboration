@@ -5,12 +5,10 @@
 
 	public enum GameTypes
 	{
-		// The Bulls and Cows game.
-
+		// Represents the Bulls and Cows game.
 		BullsAndCows,
 
-		// The MasterMind game.
-
+		// Represents the MasterMind game.
 		MasterMind,
 
 		// Represents the option to quit the game.

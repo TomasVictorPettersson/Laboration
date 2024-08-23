@@ -1,5 +1,4 @@
-﻿using ConsoleUI.Implementations;
-using Laboration.ConsoleUI.Implementations;
+﻿using Laboration.ConsoleUI.Implementations;
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameResources.Constants;
 using Laboration.HighScoreManagement.Interfaces;

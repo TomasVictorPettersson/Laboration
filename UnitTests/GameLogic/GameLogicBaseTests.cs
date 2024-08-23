@@ -16,6 +16,8 @@ namespace Laboration.UnitTests.GameLogic
 		private readonly Mock<IValidation> _mockValidation = new();
 		private BullsAndCowsGameLogic _gameLogic = null!;
 
+		// Initializes the game logic and mocks before each test.
+
 		[TestInitialize]
 		public void TestInitialize()
 		{
@@ -25,6 +27,8 @@ namespace Laboration.UnitTests.GameLogic
 				_mockValidation.Object
 			);
 		}
+
+		// Verifies that HandleUserGuess returns true and increments the number of guesses when the guess is correct.
 
 		[TestMethod]
 		public void HandleUserGuess_ShouldReturnTrueForCorrectGuess()
@@ -42,6 +46,8 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should be incremented.");
 		}
 
+		// Verifies that ProcessGuess returns false and increments the number of guesses for an incorrect guess.
+
 		[TestMethod]
 		public void ProcessGuess_ShouldUpdateGuessCount()
 		{
@@ -58,7 +64,9 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should be incremented.");
 		}
 
-		// Verifies that ProcessGuess increments the counter and returns true for a correct guess.
+		// Verifies that ProcessGuess increments the counter and returns true
+		// for a correct guess, and calls DisplayGuessFeedback with the correct feedback.
+
 		[TestMethod]
 		public void ProcessGuess_ShouldIncrementCounter_ForCorrectGuess()
 		{
@@ -82,7 +90,9 @@ namespace Laboration.UnitTests.GameLogic
 			);
 		}
 
-		// Verifies that ProcessGuess increments the counter and returns false for an incorrect guess.
+		// Verifies that ProcessGuess increments the counter and returns false
+		// for an incorrect guess, and calls DisplayGuessFeedback with the correct feedback.
+
 		[TestMethod]
 		public void ProcessGuess_ShouldIncrementCounter_ForIncorrectGuess()
 		{

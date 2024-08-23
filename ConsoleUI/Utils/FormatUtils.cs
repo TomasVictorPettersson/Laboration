@@ -1,9 +1,12 @@
 ﻿namespace Laboration.ConsoleUI.Utils
 {
+	// Provides utility methods for formatting console output.
+
 	public static class FormatUtils
 	{
-		// Creates a separator line to format the high score display.
-		// Defaults to a width of 50 if no value is provided.
+		// Creates a separator line used for formatting console output.
+		// int totalWidth is the width of the separator line.
+		// Defaults to 50 if not specified.
 		public static string CreateSeparatorLine(int totalWidth = 50)
 		{
 			return new string('-', totalWidth);

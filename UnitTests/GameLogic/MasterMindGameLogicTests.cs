@@ -16,6 +16,8 @@ namespace Laboration.UnitTests.GameLogic
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 		private readonly Mock<IValidation> _mockValidation = new();
 
+		// Initializes the game logic and mocks before each test.
+
 		[TestInitialize]
 		public void Setup()
 		{
@@ -25,6 +27,8 @@ namespace Laboration.UnitTests.GameLogic
 				_mockValidation.Object
 			);
 		}
+
+		// Verifies that MakeSecretNumber generates a 4-digit number containing only digits.
 
 		[TestMethod]
 		public void MakeSecretNumber_ShouldGenerate4DigitNumber()
@@ -37,11 +41,12 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.IsTrue(IsDigitsOnly(secretNumber), "Secret number should contain only digits.");
 		}
 
+		// Verifies that GenerateFeedback returns the correct feedback for a given guess.
+
 		[TestMethod]
 		public void GenerateFeedback_ShouldReturnCorrectFeedback()
 		{
 			// Arrange
-
 			const string guess = "1243";
 
 			// Act
@@ -51,11 +56,12 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual("BB,CC", feedback, "Feedback should be 'BB,CC' for partial match.");
 		}
 
+		// Verifies that CountBulls returns the correct number of bulls for a given guess.
+
 		[TestMethod]
 		public void CountBulls_ShouldReturnCorrectNumberOfBulls()
 		{
 			// Arrange
-
 			const string guess = "1256";
 
 			// Act
@@ -65,11 +71,12 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual(2, bulls, "There should be 2 bulls for this guess.");
 		}
 
+		// Verifies that CountCows returns the correct number of cows for a given guess.
+
 		[TestMethod]
 		public void CountCows_ShouldReturnCorrectNumberOfCows()
 		{
 			// Arrange
-
 			const string guess = "4321";
 
 			// Act
@@ -78,6 +85,8 @@ namespace Laboration.UnitTests.GameLogic
 			// Assert
 			Assert.AreEqual(4, cows, "There should be 4 cows for this guess.");
 		}
+
+		// Verifies that GenerateFeedback returns 'BBBB,' for a correct guess.
 
 		[TestMethod]
 		public void GenerateFeedback_ShouldReturnBBBB_ForCorrectGuess()
@@ -88,6 +97,8 @@ namespace Laboration.UnitTests.GameLogic
 			// Assert
 			Assert.AreEqual("BBBB,", feedback, "Feedback should be 'BBBB,' for a correct guess.");
 		}
+
+		// Verifies that GenerateFeedback correctly handles guesses with repeating digits.
 
 		[TestMethod]
 		public void GenerateFeedback_ShouldHandleGuessWithRepeatingDigits()
@@ -103,6 +114,7 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual("BB,", feedback, "Feedback should correctly handle guesses with repeating digits.");
 		}
 
+		// Verifies that GenerateFeedback returns the correct feedback for an incorrect guess.
 		[TestMethod]
 		public void GenerateFeedback_ShouldReturnCorrectFeedback_ForIncorrectGuess()
 		{
@@ -117,6 +129,8 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.IsTrue(feedback.Contains('B') || feedback.Contains('C'), "Feedback should contain 'B' or 'C' for incorrect guess.");
 		}
 
+		// Verifies that GenerateFeedback returns ',CCCC' for correct cows.
+
 		[TestMethod]
 		public void GenerateFeedback_ShouldReturnCCCC_ForCorrectCows()
 		{
@@ -129,6 +143,8 @@ namespace Laboration.UnitTests.GameLogic
 			// Assert
 			Assert.AreEqual(TestConstants.FeedbackCCCC, feedback, "Feedback should be ',CCCC' for correct cows.");
 		}
+
+		// Verifies that GenerateFeedback returns 'BB,CC' for partial match.
 
 		[TestMethod]
 		public void GenerateFeedback_ShouldReturnMixedBullsAndCows_ForPartialMatch()
@@ -143,6 +159,8 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual(TestConstants.FeedbackBBCC, feedback, "Feedback should be 'BB,CC' for partial match.");
 		}
 
+		// Verifies that GenerateFeedback returns 'BB,' for guesses with only bulls.
+
 		[TestMethod]
 		public void GenerateFeedback_ShouldReturnBB_ForOnlyBulls()
 		{
@@ -155,6 +173,8 @@ namespace Laboration.UnitTests.GameLogic
 			// Assert
 			Assert.AreEqual(TestConstants.FeedbackBBComma, feedback, "Feedback should be 'BB,' for only bulls.");
 		}
+
+		// Verifies that GenerateFeedback returns ',CC' for guesses with only cows.
 
 		[TestMethod]
 		public void GenerateFeedback_ShouldReturnCC_ForOnlyCows()
@@ -169,6 +189,8 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual(TestConstants.FeedbackCommaCC, feedback, "Feedback should be ',CC' for only cows.");
 		}
 
+		// Verifies that GenerateFeedback returns ',' for guesses with no bulls or cows.
+
 		[TestMethod]
 		public void GenerateFeedback_ShouldReturnComma_ForNoBullsOrCows()
 		{
@@ -182,6 +204,8 @@ namespace Laboration.UnitTests.GameLogic
 			Assert.AreEqual(TestConstants.FeedbackComma, feedback, "Feedback should be ',' when no bulls or cows are found.");
 		}
 
+		// Verifies that GetGameType returns MasterMind.
+
 		[TestMethod]
 		public void GetGameType_ShouldReturnMasterMind()
 		{
@@ -191,6 +215,8 @@ namespace Laboration.UnitTests.GameLogic
 			// Assert
 			Assert.AreEqual(GameTypes.MasterMind, gameType, "GetGameType should return MasterMind.");
 		}
+
+		// Helper method to check if a string contains only digits.
 
 		private static bool IsDigitsOnly(string input)
 		{

@@ -3,7 +3,7 @@ using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
 
-namespace ConsoleUI.Implementations
+namespace Laboration.ConsoleUI.Implementations
 {
 	// Derived class for testing abstract methods
 	public class TestConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : ConsoleUIBase(validation, highScoreManager)

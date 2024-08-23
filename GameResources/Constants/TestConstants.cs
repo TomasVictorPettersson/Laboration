@@ -37,6 +37,6 @@
 
 		// The file name used for storing high scores during unit tests.
 
-		public const string HighScoresFileName = "test_highscores.txt";
+		public const string TestFilePath = "test_highscores.txt";
 	}
 }

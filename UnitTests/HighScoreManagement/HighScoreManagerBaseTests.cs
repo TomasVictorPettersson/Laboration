@@ -9,7 +9,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 	public class HighScoreManagerBaseTests
 	{
 		private readonly TestHighScoreManager _highScoreManager = new();
-		private readonly string _testFilePath = Path.Combine(Path.GetTempPath(), TestConstants.HighScoresFileName);
+		private readonly string _testFilePath = Path.Combine(Path.GetTempPath(), TestConstants.TestFilePath);
+
+		// Verifies that the SaveResult method creates a file and saves the result correctly.
 
 		[TestMethod]
 		public void SaveResult_ShouldCreateFileAndSaveResult()
@@ -23,6 +25,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.IsTrue(lines.Length > 0, "The file should contain at least one line.");
 			Assert.IsTrue(lines[0].Contains($"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}"), "The first line should contain the correct formatted result.");
 		}
+
+		// Verifies that the SaveResult method appends new results to an existing file correctly.
 
 		[TestMethod]
 		public void SaveResult_ShouldAppendToExistingFile()
@@ -42,6 +46,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.IsTrue(lines[1].Contains($"{newUserName}{FileConstants.Separator}{newNumberOfGuesses}"), "The new line should be correctly appended.");
 		}
 
+		// Verifies that the ReadHighScoreResultsFromFile method reads results from a file correctly.
+
 		[TestMethod]
 		public void ReadHighScoreResultsFromFile_ShouldReadResultsCorrectly()
 		{
@@ -57,6 +63,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(TestConstants.UserName, results[0].UserName, "The user name should be 'TestUser'.");
 			Assert.AreEqual(TestConstants.NumberOfGuesses, results[0].TotalGuesses, "The total guesses should be 10.");
 		}
+
+		// Verifies that the ReadHighScoreResultsFromFile method returns
+		// an empty list when the file does not exist.
 
 		[TestMethod]
 		public void ReadHighScoreResultsFromFile_WhenFileDoesNotExist_ShouldReturnEmptyList()
@@ -74,6 +83,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(0, results.Count, "The result list should be empty.");
 		}
 
+		// Verifies that the ParseLineToPlayerData method correctly parses a line into player data.
+
 		[TestMethod]
 		public void ParseLineToPlayerData_ShouldReturnPlayerData()
 		{
@@ -88,6 +99,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(15, playerData.TotalGuesses, "The total guesses should be 15.");
 		}
 
+		// Verifies that the ParseLineToPlayerData method throws a
+		// FormatException when given an invalid format.
+
 		[TestMethod]
 		[ExpectedException(typeof(FormatException))]
 		public void ParseLineToPlayerData_InvalidFormat_ShouldThrowFormatException()
@@ -98,6 +112,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			// Act
 			_highScoreManager.ParseLineToPlayerData(line);
 		}
+
+		// Verifies that the UpdateResultsList method adds a new player to the results list.
 
 		[TestMethod]
 		public void UpdateResultsList_ShouldAddNewPlayer()
@@ -113,6 +129,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(1, updatedResults.Count, "The result list should contain one player.");
 			Assert.AreEqual(playerData, updatedResults[0], "The player data should match.");
 		}
+
+		// Verifies that the UpdateResultsList method updates an existing player’s data in the results list.
 
 		[TestMethod]
 		public void UpdateResultsList_ShouldUpdateExistingPlayer()
@@ -130,6 +148,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual(15, updatedResults[0].CalculateAverageGuesses(), "The average number of guesses should be updated.");
 		}
 
+		// Verifies that the SortHighScoreList method sorts the results by number of guesses.
+
 		[TestMethod]
 		public void SortHighScoreList_ShouldSortResults()
 		{
@@ -145,6 +165,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			Assert.AreEqual("User2", results[0].UserName, "The first player should be 'User2' with the lower number of guesses.");
 			Assert.AreEqual("User1", results[1].UserName, "The second player should be 'User1' with the higher number of guesses.");
 		}
+
+		// Cleans up test resources by deleting the test file if it exists.
 
 		[TestCleanup]
 		public void Cleanup()

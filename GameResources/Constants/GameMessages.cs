@@ -25,11 +25,11 @@
 
 		public const string MasterMindWelcomeMessageFormat =
 			"Welcome, {0}, to MasterMind!\n\n" +
-			"The goal is to guess a sequence of 4 digits, where each digit can be between 0 and 9 and may appear more than once.\n\n" +
+			"The goal is to guess a 4-digit number where each digit can be between 0 and 9 and may appear more than once.\n\n" +
 			"For each guess, you’ll get feedback in the format ‘BBBB,CCCC’, where:\n" +
 			"- ‘BBBB’ is the number of digits in the correct positions.\n" +
 			"- ‘CCCC’ is the number of digits that are correct but in the wrong positions.\n\n" +
-			"If you get 'No matches found', none of your guessed digits are in the sequence.";
+			"If you get 'No matches found', none of your guessed digits are in the 4-digit number.";
 
 		// Goodbye message format for MasterMind.
 		// Thanks the user for playing and provides a closing statement.

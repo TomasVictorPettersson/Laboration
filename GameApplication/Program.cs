@@ -1,4 +1,4 @@
-﻿using Laboration.ConsoleUI.GameSelection;
+﻿using Laboration.ConsoleUI.Implementations;
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.ConsoleUI.Utils;
 using Laboration.GameFactory.Creators;

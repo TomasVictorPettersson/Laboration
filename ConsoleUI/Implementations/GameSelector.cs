@@ -3,7 +3,7 @@ using Laboration.ConsoleUI.Utils;
 using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
 
-namespace Laboration.ConsoleUI.GameSelection
+namespace Laboration.ConsoleUI.Implementations
 {
 	public class GameSelector : IGameSelector
 	{
@@ -31,6 +31,8 @@ namespace Laboration.ConsoleUI.GameSelection
 			Console.WriteLine(UserInteractionMessages.GameSelectionPrompt);
 			Console.WriteLine(FormatUtils.CreateSeparatorLine());
 			Console.WriteLine(UserInteractionMessages.GameSelectionOptions);
+			Console.WriteLine(FormatUtils.CreateSeparatorLine());
+			Console.WriteLine(UserInteractionMessages.ExitOption);
 			Console.WriteLine(FormatUtils.CreateSeparatorLine());
 		}
 

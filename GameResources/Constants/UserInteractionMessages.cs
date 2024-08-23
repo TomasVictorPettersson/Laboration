@@ -7,10 +7,13 @@
 		public const string GameSelectionPrompt = "Select a game to play:";
 
 		// The list of game options displayed to the user.
-		public const string GameSelectionOptions = "1. Bulls and Cows\n2. MasterMind\n3. Exit";
+		public const string GameSelectionOptions = "1. Bulls and Cows\n2. MasterMind";
+
+		// The exit option for the game selection menu.
+		public const string ExitOption = "3. Exit";
 
 		// Prompt for the user to enter the game he wants to play.
-		public const string ChoseGamePrompt = "Enter the game you want to play: ";
+		public const string ChoseGamePrompt = "\nEnter the number of the game you want to play: ";
 
 		// Message shown when an invalid game selection is made.
 		public const string InvalidSelectionMessage = "Invalid selection. Please enter a valid number.";
