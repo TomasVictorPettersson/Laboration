@@ -5,8 +5,10 @@ using Laboration.GameResources.Enums;
 
 namespace Laboration.ConsoleUI.Implementations
 {
+	// Implementation of the IGameSelector interface for selecting game types
 	public class GameSelector : IGameSelector
 	{
+		// Prompts user to select a game type and returns the selected type
 		public GameTypes SelectGameType()
 		{
 			DisplayGameOptions();
@@ -26,6 +28,7 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
+		// Displays game options and formatting
 		private static void DisplayGameOptions()
 		{
 			Console.WriteLine(UserInteractionMessages.GameSelectionPrompt);
@@ -36,14 +39,15 @@ namespace Laboration.ConsoleUI.Implementations
 			Console.WriteLine(FormatUtils.CreateSeparatorLine());
 		}
 
+		// Parses user input and returns corresponding GameType enum value
 		private static GameTypes? ParseUserInput(string? input)
 		{
 			return input switch
 			{
-				"1" => GameTypes.BullsAndCows,
-				"2" => GameTypes.MasterMind,
-				"3" => GameTypes.Quit,
-				_ => null
+				"1" => GameTypes.BullsAndCows, // Option 1: Bulls and Cows game
+				"2" => GameTypes.MasterMind,   // Option 2: MasterMind game
+				"3" => GameTypes.Quit,         // Option 3: Exit the application
+				_ => null                      // Invalid input
 			};
 		}
 	}

@@ -4,6 +4,7 @@ using Laboration.GameResources.Enums;
 
 namespace Laboration.GameFactory.Creators
 {
+	// A static class responsible for creating game factory instances based on the selected game type.
 	public static class FactoryCreator
 	{
 		// Creates the appropriate factory based on the selected game type.

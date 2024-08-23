@@ -11,8 +11,14 @@ namespace Laboration.GameApplication
 {
 	public static class Program
 	{
+		// Game factory instance
 		public static IGameFactory? Factory { get; set; }
+
+		// Game selector instance
 		public static IGameSelector? GameSelector { get; set; }
+
+		// Entry point of the application. Initializes the game selector, runs the game loop,
+		// and waits for the user to close the window.
 
 		public static void Main()
 		{
@@ -28,10 +34,16 @@ namespace Laboration.GameApplication
 			}
 		}
 
+		// Creates and initializes a new instance of the game selector.
+
 		public static void InitializeGameSelector()
 		{
 			GameSelector = new GameSelector();
 		}
+
+		// Runs the main game loop. Continuously prompts the user to select a game type,
+		// initializes game factory and dependencies, and executes the game loop until
+		// the user chooses to quit.
 
 		public static void RunGameLoop()
 		{
@@ -56,11 +68,15 @@ namespace Laboration.GameApplication
 			} while (selectedGameType != GameTypes.Quit);
 		}
 
+		// Initializes the game factory based on the selected game type.
+
 		public static bool InitializeGameFactory(GameTypes gameType)
 		{
 			Factory = FactoryCreator.CreateFactory(gameType);
 			return Factory != null;
 		}
+
+		// Initializes and returns the user interface and game logic dependencies.
 
 		public static (IConsoleUI, IGameLogic) InitializeDependencies()
 		{
