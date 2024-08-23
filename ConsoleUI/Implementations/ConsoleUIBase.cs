@@ -218,7 +218,7 @@ namespace Laboration.ConsoleUI.Implementations
 		public void DisplayGoodbyeMessage(GameTypes gameType, string userName)
 		{
 			string goodbyeMessageFormat = GetGoodbyeMessageFormat(gameType);
-			Console.WriteLine(string.Format(goodbyeMessageFormat, userName)); // Displays the goodbye message.
+			Console.WriteLine($"\n{string.Format(goodbyeMessageFormat, userName)}\n"); // Displays the goodbye message.
 			ConsoleUtils.WaitForUserToContinue(PromptMessages.PressAnyKeyToReturn); // Waits for the user to press a key before closing.
 		}
 	}

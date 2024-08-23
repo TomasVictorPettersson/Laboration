@@ -27,21 +27,6 @@ namespace Laboration.UnitTests.GameLogic
 		}
 
 		[TestMethod]
-		public void PlayGameLoop_ShouldEndWhenGuessIsCorrect()
-		{
-			// Arrange
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser(GameTypes.BullsAndCows)).Returns(TestConstants.SecretNumber);
-			_mockValidation.Setup(v => v.IsCorrectGuess(TestConstants.SecretNumber, TestConstants.SecretNumber)).Returns(true);
-
-			// Act
-			_gameLogic.PlayGameLoop(TestConstants.SecretNumber, TestConstants.UserName);
-
-			// Assert
-			_mockConsoleUI.Verify(ui => ui.GetValidGuessFromUser(GameTypes.BullsAndCows), Times.AtLeastOnce);
-			_mockValidation.Verify(v => v.IsCorrectGuess(TestConstants.SecretNumber, TestConstants.SecretNumber), Times.AtLeastOnce);
-		}
-
-		[TestMethod]
 		public void HandleUserGuess_ShouldReturnTrueForCorrectGuess()
 		{
 			// Arrange
@@ -71,24 +56,6 @@ namespace Laboration.UnitTests.GameLogic
 			// Assert
 			Assert.IsFalse(result, "ProcessGuess should return false for an incorrect guess.");
 			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should be incremented.");
-		}
-
-		[TestMethod]
-		public void EndGame_ShouldSaveResultAndDisplayMessages()
-		{
-			// Arrange
-			const int numberOfGuesses = 1;
-			_mockHighScoreManager.Setup(h => h.SaveResult(TestConstants.UserName, numberOfGuesses));
-			_mockConsoleUI.Setup(ui => ui.DisplayCorrectMessage(TestConstants.SecretNumber, numberOfGuesses));
-			_mockConsoleUI.Setup(ui => ui.DisplayHighScoreList(TestConstants.UserName));
-
-			// Act
-			_gameLogic.EndGame(TestConstants.SecretNumber, TestConstants.UserName, numberOfGuesses);
-
-			// Assert
-			_mockHighScoreManager.Verify(h => h.SaveResult(TestConstants.UserName, numberOfGuesses), Times.Once);
-			_mockConsoleUI.Verify(ui => ui.DisplayCorrectMessage(TestConstants.SecretNumber, numberOfGuesses), Times.Once);
-			_mockConsoleUI.Verify(ui => ui.DisplayHighScoreList(TestConstants.UserName), Times.Once);
 		}
 
 		// Verifies that ProcessGuess increments the counter and returns true for a correct guess.

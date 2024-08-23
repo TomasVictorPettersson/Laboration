@@ -20,7 +20,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		[TestInitialize]
 		public void Setup()
 		{
-			_consoleUI = new TestConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
+			_consoleUI = new BullsAndCowsConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
 			_consoleOutput = new StringWriter();
 			_originalConsoleOut = Console.Out;
 			_originalConsoleIn = Console.In;
@@ -49,18 +49,6 @@ namespace Laboration.UnitTests.ConsoleUI
 			Console.SetOut(_originalConsoleOut);
 			Console.SetIn(_originalConsoleIn);
 			_consoleOutput.Dispose();
-		}
-
-		// Derived class for testing abstract methods
-		private class TestConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : ConsoleUIBase(validation, highScoreManager)
-		{
-			public override string GetWelcomeMessageFormat(GameTypes gameType)
-				=> GameMessages.BullsAndCowsWelcomeMessageFormat;
-
-			public override string GetGoodbyeMessageFormat(GameTypes gameType)
-				=> GameMessages.BullsAndCowsGoodbyeMessageFormat;
-
-			public override void DisplayInvalidInputMessage() => Console.WriteLine("Invalid input. Please try again.");
 		}
 	}
 }

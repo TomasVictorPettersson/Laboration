@@ -3,11 +3,14 @@
 	// Contains constants related to user interaction messages and prompts.
 	public static class UserInteractionMessages
 	{
-		// The game selection options for user interaction.
-		public const string GameSelectionOptions = "Select a game to play:\n1. Bulls and Cows\n2. MasterMind\n3. Exit";
+		// The prompt shown to the user for selecting a game.
+		public const string GameSelectionPrompt = "Select a game to play:";
+
+		// The list of game options displayed to the user.
+		public const string GameSelectionOptions = "1. Bulls and Cows\n2. MasterMind\n3. Exit";
 
 		// Prompt for the user to enter the game he wants to play.
-		public const string ChoseGamePrompt = "\nEnter the game you want to play: ";
+		public const string ChoseGamePrompt = "Enter the game you want to play: ";
 
 		// Message shown when an invalid game selection is made.
 		public const string InvalidSelectionMessage = "Invalid selection. Please enter a valid number.";

@@ -1,4 +1,5 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
+using Laboration.ConsoleUI.Utils;
 using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
 
@@ -27,7 +28,10 @@ namespace Laboration.ConsoleUI.GameSelection
 
 		private static void DisplayGameOptions()
 		{
+			Console.WriteLine(UserInteractionMessages.GameSelectionPrompt);
+			Console.WriteLine(FormatUtils.CreateSeparatorLine());
 			Console.WriteLine(UserInteractionMessages.GameSelectionOptions);
+			Console.WriteLine(FormatUtils.CreateSeparatorLine());
 		}
 
 		private static GameTypes? ParseUserInput(string? input)
