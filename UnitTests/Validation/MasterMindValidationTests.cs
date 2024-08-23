@@ -1,5 +1,4 @@
 ﻿using Laboration.GameResources.Enums;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Laboration.Validation.Implementations;
 
 namespace Laboration.UnitTests.Validation

@@ -28,17 +28,11 @@ namespace Laboration.ConsoleUI.Interfaces
 		// Shows the correct number and the number of guesses taken.
 		void DisplayCorrectMessage(string secretNumber, int numberOfGuesses);
 
-		// Displays a message and waits for the user to press a key before continuing.
-		void WaitForUserToContinue(string message);
-
 		// Displays the high score list with formatted player data, highlighting the current user.
 		void DisplayHighScoreList(string currentUserName);
 
 		// Renders the high score list with headers and formatted player data.
 		void RenderHighScoreList(List<IPlayerData> results, string currentUserName);
-
-		// Creates a separator line of the specified width using dashes.
-		string CreateSeparatorLine(int totalWidth);
 
 		// Calculates dimensions for display based on player data.
 		(int maxUserNameLength, int totalWidth) CalculateDisplayDimensions(List<IPlayerData> results);

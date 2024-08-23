@@ -25,12 +25,12 @@ namespace Laboration.ConsoleUI.GameSelection
 			}
 		}
 
-		private void DisplayGameOptions()
+		private static void DisplayGameOptions()
 		{
 			Console.WriteLine(UserInteractionMessages.GameSelectionOptions);
 		}
 
-		private GameTypes? ParseUserInput(string? input)
+		private static GameTypes? ParseUserInput(string? input)
 		{
 			return input switch
 			{

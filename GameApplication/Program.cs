@@ -1,8 +1,10 @@
 ﻿using Laboration.ConsoleUI.GameSelection;
 using Laboration.ConsoleUI.Interfaces;
+using Laboration.ConsoleUI.Utils;
 using Laboration.GameFactory.Creators;
 using Laboration.GameFactory.Interfaces;
 using Laboration.GameLogic.Interfaces;
+using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
 
 namespace Laboration.GameApplication
@@ -18,7 +20,7 @@ namespace Laboration.GameApplication
 			{
 				InitializeGameSelector();
 				RunGameLoop();
-				Console.WriteLine("Thank you for playing!");
+				ConsoleUtils.WaitForUserToContinue(PromptMessages.CloseWindowPrompt);
 			}
 			catch (Exception ex)
 			{
@@ -26,12 +28,12 @@ namespace Laboration.GameApplication
 			}
 		}
 
-		private static void InitializeGameSelector()
+		public static void InitializeGameSelector()
 		{
 			GameSelector = new GameSelector();
 		}
 
-		private static void RunGameLoop()
+		public static void RunGameLoop()
 		{
 			GameTypes selectedGameType;
 
@@ -54,13 +56,13 @@ namespace Laboration.GameApplication
 			} while (selectedGameType != GameTypes.Quit);
 		}
 
-		private static bool InitializeGameFactory(GameTypes gameType)
+		public static bool InitializeGameFactory(GameTypes gameType)
 		{
 			Factory = FactoryCreator.CreateFactory(gameType);
 			return Factory != null;
 		}
 
-		private static (IConsoleUI, IGameLogic) InitializeDependencies()
+		public static (IConsoleUI, IGameLogic) InitializeDependencies()
 		{
 			var dependencyInitializer = Factory!.CreateDependencyInitializer();
 			return dependencyInitializer.InitializeDependencies();

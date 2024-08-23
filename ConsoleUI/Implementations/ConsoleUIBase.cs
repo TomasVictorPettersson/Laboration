@@ -1,4 +1,5 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
+using Laboration.ConsoleUI.Utils;
 using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
@@ -100,14 +101,6 @@ namespace Laboration.ConsoleUI.Implementations
 			));
 		}
 
-		// Waits for the user to press a key to continue, then clears the console.
-		public void WaitForUserToContinue(string message)
-		{
-			Console.WriteLine(message);
-			Console.ReadKey(intercept: true); // Reads user input without displaying the key pressed.
-			Console.Clear();
-		}
-
 		// Displays the high score list, including fetching and sorting the high scores.
 		public void DisplayHighScoreList(string currentUserName)
 		{
@@ -122,13 +115,7 @@ namespace Laboration.ConsoleUI.Implementations
 			var (maxUserNameLength, totalWidth) = CalculateDisplayDimensions(results); // Calculates formatting dimensions.
 			DisplayHighScoreListHeader(maxUserNameLength, totalWidth); // Displays the header.
 			PrintHighScoreResults(results, currentUserName, maxUserNameLength); // Prints each high score entry.
-			Console.WriteLine(CreateSeparatorLine(totalWidth));
-		}
-
-		// Creates a separator line to format the high score display.
-		public string CreateSeparatorLine(int totalWidth)
-		{
-			return new string('-', totalWidth);
+			Console.WriteLine(FormatUtils.CreateSeparatorLine(totalWidth));
 		}
 
 		// Calculates the maximum username length and total display width for formatting.
@@ -162,9 +149,9 @@ namespace Laboration.ConsoleUI.Implementations
 
 			// Displays the formatted header and separator lines.
 			string headerFormat = $"{new string(' ', leftPadding)}{HighScoreHeaders.HighScoreHeader}\n" +
-								  $"{CreateSeparatorLine(totalWidth)}\n" +
+								  $"{FormatUtils.CreateSeparatorLine(totalWidth)}\n" +
 								  $"{headerRowFormat}\n" +
-								  $"{CreateSeparatorLine(totalWidth)}";
+								  $"{FormatUtils.CreateSeparatorLine(totalWidth)}";
 
 			Console.WriteLine(headerFormat);
 		}
@@ -232,7 +219,7 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			string goodbyeMessageFormat = GetGoodbyeMessageFormat(gameType);
 			Console.WriteLine(string.Format(goodbyeMessageFormat, userName)); // Displays the goodbye message.
-			WaitForUserToContinue(PromptMessages.CloseWindowPrompt); // Waits for the user to press a key before closing.
+			ConsoleUtils.WaitForUserToContinue(PromptMessages.PressAnyKeyToReturn); // Waits for the user to press a key before closing.
 		}
 	}
 }

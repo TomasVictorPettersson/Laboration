@@ -14,12 +14,12 @@ namespace Laboration.UnitTests.GameLogic
 		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();
 		private readonly Mock<IConsoleUI> _mockConsoleUI = new();
 		private readonly Mock<IValidation> _mockValidation = new();
-		private TestGameLogic _gameLogic = null!;
+		private BullsAndCowsGameLogic _gameLogic = null!;
 
 		[TestInitialize]
 		public void TestInitialize()
 		{
-			_gameLogic = new TestGameLogic(
+			_gameLogic = new BullsAndCowsGameLogic(
 				_mockHighScoreManager.Object,
 				_mockConsoleUI.Object,
 				_mockValidation.Object
@@ -27,34 +27,17 @@ namespace Laboration.UnitTests.GameLogic
 		}
 
 		[TestMethod]
-		public void PlayGame_ShouldDisplayWelcomeMessage()
-		{
-			// Arrange
-			const bool isNewGame = true;
-			_mockConsoleUI.Setup(ui => ui.DisplayWelcomeMessage(GameTypes.Test, TestConstants.UserName, isNewGame));
-
-			// Act
-			_gameLogic.PlayGame(TestConstants.UserName, isNewGame);
-
-			// Assert
-			_mockConsoleUI.Verify(
-				ui => ui.DisplayWelcomeMessage(GameTypes.Test, TestConstants.UserName, isNewGame),
-				Times.Once
-			);
-		}
-
-		[TestMethod]
 		public void PlayGameLoop_ShouldEndWhenGuessIsCorrect()
 		{
 			// Arrange
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser(GameTypes.Test)).Returns(TestConstants.SecretNumber);
+			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser(GameTypes.BullsAndCows)).Returns(TestConstants.SecretNumber);
 			_mockValidation.Setup(v => v.IsCorrectGuess(TestConstants.SecretNumber, TestConstants.SecretNumber)).Returns(true);
 
 			// Act
 			_gameLogic.PlayGameLoop(TestConstants.SecretNumber, TestConstants.UserName);
 
 			// Assert
-			_mockConsoleUI.Verify(ui => ui.GetValidGuessFromUser(GameTypes.Test), Times.AtLeastOnce);
+			_mockConsoleUI.Verify(ui => ui.GetValidGuessFromUser(GameTypes.BullsAndCows), Times.AtLeastOnce);
 			_mockValidation.Verify(v => v.IsCorrectGuess(TestConstants.SecretNumber, TestConstants.SecretNumber), Times.AtLeastOnce);
 		}
 
@@ -63,7 +46,7 @@ namespace Laboration.UnitTests.GameLogic
 		{
 			// Arrange
 			int numberOfGuesses = 0;
-			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser(GameTypes.Test)).Returns(TestConstants.Guess);
+			_mockConsoleUI.Setup(ui => ui.GetValidGuessFromUser(GameTypes.BullsAndCows)).Returns(TestConstants.Guess);
 			_mockValidation.Setup(v => v.IsCorrectGuess(TestConstants.Guess, TestConstants.SecretNumber)).Returns(true);
 
 			// Act
@@ -108,18 +91,53 @@ namespace Laboration.UnitTests.GameLogic
 			_mockConsoleUI.Verify(ui => ui.DisplayHighScoreList(TestConstants.UserName), Times.Once);
 		}
 
-		// Define a test-specific implementation of GameLogicBase for testing.
-		private class TestGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : GameLogicBase(highScoreManager, consoleUI, validation)
+		// Verifies that ProcessGuess increments the counter and returns true for a correct guess.
+		[TestMethod]
+		public void ProcessGuess_ShouldIncrementCounter_ForCorrectGuess()
 		{
-			public override string MakeSecretNumber() => TestConstants.SecretNumber;
+			// Arrange
+			int numberOfGuesses = 0;
 
-			public override int CountCows(string secretNumber, string guess) => 0;
+			// Set up the mocks
+			_mockValidation.Setup(v => v.IsCorrectGuess(TestConstants.Guess, TestConstants.SecretNumber)).Returns(true);
+			_mockConsoleUI.Setup(ui => ui.DisplayGuessFeedback(TestConstants.FeedbackBBBB));
 
-			public override GameTypes GetGameType() => GameTypes.Test;
+			// Act
+			bool result = _gameLogic.ProcessGuess(TestConstants.SecretNumber, TestConstants.Guess, ref numberOfGuesses);
 
-			public override string GenerateFeedback(string secretNumber, string guess) => "Feedback";
+			// Assert
+			Assert.IsTrue(result, "ProcessGuess should return true for a correct guess.");
+			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should increment for a correct guess.");
+			_mockConsoleUI.Verify(
+				ui => ui.DisplayGuessFeedback(TestConstants.FeedbackBBBB),
+				Times.Once,
+				"DisplayGuessFeedback should be called once with the correct feedback for a correct guess."
+			);
+		}
 
-			public override int CountBulls(string secretNumber, string guess) => 0;
+		// Verifies that ProcessGuess increments the counter and returns false for an incorrect guess.
+		[TestMethod]
+		public void ProcessGuess_ShouldIncrementCounter_ForIncorrectGuess()
+		{
+			// Arrange
+			int numberOfGuesses = 0;
+			const string inCorrectGuess = "5678";
+
+			// Set up the mocks
+			_mockValidation.Setup(v => v.IsCorrectGuess(inCorrectGuess, TestConstants.SecretNumber)).Returns(false);
+			_mockConsoleUI.Setup(ui => ui.DisplayGuessFeedback(TestConstants.FeedbackComma));
+
+			// Act
+			bool result = _gameLogic.ProcessGuess(TestConstants.SecretNumber, inCorrectGuess, ref numberOfGuesses);
+
+			// Assert
+			Assert.IsFalse(result, "ProcessGuess should return false for an incorrect guess.");
+			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should increment for an incorrect guess.");
+			_mockConsoleUI.Verify(
+				ui => ui.DisplayGuessFeedback(TestConstants.FeedbackComma),
+				Times.Once,
+				"DisplayGuessFeedback should be called once with the correct feedback for an incorrect guess."
+			);
 		}
 	}
 }

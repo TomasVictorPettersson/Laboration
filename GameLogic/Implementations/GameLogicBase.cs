@@ -1,4 +1,5 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
+using Laboration.ConsoleUI.Utils;
 using Laboration.GameLogic.Interfaces;
 using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
@@ -25,7 +26,7 @@ namespace Laboration.GameLogic.Implementations
 			{
 				_consoleUI.DisplayWelcomeMessage(GetGameType(), userName, isNewGame);
 				string secretNumber = MakeSecretNumber();
-				_consoleUI.WaitForUserToContinue(isNewGame ? $"\n{PromptMessages.InstructionsReadMessage}" : $"\n{PromptMessages.StartPlayingPrompt}");
+				ConsoleUtils.WaitForUserToContinue(isNewGame ? $"\n{PromptMessages.InstructionsReadMessage}" : $"\n{PromptMessages.StartPlayingPrompt}");
 
 				// Optionally display the secret number for practice mode.
 				_consoleUI.DisplaySecretNumberForPractice(secretNumber);
@@ -79,9 +80,9 @@ namespace Laboration.GameLogic.Implementations
 		{
 			_highScoreManager.SaveResult(userName, numberOfGuesses);
 			_consoleUI.DisplayCorrectMessage(secretNumber, numberOfGuesses);
-			_consoleUI.WaitForUserToContinue(PromptMessages.FinishGamePrompt);
+			ConsoleUtils.WaitForUserToContinue(PromptMessages.FinishGamePrompt);
 			_consoleUI.DisplayHighScoreList(userName);
-			_consoleUI.WaitForUserToContinue(PromptMessages.ContinuePrompt);
+			ConsoleUtils.WaitForUserToContinue(PromptMessages.ContinuePrompt);
 		}
 
 		// Abstract method to generate feedback based on the game rules and must be implemented by derived classes

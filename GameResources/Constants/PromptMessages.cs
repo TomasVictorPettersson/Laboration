@@ -23,5 +23,8 @@
 		// Message instructing the user to close the window.
 		// Provides a prompt to press any key to close the application window.
 		public const string CloseWindowPrompt = "\nPress any key to close this window...";
+
+		// Message displayed to prompt the user to press any key to return to the main menu.
+		public const string PressAnyKeyToReturn = "Press any key to return to the main menu...";
 	}
 }

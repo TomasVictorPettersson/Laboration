@@ -1,7 +1,7 @@
-﻿using Laboration.ConsoleUI.Implementations;
+﻿using ConsoleUI.Implementations;
+using Laboration.ConsoleUI.Implementations;
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Mocks;
 using Laboration.PlayerData.Interfaces;
@@ -23,7 +23,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		[TestInitialize]
 		public void Setup()
 		{
-			_consoleUI = CreateTestConsoleUI();
+			_consoleUI = CreateTestConsoleUI;
 
 			_originalConsoleOut = Console.Out;
 			_originalConsoleIn = Console.In;
@@ -136,19 +136,6 @@ namespace Laboration.UnitTests.ConsoleUI
 		}
 
 		// Create a test-specific ConsoleUIBase instance
-		private ConsoleUIBase CreateTestConsoleUI()
-		{
-			return new TestConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
-		}
-
-		// Derived class for testing abstract methods
-		private class TestConsoleUI(IValidation validation, IHighScoreManager highScoreManager) : ConsoleUIBase(validation, highScoreManager)
-		{
-			public override string GetWelcomeMessageFormat(GameTypes gameType) => "Welcome {0}!";
-
-			public override string GetGoodbyeMessageFormat(GameTypes gameType) => "Goodbye {0}!";
-
-			public override void DisplayInvalidInputMessage() => Console.WriteLine("Invalid input. Please try again.");
-		}
+		private ConsoleUIBase CreateTestConsoleUI => new TestConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
 	}
 }
