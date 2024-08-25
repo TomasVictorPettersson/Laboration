@@ -29,7 +29,7 @@ namespace Laboration.ConsoleUI.Implementations
 		}
 
 		// Displays game options and formatting
-		private static void DisplayGameOptions()
+		public void DisplayGameOptions()
 		{
 			Console.WriteLine(
 				$"{UserInteractionMessages.GameSelectionPrompt}\n" +
@@ -42,7 +42,7 @@ namespace Laboration.ConsoleUI.Implementations
 		}
 
 		// Parses user input and returns corresponding GameType enum value
-		private static GameTypes? ParseUserInput(string? input)
+		public GameTypes? ParseUserInput(string? input)
 		{
 			return input switch
 			{

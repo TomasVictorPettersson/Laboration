@@ -1,4 +1,5 @@
 ﻿using Laboration.ConsoleUI.Implementations;
+using Laboration.ConsoleUI.Utils;
 using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
 
@@ -71,14 +72,22 @@ namespace Laboration.UnitTests.ConsoleUI
 		[TestMethod]
 		public void DisplayGameOptions_CorrectlyDisplaysOptions()
 		{
+			// Arrange
+			var expectedOutput =
+				$"{UserInteractionMessages.GameSelectionPrompt}\n" +
+				$"{FormatUtils.CreateSeparatorLine()}\n" +
+				$"{UserInteractionMessages.GameSelectionOptions}\n" +
+				$"{FormatUtils.CreateSeparatorLine()}\n" +
+				$"{UserInteractionMessages.ExitOption}\n" +
+				$"{FormatUtils.CreateSeparatorLine()}";
+
 			// Act
-			var displayGameOptionsMethod = typeof(GameSelector).GetMethod("DisplayGameOptions", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-			displayGameOptionsMethod!.Invoke(null, null);
+			gameSelector.DisplayGameOptions();
+
+			var actualOutput = consoleOutput.ToString().Trim();
 
 			// Assert
-			StringAssert.Contains(consoleOutput.ToString(), UserInteractionMessages.GameSelectionPrompt, "Expected game selection prompt to be displayed.");
-			StringAssert.Contains(consoleOutput.ToString(), UserInteractionMessages.GameSelectionOptions, "Expected game selection options to be displayed.");
-			StringAssert.Contains(consoleOutput.ToString(), UserInteractionMessages.ExitOption, "Expected exit option to be displayed.");
+			Assert.AreEqual(expectedOutput, actualOutput, "Console output does not match the expected format.");
 		}
 
 		// Cleanup after each test method is run.

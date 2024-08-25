@@ -1,7 +1,7 @@
 ﻿namespace Laboration.GameResources.Constants
 {
 	// Contains constants used for testing purposes in the game.
-	// These constants are designed to provide predefined values for various test scenarios.
+	// Provides predefined values for various test scenarios.
 	public static class TestConstants
 	{
 		// Usernames for various test scenarios.
@@ -36,7 +36,6 @@
 		public const string FeedbackCommaCC = ",CC"; // Example feedback format with ',CC'
 
 		// The file name used for storing high scores during unit tests.
-
 		public const string TestFilePath = "test_highscores.txt";
 	}
 }
