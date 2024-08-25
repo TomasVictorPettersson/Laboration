@@ -1,14 +1,13 @@
-﻿using Laboration.GameFactory.Implementations;
-using Laboration.GameFactory.Interfaces;
+﻿using Laboration.GameFactory.Interfaces;
 using Laboration.GameResources.Enums;
 
-namespace Laboration.GameFactory.Creators
+namespace Laboration.GameFactory.Implementations
 {
-	// A static class responsible for creating game factory instances based on the selected game type.
-	public static class FactoryCreator
+	// Implements the IFactoryCreator interface to create game factory instances.
+	public class FactoryCreator : IFactoryCreator
 	{
 		// Creates the appropriate factory based on the selected game type.
-		public static IGameFactory? CreateFactory(GameTypes gameType)
+		public IGameFactory? CreateFactory(GameTypes gameType)
 		{
 			return gameType switch
 			{

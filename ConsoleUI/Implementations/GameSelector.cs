@@ -31,12 +31,14 @@ namespace Laboration.ConsoleUI.Implementations
 		// Displays game options and formatting
 		private static void DisplayGameOptions()
 		{
-			Console.WriteLine(UserInteractionMessages.GameSelectionPrompt);
-			Console.WriteLine(FormatUtils.CreateSeparatorLine());
-			Console.WriteLine(UserInteractionMessages.GameSelectionOptions);
-			Console.WriteLine(FormatUtils.CreateSeparatorLine());
-			Console.WriteLine(UserInteractionMessages.ExitOption);
-			Console.WriteLine(FormatUtils.CreateSeparatorLine());
+			Console.WriteLine(
+				$"{UserInteractionMessages.GameSelectionPrompt}\n" +
+				$"{FormatUtils.CreateSeparatorLine()}\n" +
+				$"{UserInteractionMessages.GameSelectionOptions}\n" +
+				$"{FormatUtils.CreateSeparatorLine()}\n" +
+				$"{UserInteractionMessages.ExitOption}\n" +
+				$"{FormatUtils.CreateSeparatorLine()}"
+			);
 		}
 
 		// Parses user input and returns corresponding GameType enum value
