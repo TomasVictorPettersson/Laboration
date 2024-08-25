@@ -13,7 +13,6 @@ namespace Laboration.ConsoleUI.Implementations
 	// Uses game-specific implementations for welcome, goodbye, and invalid input messages.
 	public abstract class ConsoleUIBase(IValidation validation, IHighScoreManager highScoreManager) : IConsoleUI
 	{
-		// Fields for validation and high score management services.
 		protected readonly IValidation _validation = validation;
 
 		protected readonly IHighScoreManager _highScoreManager = highScoreManager;

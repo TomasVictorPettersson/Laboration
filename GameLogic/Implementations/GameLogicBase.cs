@@ -12,9 +12,7 @@ namespace Laboration.GameLogic.Implementations
 	// Implements the IGameLogic interface and defines the core game loop and helper methods.
 	public abstract class GameLogicBase(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : IGameLogic
 	{
-		// Dependency injection for high score management, console UI, and validation.
 		private readonly IHighScoreManager _highScoreManager = highScoreManager;
-
 		private readonly IConsoleUI _consoleUI = consoleUI;
 		private readonly IValidation _validation = validation;
 

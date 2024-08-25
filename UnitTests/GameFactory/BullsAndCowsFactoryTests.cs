@@ -10,7 +10,6 @@ namespace Laboration.UnitTests.GameFactory
 	[TestClass]
 	public class BullsAndCowsFactoryTests
 	{
-		// Instance of the game factory to be tested.
 		private readonly BullsAndCowsFactory _factory = new();
 
 		// Verifies that CreateDependencyInitializer returns an instance of BullsAndCowsDependencyInitializer.

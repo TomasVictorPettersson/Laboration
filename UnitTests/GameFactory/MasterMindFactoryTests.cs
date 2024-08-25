@@ -10,7 +10,6 @@ namespace Laboration.UnitTests.GameFactory
 	[TestClass]
 	public class MasterMindFactoryTests
 	{
-		// Instance of the game factory to be tested.
 		private readonly MasterMindFactory _factory = new();
 
 		// Verifies that CreateDependencyInitializer returns an instance of MasterMindDependencyInitializer.

@@ -1,26 +1,29 @@
 ﻿using Laboration.ConsoleUI.Implementations;
 using Laboration.ConsoleUI.Interfaces;
 using Laboration.ConsoleUI.Utils;
+using Laboration.GameApplication.Interfaces;
 using Laboration.GameFactory.Implementations;
 using Laboration.GameFactory.Interfaces;
 using Laboration.GameLogic.Interfaces;
 using Laboration.GameResources.Constants;
 using Laboration.GameResources.Enums;
 
-// TODO: ADD comments
-namespace Laboration.GameApplication
+namespace Laboration.GameApplication.Implementations
 {
-	public class Program(IGameSelector gameSelector, IFactoryCreator factoryCreator)
+	// The Program class is responsible for initializing and running the game application.
+	public class Program(IGameSelector gameSelector, IGameFactoryCreator factoryCreator) : IProgram
 	{
 		private IGameFactory? _factory;
 		private readonly IGameSelector _gameSelector = gameSelector;
-		private readonly IFactoryCreator _factoryCreator = factoryCreator;
+		private readonly IGameFactoryCreator _factoryCreator = factoryCreator;
 
+		// Entry point of the application. Initializes Program,
+		// runs the game loop, and waits for user to close the window.
 		public static void Main()
 		{
 			try
 			{
-				var program = CreateAndInitializeProgram();
+				var program = new Program(new GameSelector(), new GameFactoryCreator());
 				program.RunGameLoop();
 				ConsoleUtils.WaitForUserToContinue(PromptMessages.CloseWindowPrompt);
 			}
@@ -30,14 +33,7 @@ namespace Laboration.GameApplication
 			}
 		}
 
-		// Method to create and initialize Program and its dependencies
-		public static Program CreateAndInitializeProgram()
-		{
-			var gameSelector = new GameSelector();
-			var factoryCreator = new FactoryCreator();
-			return new Program(gameSelector, factoryCreator);
-		}
-
+		// Runs the main game loop. Continuously prompts the user to select a game type and executes the game loop.
 		public void RunGameLoop()
 		{
 			GameTypes selectedGameType;
@@ -61,19 +57,21 @@ namespace Laboration.GameApplication
 			} while (selectedGameType != GameTypes.Quit);
 		}
 
+		// Initializes the game factory based on the selected game type.
 		public bool InitializeGameFactory(GameTypes gameType)
 		{
-			_factory = _factoryCreator.CreateFactory(gameType);
+			_factory = _factoryCreator.CreateGameFactory(gameType);
 			return _factory != null;
 		}
 
+		// Initializes and returns the user interface and game logic dependencies.
 		public (IConsoleUI, IGameLogic) InitializeDependencies()
 		{
 			var dependencyInitializer = _factory!.CreateDependencyInitializer();
 			return dependencyInitializer.InitializeDependencies();
 		}
 
-		// Public method to access private _factory field for testing purposes
+		// Public method to access the private _factory field for testing purposes.
 		public IGameFactory? GetFactory() => _factory;
 	}
 }

@@ -3,11 +3,11 @@ using Laboration.GameResources.Enums;
 
 namespace Laboration.GameFactory.Implementations
 {
-	// Implements the IFactoryCreator interface to create game factory instances.
-	public class FactoryCreator : IFactoryCreator
+	// Implements the IGameFactoryCreator interface to create game factory instances.
+	public class GameFactoryCreator : IGameFactoryCreator
 	{
-		// Creates the appropriate factory based on the selected game type.
-		public IGameFactory? CreateFactory(GameTypes gameType)
+		// Creates the appropriate game factory based on the selected game type.
+		public IGameFactory? CreateGameFactory(GameTypes gameType)
 		{
 			return gameType switch
 			{
