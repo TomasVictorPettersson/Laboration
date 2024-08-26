@@ -1,8 +1,7 @@
 ﻿using Laboration.ConsoleUI.Interfaces;
 using Laboration.GameLogic.Interfaces;
-using Laboration.Validation.Interfaces;
 using Laboration.HighScoreManagement.Interfaces;
-using Laboration.GameResources.Enums;
+using Laboration.Validation.Interfaces;
 
 namespace Laboration.DependencyInjection.Interfaces
 {

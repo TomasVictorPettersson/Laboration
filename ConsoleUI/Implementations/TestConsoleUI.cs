@@ -1,5 +1,4 @@
-﻿using Laboration.ConsoleUI.Implementations;
-using Laboration.GameResources.Enums;
+﻿using Laboration.GameResources.Enums;
 using Laboration.HighScoreManagement.Interfaces;
 using Laboration.Validation.Interfaces;
 

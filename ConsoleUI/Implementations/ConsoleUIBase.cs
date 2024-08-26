@@ -213,12 +213,13 @@ namespace Laboration.ConsoleUI.Implementations
 			}
 		}
 
-		// Displays the goodbye message when the user chooses to quit.
+		// Displays the goodbye message when the user chooses to quit and
+		// then waits for the user to press a key before closing.
 		public void DisplayGoodbyeMessage(GameTypes gameType, string userName)
 		{
 			string goodbyeMessageFormat = GetGoodbyeMessageFormat(gameType);
-			Console.WriteLine($"\n{string.Format(goodbyeMessageFormat, userName)}\n"); // Displays the goodbye message.
-			ConsoleUtils.WaitForUserToContinue(PromptMessages.PressAnyKeyToReturn); // Waits for the user to press a key before closing.
+			Console.WriteLine($"\n{string.Format(goodbyeMessageFormat, userName)}\n");
+			ConsoleUtils.WaitForUserToContinue(PromptMessages.PressAnyKeyToReturn);
 		}
 	}
 }

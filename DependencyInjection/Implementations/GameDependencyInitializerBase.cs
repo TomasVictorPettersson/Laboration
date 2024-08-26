@@ -27,7 +27,6 @@ namespace Laboration.DependencyInjection.Implementations
 		// Creates and returns instances of dependencies used in the game loop.
 		public (IConsoleUI consoleUI, IGameLogic gameLogic) InitializeDependencies()
 		{
-			// Initialize specific dependencies
 			IValidation validation = CreateValidation();
 			IHighScoreManager highScoreManager = CreateHighScoreManager();
 			IConsoleUI consoleUI = CreateConsoleUI(validation, highScoreManager);
