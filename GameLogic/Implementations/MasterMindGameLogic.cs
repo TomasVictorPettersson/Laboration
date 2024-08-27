@@ -15,7 +15,7 @@ namespace Laboration.GameLogic.Implementations
 			Random random = new();
 			StringBuilder secretNumber = new();
 
-			// Continue adding random digits until we have a 4-digit number
+			// Continue adding random digits until having a 4-digit number
 			while (secretNumber.Length < 4)
 			{
 				int randomDigit = random.Next(10);
