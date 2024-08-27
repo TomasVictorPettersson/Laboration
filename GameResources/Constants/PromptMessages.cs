@@ -23,7 +23,7 @@
 		public const string PressAnyKeyToReturn = "Press any key to return to the main menu...";
 
 		// Prompt for the user to enter the game they want to play.
-		public const string GameSelectionPrompt = "Enter the number of the game you want to play: ";
+		public const string GameSelectionPrompt = "\nEnter the number of the game you want to play: ";
 
 		// Prompt for the user to enter their username.
 		public const string UserNamePrompt = "Enter your username: ";
