@@ -26,19 +26,19 @@ namespace Laboration.DependencyInjection.Implementations
 		// Creates and returns the specific validation implementation for Bulls and Cows.
 		public override IValidation CreateValidation()
 		{
-			return new BullsAndCowsValidation(); // Specific validation for Bulls and Cows
+			return new BullsAndCowsValidation();
 		}
 
 		// Creates and returns the specific console UI implementation for Bulls and Cows.
 		public override IConsoleUI CreateConsoleUI(IValidation validation, IHighScoreManager highScoreManager)
 		{
-			return new BullsAndCowsConsoleUI(validation, highScoreManager); // Specific UI for Bulls and Cows
+			return new BullsAndCowsConsoleUI(validation, highScoreManager);
 		}
 
 		// Creates and returns the specific high score manager implementation for Bulls and Cows.
 		public override IHighScoreManager CreateHighScoreManager()
 		{
-			return new BullsAndCowsHighScoreManager(); // Specific high score manager for Bulls and Cows
+			return new BullsAndCowsHighScoreManager();
 		}
 	}
 }

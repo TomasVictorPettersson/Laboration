@@ -7,7 +7,6 @@ namespace Laboration.HighScoreManagement.Implementations
 	// Specifies the file path for saving and loading high scores specific to the MasterMind game.
 	public class MasterMindHighScoreManager : HighScoreManagerBase
 	{
-		// Constructor initializes the base class with the game type MasterMind.
 		public MasterMindHighScoreManager() : base(GameTypes.MasterMind)
 		{
 		}

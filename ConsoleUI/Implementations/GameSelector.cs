@@ -15,7 +15,7 @@ namespace Laboration.ConsoleUI.Implementations
 
 			while (true)
 			{
-				Console.Write(UserInteractionMessages.ChoseGamePrompt);
+				Console.Write(PromptMessages.GameSelectionPrompt);
 				var input = Console.ReadLine();
 				var selectedGameType = ParseUserInput(input);
 
@@ -24,7 +24,7 @@ namespace Laboration.ConsoleUI.Implementations
 					return selectedGameType.Value;
 				}
 
-				Console.WriteLine(UserInteractionMessages.InvalidSelectionMessage);
+				Console.WriteLine(UserInteractionMessages.GameSelectionInvalidMessage);
 			}
 		}
 
@@ -32,7 +32,6 @@ namespace Laboration.ConsoleUI.Implementations
 		public void DisplayGameOptions()
 		{
 			Console.WriteLine(
-				$"{UserInteractionMessages.GameSelectionPrompt}\n" +
 				$"{FormatUtils.CreateSeparatorLine()}\n" +
 				$"{UserInteractionMessages.GameSelectionOptions}\n" +
 				$"{FormatUtils.CreateSeparatorLine()}\n" +

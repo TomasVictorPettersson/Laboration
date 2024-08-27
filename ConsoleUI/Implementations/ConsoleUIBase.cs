@@ -29,11 +29,11 @@ namespace Laboration.ConsoleUI.Implementations
 			string userName;
 			do
 			{
-				Console.Write(UserInteractionMessages.UserNamePrompt);
+				Console.Write(PromptMessages.UserNamePrompt);
 				userName = Console.ReadLine()!.Trim();
-				Console.WriteLine(_validation.ValidateUserName(userName)); // Displays validation message (if any).
+				Console.WriteLine(_validation.ValidateUserName(userName));
 			}
-			while (!_validation.IsValidUserName(userName)); // Loops until the username is valid.
+			while (!_validation.IsValidUserName(userName));
 			Console.Clear();
 			return userName;
 		}
@@ -43,8 +43,8 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			string welcomeMessage = GetWelcomeMessageFormat(gameType);
 			Console.WriteLine(isNewGame
-				? string.Format(welcomeMessage, userName) // Welcome message for new user.
-				: string.Format(GameMessages.WelcomeBackMessageFormat, userName)); // Welcome message for returning user.
+				? string.Format(welcomeMessage, userName)
+				: string.Format(GameMessages.WelcomeBackMessageFormat, userName));
 		}
 
 		// Displays the secret number to the user in practice mode.
@@ -61,12 +61,12 @@ namespace Laboration.ConsoleUI.Implementations
 
 			do
 			{
-				guess = GetInputFromUser(); // Calls helper method to get user input.
+				guess = GetInputFromUser();
 				isValidInput = _validation.IsInputValid(gameType, guess);
 
 				if (!isValidInput)
 				{
-					DisplayInvalidInputMessage(); // Shows an error message if input is invalid.
+					DisplayInvalidInputMessage();
 				}
 			} while (!isValidInput);
 
@@ -79,7 +79,7 @@ namespace Laboration.ConsoleUI.Implementations
 		// Prompts the user for input and returns the trimmed result.
 		public string GetInputFromUser()
 		{
-			Console.Write(UserInteractionMessages.GuessPrompt);
+			Console.Write(PromptMessages.GuessPrompt);
 			return Console.ReadLine()!.Trim();
 		}
 
@@ -96,24 +96,24 @@ namespace Laboration.ConsoleUI.Implementations
 				GameMessages.CorrectGuessMessageFormat,
 				secretNumber,
 				numberOfGuesses,
-				numberOfGuesses == 1 ? Plurals.GuessSingular : Plurals.GuessPlural // Singular or plural form of 'guess'.
+				numberOfGuesses == 1 ? Plurals.GuessSingular : Plurals.GuessPlural
 			));
 		}
 
 		// Displays the high score list, including fetching and sorting the high scores.
 		public void DisplayHighScoreList(string currentUserName)
 		{
-			var results = _highScoreManager.ReadHighScoreResultsFromFile(); // Reads high score data.
-			_highScoreManager.SortHighScoreList(results); // Sorts the high score list.
-			RenderHighScoreList(results, currentUserName); // Calls method to render the list on the console.
+			var results = _highScoreManager.ReadHighScoreResultsFromFile();
+			_highScoreManager.SortHighScoreList(results);
+			RenderHighScoreList(results, currentUserName);
 		}
 
 		// Renders the high score list on the console, highlighting the current user.
 		public void RenderHighScoreList(List<IPlayerData> results, string currentUserName)
 		{
-			var (maxUserNameLength, totalWidth) = CalculateDisplayDimensions(results); // Calculates formatting dimensions.
-			DisplayHighScoreListHeader(maxUserNameLength, totalWidth); // Displays the header.
-			PrintHighScoreResults(results, currentUserName, maxUserNameLength); // Prints each high score entry.
+			var (maxUserNameLength, totalWidth) = CalculateDisplayDimensions(results);
+			DisplayHighScoreListHeader(maxUserNameLength, totalWidth);
+			PrintHighScoreResults(results, currentUserName, maxUserNameLength);
 			Console.WriteLine(FormatUtils.CreateSeparatorLine(totalWidth));
 		}
 
@@ -162,12 +162,11 @@ namespace Laboration.ConsoleUI.Implementations
 			foreach (var player in results)
 			{
 				bool isCurrentUser = player.UserName.Equals(currentUserName, StringComparison.OrdinalIgnoreCase);
-				Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White; // Highlights the current user.
-
+				Console.ForegroundColor = isCurrentUser ? ConsoleColor.Green : ConsoleColor.White;
 				Console.Write($"{rank,-FormattingConstants.RankColumnWidth} ");
 				Console.WriteLine($"{player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,FormattingConstants.GamesPlayedColumnWidth} {player.CalculateAverageGuesses(),FormattingConstants.AverageGuessesColumnWidth:F2}");
 
-				Console.ResetColor(); // Resets the console color after printing.
+				Console.ResetColor();
 				rank++;
 			}
 		}
@@ -195,7 +194,7 @@ namespace Laboration.ConsoleUI.Implementations
 		{
 			while (true)
 			{
-				Console.Write(UserInteractionMessages.PlayAgainPrompt);
+				Console.Write(PromptMessages.PlayAgainPrompt);
 				string answer = Console.ReadLine()!.ToLower().Trim();
 				if (answer == UserInputConstants.YesInput)
 				{
@@ -208,7 +207,7 @@ namespace Laboration.ConsoleUI.Implementations
 				}
 				else
 				{
-					Console.WriteLine(UserInteractionMessages.InvalidPlayAgainResponse); // Invalid input handling.
+					Console.WriteLine(UserInteractionMessages.InvalidPlayAgainResponse);
 				}
 			}
 		}

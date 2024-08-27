@@ -1,7 +1,6 @@
 ﻿namespace Laboration.ConsoleUI.Utils
 {
 	// Provides utility methods for formatting console output.
-
 	public static class FormatUtils
 	{
 		// Creates a separator line used for formatting console output.

@@ -7,18 +7,20 @@ using Laboration.GameResources.Enums;
 
 namespace Laboration.GameFactory.Implementations
 {
-	// Concrete implementation for MasterMind game.
+	// Concrete factory for creating MasterMind game-specific components.
 	public class MasterMindFactory : GameFactoryBase
 	{
 		public MasterMindFactory() : base(GameTypes.MasterMind)
 		{
 		}
 
+		// This method creates and returns an instance of the MasterMindDependencyInitializer,
 		public override IDependencyInitializer CreateDependencyInitializer()
 		{
 			return new MasterMindDependencyInitializer();
 		}
 
+		// This method creates and returns an instance of the MasterMindGameFlowController.
 		public override IGameFlowController CreateGameFlowController()
 		{
 			return new MasterMindGameFlowController();

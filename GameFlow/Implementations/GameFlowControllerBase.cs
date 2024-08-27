@@ -41,6 +41,7 @@ namespace Laboration.GameFlow.Implementations
 				}
 			} while (consoleUI.AskToContinue()); // Continue if user wants to play again
 
+			// Displays GoodbyeMessage when exiting the game
 			consoleUI.DisplayGoodbyeMessage(GameType, userName);
 		}
 	}

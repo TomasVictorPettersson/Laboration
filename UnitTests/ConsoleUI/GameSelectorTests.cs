@@ -50,7 +50,7 @@ namespace Laboration.UnitTests.ConsoleUI
 			var result = gameSelector.SelectGameType();
 
 			// Assert
-			StringAssert.Contains(consoleOutput.ToString(), UserInteractionMessages.InvalidSelectionMessage, "Expected error message for invalid input.");
+			StringAssert.Contains(consoleOutput.ToString(), UserInteractionMessages.GameSelectionInvalidMessage, "Expected error message for invalid input.");
 			Assert.AreEqual(GameTypes.BullsAndCows, result, "Expected GameType to be BullsAndCows after invalid input followed by '1'.");
 		}
 
@@ -74,7 +74,6 @@ namespace Laboration.UnitTests.ConsoleUI
 		{
 			// Arrange
 			var expectedOutput =
-				$"{UserInteractionMessages.GameSelectionPrompt}\n" +
 				$"{FormatUtils.CreateSeparatorLine()}\n" +
 				$"{UserInteractionMessages.GameSelectionOptions}\n" +
 				$"{FormatUtils.CreateSeparatorLine()}\n" +

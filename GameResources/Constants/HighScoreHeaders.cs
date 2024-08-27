@@ -1,27 +1,21 @@
 ﻿namespace Laboration.GameResources.Constants
 {
-	// Contains constant values used as headers for high score lists in the Bulls and Cows game.
-	// These headers are used to format and label columns in the high score table.
+	// Contains constant values used as headers for high score lists in game.
 	public static class HighScoreHeaders
 	{
-		// Header for the main title of the high score list.
-		// Displays at the top of the high score list to indicate the section's purpose.
+		// Main title for the high score list.
 		public const string HighScoreHeader = "=== HIGH SCORE LIST ===";
 
-		// Header for the column displaying the player's rank in the high score list.
-		// Used to show the ranking position of each player.
+		// Column header for player ranking.
 		public const string RankHeader = "Rank";
 
-		// Header for the column displaying the player's username.
-		// Used to identify which player achieved the score.
+		// Column header for player's username.
 		public const string PlayerHeader = "Player";
 
-		// Header for the column displaying the total number of games played by the player.
-		// Shows the number of games a player has participated in.
+		// Column header for the total number of games played by the player.
 		public const string GamesHeader = "Games";
 
-		// Header for the column displaying the average number of guesses per game for the player.
-		// Provides insight into the player's performance by showing their average guessing accuracy.
+		// Column header for the average number of guesses per game.
 		public const string AverageGuessesHeader = "Avg. Guesses";
 	}
 }

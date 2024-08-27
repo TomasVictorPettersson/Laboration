@@ -7,18 +7,20 @@ using Laboration.GameResources.Enums;
 
 namespace Laboration.GameFactory.Implementations
 {
-	// Concrete implementation for Bulls and Cows game.
+	// Concrete factory for creating Bulls and Cows game-specific components.
 	public class BullsAndCowsFactory : GameFactoryBase
 	{
 		public BullsAndCowsFactory() : base(GameTypes.BullsAndCows)
 		{
 		}
 
+		// This method creates and returns an instance of the BullsAndCowsDependencyInitializer,
 		public override IDependencyInitializer CreateDependencyInitializer()
 		{
 			return new BullsAndCowsDependencyInitializer();
 		}
 
+		// This method creates and returns an instance of the BullsAndCowsGameFlowController.
 		public override IGameFlowController CreateGameFlowController()
 		{
 			return new BullsAndCowsGameFlowController();

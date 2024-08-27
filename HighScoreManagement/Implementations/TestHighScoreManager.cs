@@ -6,7 +6,6 @@ namespace Laboration.HighScoreManagement.Implementations
 	// Implementation of a high score manager for testing purposes.
 	public class TestHighScoreManager : HighScoreManagerBase
 	{
-		// Constructor that initializes the base class with a test-specific game type.
 		public TestHighScoreManager() : base(GameTypes.Test)
 		{
 		}

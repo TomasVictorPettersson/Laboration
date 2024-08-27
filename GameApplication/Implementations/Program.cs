@@ -33,7 +33,8 @@ namespace Laboration.GameApplication.Implementations
 			}
 		}
 
-		// Runs the main game loop. Continuously prompts the user to select a game type and executes the game loop.
+		// Runs the main game loop. Continuously prompts the user to select
+		// a game type and executes the game loop.
 		public void RunGameLoop()
 		{
 			GameTypes selectedGameType;
@@ -45,11 +46,7 @@ namespace Laboration.GameApplication.Implementations
 				if (selectedGameType == GameTypes.Quit)
 					break;
 
-				if (!InitializeGameFactory(selectedGameType))
-				{
-					Console.WriteLine("Failed to create game factory. Please try again.");
-					continue;
-				}
+				InitializeGameFactory(selectedGameType);
 
 				var (userInterface, gameLogic) = InitializeDependencies();
 				var gameFlowController = _factory!.CreateGameFlowController();

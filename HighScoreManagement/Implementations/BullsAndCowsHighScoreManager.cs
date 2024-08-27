@@ -7,7 +7,6 @@ namespace Laboration.HighScoreManagement.Implementations
 	// Specifies the file path for saving and loading high scores specific to the Bulls and Cows game.
 	public class BullsAndCowsHighScoreManager : HighScoreManagerBase
 	{
-		// Constructor initializes the base class with the game type BullsAndCows.
 		public BullsAndCowsHighScoreManager() : base(GameTypes.BullsAndCows)
 		{
 		}

@@ -1,6 +1,6 @@
 ﻿namespace Laboration.GameResources.Constants
 {
-	// Contains constants used for formatting and presentation in the Bulls and Cows game.
+	// Contains constants used for formatting and presentation in the games.
 	// These constants define column widths and padding for displaying data in a formatted manner.
 	public static class FormattingConstants
 	{
