@@ -26,7 +26,7 @@ namespace Laboration.UnitTests.ConsoleUI
 		[TestInitialize]
 		public void Setup()
 		{
-			_consoleUI = CreateTestConsoleUI;
+			_consoleUI = new BullsAndCowsConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
 
 			_consoleOutput = new StringWriter();
 
@@ -198,8 +198,5 @@ namespace Laboration.UnitTests.ConsoleUI
 			// Act
 			_consoleOutput.Dispose();
 		}
-
-		// Create a test-specific ConsoleUIBase instance.
-		private ConsoleUIBase CreateTestConsoleUI => new TestConsoleUI(_mockValidation.Object, _mockHighScoreManager.Object);
 	}
 }

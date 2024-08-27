@@ -24,11 +24,9 @@ namespace Laboration.UnitTests.DependencyInjection
 		[TestInitialize]
 		public void TestInitialize()
 		{
-			// Initialize validation and high score manager
 			_validation = _dependencyInitializer.CreateValidation();
 			_highScoreManager = _dependencyInitializer.CreateHighScoreManager();
 
-			// Initialize console UI and game logic
 			(_consoleUI, _gameLogic) = _dependencyInitializer.InitializeDependencies();
 		}
 
@@ -65,7 +63,7 @@ namespace Laboration.UnitTests.DependencyInjection
 			Assert.IsInstanceOfType(_highScoreManager, typeof(BullsAndCowsHighScoreManager), "HighScoreManager instance should be of type BullsAndCowsHighScoreManager.");
 		}
 
-		// Additional test to verify that the GameType is correctly set to BullsAndCows
+		// Test to verify that the GameType is correctly set to BullsAndCows
 		[TestMethod]
 		public void GameType_IsCorrectlySetToBullsAndCows()
 		{

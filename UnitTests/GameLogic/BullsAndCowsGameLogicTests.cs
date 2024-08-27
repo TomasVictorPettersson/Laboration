@@ -203,7 +203,6 @@ namespace Laboration.UnitTests.GameLogic
 		}
 
 		// Helper method to determine if a number string has unique digits.
-
 		private static bool HasUniqueDigits(string number)
 		{
 			HashSet<char> digits = new(number);

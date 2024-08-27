@@ -9,7 +9,6 @@ namespace Laboration.UnitTests.HighScoreManagement
 	public class HighScoreManagerBaseTests
 	{
 		private readonly TestHighScoreManager _highScoreManager = new();
-		private readonly string _testFilePath = Path.Combine(Path.GetTempPath(), TestConstants.TestFilePath);
 
 		// Verifies that the SaveResult method creates a file and saves the result correctly.
 
@@ -20,8 +19,8 @@ namespace Laboration.UnitTests.HighScoreManagement
 			_highScoreManager.SaveResult(TestConstants.UserName, TestConstants.NumberOfGuesses);
 
 			// Assert
-			Assert.IsTrue(File.Exists(_testFilePath), "The file should be created.");
-			var lines = File.ReadAllLines(_testFilePath);
+			Assert.IsTrue(File.Exists(_highScoreManager.GetFilePath()), "The file should be created.");
+			var lines = File.ReadAllLines(_highScoreManager.GetFilePath());
 			Assert.IsTrue(lines.Length > 0, "The file should contain at least one line.");
 			Assert.IsTrue(lines[0].Contains($"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}"), "The first line should contain the correct formatted result.");
 		}
@@ -33,7 +32,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		{
 			// Arrange
 			var initialContent = $"{TestConstants.UserNameJohnDoe}{FileConstants.Separator}5\n";
-			File.WriteAllText(_testFilePath, initialContent);
+			File.WriteAllText(_highScoreManager.GetFilePath(), initialContent);
 			const string newUserName = TestConstants.UserNameJaneDoe;
 			const int newNumberOfGuesses = 20;
 
@@ -41,7 +40,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 			_highScoreManager.SaveResult(newUserName, newNumberOfGuesses);
 
 			// Assert
-			var lines = File.ReadAllLines(_testFilePath);
+			var lines = File.ReadAllLines(_highScoreManager.GetFilePath());
 			Assert.AreEqual(2, lines.Length, "The file should contain two lines.");
 			Assert.IsTrue(lines[1].Contains($"{newUserName}{FileConstants.Separator}{newNumberOfGuesses}"), "The new line should be correctly appended.");
 		}
@@ -53,7 +52,7 @@ namespace Laboration.UnitTests.HighScoreManagement
 		{
 			// Arrange
 			var content = $"{TestConstants.UserName}{FileConstants.Separator}{TestConstants.NumberOfGuesses}\n";
-			File.WriteAllText(_testFilePath, content);
+			File.WriteAllText(_highScoreManager.GetFilePath(), content);
 
 			// Act
 			var results = _highScoreManager.ReadHighScoreResultsFromFile();
@@ -71,9 +70,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 		public void ReadHighScoreResultsFromFile_WhenFileDoesNotExist_ShouldReturnEmptyList()
 		{
 			// Arrange
-			if (File.Exists(_testFilePath))
+			if (File.Exists(_highScoreManager.GetFilePath()))
 			{
-				File.Delete(_testFilePath);
+				File.Delete(_highScoreManager.GetFilePath());
 			}
 
 			// Act
@@ -173,9 +172,9 @@ namespace Laboration.UnitTests.HighScoreManagement
 		{
 			try
 			{
-				if (File.Exists(_testFilePath))
+				if (File.Exists(_highScoreManager.GetFilePath()))
 				{
-					File.Delete(_testFilePath);
+					File.Delete(_highScoreManager.GetFilePath());
 				}
 			}
 			catch (Exception ex)
