@@ -50,6 +50,34 @@ namespace Laboration.UnitTests.ConsoleUI
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The secret number for practice was not displayed correctly.");
 		}
 
+		// Test case to ensure no matches feedback is displayed correctly.
+		[TestMethod]
+		public void DisplayGuessFeedback_NoMatches_ShouldDisplayNoMatchesMessage()
+		{
+			// Arrange
+			var expectedOutput = $"{GameMessages.FeedbackPrefix}{GameMessages.NoMatchesFoundMessage}";
+
+			// Act
+			_consoleUI.DisplayGuessFeedback(",");
+
+			// Assert
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The feedback for no matches was not displayed correctly.");
+		}
+
+		// Test case to ensure guess feedback is displayed correctly when there are matches.
+		[TestMethod]
+		public void DisplayGuessFeedback_MatchesFound_ShouldDisplayFeedback()
+		{
+			// Arrange
+			var expectedOutput = $"{GameMessages.FeedbackPrefix}{TestConstants.FeedbackBBBB}";
+
+			// Act
+			_consoleUI.DisplayGuessFeedback(TestConstants.FeedbackBBBB);
+
+			// Assert
+			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The feedback for matches found was not displayed correctly.");
+		}
+
 		// Test case to ensure the correct message is displayed for a single guess.
 		[TestMethod]
 		public void DisplayCorrectMessage_SingleGuess_DisplaysMessage()
