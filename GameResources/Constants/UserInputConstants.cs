@@ -1,4 +1,4 @@
-﻿namespace Laboration.GameResources.Constants
+﻿namespace GameResources.Constants
 {
 	// Contains constants related to user input for handling common responses.
 	public static class UserInputConstants

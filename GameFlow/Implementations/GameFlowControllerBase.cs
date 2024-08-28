@@ -1,9 +1,9 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameFlow.Interfaces;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Enums;
+﻿using ConsoleUI.Interfaces;
+using GameFlow.Interfaces;
+using GameLogic.Interfaces;
+using GameResources.Enums;
 
-namespace Laboration.GameFlow.Implementations
+namespace GameFlow.Implementations
 {
 	// Abstract base class for managing game flow.
 	public abstract class GameFlowControllerBase(GameTypes gameType) : IGameFlowController

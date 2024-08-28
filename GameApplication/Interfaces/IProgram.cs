@@ -1,9 +1,9 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameFactory.Interfaces;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Enums;
+﻿using ConsoleUI.Interfaces;
+using GameFactory.Interfaces;
+using GameLogic.Interfaces;
+using GameResources.Enums;
 
-namespace Laboration.GameApplication.Interfaces
+namespace GameApplication.Interfaces
 {
 	// Interface defining the contract for a game application program.
 	public interface IProgram

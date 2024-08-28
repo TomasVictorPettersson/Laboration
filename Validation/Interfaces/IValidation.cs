@@ -1,6 +1,6 @@
-﻿using Laboration.GameResources.Enums;
+﻿using GameResources.Enums;
 
-namespace Laboration.Validation.Interfaces
+namespace Validation.Interfaces
 {
 	// Defines the contract for validation functionality.
 	public interface IValidation

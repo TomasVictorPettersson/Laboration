@@ -1,4 +1,4 @@
-﻿namespace Laboration.PlayerData.Interfaces
+﻿namespace PlayerData.Interfaces
 {
 	// Defines the contract for managing player data in a game.
 	public interface IPlayerData

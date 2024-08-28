@@ -1,7 +1,7 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.PlayerData.Implementations;
+﻿using GameResources.Constants;
+using PlayerData.Implementations;
 
-namespace Laboration.UnitTests.PlayerData
+namespace UnitTests.PlayerData
 {
 	[TestClass]
 	public class GamePlayerDataTests

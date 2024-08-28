@@ -1,11 +1,11 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameFlow.Implementations;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
+﻿using ConsoleUI.Interfaces;
+using GameFlow.Implementations;
+using GameLogic.Interfaces;
+using GameResources.Constants;
+using GameResources.Enums;
 using Moq;
 
-namespace Laboration.UnitTests.GameFlow
+namespace UnitTests.GameFlow
 {
 	[TestClass]
 	public class BullsAndCowsGameFlowControllerTests

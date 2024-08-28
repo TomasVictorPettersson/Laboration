@@ -1,15 +1,15 @@
-﻿using Laboration.ConsoleUI.Implementations;
-using Laboration.ConsoleUI.Interfaces;
-using Laboration.DependencyInjection.Implementations;
-using Laboration.GameLogic.Implementations;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Implementations;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Implementations;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Implementations;
+using ConsoleUI.Interfaces;
+using DependencyInjection.Implementations;
+using GameLogic.Implementations;
+using GameLogic.Interfaces;
+using GameResources.Enums;
+using HighScoreManagement.Implementations;
+using HighScoreManagement.Interfaces;
+using Validation.Implementations;
+using Validation.Interfaces;
 
-namespace Laboration.UnitTests.DependencyInjection
+namespace UnitTests.DependencyInjection
 {
 	[TestClass]
 	public class MasterMindDependencyInitializerTests

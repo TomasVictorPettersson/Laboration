@@ -1,7 +1,7 @@
-﻿using Laboration.GameFactory.Interfaces;
-using Laboration.GameResources.Enums;
+﻿using GameFactory.Interfaces;
+using GameResources.Enums;
 
-namespace Laboration.GameFactory.Implementations
+namespace GameFactory.Implementations
 {
 	// Implements the IGameFactoryCreator interface to create game factory instances.
 	public class GameFactoryCreator : IGameFactoryCreator

@@ -1,6 +1,6 @@
-﻿using Laboration.GameResources.Enums;
+﻿using GameResources.Enums;
 
-namespace Laboration.GameFlow.Implementations
+namespace GameFlow.Implementations
 {
 	// Concrete implementation for MasterMind game.
 	public class MasterMindGameFlowController : GameFlowControllerBase

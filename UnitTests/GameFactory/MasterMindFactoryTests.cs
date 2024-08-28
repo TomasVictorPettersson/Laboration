@@ -1,11 +1,11 @@
-﻿using Laboration.DependencyInjection.Implementations;
-using Laboration.DependencyInjection.Interfaces;
-using Laboration.GameFactory.Implementations;
-using Laboration.GameFlow.Implementations;
-using Laboration.GameFlow.Interfaces;
-using Laboration.GameResources.Enums;
+﻿using DependencyInjection.Implementations;
+using DependencyInjection.Interfaces;
+using GameFactory.Implementations;
+using GameFlow.Implementations;
+using GameFlow.Interfaces;
+using GameResources.Enums;
 
-namespace Laboration.UnitTests.GameFactory
+namespace UnitTests.GameFactory
 {
 	[TestClass]
 	public class MasterMindFactoryTests

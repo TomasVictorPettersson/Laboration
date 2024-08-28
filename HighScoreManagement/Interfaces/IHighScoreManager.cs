@@ -1,6 +1,6 @@
-﻿using Laboration.PlayerData.Interfaces;
+﻿using PlayerData.Interfaces;
 
-namespace Laboration.HighScoreManagement.Interfaces
+namespace HighScoreManagement.Interfaces
 {
 	// Defines the contract for managing high scores in the game.
 	public interface IHighScoreManager

@@ -1,6 +1,6 @@
-﻿using Laboration.GameResources.Enums;
+﻿using GameResources.Enums;
 
-namespace Laboration.Validation.Implementations
+namespace Validation.Implementations
 {
 	// Validation for "Bulls and Cows" game.
 	public class BullsAndCowsValidation : ValidationBase

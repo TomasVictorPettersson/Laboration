@@ -1,9 +1,9 @@
-﻿using Laboration.ConsoleUI.Implementations;
-using Laboration.ConsoleUI.Utils;
-using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
+﻿using ConsoleUI.Implementations;
+using ConsoleUI.Utils;
+using GameResources.Constants;
+using GameResources.Enums;
 
-namespace Laboration.UnitTests.ConsoleUI
+namespace UnitTests.ConsoleUI
 {
 	[TestClass]
 	public class GameSelectorTests

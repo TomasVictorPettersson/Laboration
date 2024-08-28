@@ -1,4 +1,4 @@
-﻿namespace Laboration.GameResources.Constants
+﻿namespace GameResources.Constants
 {
 	// Contains messages used to prompt user actions in game.
 	// These messages guide the user through different stages of interaction.

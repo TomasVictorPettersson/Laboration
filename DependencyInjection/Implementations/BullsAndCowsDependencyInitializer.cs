@@ -1,14 +1,14 @@
-﻿using Laboration.ConsoleUI.Implementations;
-using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameLogic.Implementations;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Implementations;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Implementations;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Implementations;
+using ConsoleUI.Interfaces;
+using GameLogic.Implementations;
+using GameLogic.Interfaces;
+using GameResources.Enums;
+using HighScoreManagement.Implementations;
+using HighScoreManagement.Interfaces;
+using Validation.Implementations;
+using Validation.Interfaces;
 
-namespace Laboration.DependencyInjection.Implementations
+namespace DependencyInjection.Implementations
 {
 	// Concrete implementation for Bulls and Cows game.
 	public class BullsAndCowsDependencyInitializer : GameDependencyInitializerBase

@@ -1,11 +1,11 @@
-﻿using Laboration.ConsoleUI.Implementations;
-using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Implementations;
+using GameResources.Constants;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
 using Moq;
+using Validation.Interfaces;
 
-namespace Laboration.UnitTests.ConsoleUI
+namespace UnitTests.ConsoleUI
 {
 	[TestClass]
 	public class BullsAndCowsConsoleUITests

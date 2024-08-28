@@ -1,6 +1,6 @@
-﻿using Laboration.GameResources.Enums;
+﻿using GameResources.Enums;
 
-namespace Laboration.GameFlow.Implementations
+namespace GameFlow.Implementations
 {
 	// Concrete implementation for Bulls and Cows game.
 	public class BullsAndCowsGameFlowController : GameFlowControllerBase

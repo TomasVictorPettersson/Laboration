@@ -1,7 +1,7 @@
-﻿using Laboration.GameFactory.Implementations;
-using Laboration.GameResources.Enums;
+﻿using GameFactory.Implementations;
+using GameResources.Enums;
 
-namespace Laboration.UnitTests.GameFactory
+namespace UnitTests.GameFactory
 {
 	[TestClass]
 	public class GameFactoryCreatorTests

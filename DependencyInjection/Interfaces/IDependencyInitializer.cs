@@ -1,9 +1,9 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameLogic.Interfaces;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Interfaces;
+using GameLogic.Interfaces;
+using HighScoreManagement.Interfaces;
+using Validation.Interfaces;
 
-namespace Laboration.DependencyInjection.Interfaces
+namespace DependencyInjection.Interfaces
 {
 	// Defines the contract for initializing game dependencies.
 	public interface IDependencyInitializer

@@ -1,4 +1,4 @@
-﻿namespace Laboration.GameResources.Constants
+﻿namespace GameResources.Constants
 {
 	// Contains constant values for singular and plural forms used in game.
 	// These are used to correctly display the number of guesses.

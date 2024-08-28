@@ -1,12 +1,12 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.ConsoleUI.Utils;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Interfaces;
+using ConsoleUI.Utils;
+using GameLogic.Interfaces;
+using GameResources.Constants;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
+using Validation.Interfaces;
 
-namespace Laboration.GameLogic.Implementations
+namespace GameLogic.Implementations
 {
 	// Abstract base class for game logic, providing common functionality for different game types.
 	// Implements the IGameLogic interface and defines the core game loop and helper methods.

@@ -1,11 +1,11 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.DependencyInjection.Interfaces;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Interfaces;
+using DependencyInjection.Interfaces;
+using GameLogic.Interfaces;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
+using Validation.Interfaces;
 
-namespace Laboration.DependencyInjection.Implementations
+namespace DependencyInjection.Implementations
 {
 	// Abstract base class for initializing game dependencies.
 	public abstract class GameDependencyInitializerBase(GameTypes gameType) : IDependencyInitializer

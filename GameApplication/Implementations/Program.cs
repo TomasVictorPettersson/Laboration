@@ -1,14 +1,14 @@
-﻿using Laboration.ConsoleUI.Implementations;
-using Laboration.ConsoleUI.Interfaces;
-using Laboration.ConsoleUI.Utils;
-using Laboration.GameApplication.Interfaces;
-using Laboration.GameFactory.Implementations;
-using Laboration.GameFactory.Interfaces;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
+﻿using ConsoleUI.Implementations;
+using ConsoleUI.Interfaces;
+using ConsoleUI.Utils;
+using GameApplication.Interfaces;
+using GameFactory.Implementations;
+using GameFactory.Interfaces;
+using GameLogic.Interfaces;
+using GameResources.Constants;
+using GameResources.Enums;
 
-namespace Laboration.GameApplication.Implementations
+namespace GameApplication.Implementations
 {
 	// The Program class is responsible for initializing and running the game application.
 	public class Program(IGameSelector gameSelector, IGameFactoryCreator factoryCreator) : IProgram

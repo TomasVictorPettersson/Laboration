@@ -1,10 +1,10 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.PlayerData.Implementations;
-using Laboration.PlayerData.Interfaces;
+﻿using GameResources.Constants;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
+using PlayerData.Implementations;
+using PlayerData.Interfaces;
 
-namespace Laboration.HighScoreManagement.Implementations
+namespace HighScoreManagement.Implementations
 {
 	// Abstract base class for managing high scores across different game types.
 	// Provides methods to save results, read and parse high score data from a file,

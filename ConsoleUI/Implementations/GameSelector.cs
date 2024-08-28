@@ -1,9 +1,9 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.ConsoleUI.Utils;
-using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
+﻿using ConsoleUI.Interfaces;
+using ConsoleUI.Utils;
+using GameResources.Constants;
+using GameResources.Enums;
 
-namespace Laboration.ConsoleUI.Implementations
+namespace ConsoleUI.Implementations
 {
 	// Implementation of the IGameSelector interface for selecting game types
 	public class GameSelector : IGameSelector

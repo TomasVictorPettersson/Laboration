@@ -1,13 +1,13 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.DependencyInjection.Interfaces;
-using Laboration.GameApplication.Implementations;
-using Laboration.GameFactory.Interfaces;
-using Laboration.GameFlow.Interfaces;
-using Laboration.GameLogic.Interfaces;
-using Laboration.GameResources.Enums;
+﻿using ConsoleUI.Interfaces;
+using DependencyInjection.Interfaces;
+using GameApplication.Implementations;
+using GameFactory.Interfaces;
+using GameFlow.Interfaces;
+using GameLogic.Interfaces;
+using GameResources.Enums;
 using Moq;
 
-namespace Laboration.UnitTests.GameApplication
+namespace UnitTests.GameApplication
 {
 	[TestClass]
 	public class ProgramTests

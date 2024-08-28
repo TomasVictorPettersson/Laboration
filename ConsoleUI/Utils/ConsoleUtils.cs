@@ -1,4 +1,4 @@
-﻿namespace Laboration.ConsoleUI.Utils
+﻿namespace ConsoleUI.Utils
 {
 	// Provides utility methods for interacting with the console.
 	public static class ConsoleUtils

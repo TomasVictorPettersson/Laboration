@@ -1,7 +1,7 @@
-﻿using Laboration.GameResources.Enums;
-using Laboration.PlayerData.Interfaces;
+﻿using GameResources.Enums;
+using PlayerData.Interfaces;
 
-namespace Laboration.ConsoleUI.Interfaces
+namespace ConsoleUI.Interfaces
 {
 	// Defines the contract for user interaction components in a console-based game.
 	public interface IConsoleUI

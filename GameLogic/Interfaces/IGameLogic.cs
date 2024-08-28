@@ -1,6 +1,6 @@
-﻿using Laboration.GameResources.Enums;
+﻿using GameResources.Enums;
 
-namespace Laboration.GameLogic.Interfaces
+namespace GameLogic.Interfaces
 {
 	// Defines the contract for game logic management.
 	public interface IGameLogic

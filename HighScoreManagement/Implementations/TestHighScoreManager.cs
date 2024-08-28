@@ -1,7 +1,7 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
+﻿using GameResources.Constants;
+using GameResources.Enums;
 
-namespace Laboration.HighScoreManagement.Implementations
+namespace HighScoreManagement.Implementations
 {
 	// Implementation of a high score manager for testing purposes.
 	public class TestHighScoreManager : HighScoreManagerBase

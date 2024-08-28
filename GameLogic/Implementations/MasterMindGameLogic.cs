@@ -1,10 +1,10 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Interfaces;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
+using Validation.Interfaces;
 using System.Text;
 
-namespace Laboration.GameLogic.Implementations
+namespace GameLogic.Implementations
 {
 	// Represents the game logic specific to the MasterMind game.
 	public class MasterMindGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : GameLogicBase(highScoreManager, consoleUI, validation)

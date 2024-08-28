@@ -1,7 +1,7 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameLogic.Interfaces;
+﻿using ConsoleUI.Interfaces;
+using GameLogic.Interfaces;
 
-namespace Laboration.GameFlow.Interfaces
+namespace GameFlow.Interfaces
 {
 	// Defines the contract for controlling the game flow in a game application.
 	public interface IGameFlowController

@@ -1,6 +1,6 @@
-﻿using Laboration.GameResources.Enums;
+﻿using GameResources.Enums;
 
-namespace Laboration.GameFactory.Interfaces
+namespace GameFactory.Interfaces
 {
 	// Interface defining the contract for a game factory creator.
 	// Responsible for creating an instance of IGameFactory based on the specified game type.

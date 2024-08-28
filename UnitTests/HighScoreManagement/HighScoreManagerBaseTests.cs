@@ -1,9 +1,9 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.HighScoreManagement.Implementations;
-using Laboration.PlayerData.Implementations;
-using Laboration.PlayerData.Interfaces;
+﻿using GameResources.Constants;
+using HighScoreManagement.Implementations;
+using PlayerData.Implementations;
+using PlayerData.Interfaces;
 
-namespace Laboration.UnitTests.HighScoreManagement
+namespace UnitTests.HighScoreManagement
 {
 	[TestClass]
 	public class HighScoreManagerBaseTests

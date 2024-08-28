@@ -1,6 +1,6 @@
-using Laboration.PlayerData.Interfaces;
+using PlayerData.Interfaces;
 
-namespace Laboration.PlayerData.Implementations
+namespace PlayerData.Implementations
 {
 	// Represents player data, including username, total games played, and total guesses made.
 	public class GamePlayerData : IPlayerData

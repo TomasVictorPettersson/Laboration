@@ -1,7 +1,7 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
+﻿using GameResources.Constants;
+using GameResources.Enums;
 
-namespace Laboration.HighScoreManagement.Implementations
+namespace HighScoreManagement.Implementations
 {
 	// Concrete implementation of HighScoreManagerBase for managing high scores in the MasterMind game.
 	// Specifies the file path for saving and loading high scores specific to the MasterMind game.

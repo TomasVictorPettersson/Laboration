@@ -1,4 +1,4 @@
-﻿namespace Laboration.GameResources.Constants
+﻿namespace GameResources.Constants
 {
 	// Contains messages related to user interaction, including validation and options.
 	public static class UserInteractionMessages

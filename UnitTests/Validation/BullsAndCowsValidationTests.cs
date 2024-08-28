@@ -1,7 +1,7 @@
-﻿using Laboration.GameResources.Enums;
-using Laboration.Validation.Implementations;
+﻿using GameResources.Enums;
+using Validation.Implementations;
 
-namespace Laboration.UnitTests.Validation
+namespace UnitTests.Validation
 {
 	[TestClass]
 	public class BullsAndCowsValidationTests

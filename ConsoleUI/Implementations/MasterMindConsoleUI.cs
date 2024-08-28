@@ -1,9 +1,9 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using GameResources.Constants;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
+using Validation.Interfaces;
 
-namespace Laboration.ConsoleUI.Implementations
+namespace ConsoleUI.Implementations
 {
 	// MasterMindConsoleUI handles specific UI interactions for the MasterMind game.
 	// Inherits from ConsoleUIBase and implements game-specific methods for welcome messages,

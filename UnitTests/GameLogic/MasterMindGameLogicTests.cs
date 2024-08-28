@@ -1,12 +1,12 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameLogic.Implementations;
-using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Interfaces;
+using GameLogic.Implementations;
+using GameResources.Constants;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
 using Moq;
+using Validation.Interfaces;
 
-namespace Laboration.UnitTests.GameLogic
+namespace UnitTests.GameLogic
 {
 	[TestClass]
 	public class MasterMindGameLogicTests

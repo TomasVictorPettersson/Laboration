@@ -1,4 +1,4 @@
-﻿namespace Laboration.GameResources.Constants
+﻿namespace GameResources.Constants
 {
 	// Contains constant values used for file operations for "Bulls and Cows" and "MasterMind".
 	// These constants include file paths for saving high scores and delimiters for data serialization.

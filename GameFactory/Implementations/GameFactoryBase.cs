@@ -1,8 +1,8 @@
-﻿using Laboration.DependencyInjection.Interfaces;
-using Laboration.GameFlow.Interfaces;
-using Laboration.GameResources.Enums;
+﻿using DependencyInjection.Interfaces;
+using GameFlow.Interfaces;
+using GameResources.Enums;
 
-namespace Laboration.GameFactory.Interfaces
+namespace GameFactory.Interfaces
 {
 	// Abstract base class for creating game-related components.
 	public abstract class GameFactoryBase(GameTypes gameType) : IGameFactory

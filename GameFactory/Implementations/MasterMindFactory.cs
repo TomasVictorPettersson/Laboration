@@ -1,11 +1,11 @@
-﻿using Laboration.DependencyInjection.Implementations;
-using Laboration.DependencyInjection.Interfaces;
-using Laboration.GameFactory.Interfaces;
-using Laboration.GameFlow.Implementations;
-using Laboration.GameFlow.Interfaces;
-using Laboration.GameResources.Enums;
+﻿using DependencyInjection.Implementations;
+using DependencyInjection.Interfaces;
+using GameFactory.Interfaces;
+using GameFlow.Implementations;
+using GameFlow.Interfaces;
+using GameResources.Enums;
 
-namespace Laboration.GameFactory.Implementations
+namespace GameFactory.Implementations
 {
 	// Concrete factory for creating MasterMind game-specific components.
 	public class MasterMindFactory : GameFactoryBase

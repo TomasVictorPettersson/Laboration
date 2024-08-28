@@ -1,4 +1,4 @@
-﻿namespace Laboration.GameResources.Constants
+﻿namespace GameResources.Constants
 {
 	// Contains constants used for testing purposes.
 	// Provides predefined values for various test scenarios.

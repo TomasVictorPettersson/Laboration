@@ -1,9 +1,9 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using GameResources.Constants;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
+using Validation.Interfaces;
 
-namespace Laboration.ConsoleUI.Implementations
+namespace ConsoleUI.Implementations
 {
 	// BullsAndCowsConsoleUI handles specific UI interactions for the Bulls and Cows game.
 	// It inherits from ConsoleUIBase, implementing game-specific logic for welcome messages,

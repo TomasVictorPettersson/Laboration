@@ -1,9 +1,9 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.PlayerData.Interfaces;
+﻿using GameResources.Constants;
+using PlayerData.Interfaces;
 using Moq;
 using System.Globalization;
 
-namespace Laboration.Mocks
+namespace Mocks
 {
 	// Provides mock data for testing IPlayerData implementations.
 	public static class MockPlayerData

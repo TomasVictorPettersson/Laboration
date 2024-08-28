@@ -1,8 +1,8 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
-using Laboration.Validation.Interfaces;
+﻿using GameResources.Constants;
+using GameResources.Enums;
+using Validation.Interfaces;
 
-namespace Laboration.Validation.Implementations
+namespace Validation.Implementations
 {
 	public abstract class ValidationBase : IValidation
 	{

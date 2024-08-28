@@ -1,6 +1,6 @@
-﻿using Laboration.GameResources.Enums;
+﻿using GameResources.Enums;
 
-namespace Laboration.ConsoleUI.Interfaces
+namespace ConsoleUI.Interfaces
 {
 	// Interface for selecting game types
 	public interface IGameSelector

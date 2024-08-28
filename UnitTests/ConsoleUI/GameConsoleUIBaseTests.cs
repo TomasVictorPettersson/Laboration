@@ -1,13 +1,13 @@
-﻿using Laboration.ConsoleUI.Implementations;
-using Laboration.ConsoleUI.Interfaces;
-using Laboration.GameResources.Constants;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.Mocks;
-using Laboration.PlayerData.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Implementations;
+using ConsoleUI.Interfaces;
+using GameResources.Constants;
+using HighScoreManagement.Interfaces;
+using Mocks;
 using Moq;
+using PlayerData.Interfaces;
+using Validation.Interfaces;
 
-namespace Laboration.UnitTests.ConsoleUI
+namespace UnitTests.ConsoleUI
 {
 	[TestClass]
 	public class GameConsoleUIBaseTests

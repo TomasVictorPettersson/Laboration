@@ -1,7 +1,7 @@
-﻿using Laboration.DependencyInjection.Interfaces;
-using Laboration.GameFlow.Interfaces;
+﻿using DependencyInjection.Interfaces;
+using GameFlow.Interfaces;
 
-namespace Laboration.GameFactory.Interfaces
+namespace GameFactory.Interfaces
 {
 	// Defines the contract for a factory that creates game-related components.
 	public interface IGameFactory

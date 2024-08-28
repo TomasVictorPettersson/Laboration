@@ -1,12 +1,12 @@
-﻿using Laboration.ConsoleUI.Interfaces;
-using Laboration.ConsoleUI.Utils;
-using Laboration.GameResources.Constants;
-using Laboration.GameResources.Enums;
-using Laboration.HighScoreManagement.Interfaces;
-using Laboration.PlayerData.Interfaces;
-using Laboration.Validation.Interfaces;
+﻿using ConsoleUI.Interfaces;
+using ConsoleUI.Utils;
+using GameResources.Constants;
+using GameResources.Enums;
+using HighScoreManagement.Interfaces;
+using PlayerData.Interfaces;
+using Validation.Interfaces;
 
-namespace Laboration.ConsoleUI.Implementations
+namespace ConsoleUI.Implementations
 {
 	// Base class for Console UI handling common operations for different games.
 	// Implements IConsoleUI and contains shared logic for all console-based user interactions.

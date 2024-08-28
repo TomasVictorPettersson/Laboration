@@ -1,7 +1,7 @@
-﻿using Laboration.GameResources.Constants;
-using Laboration.Validation.Implementations;
+﻿using GameResources.Constants;
+using Validation.Implementations;
 
-namespace Laboration.UnitTests.Validation
+namespace UnitTests.Validation
 {
 	[TestClass]
 	public class ValidationBaseTests

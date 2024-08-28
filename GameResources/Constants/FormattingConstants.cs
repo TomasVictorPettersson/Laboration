@@ -1,4 +1,4 @@
-﻿namespace Laboration.GameResources.Constants
+﻿namespace GameResources.Constants
 {
 	// Contains constants used for formatting and presentation in the games.
 	// These constants define column widths and padding for displaying data in a formatted manner.

@@ -1,4 +1,4 @@
-﻿namespace Laboration.GameResources.Constants
+﻿namespace GameResources.Constants
 {
 	// Contains constant values used as headers for high score lists in game.
 	public static class HighScoreHeaders
