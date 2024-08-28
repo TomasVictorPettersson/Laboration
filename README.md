@@ -20,4 +20,4 @@ is to guess a randomized four-digit string with unique digits in as few guesses 
   - Use design patterns like the Strategy Pattern for flexibility.
   - Ensure that the new implementation follows clean code standards.
   - Optionally, add a menu to select different games.
-- **Final Result:** Review the commit titled **"Refactor comments in MakeSecretNumber method for clarity"** made on 2024-08-27 for the final refactored code.
+- **Final Result:** Review the latest commit for the final refactored code.
