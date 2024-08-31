@@ -5,9 +5,10 @@ using GameResources.Enums;
 
 namespace GameFlow.Implementations
 {
-	// Class for managing game flow.
+	// Class for controlling the game flow in a game application.
 	public class GameFlowController(GameTypes gameType) : IGameFlowController
 	{
+		// Stores the type of game that this controller is managing.
 		public readonly GameTypes GameType = gameType;
 
 		// Manages the game flow, including user interaction and game loop.

@@ -9,13 +9,15 @@ namespace GameFactory.Implementations
 	// Abstract base class for creating game-related components.
 	public abstract class GameFactoryBase(GameTypes gameType) : IGameFactory
 	{
-		// Readonly property to store the game type.
-		public readonly GameTypes GameType = gameType;
+		// Read-only property to store the type of game that this factory will create components for.
+		public GameTypes GameType { get; } = gameType;
 
-		// Abstract method to create specific game components.
+		// Abstract method to create the dependency initializer for game components.
+		// Derived classes must implement this method to provide a specific dependency initializer.
 		public abstract IDependencyInitializer CreateDependencyInitializer();
 
-		// Method to create the game flow controller.
+		// Creates a new instance of GameFlowController using the stored game type.
+		// Provides a default implementation for creating a game flow controller.
 		public IGameFlowController CreateGameFlowController()
 		{
 			return new GameFlowController(GameType);

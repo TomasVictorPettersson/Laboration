@@ -10,6 +10,7 @@ namespace DependencyInjection.Implementations
 	// Abstract base class for initializing game dependencies.
 	public abstract class GameDependencyInitializerBase(GameTypes gameType) : IDependencyInitializer
 	{
+		// Read-only property to store the type of game for which this DependencyInitializer creates components.
 		public readonly GameTypes GameType = gameType;
 
 		// Abstract method to create and return specific game logic.
