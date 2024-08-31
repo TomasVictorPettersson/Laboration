@@ -46,7 +46,6 @@ namespace UnitTests.HighScoreManagement
 		}
 
 		// Verifies that the ReadHighScoreResultsFromFile method reads results from a file correctly.
-
 		[TestMethod]
 		public void ReadHighScoreResultsFromFile_ShouldReadResultsCorrectly()
 		{
