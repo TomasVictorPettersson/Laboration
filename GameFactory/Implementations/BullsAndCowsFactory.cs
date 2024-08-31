@@ -19,11 +19,5 @@ namespace GameFactory.Implementations
 		{
 			return new BullsAndCowsDependencyInitializer();
 		}
-
-		// This method creates and returns an instance of the BullsAndCowsGameFlowController.
-		public override IGameFlowController CreateGameFlowController()
-		{
-			return new BullsAndCowsGameFlowController();
-		}
 	}
 }

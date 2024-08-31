@@ -41,9 +41,9 @@ namespace UnitTests.GameFactory
 			);
 		}
 
-		// Verifies that CreateGameFlowController returns an instance of BullsAndCowsGameFlowController.
+		// Verifies that CreateGameFlowController returns an instance of GameFlowController.
 		[TestMethod]
-		public void CreateGameFlowController_ReturnsBullsAndCowsGameFlowController()
+		public void CreateGameFlowController_ReturnsGameFlowController()
 		{
 			// Act
 			IGameFlowController gameFlowController = _factory.CreateGameFlowController();
@@ -51,7 +51,7 @@ namespace UnitTests.GameFactory
 			// Assert
 			Assert.IsInstanceOfType(
 				gameFlowController,
-				typeof(BullsAndCowsGameFlowController),
+				typeof(GameFlowController),
 				"Expected an instance of BullsAndCowsGameFlowController."
 			);
 		}

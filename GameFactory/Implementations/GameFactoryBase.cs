@@ -1,8 +1,10 @@
 ﻿using DependencyInjection.Interfaces;
+using GameFactory.Interfaces;
+using GameFlow.Implementations;
 using GameFlow.Interfaces;
 using GameResources.Enums;
 
-namespace GameFactory.Interfaces
+namespace GameFactory.Implementations
 {
 	// Abstract base class for creating game-related components.
 	public abstract class GameFactoryBase(GameTypes gameType) : IGameFactory
@@ -10,9 +12,13 @@ namespace GameFactory.Interfaces
 		// Readonly property to store the game type.
 		public readonly GameTypes GameType = gameType;
 
-		// Abstract methods to create specific components.
+		// Abstract method to create specific game components.
 		public abstract IDependencyInitializer CreateDependencyInitializer();
 
-		public abstract IGameFlowController CreateGameFlowController();
+		// Method to create the game flow controller.
+		public IGameFlowController CreateGameFlowController()
+		{
+			return new GameFlowController(GameType);
+		}
 	}
 }

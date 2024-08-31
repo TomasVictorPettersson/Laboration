@@ -5,8 +5,8 @@ using GameResources.Enums;
 
 namespace GameFlow.Implementations
 {
-	// Abstract base class for managing game flow.
-	public abstract class GameFlowControllerBase(GameTypes gameType) : IGameFlowController
+	// Class for managing game flow.
+	public class GameFlowController(GameTypes gameType) : IGameFlowController
 	{
 		public readonly GameTypes GameType = gameType;
 
