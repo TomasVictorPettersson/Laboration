@@ -1,4 +1,5 @@
-﻿using GameResources.Enums;
+﻿using GameResources.Constants;
+using GameResources.Enums;
 
 namespace Validation.Implementations
 {
@@ -11,9 +12,9 @@ namespace Validation.Implementations
 			if (gameType == GameTypes.BullsAndCows)
 			{
 				return !string.IsNullOrEmpty(input)
-					   && input.Length == 4
+					   && input.Length == GameConstants.SecretNumberLength
 					   && int.TryParse(input, out _)
-					   && input.Distinct().Count() == 4;
+					   && input.Distinct().Count() == GameConstants.SecretNumberLength;
 			}
 
 			return false;

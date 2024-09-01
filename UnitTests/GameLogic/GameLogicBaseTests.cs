@@ -97,7 +97,7 @@ namespace UnitTests.GameLogic
 
 			// Set up the mocks
 			_mockValidation.Setup(v => v.IsCorrectGuess(inCorrectGuess, TestConstants.SecretNumber)).Returns(false);
-			_mockConsoleUI.Setup(ui => ui.DisplayGuessFeedback(TestConstants.FeedbackComma));
+			_mockConsoleUI.Setup(ui => ui.DisplayGuessFeedback(GameConstants.FeedbackComma));
 
 			// Act
 			bool result = _gameLogic.ProcessGuess(TestConstants.SecretNumber, inCorrectGuess, ref numberOfGuesses);
@@ -106,7 +106,7 @@ namespace UnitTests.GameLogic
 			Assert.IsFalse(result, "ProcessGuess should return false for an incorrect guess.");
 			Assert.AreEqual(1, numberOfGuesses, "Number of guesses should increment for an incorrect guess.");
 			_mockConsoleUI.Verify(
-				ui => ui.DisplayGuessFeedback(TestConstants.FeedbackComma),
+				ui => ui.DisplayGuessFeedback(GameConstants.FeedbackComma),
 				Times.Once,
 				"DisplayGuessFeedback should be called once with the correct feedback for an incorrect guess."
 			);
@@ -178,7 +178,7 @@ namespace UnitTests.GameLogic
 
 			// Assert
 			Assert.AreNotEqual(TestConstants.FeedbackBBBB, feedback, "Feedback should not be 'BBBB,' for incorrect guess.");
-			Assert.IsTrue(feedback.Contains('B') || feedback.Contains('C'), "Feedback should contain 'B' or 'C' for incorrect guess.");
+			Assert.IsTrue(feedback.Contains(GameConstants.BullCharacter) || feedback.Contains(GameConstants.CowCharacter), "Feedback should contain 'B' or 'C' for incorrect guess.");
 		}
 
 		// Verifies that GenerateFeedback returns ',CCCC' for correct cows.
@@ -248,7 +248,7 @@ namespace UnitTests.GameLogic
 			string feedback = _gameLogic.GenerateFeedback(TestConstants.SecretNumber, guess);
 
 			// Assert
-			Assert.AreEqual(TestConstants.FeedbackComma, feedback, "Feedback should be ',' for no bulls or cows.");
+			Assert.AreEqual(GameConstants.FeedbackComma, feedback, "Feedback should be ',' for no bulls or cows.");
 		}
 	}
 }

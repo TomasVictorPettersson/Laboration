@@ -1,4 +1,5 @@
 ﻿using ConsoleUI.Interfaces;
+using GameResources.Constants;
 using GameResources.Enums;
 using HighScoreManagement.Interfaces;
 using System.Text;
@@ -9,7 +10,8 @@ namespace GameLogic.Implementations
 	// Represents the game logic specific to the Bulls and Cows game.
 	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : GameLogicBase(highScoreManager, consoleUI, validation)
 	{
-		// Generates a random 4-digit secret number where each digit is unique.
+		// Generates a random
+		// -digit secret number where each digit is unique.
 		public override string MakeSecretNumber()
 		{
 			Random random = new();
@@ -17,9 +19,9 @@ namespace GameLogic.Implementations
 			HashSet<int> usedDigits = [];
 
 			// Continue adding unique random digits until having a 4-digit number
-			while (secretNumber.Length < 4)
+			while (secretNumber.Length < GameConstants.SecretNumberLength)
 			{
-				int randomDigit = random.Next(10);
+				int randomDigit = random.Next(GameConstants.DigitRange);
 				if (usedDigits.Add(randomDigit))
 				{
 					secretNumber.Append(randomDigit);

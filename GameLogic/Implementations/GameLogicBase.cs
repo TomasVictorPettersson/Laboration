@@ -89,14 +89,14 @@ namespace GameLogic.Implementations
 		{
 			int bulls = CountBulls(secretNumber, guess);
 			int cows = CountCows(secretNumber, guess);
-			return $"{new string('B', bulls)},{new string('C', cows)}";
+			return $"{new string(GameConstants.BullCharacter, bulls)}{GameConstants.FeedbackComma}{new string(GameConstants.CowCharacter, cows)}";
 		}
 
 		// Counts the number of bulls (correct digits in the correct positions).
 		public int CountBulls(string secretNumber, string guess)
 		{
 			int bulls = 0;
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < GameConstants.SecretNumberLength; i++)
 			{
 				if (secretNumber[i] == guess[i])
 				{

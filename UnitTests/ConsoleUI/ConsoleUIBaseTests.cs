@@ -58,7 +58,7 @@ namespace UnitTests.ConsoleUI
 			var expectedOutput = $"{GameMessages.FeedbackPrefix}{GameMessages.NoMatchesFoundMessage}";
 
 			// Act
-			_consoleUI.DisplayGuessFeedback(",");
+			_consoleUI.DisplayGuessFeedback(GameConstants.FeedbackComma);
 
 			// Assert
 			Assert.AreEqual(expectedOutput, _consoleOutput.ToString().Trim(), "The feedback for no matches was not displayed correctly.");

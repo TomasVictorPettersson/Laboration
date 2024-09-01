@@ -1,4 +1,5 @@
 ﻿using ConsoleUI.Interfaces;
+using GameResources.Constants;
 using GameResources.Enums;
 using HighScoreManagement.Interfaces;
 using System.Text;
@@ -16,9 +17,9 @@ namespace GameLogic.Implementations
 			StringBuilder secretNumber = new();
 
 			// Continue adding random digits until having a 4-digit number
-			while (secretNumber.Length < 4)
+			while (secretNumber.Length < GameConstants.SecretNumberLength)
 			{
-				int randomDigit = random.Next(10);
+				int randomDigit = random.Next(GameConstants.DigitRange);
 				secretNumber.Append(randomDigit);
 			}
 

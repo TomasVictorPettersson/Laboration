@@ -9,7 +9,8 @@ namespace GameLogic.Interfaces
 		// prompting the user with instructions, and running the main game loop.
 		void PlayGame(string userName, bool isNewGame);
 
-		// Generates and returns a random 4-digit secret number for the game.
+		// Generates and returns a random
+		// -digit secret number for the game.
 		string MakeSecretNumber();
 
 		// Runs the main game loop, processing guesses and providing feedback to the user.

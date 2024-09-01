@@ -1,5 +1,6 @@
 ﻿using ConsoleUI.Interfaces;
 using GameLogic.Implementations;
+using GameResources.Constants;
 using GameResources.Enums;
 using HighScoreManagement.Interfaces;
 using Moq;
@@ -36,7 +37,7 @@ namespace UnitTests.GameLogic
 			string secretNumber = _gameLogic.MakeSecretNumber();
 
 			// Assert
-			Assert.AreEqual(4, secretNumber.Length, "Secret number should be 4 digits long.");
+			Assert.AreEqual(GameConstants.SecretNumberLength, secretNumber.Length, "Secret number should be 4 digits long.");
 			Assert.IsTrue(IsDigitsOnly(secretNumber), "Secret number should contain only digits.");
 		}
 

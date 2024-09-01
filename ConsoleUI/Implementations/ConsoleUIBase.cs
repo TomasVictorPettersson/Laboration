@@ -86,7 +86,7 @@ namespace ConsoleUI.Implementations
 		// Displays feedback after a user's guess, providing hints or indicating matches found.
 		public void DisplayGuessFeedback(string guessFeedback)
 		{
-			Console.WriteLine($"{GameMessages.FeedbackPrefix}{(guessFeedback == "," ? GameMessages.NoMatchesFoundMessage : guessFeedback)}\n");
+			Console.WriteLine($"{GameMessages.FeedbackPrefix}{(guessFeedback == GameConstants.FeedbackComma ? GameMessages.NoMatchesFoundMessage : guessFeedback)}\n");
 		}
 
 		// Displays a congratulatory message when the user guesses the correct secret number.

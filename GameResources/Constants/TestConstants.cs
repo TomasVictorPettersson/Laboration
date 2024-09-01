@@ -29,7 +29,6 @@
 		// Feedback formats used in testing scenarios.
 		public const string FeedbackBBBB = "BBBB,"; // Feedback format for 'BBBB'
 
-		public const string FeedbackComma = ","; // Feedback comma
 		public const string FeedbackCCCC = ",CCCC"; // Feedback format for 'CCCC'
 		public const string FeedbackBBCC = "BB,CC"; // Feedback format for 'BB,CC'
 		public const string FeedbackBBComma = "BB,"; // Feedback format with 'BB,'
