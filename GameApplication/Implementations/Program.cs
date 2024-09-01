@@ -44,8 +44,9 @@ namespace GameApplication.Implementations
 				selectedGameType = _gameSelector.SelectGameType();
 
 				if (selectedGameType == GameTypes.Quit)
+				{
 					break;
-
+				}
 				InitializeGameFactory(selectedGameType);
 
 				var (userInterface, gameLogic) = InitializeDependencies();
