@@ -2,7 +2,6 @@
 {
 	// Contains constants used for testing purposes.
 	// Provides predefined values for various test scenarios.
-
 	public static class TestConstants
 	{
 		// Usernames used in test scenarios.
@@ -38,5 +37,21 @@
 
 		// File name used for storing high scores during unit tests.
 		public const string TestFilePath = "test_highscores.txt";
+
+		// Constants for input values used in tests
+		public const string NullInput = null!;
+
+		public const string EmptyInput = "";
+		public const string NonNumericInput = "text";
+		public const string InputNot4Digits = "123";
+		public const string InputMoreThan4Digits = "12345";
+		public const string RepeatingDigitsInput = "1122";
+		public const string Valid4DigitUniqueNumber = "1234";
+		public const string InputWithNonNumericCharacters = "12A4";
+		public const string InputWithMixedCharacters = "1a34";
+		public const string InputWithSpecialCharacters = "12@4";
+		public const string InputWithLeadingOrTrailingSpaces = " 1234 ";
+		public const string InputWithSpacesInBetween = "12 34";
+		public const string InputWithAllZeroes = "0000";
 	}
 }

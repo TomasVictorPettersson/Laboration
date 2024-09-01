@@ -2,19 +2,22 @@
 using ConsoleUI.Utils;
 using GameResources.Constants;
 using GameResources.Enums;
+using Validation.Implementations;
 
 namespace UnitTests.ConsoleUI
 {
 	[TestClass]
-	public class GameSelectorTests
+	public class GameSelectionTests
 	{
-		private readonly GameSelector gameSelector = new();
-		private readonly StringWriter consoleOutput = new();
+		private GameSelection gameSelector = null!;
+		private StringWriter consoleOutput = null!;
 		private StringReader consoleInput = null!;
 
 		[TestInitialize]
 		public void Setup()
 		{
+			gameSelector = new GameSelection(new GameSelectionValidation()); // Ensure the dependency is correctly initialized
+			consoleOutput = new StringWriter();
 			Console.SetOut(consoleOutput);
 		}
 
@@ -27,7 +30,7 @@ namespace UnitTests.ConsoleUI
 
 		// Tests if valid input for 'Bulls and Cows' correctly returns the corresponding GameType.
 		[TestMethod]
-		public void SelectGameType_ValidInput_ReturnsCorrectGameType()
+		public void SelectGameType_ValidInput_ReturnsBullsAndCowsGameType()
 		{
 			// Arrange
 			SimulateInput("1\n");
@@ -37,6 +40,20 @@ namespace UnitTests.ConsoleUI
 
 			// Assert
 			Assert.AreEqual(GameTypes.BullsAndCows, result, "Expected GameType to be BullsAndCows for input '1'.");
+		}
+
+		// Tests if valid input for 'MasterMind' correctly returns the corresponding GameType.
+		[TestMethod]
+		public void SelectGameType_ValidInput_ReturnsMasterMindGameType()
+		{
+			// Arrange
+			SimulateInput("2\n");
+
+			// Act
+			var result = gameSelector.SelectGameType();
+
+			// Assert
+			Assert.AreEqual(GameTypes.MasterMind, result, "Expected GameType to be MasterMind for input '2'.");
 		}
 
 		// Tests if invalid input followed by a valid input shows an error message and returns the correct GameType.
@@ -56,7 +73,7 @@ namespace UnitTests.ConsoleUI
 
 		// Tests if input for quitting the game correctly returns the Quit GameType.
 		[TestMethod]
-		public void SelectGameType_ValidInput_Quit_ReturnsQuitGameType()
+		public void SelectGameType_InputQuit_ReturnsQuitGameType()
 		{
 			// Arrange
 			SimulateInput("3\n");
@@ -70,7 +87,7 @@ namespace UnitTests.ConsoleUI
 
 		// Tests if the game options are correctly displayed.
 		[TestMethod]
-		public void DisplayGameOptions_CorrectlyDisplaysOptions()
+		public void DisplayGameOptions_DisplaysOptionsCorrectly()
 		{
 			// Arrange
 			var expectedOutput =
@@ -94,6 +111,7 @@ namespace UnitTests.ConsoleUI
 		public void Cleanup()
 		{
 			consoleOutput.Dispose();
+			Console.SetIn(Console.In); // Reset console input to default
 		}
 	}
 }

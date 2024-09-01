@@ -8,7 +8,7 @@ using Validation.Interfaces;
 namespace DependencyInjection.Implementations
 {
 	// Abstract base class for initializing game dependencies.
-	public abstract class GameDependencyInitializerBase(GameTypes gameType) : IDependencyInitializer
+	public abstract class DependencyInitializerBase(GameTypes gameType) : IDependencyInitializer
 	{
 		// Read-only property to store the type of game for which this DependencyInitializer creates components.
 		public readonly GameTypes GameType = gameType;

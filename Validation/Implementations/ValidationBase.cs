@@ -43,5 +43,11 @@ namespace Validation.Implementations
 
 		// Abstract method for game-specific input validation.
 		public abstract bool IsInputValid(GameTypes gameType, string input);
+
+		// Validates yes/no input from the user.
+		public bool IsValidYesNoInput(string input)
+		{
+			return input == UserInputConstants.YesInput || input == UserInputConstants.NoInput;
+		}
 	}
 }

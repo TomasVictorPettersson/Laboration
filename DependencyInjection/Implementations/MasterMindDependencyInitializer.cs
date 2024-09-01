@@ -11,7 +11,7 @@ using Validation.Interfaces;
 namespace DependencyInjection.Implementations
 {
 	// Concrete implementation for MasterMind game.
-	public class MasterMindDependencyInitializer : GameDependencyInitializerBase
+	public class MasterMindDependencyInitializer : DependencyInitializerBase
 	{
 		public MasterMindDependencyInitializer() : base(GameTypes.MasterMind)
 		{

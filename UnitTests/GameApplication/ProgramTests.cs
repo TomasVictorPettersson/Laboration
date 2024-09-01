@@ -12,7 +12,7 @@ namespace UnitTests.GameApplication
 	[TestClass]
 	public class ProgramTests
 	{
-		private readonly Mock<IGameSelector> _mockGameSelector = new();
+		private readonly Mock<IGameSelection> _mockGameSelector = new();
 		private readonly Mock<IGameFactoryCreator> _mockFactoryCreator = new();
 		private readonly Mock<IGameFactory> _mockGameFactory = new();
 		private readonly Mock<IDependencyInitializer> _mockDependencyInitializer = new();
@@ -32,9 +32,7 @@ namespace UnitTests.GameApplication
 			_program = new Program(_mockGameSelector.Object, _mockFactoryCreator.Object);
 		}
 
-		// Verifies that the game loop terminates when the quit option is selected.
-		// Ensures ExecuteGameLoop is called only once when quitting.
-
+		// Verifies that the game loop terminates correctly when the Quit option is selected.
 		[TestMethod]
 		public void RunGameLoop_QuittingDoesNotContinueLoop()
 		{
@@ -51,7 +49,6 @@ namespace UnitTests.GameApplication
 		}
 
 		// Verifies that the game flow controller is executed for each valid game type.
-		// Ensures ExecuteGameLoop is called the correct number of times for valid game types.
 		[TestMethod]
 		public void RunGameLoop_ExecutesGameFlowControllerForValidGameTypes()
 		{
@@ -69,8 +66,6 @@ namespace UnitTests.GameApplication
 		}
 
 		// Verifies that InitializeGameFactory correctly returns true and sets the factory for a valid game type.
-		// Ensures the factory is properly initialized and of the correct type.
-
 		[TestMethod]
 		public void InitializeGameFactory_ValidGameType_ReturnsTrueAndSetsFactory()
 		{
@@ -84,8 +79,6 @@ namespace UnitTests.GameApplication
 		}
 
 		// Verifies that InitializeDependencies returns correctly initialized dependencies for a valid factory.
-		// Ensures that the returned user interface and game logic are non-null and of the correct types.
-
 		[TestMethod]
 		public void InitializeDependencies_ValidFactory_ReturnsInitializedDependencies()
 		{
@@ -103,7 +96,6 @@ namespace UnitTests.GameApplication
 		}
 
 		// Verifies that InitializeGameFactory correctly sets the factory for different game types, excluding Quit.
-		// Ensures that the factory is properly initialized and of the correct type for each game type.
 		[TestMethod]
 		public void InitializeGameFactory_DifferentGameTypes_SuccessfullySetsFactory()
 		{

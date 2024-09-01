@@ -2,13 +2,16 @@
 using ConsoleUI.Utils;
 using GameResources.Constants;
 using GameResources.Enums;
+using Validation.Interfaces;
 
 namespace ConsoleUI.Implementations
 {
-	// Implementation of the IGameSelector interface for selecting game types
-	public class GameSelector : IGameSelector
+	// Implementation of the IGameSelector interface for selecting game types.
+	public class GameSelection(IGameSelectionValidation validation) : IGameSelection
 	{
-		// Prompts user to select a game type and returns the selected type
+		private readonly IGameSelectionValidation _validation = validation;
+
+		// Prompts user to select a game type and returns the selected type.
 		public GameTypes SelectGameType()
 		{
 			DisplayGameOptions();
@@ -17,7 +20,9 @@ namespace ConsoleUI.Implementations
 			{
 				Console.Write(PromptMessages.GameSelectionPrompt);
 				var input = Console.ReadLine();
-				var selectedGameType = ParseUserInput(input);
+
+				// Use the validation class to parse user input.
+				var selectedGameType = _validation.ParseGameTypeInput(input);
 
 				if (selectedGameType.HasValue)
 				{
@@ -28,7 +33,7 @@ namespace ConsoleUI.Implementations
 			}
 		}
 
-		// Displays game options and formatting
+		// Displays game options and formatting.
 		public void DisplayGameOptions()
 		{
 			Console.WriteLine(
@@ -38,18 +43,6 @@ namespace ConsoleUI.Implementations
 				$"{UserInteractionMessages.ExitOption}\n" +
 				$"{FormatUtils.CreateSeparatorLine()}"
 			);
-		}
-
-		// Parses user input and returns corresponding GameType enum value
-		public GameTypes? ParseUserInput(string? input)
-		{
-			return input switch
-			{
-				"1" => GameTypes.BullsAndCows, // Option 1: Bulls and Cows game
-				"2" => GameTypes.MasterMind,   // Option 2: MasterMind game
-				"3" => GameTypes.Quit,         // Option 3: Exit the application
-				_ => null                      // Invalid input
-			};
 		}
 	}
 }

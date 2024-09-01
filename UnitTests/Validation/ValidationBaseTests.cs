@@ -54,11 +54,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void ValidateUserName_ShouldReturnEmptyForValidUserName()
 		{
-			// Arrange
-			const string userName = "ValidUser";
-
 			// Act
-			string result = _validation.ValidateUserName(userName);
+			string result = _validation.ValidateUserName(TestConstants.UserName);
 
 			// Assert
 			Assert.AreEqual(string.Empty, result, "Expected no error message for a valid username.");
@@ -110,14 +107,47 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsValidUserName_ShouldReturnTrueForValidUserName()
 		{
-			// Arrange
-			const string userName = "ValidUser";
-
 			// Act
-			bool result = _validation.IsValidUserName(userName);
+			bool result = _validation.IsValidUserName(TestConstants.UserName);
 
 			// Assert
 			Assert.IsTrue(result, "Expected true for a valid username.");
+		}
+
+		// Verifies that IsValidYesNoInput returns true for valid 'yes' input.
+		[TestMethod]
+		public void IsValidYesNoInput_ShouldReturnTrueForYesInput()
+		{
+			// Act
+			bool result = _validation.IsValidYesNoInput(UserInputConstants.YesInput);
+
+			// Assert
+			Assert.IsTrue(result, "Expected true for valid 'yes' input.");
+		}
+
+		// Verifies that IsValidYesNoInput returns true for valid 'no' input.
+		[TestMethod]
+		public void IsValidYesNoInput_ShouldReturnTrueForNoInput()
+		{
+			// Act
+			bool result = _validation.IsValidYesNoInput(UserInputConstants.NoInput);
+
+			// Assert
+			Assert.IsTrue(result, "Expected true for valid 'no' input.");
+		}
+
+		// Verifies that IsValidYesNoInput returns false for invalid input.
+		[TestMethod]
+		public void IsValidYesNoInput_ShouldReturnFalseForInvalidInput()
+		{
+			// Arrange
+			const string input = "invalid";
+
+			// Act
+			bool result = _validation.IsValidYesNoInput(input);
+
+			// Assert
+			Assert.IsFalse(result, "Expected false for invalid input.");
 		}
 	}
 }

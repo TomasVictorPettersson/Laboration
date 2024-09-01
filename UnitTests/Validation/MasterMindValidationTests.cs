@@ -1,4 +1,5 @@
-﻿using GameResources.Enums;
+﻿using GameResources.Constants;
+using GameResources.Enums;
 using Validation.Implementations;
 
 namespace UnitTests.Validation
@@ -6,23 +7,14 @@ namespace UnitTests.Validation
 	[TestClass]
 	public class MasterMindValidationTests
 	{
-		private MasterMindValidation _validation = new();
-
-		[TestInitialize]
-		public void Setup()
-		{
-			_validation = new MasterMindValidation();
-		}
+		private readonly MasterMindValidation _validation = new();
 
 		// Verifies that IsInputValid returns false for null input.
 		[TestMethod]
 		public void IsInputValid_ShouldReturnFalseForNullInput()
 		{
-			// Arrange
-			const string input = null!;
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.NullInput);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for null input.");
@@ -32,11 +24,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_ShouldReturnFalseForEmptyInput()
 		{
-			// Arrange
-			string input = string.Empty;
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.EmptyInput);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for empty input.");
@@ -46,11 +35,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_ShouldReturnFalseForNonNumericInput()
 		{
-			// Arrange
-			const string input = "text";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.NonNumericInput);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for non-numeric input.");
@@ -60,11 +46,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_ShouldReturnFalseForInputNot4Digits()
 		{
-			// Arrange
-			const string input = "123";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.InputNot4Digits);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input that is not 4 digits long.");
@@ -74,11 +57,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_ShouldReturnFalseForInputMoreThan4Digits()
 		{
-			// Arrange
-			const string input = "12345";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.InputMoreThan4Digits);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input with more than 4 digits.");
@@ -88,11 +68,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_ShouldReturnTrueForValid4DigitNumber()
 		{
-			// Arrange
-			const string input = "1234";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.Guess);
 
 			// Assert
 			Assert.IsTrue(result, "Expected true for a valid 4-digit number.");
@@ -102,11 +79,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_ShouldReturnTrueForRepeatingDigits()
 		{
-			// Arrange
-			const string input = "1122";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.RepeatingDigitsInput);
 
 			// Assert
 			Assert.IsTrue(result, "Expected true for input with repeating digits.");
@@ -116,11 +90,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_InputWithNonNumericCharacters_ReturnsFalse()
 		{
-			// Arrange
-			const string input = "12A4";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.InputWithNonNumericCharacters);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input containing non-numeric characters.");
@@ -130,11 +101,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_InputWithMixedCharacters_ReturnsFalse()
 		{
-			// Arrange
-			const string input = "1a34";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.InputWithMixedCharacters);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input containing a mix of numeric and non-numeric characters.");
@@ -144,11 +112,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_InputWithSpecialCharacters_ReturnsFalse()
 		{
-			// Arrange
-			const string input = "12@4";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.InputWithSpecialCharacters);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input containing special characters.");
@@ -158,11 +123,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_InputWithLeadingOrTrailingSpaces_ReturnsFalse()
 		{
-			// Arrange
-			const string input = " 1234 ";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.InputWithLeadingOrTrailingSpaces);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input with leading or trailing spaces.");
@@ -172,11 +134,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsInputValid_InputWithSpacesInBetween_ReturnsFalse()
 		{
-			// Arrange
-			const string input = "12 34";
-
 			// Act
-			bool result = _validation.IsInputValid(GameTypes.MasterMind, input);
+			bool result = _validation.IsInputValid(GameTypes.MasterMind, TestConstants.InputWithSpacesInBetween);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for input containing spaces between digits.");

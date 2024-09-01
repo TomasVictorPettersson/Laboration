@@ -189,24 +189,27 @@ namespace ConsoleUI.Implementations
 			Console.WriteLine($" {player.UserName.PadRight(maxUserNameLength)} {player.TotalGamesPlayed,FormattingConstants.GamesPlayedColumnWidth} {player.CalculateAverageGuesses(),FormattingConstants.AverageGuessesColumnWidth:F2}");
 		}
 
-		// Prompts the user to continue the game, repeating until a valid yes/no input is provided.
+		// Prompts the user to decide whether to continue the game.
+		// Keeps prompting until a valid yes/no input is provided.
 		public bool AskToContinue()
 		{
 			while (true)
 			{
 				Console.Write(PromptMessages.PlayAgainPrompt);
+
 				string answer = Console.ReadLine()!.ToLower().Trim();
-				if (answer == UserInputConstants.YesInput)
+
+				// Check if the input is valid ("yes" or "no").
+				if (_validation.IsValidYesNoInput(answer))
 				{
 					Console.Clear();
-					return true;
-				}
-				else if (answer == UserInputConstants.NoInput)
-				{
-					return false;
+
+					// Return true if the input is "yes", otherwise return false.
+					return answer == UserInputConstants.YesInput;
 				}
 				else
 				{
+					// If the input is invalid, show an error message and repeat the loop.
 					Console.WriteLine(UserInteractionMessages.InvalidPlayAgainResponse);
 				}
 			}
@@ -217,7 +220,7 @@ namespace ConsoleUI.Implementations
 		public void DisplayGoodbyeMessage(GameTypes gameType, string userName)
 		{
 			string goodbyeMessageFormat = GetGoodbyeMessageFormat(gameType);
-			Console.WriteLine($"\n{string.Format(goodbyeMessageFormat, userName)}\n");
+			Console.WriteLine($"{string.Format(goodbyeMessageFormat, userName)}\n");
 			ConsoleUtils.WaitForUserToContinue(PromptMessages.PressAnyKeyToReturn);
 		}
 	}

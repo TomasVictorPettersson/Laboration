@@ -11,7 +11,7 @@ using Validation.Interfaces;
 namespace DependencyInjection.Implementations
 {
 	// Concrete implementation for Bulls and Cows game.
-	public class BullsAndCowsDependencyInitializer : GameDependencyInitializerBase
+	public class BullsAndCowsDependencyInitializer : DependencyInitializerBase
 	{
 		public BullsAndCowsDependencyInitializer() : base(GameTypes.BullsAndCows)
 		{

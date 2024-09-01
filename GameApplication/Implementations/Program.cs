@@ -1,8 +1,6 @@
-﻿using ConsoleUI.Implementations;
-using ConsoleUI.Interfaces;
+﻿using ConsoleUI.Interfaces;
 using ConsoleUI.Utils;
 using GameApplication.Interfaces;
-using GameFactory.Implementations;
 using GameFactory.Interfaces;
 using GameLogic.Interfaces;
 using GameResources.Constants;
@@ -10,11 +8,11 @@ using GameResources.Enums;
 
 namespace GameApplication.Implementations
 {
-	// The Program class is responsible for initializing and running the game application.
-	public class Program(IGameSelector gameSelector, IGameFactoryCreator factoryCreator) : IProgram
+	// Class responsible for initializing and running the game application.
+	public class Program(IGameSelection gameSelector, IGameFactoryCreator factoryCreator) : IProgram
 	{
 		private IGameFactory? _factory;
-		private readonly IGameSelector _gameSelector = gameSelector;
+		private readonly IGameSelection _gameSelector = gameSelector;
 		private readonly IGameFactoryCreator _factoryCreator = factoryCreator;
 
 		// Entry point of the application. Initializes Program,
@@ -23,7 +21,12 @@ namespace GameApplication.Implementations
 		{
 			try
 			{
-				var program = new Program(new GameSelector(), new GameFactoryCreator());
+				// Initialize the DependencyConfigurator and configure dependencies
+				DependencyConfigurator configurator = new();
+				var (gameSelection, factoryCreator) = configurator.ConfigureDependencies();
+
+				// Initialize and run the Program
+				var program = new Program(gameSelection, factoryCreator);
 				program.RunGameLoop();
 				ConsoleUtils.WaitForUserToContinue(PromptMessages.CloseWindowPrompt);
 			}

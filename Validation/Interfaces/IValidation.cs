@@ -16,5 +16,8 @@ namespace Validation.Interfaces
 
 		// Checks if the provided guess matches the secret number.
 		bool IsCorrectGuess(string guess, string secretNumber);
+
+		// Validates yes/no input from the user.
+		bool IsValidYesNoInput(string input);
 	}
 }
