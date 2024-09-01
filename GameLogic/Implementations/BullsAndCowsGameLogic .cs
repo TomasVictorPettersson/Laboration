@@ -10,8 +10,7 @@ namespace GameLogic.Implementations
 	// Represents the game logic specific to the Bulls and Cows game.
 	public class BullsAndCowsGameLogic(IHighScoreManager highScoreManager, IConsoleUI consoleUI, IValidation validation) : GameLogicBase(highScoreManager, consoleUI, validation)
 	{
-		// Generates a random
-		// -digit secret number where each digit is unique.
+		// Generates a random 4-digit secret number where each digit is unique.
 		public override string MakeSecretNumber()
 		{
 			Random random = new();
