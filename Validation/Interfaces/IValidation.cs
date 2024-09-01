@@ -11,8 +11,7 @@ namespace Validation.Interfaces
 		// Checks if the provided username meets the required criteria.
 		bool IsValidUserName(string userName);
 
-		// Validates if the input is a
-		// -digit number with unique digits.
+		// Validates if the input is a 4-digit number with unique digits.
 		bool IsInputValid(GameTypes gameType, string input);
 
 		// Checks if the provided guess matches the secret number.
