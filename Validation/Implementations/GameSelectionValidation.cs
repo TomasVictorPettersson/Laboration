@@ -1,4 +1,5 @@
-﻿using GameResources.Enums;
+﻿using GameResources.Constants;
+using GameResources.Enums;
 using Validation.Interfaces;
 
 namespace Validation.Implementations
@@ -11,9 +12,9 @@ namespace Validation.Implementations
 		{
 			return input switch
 			{
-				"1" => GameTypes.BullsAndCows, // Option 1: Bulls and Cows game
-				"2" => GameTypes.MasterMind,   // Option 2: MasterMind game
-				"3" => GameTypes.Quit,         // Option 3: Exit the application
+				UserInputConstants.BullsAndCowsInput => GameTypes.BullsAndCows,// Option 1: Bulls and Cows game
+				UserInputConstants.MasterMindInput => GameTypes.MasterMind,   // Option 2: MasterMind game
+				UserInputConstants.QuitInput => GameTypes.Quit,         // Option 3: Exit the application
 				_ => null                      // Invalid input
 			};
 		}

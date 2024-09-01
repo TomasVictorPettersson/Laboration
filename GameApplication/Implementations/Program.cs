@@ -21,11 +21,8 @@ namespace GameApplication.Implementations
 		{
 			try
 			{
-				// Initialize the DependencyConfigurator and configure dependencies
 				DependencyConfigurator configurator = new();
 				var (gameSelection, factoryCreator) = configurator.ConfigureDependencies();
-
-				// Initialize and run the Program
 				var program = new Program(gameSelection, factoryCreator);
 				program.RunGameLoop();
 				ConsoleUtils.WaitForUserToContinue(PromptMessages.CloseWindowPrompt);

@@ -140,11 +140,8 @@ namespace UnitTests.Validation
 		[TestMethod]
 		public void IsValidYesNoInput_ShouldReturnFalseForInvalidInput()
 		{
-			// Arrange
-			const string input = "invalid";
-
 			// Act
-			bool result = _validation.IsValidYesNoInput(input);
+			bool result = _validation.IsValidYesNoInput(TestConstants.InvalidInput);
 
 			// Assert
 			Assert.IsFalse(result, "Expected false for invalid input.");

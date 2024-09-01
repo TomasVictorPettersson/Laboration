@@ -53,5 +53,6 @@
 		public const string InputWithLeadingOrTrailingSpaces = " 1234 ";
 		public const string InputWithSpacesInBetween = "12 34";
 		public const string InputWithAllZeroes = "0000";
+		public const string InvalidInput = "invalid";
 	}
 }

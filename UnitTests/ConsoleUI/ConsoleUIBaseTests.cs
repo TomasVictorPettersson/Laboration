@@ -10,7 +10,7 @@ using Validation.Interfaces;
 namespace UnitTests.ConsoleUI
 {
 	[TestClass]
-	public class GameConsoleUIBaseTests
+	public class ConsoleUIBaseTests
 	{
 		private readonly Mock<IValidation> _mockValidation = new();
 		private readonly Mock<IHighScoreManager> _mockHighScoreManager = new();

@@ -16,7 +16,7 @@ namespace UnitTests.ConsoleUI
 		[TestInitialize]
 		public void Setup()
 		{
-			gameSelector = new GameSelection(new GameSelectionValidation()); // Ensure the dependency is correctly initialized
+			gameSelector = new GameSelection(new GameSelectionValidation());
 			consoleOutput = new StringWriter();
 			Console.SetOut(consoleOutput);
 		}
@@ -33,7 +33,7 @@ namespace UnitTests.ConsoleUI
 		public void SelectGameType_ValidInput_ReturnsBullsAndCowsGameType()
 		{
 			// Arrange
-			SimulateInput("1\n");
+			SimulateInput(UserInputConstants.BullsAndCowsInput + "\n");
 
 			// Act
 			var result = gameSelector.SelectGameType();
@@ -47,7 +47,7 @@ namespace UnitTests.ConsoleUI
 		public void SelectGameType_ValidInput_ReturnsMasterMindGameType()
 		{
 			// Arrange
-			SimulateInput("2\n");
+			SimulateInput(UserInputConstants.MasterMindInput + "\n");
 
 			// Act
 			var result = gameSelector.SelectGameType();
@@ -61,7 +61,7 @@ namespace UnitTests.ConsoleUI
 		public void SelectGameType_InvalidInput_ShowsErrorMessage()
 		{
 			// Arrange
-			SimulateInput("invalid\n1\n");
+			SimulateInput(TestConstants.InvalidInput + "\n" + UserInputConstants.BullsAndCowsInput + "\n");
 
 			// Act
 			var result = gameSelector.SelectGameType();
@@ -76,7 +76,7 @@ namespace UnitTests.ConsoleUI
 		public void SelectGameType_InputQuit_ReturnsQuitGameType()
 		{
 			// Arrange
-			SimulateInput("3\n");
+			SimulateInput(UserInputConstants.QuitInput + "\n");
 
 			// Act
 			var result = gameSelector.SelectGameType();
@@ -111,7 +111,7 @@ namespace UnitTests.ConsoleUI
 		public void Cleanup()
 		{
 			consoleOutput.Dispose();
-			Console.SetIn(Console.In); // Reset console input to default
+			Console.SetIn(Console.In);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using GameResources.Enums;
+﻿using GameResources.Constants;
+using GameResources.Enums;
 using Validation.Implementations;
 
 namespace UnitTests.Validation
@@ -13,7 +14,7 @@ namespace UnitTests.Validation
 		public void ParseGameTypeInput_ShouldReturnBullsAndCows_ForInput1()
 		{
 			// Act
-			var result = _validation.ParseGameTypeInput("1");
+			var result = _validation.ParseGameTypeInput(UserInputConstants.BullsAndCowsInput);
 
 			// Assert
 			Assert.AreEqual(GameTypes.BullsAndCows, result, "Input '1' should map to GameTypes.BullsAndCows.");
@@ -24,7 +25,7 @@ namespace UnitTests.Validation
 		public void ParseGameTypeInput_ShouldReturnMasterMind_ForInput2()
 		{
 			// Act
-			var result = _validation.ParseGameTypeInput("2");
+			var result = _validation.ParseGameTypeInput(UserInputConstants.MasterMindInput);
 
 			// Assert
 			Assert.AreEqual(GameTypes.MasterMind, result, "Input '2' should map to GameTypes.MasterMind.");
@@ -35,7 +36,7 @@ namespace UnitTests.Validation
 		public void ParseGameTypeInput_ShouldReturnQuit_ForInput3()
 		{
 			// Act
-			var result = _validation.ParseGameTypeInput("3");
+			var result = _validation.ParseGameTypeInput(UserInputConstants.QuitInput);
 
 			// Assert
 			Assert.AreEqual(GameTypes.Quit, result, "Input '3' should map to GameTypes.Quit.");
@@ -46,7 +47,7 @@ namespace UnitTests.Validation
 		public void ParseGameTypeInput_ShouldReturnNull_ForInvalidInput()
 		{
 			// Act
-			var result = _validation.ParseGameTypeInput("invalid");
+			var result = _validation.ParseGameTypeInput(TestConstants.InvalidInput);
 
 			// Assert
 			Assert.IsNull(result, "Invalid input should return null.");
