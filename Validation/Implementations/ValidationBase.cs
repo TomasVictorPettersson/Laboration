@@ -14,7 +14,8 @@ namespace Validation.Implementations
 			{
 				return UserInteractionMessages.EmptyUsernameMessage;
 			}
-			else if (userName.Length < 2 || userName.Length > 20)
+			else if (userName.Length < UserValidationConstants.UserNameMinLength ||
+					 userName.Length > UserValidationConstants.UserNameMaxLength)
 			{
 				return UserInteractionMessages.UsernameLengthMessage;
 			}
@@ -24,21 +25,15 @@ namespace Validation.Implementations
 		// Checks if the username is valid.
 		public bool IsValidUserName(string userName)
 		{
-			return !string.IsNullOrEmpty(userName) && userName.Length >= 2 && userName.Length <= 20;
+			return !string.IsNullOrEmpty(userName) &&
+				   userName.Length >= UserValidationConstants.UserNameMinLength &&
+				   userName.Length <= UserValidationConstants.UserNameMaxLength;
 		}
 
 		// Checks if the player's guess matches the secret number.
 		public bool IsCorrectGuess(string guess, string secretNumber)
 		{
-			try
-			{
-				return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error checking guess correctness: {ex.Message}");
-				throw;
-			}
+			return string.Equals(guess, secretNumber, StringComparison.OrdinalIgnoreCase);
 		}
 
 		// Abstract method for game-specific input validation.
